@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { FiBriefcase, FiTruck, FiUsers } from "react-icons/fi";
+import { FiBriefcase, FiLock, FiTruck, FiUsers } from "react-icons/fi";
+import usePermissions from "../../hooks/usePermissions";
 
 const tabs = [
   {
@@ -7,23 +8,34 @@ const tabs = [
     description: "Manage staff profiles, roles, and staffing rates.",
     icon: FiUsers,
     path: "/people/event-staff",
+    requiredPermission: "eventstaff.view",
   },
   {
     label: "Vendor",
     description: "Track suppliers and category-wise vendor pricing.",
     icon: FiTruck,
     path: "/people/vendor",
+    requiredPermission: "vendors.view",
   },
   {
     label: "Waiter Types",
     description: "Define waiter categories and per-person pricing.",
     icon: FiBriefcase,
     path: "/people/waiter-types",
+    requiredPermission: "eventstaff.view", // Waiters are part of eventstaff
+  },
+  {
+    label: "Permissions",
+    description: "Manage granular access for staff and vendors.",
+    icon: FiLock,
+    path: "/people/permissions",
+    requiredPermission: "*", // Only superuser/admin can manage permissions
   },
 ];
 
 function PeopleTabs() {
   const location = useLocation();
+  const { hasPermission } = usePermissions();
 
   return (
     <div className="rounded-2xl border border-[#ede7f6] bg-white p-2 shadow-sm">
@@ -32,6 +44,9 @@ function PeopleTabs() {
         aria-label="People module sections"
       >
         {tabs.map((tab) => {
+          if (tab.requiredPermission && !hasPermission(tab.requiredPermission)) {
+            return null;
+          }
           const isActive = location.pathname.startsWith(tab.path);
           const Icon = tab.icon;
 

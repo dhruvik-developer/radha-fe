@@ -2,6 +2,7 @@
 import Loader from "../../Components/common/Loader";
 import VendorTable from "../../Components/vendor/VendorTable";
 import { FiTruck, FiUserPlus } from "react-icons/fi";
+import usePermissions from "../../hooks/usePermissions";
 
 function VendorComponent({
   navigate,
@@ -11,6 +12,7 @@ function VendorComponent({
   onVendorEdit,
   onVendorDelete,
 }) {
+  const { hasPermission } = usePermissions();
   return (
     <div className="p-6 bg-white rounded-xl shadow-lg">
       {/* Header */}
@@ -28,13 +30,15 @@ function VendorComponent({
           </div>
         </div>
         <div className="flex gap-2">
-          <button
-            onClick={onVendorAdd}
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
-          >
-            <FiUserPlus size={15} />
-            Add Vendor
-          </button>
+          {hasPermission("vendors.create") && (
+            <button
+              onClick={onVendorAdd}
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+            >
+              <FiUserPlus size={15} />
+              Add Vendor
+            </button>
+          )}
         </div>
       </div>
       {loading ? (

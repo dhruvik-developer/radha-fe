@@ -2,8 +2,10 @@
 import { FaTrash } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 import { IoIosWarning } from "react-icons/io";
+import usePermissions from "../../hooks/usePermissions";
 
 function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
+  const { hasPermission } = usePermissions();
   return (
     <div className="overflow-x-auto w-full pb-4">
       <table
@@ -93,20 +95,24 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
                 </td>
                 <td className="px-6 py-4 border-y border-transparent group-hover:border-[#e2d5f8] text-center w-32 first:rounded-l-xl last:rounded-r-xl first:border-l last:border-r">
                   <div className="flex items-center justify-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => onVendorEdit(vendor)}
-                      title="Edit Vendor"
-                      className="p-2 rounded-lg text-gray-500 hover:text-[#845cbd] hover:bg-[#f4effc] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
-                    >
-                      <FiEdit2 size={16} />
-                    </button>
-                    <button
-                      onClick={() => onVendorDelete(vendor.id)}
-                      title="Delete Vendor"
-                      className="p-2 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer shadow-sm border border-transparent hover:border-red-100"
-                    >
-                      <FaTrash size={16} />
-                    </button>
+                    {hasPermission("vendors.update") && (
+                      <button
+                        onClick={() => onVendorEdit(vendor)}
+                        title="Edit Vendor"
+                        className="p-2 rounded-lg text-gray-500 hover:text-[#845cbd] hover:bg-[#f4effc] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
+                      >
+                        <FiEdit2 size={16} />
+                      </button>
+                    )}
+                    {hasPermission("vendors.delete") && (
+                      <button
+                        onClick={() => onVendorDelete(vendor.id)}
+                        title="Delete Vendor"
+                        className="p-2 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer shadow-sm border border-transparent hover:border-red-100"
+                      >
+                        <FaTrash size={16} />
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>

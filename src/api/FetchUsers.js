@@ -3,7 +3,7 @@ import ApiInstance from "../services/ApiInstance";
 
 export const getUsers = async (params = {}) => {
   try {
-    const response = await ApiInstance.get("/users/", { params });
+    const response = await ApiInstance.get("/user/users/", { params });
     return response;
   } catch {
     toast.error("Error fetching users");

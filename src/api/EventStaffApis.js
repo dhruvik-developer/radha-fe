@@ -5,11 +5,11 @@ import ApiInstance from "../services/ApiInstance";
 // ----------------------------------------------------------------------
 
 export const getRoles = async () => {
-  return await ApiInstance.get("/roles/");
+  return await ApiInstance.get("/eventstaff/roles/");
 };
 
 export const createRole = async (data) => {
-  return await ApiInstance.post("/roles/", data);
+  return await ApiInstance.post("/eventstaff/roles/", data);
 };
 
 // ----------------------------------------------------------------------
@@ -17,27 +17,31 @@ export const createRole = async (data) => {
 // ----------------------------------------------------------------------
 
 export const getAllStaff = async (params = {}) => {
-  return await ApiInstance.get("/staff/", { params });
+  return await ApiInstance.get("/eventstaff/staff/", { params });
 };
 
 export const getSingleStaff = async (id) => {
-  return await ApiInstance.get(`/staff/${id}/`);
+  return await ApiInstance.get(`/eventstaff/staff/${id}/`);
 };
 
 export const getWaiterTypes = async (params = {}) => {
   return await ApiInstance.get("/waiter-types/", { params });
 };
 
+export const getWaitersList = async (params = {}) => {
+  return await ApiInstance.get("/eventstaff/staff/waiters/", { params });
+};
+
 export const createStaff = async (data) => {
-  return await ApiInstance.post("/staff/", data);
+  return await ApiInstance.post("/eventstaff/staff/", data);
 };
 
 export const updateStaff = async (id, data) => {
-  return await ApiInstance.put(`/staff/${id}/`, data);
+  return await ApiInstance.put(`/eventstaff/staff/${id}/`, data);
 };
 
 export const deleteStaff = async (id) => {
-  return await ApiInstance.delete(`/staff/${id}/`);
+  return await ApiInstance.delete(`/eventstaff/staff/${id}/`);
 };
 
 // ----------------------------------------------------------------------
@@ -45,23 +49,23 @@ export const deleteStaff = async (id) => {
 // ----------------------------------------------------------------------
 
 export const getAllAssignments = async (params = {}) => {
-  return await ApiInstance.get("/event-assignments/", { params });
+  return await ApiInstance.get("/eventstaff/event-assignments/", { params });
 };
 
 export const getSingleAssignment = async (id) => {
-  return await ApiInstance.get(`/event-assignments/${id}/`);
+  return await ApiInstance.get(`/eventstaff/event-assignments/${id}/`);
 };
 
 export const createAssignment = async (data) => {
-  return await ApiInstance.post("/event-assignments/", data);
+  return await ApiInstance.post("/eventstaff/event-assignments/", data);
 };
 
 export const updateAssignment = async (id, data) => {
-  return await ApiInstance.put(`/event-assignments/${id}/`, data);
+  return await ApiInstance.put(`/eventstaff/event-assignments/${id}/`, data);
 };
 
 export const deleteAssignment = async (id) => {
-  return await ApiInstance.delete(`/event-assignments/${id}/`);
+  return await ApiInstance.delete(`/eventstaff/event-assignments/${id}/`);
 };
 
 // ----------------------------------------------------------------------
@@ -69,13 +73,18 @@ export const deleteAssignment = async (id) => {
 // ----------------------------------------------------------------------
 
 export const getEventSummary = async (params = {}) => {
-  return await ApiInstance.get("/event-assignments/event-summary/", { params });
+  return await ApiInstance.get("/eventstaff/event-assignments/event-summary/", {
+    params,
+  });
 };
 
 export const getAgencySummary = async (params = {}) => {
-  return await ApiInstance.get("/event-assignments/agency-summary/", {
-    params,
-  });
+  return await ApiInstance.get(
+    "/eventstaff/event-assignments/agency-summary/",
+    {
+      params,
+    }
+  );
 };
 
 // Waiter Type management
@@ -96,23 +105,30 @@ export const deleteWaiterType = async (id) => {
 // ----------------------------------------------------------------------
 
 export const getFixedSalaryPayments = async (params = {}) => {
-  return await ApiInstance.get("/fixed-salary-payments/", { params });
+  return await ApiInstance.get("/eventstaff/fixed-salary-payments/", {
+    params,
+  });
 };
 
 export const createFixedSalaryPayment = async (data) => {
-  return await ApiInstance.post("/fixed-salary-payments/", data);
+  return await ApiInstance.post("/eventstaff/fixed-salary-payments/", data);
 };
 
 export const updateFixedSalaryPayment = async (id, data) => {
-  return await ApiInstance.put(`/fixed-salary-payments/${id}/`, data);
+  return await ApiInstance.put(
+    `/eventstaff/fixed-salary-payments/${id}/`,
+    data
+  );
 };
 
 export const deleteFixedSalaryPayment = async (id) => {
-  return await ApiInstance.delete(`/fixed-salary-payments/${id}/`);
+  return await ApiInstance.delete(`/eventstaff/fixed-salary-payments/${id}/`);
 };
 
 export const getFixedStaffPaymentSummary = async (staffId) => {
-  return await ApiInstance.get(`/staff/${staffId}/fixed-payment-summary/`);
+  return await ApiInstance.get(
+    `/eventstaff/staff/${staffId}/fixed-payment-summary/`
+  );
 };
 
 // ----------------------------------------------------------------------
@@ -120,13 +136,13 @@ export const getFixedStaffPaymentSummary = async (staffId) => {
 // ----------------------------------------------------------------------
 
 export const getStaffWithdrawals = async (params = {}) => {
-  return await ApiInstance.get("/staff-withdrawals/", { params });
+  return await ApiInstance.get("/eventstaff/staff-withdrawals/", { params });
 };
 
 export const createStaffWithdrawal = async (data) => {
-  return await ApiInstance.post("/staff-withdrawals/", data);
+  return await ApiInstance.post("/eventstaff/staff-withdrawals/", data);
 };
 
 export const deleteStaffWithdrawal = async (id) => {
-  return await ApiInstance.delete(`/staff-withdrawals/${id}/`);
+  return await ApiInstance.delete(`/eventstaff/staff-withdrawals/${id}/`);
 };

@@ -22,6 +22,7 @@ const Vendor = lazy(() => import("../pages/vendor/VendorController"));
 const GstBillingModule = lazy(() => import("../pages/gstBilling/GstBillingModule"));
 const SessionChecklistPreview = lazy(() => import("../pages/sessionChecklistPreview/SessionChecklistPreviewController"));
 const PeoplePage = lazy(() => import("../pages/people/PeoplePage"));
+const PermissionsController = lazy(() => import("../pages/people/permissions/PermissionsController"));
 
 const Rules = lazy(() => import("../Components/common/rules/RuleController"));
 
@@ -123,4 +124,5 @@ export {
   GroundCategoryMaster,
   GroundItemMaster,
   EventGroundChecklist,
+  PermissionsController,
 };

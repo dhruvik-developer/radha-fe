@@ -30,7 +30,7 @@ const handleMutationSuccess = (response, successMessage, failureMessage) => {
 
 export const getVendors = async (params = {}) => {
   try {
-    const response = await ApiInstance.get("/vendors/", { params });
+    const response = await ApiInstance.get("/vendor/vendors/", { params });
     return response.data;
   } catch (error) {
     return handleQueryError("Error fetching vendors", error);
@@ -48,7 +48,7 @@ export const getVendorById = async (id) => {
 
 export const createVendor = async (data) => {
   try {
-    const response = await ApiInstance.post("/vendors/", data);
+    const response = await ApiInstance.post("/vendor/vendors/", data);
     return handleMutationSuccess(
       response,
       response.data?.message || "Vendor added successfully!",
@@ -105,7 +105,7 @@ export const getIngredientCategoryById = async (id) => {
 
 export const createIngredientCategory = async (name, isCommon = false) => {
   try {
-    const response = await ApiInstance.post("/ingredients-categories/", {
+    const response = await ApiInstance.post("/vendor/categories/", {
       name,
       is_common: isCommon,
     });

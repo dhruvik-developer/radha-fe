@@ -3,7 +3,7 @@ import ApiInstance from "../services/ApiInstance";
 
 export const createBusinessProfile = async (payload) => {
   try {
-    const response = await ApiInstance.post("/business-profiles/", payload);
+    const response = await ApiInstance.post("/user/business-profiles/", payload);
     return response.data;
   } catch (error) {
     toast.error("Error creating business profile");
@@ -26,7 +26,7 @@ export const updateBusinessProfile = async (id, payload) => {
 
 export const getAllBusinessProfiles = async () => {
   try {
-    const response = await ApiInstance.get("/business-profiles/");
+    const response = await ApiInstance.get("/user/business-profiles/");
     return response.data;
   } catch (error) {
     // Suppress error toast here as it might be empty on first load.

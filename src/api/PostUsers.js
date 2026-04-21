@@ -6,7 +6,7 @@ import {
 
 export const addUser = async (payload) => {
   try {
-    const response = await ApiInstance.post("/users/", payload);
+    const response = await ApiInstance.post("/user/users/", payload);
     return ensureSuccessfulResponse(response, "Failed to create user");
   } catch (error) {
     throw new Error(getApiErrorMessage(error, "Failed to create user"));
@@ -15,7 +15,7 @@ export const addUser = async (payload) => {
 
 export const updateUserPassword = async (id, data) => {
   try {
-    const response = await ApiInstance.post(`/change-password/${id}/`, data);
+    const response = await ApiInstance.post(`/user/change-password/${id}/`, data);
     ensureSuccessfulResponse(response, "Failed to change password");
     return response.data;
   } catch (error) {

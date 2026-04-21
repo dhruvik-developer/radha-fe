@@ -32,6 +32,7 @@ import {
   Vendor,
   SessionChecklistPreview,
   PeoplePage,
+  PermissionsController,
   Rules,
   EditDish,
   EditItem,
@@ -114,6 +115,10 @@ const App = () => (
                 <Route
                   path="waiter-types"
                   element={<WaiterTypeManagement />}
+                />
+                <Route
+                  path="permissions"
+                  element={<PermissionsController />}
                 />
               </Route>
               {/* End of all main routes */}
