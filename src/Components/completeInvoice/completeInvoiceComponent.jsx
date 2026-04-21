@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/common/Loader";
 import Dropdown from "../common/formDropDown/DropDown";
 import Input from "../common/formInputs/Input";
+import { FiCalendar } from "react-icons/fi";
 import BaseImage from "../common/BaseImage";
+
 
 function CompleteInvoiceComponent({
   loading,
@@ -249,8 +251,9 @@ function CompleteInvoiceComponent({
               <label className="block font-medium text-black-700">
                 Payment Date
               </label>
-              <div className="flex gap-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]">
-                <BaseImage src="/calendar.png" className="w-[23px]"></BaseImage>
+              <div className="flex items-center gap-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]">
+                <FiCalendar className="text-[#845cbd]" size={20} />
+
                 <span className="font-semibold">
                   {currentDate.replace(/\//g, "-")}
                 </span>

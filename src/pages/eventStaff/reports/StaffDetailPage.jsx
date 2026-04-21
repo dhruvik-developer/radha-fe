@@ -9,11 +9,12 @@ import {
 import Loader from "../../../Components/common/Loader";
 import {
   FaArrowLeft,
-  FaCalendarAlt,
   FaMoneyBillWave,
   FaUser,
 } from "react-icons/fa";
-import { FiCheckCircle } from "react-icons/fi";
+
+import { FiCheckCircle, FiCalendar } from "react-icons/fi";
+
 
 function StaffDetailPage() {
   const { staffId } = useParams();
@@ -259,7 +260,8 @@ function StaffDetailPage() {
                           {ev.session_name}
                         </p>
                         <p className="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
-                          <FaCalendarAlt size={11} />
+                          <FiCalendar size={11} />
+
                           {ev.session_date}
                         </p>
                         <div className="flex flex-wrap gap-3 mt-3 text-sm">

@@ -3,13 +3,14 @@ import {
   FaArrowLeft,
   FaUser,
   FaWallet,
-  FaCalendarAlt,
   FaMoneyCheckAlt,
   FaMoneyBillWave,
   FaRegListAlt,
   FaCheckCircle,
 } from "react-icons/fa";
-import { FiCheckCircle } from "react-icons/fi";
+
+import { FiCheckCircle, FiCalendar } from "react-icons/fi";
+
 import Loader from "../../../Components/common/Loader";
 import FixedStaffSalaryModal from "../../../Components/eventStaff/FixedStaffSalaryModal";
 import StaffWithdrawalModal from "../../../Components/eventStaff/StaffWithdrawalModal";
@@ -137,6 +138,7 @@ function FixedStaffPaymentComponent({
               <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-purple-50/30">
                 <div className="flex items-center gap-2 mb-1.5">
                   <FaMoneyCheckAlt className="text-[#845cbd]/50 group-hover:text-[#845cbd] transition-colors" />
+
                   <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                     Monthly Salary
                   </span>
@@ -163,7 +165,8 @@ function FixedStaffPaymentComponent({
 
               <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-red-50/50">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <FaCalendarAlt className="text-red-400/50 group-hover:text-red-500 transition-colors" />
+                  <FiCalendar className="text-red-400 group-hover:text-red-500 transition-colors" />
+
                   <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                     Salary Pending
                   </span>
