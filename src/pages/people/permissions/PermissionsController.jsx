@@ -9,6 +9,49 @@ import {
 import { getCollectionResponse } from "../../../utils/apiResponse";
 import PermissionsComponent from "./PermissionsComponent";
 
+const normalizePermissionsFromResponse = (payload = {}) => {
+    const normalizeList = (arr = []) =>
+        [...new Set(
+            arr
+                .map((item) => {
+                    if (typeof item === "string") return item;
+                    if (item && typeof item === "object") {
+                        return item.code || item.permission_code || item.permission || null;
+                    }
+                    return null;
+                })
+                .filter(Boolean)
+        )];
+
+    const directPermissions = Array.isArray(payload?.direct_permissions)
+        ? payload.direct_permissions
+        : [];
+    const allowedFromDirect = directPermissions
+        .filter((perm) => {
+            if (typeof perm === "string") return true;
+            return Boolean(perm?.is_allowed);
+        });
+
+    const directCodes = normalizeList(allowedFromDirect);
+    if (directCodes.length > 0) {
+        return directCodes;
+    }
+
+    if (Array.isArray(payload?.allowed_permissions)) {
+        return normalizeList(payload.allowed_permissions);
+    }
+
+    if (Array.isArray(payload?.effective_permissions)) {
+        return normalizeList(payload.effective_permissions);
+    }
+
+    if (Array.isArray(payload?.permission_codes)) {
+        return normalizeList(payload.permission_codes);
+    }
+
+    return [];
+};
+
 function PermissionsController() {
     const [loading, setLoading] = useState(true);
     const [modules, setModules] = useState([]);
@@ -61,9 +104,10 @@ function PermissionsController() {
         setLoading(true);
         try {
             const res = await getUserPermissions(id);
-            // User API returns { allowed_permissions: [], denied_permissions: [] }
-            // For simplicity, we'll focus on allowed_permissions in this UI
-            setCurrentPermissions(res.data?.data?.allowed_permissions || []);
+            const normalizedPermissions = normalizePermissionsFromResponse(
+                res?.data?.data || res?.data || {}
+            );
+            setCurrentPermissions(normalizedPermissions);
         } catch (error) {
             toast.error("Failed to fetch permissions for selection");
         } finally {
