@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import AddIngredientComponent from "./AddIngredientComponent";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { addRecipe } from "../../../api/PostRecipe";
 import { useBranchItems } from "../../../hooks/useBranchItems";
 import { useIngredientItems } from "../../../hooks/useIngredientItems";
+import { useCreateRecipeMutation } from "../../../hooks/useRecipeMutations";
 
 function AddIngredientController() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -16,6 +16,7 @@ function AddIngredientController() {
   const location = useLocation();
 
   const predefinedItem = location.state?.predefinedItem;
+  const createRecipeMutation = useCreateRecipeMutation();
   const { data: items = [] } = useBranchItems();
   const { data: ingredientItems = [] } = useIngredientItems();
 
@@ -75,7 +76,7 @@ function AddIngredientController() {
     try {
       await Promise.all(
         validIngredients.map((ing) =>
-          addRecipe({
+          createRecipeMutation.mutateAsync({
             item: selectedItem,
             ingredient: ing.ingredient,
             quantity: ing.quantity,

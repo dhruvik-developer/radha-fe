@@ -4,8 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import CategoryComponent from "./CategoryComponent";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
-import { createCategory, swapCategories } from "../../api/PostCategory";
-import { editCategory } from "../../api/PutCategory";
+import {
+  useCreateCategoryMutation,
+  useSwapCategoriesMutation,
+  useUpdateCategoryMutation,
+} from "../../hooks/useCategoryMutations";
+import useConfirmationMutation from "../../hooks/useConfirmationMutation";
 import { useCategories } from "../../hooks/useCategories";
 import { useRecipes } from "../../hooks/useRecipes";
 
@@ -21,6 +25,15 @@ function CategoryController() {
     isLoading: isRecipesLoading,
     refetch: refetchRecipes,
   } = useRecipes();
+  const createCategoryMutation = useCreateCategoryMutation();
+  const updateCategoryMutation = useUpdateCategoryMutation();
+  const swapCategoriesMutation = useSwapCategoriesMutation();
+  const deleteCategoryMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["categories"]],
+  });
+  const deleteItemMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["categories"]],
+  });
 
   const getRecipeItemId = (recipe) => {
     const rawItem =
@@ -136,7 +149,7 @@ function CategoryController() {
         return;
       }
 
-      const response = await createCategory(formattedName);
+      const response = await createCategoryMutation.mutateAsync(formattedName);
       if (response) {
         refreshData();
         Swal.close();
@@ -186,7 +199,10 @@ function CategoryController() {
         return;
       }
 
-      const response = await editCategory(categoryId, formattedName);
+      const response = await updateCategoryMutation.mutateAsync({
+        categoryId,
+        newName: formattedName,
+      });
       if (response) {
         refreshData();
         Swal.close();
@@ -201,6 +217,7 @@ function CategoryController() {
       name: "item",
       successMessage: "Item deleted successfully!",
       onSuccess: refreshData,
+      executeRequest: deleteItemMutation.mutateAsync,
     });
   };
 
@@ -211,6 +228,7 @@ function CategoryController() {
       name: "category",
       successMessage: "Category deleted successfully!",
       onSuccess: refreshData,
+      executeRequest: deleteCategoryMutation.mutateAsync,
     });
   };
 
@@ -250,7 +268,10 @@ function CategoryController() {
     });
 
     if (position) {
-      const response = await swapCategories(categoryId, position);
+      const response = await swapCategoriesMutation.mutateAsync({
+        categoryId,
+        position,
+      });
       if (response) {
         refreshData();
         Swal.close();

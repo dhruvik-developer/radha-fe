@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { addVendor, updateVendor } from "../../../api/PostVendor";
 import { useIngredientCategories } from "../../../hooks/useIngredientCategories";
+import {
+  useCreateVendorMutation,
+  useUpdateVendorMutation,
+} from "../../../hooks/useVendorMutations";
 import { useVendorById } from "../../../hooks/useVendors";
 import { getApiErrorMessage } from "../../../utils/apiResponse";
 import AddEditVendorComponent from "./AddEditVendorComponent";
@@ -28,6 +31,8 @@ function AddEditVendorController() {
   });
   const [vendorCategories, setVendorCategories] = useState([]);
   const [errors, setErrors] = useState({});
+  const createVendorMutation = useCreateVendorMutation();
+  const updateVendorMutation = useUpdateVendorMutation();
   const { data: availableCategories = [] } = useIngredientCategories();
   const { data: fetchedVendorData, isLoading: isVendorLoading } = useVendorById(
     id,
@@ -235,8 +240,8 @@ function AddEditVendorController() {
 
       const response =
         mode === "edit"
-          ? await updateVendor(id, payload)
-          : await addVendor(payload);
+          ? await updateVendorMutation.mutateAsync({ id, data: payload })
+          : await createVendorMutation.mutateAsync(payload);
 
       if (response) {
         navigate("/people/vendor");

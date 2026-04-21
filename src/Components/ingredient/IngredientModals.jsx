@@ -5,7 +5,7 @@ import { FiX, FiTag } from "react-icons/fi";
 import Input from "../common/formInputs/Input";
 import Dropdown from "../common/formDropDown/DropDown";
 import toast from "react-hot-toast";
-import { addIngredientItem } from "../../api/PostIngredient";
+import { useCreateIngredientItemMutation } from "../../hooks/useVendorMutations";
 import { useIngredientCategories } from "../../hooks/useIngredientCategories";
 
 // ==================== MODAL WRAPPER ====================
@@ -39,6 +39,7 @@ export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCate
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const [saving, setSaving] = useState(false);
+  const createIngredientItemMutation = useCreateIngredientItemMutation();
   const { data: categories = [] } = useIngredientCategories(
     {},
     { enabled: isOpen }
@@ -85,7 +86,10 @@ export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCate
     }
 
     setSaving(true);
-    const response = await addIngredientItem(formattedName, category);
+    const response = await createIngredientItemMutation.mutateAsync({
+      itemName: formattedName,
+      category,
+    });
     setSaving(false);
     if (response) {
       onSuccess?.();

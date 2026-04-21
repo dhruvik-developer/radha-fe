@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import VendorComponent from "./VendorComponent";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
 import { useVendors } from "../../hooks/useVendors";
+import useConfirmationMutation from "../../hooks/useConfirmationMutation";
 
 function VendorController() {
   const navigate = useNavigate();
@@ -10,6 +11,9 @@ function VendorController() {
     isLoading: loading,
     refetch: refetchVendors,
   } = useVendors();
+  const deleteVendorMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["vendors"]],
+  });
 
   const handleAddVendor = () => {
     navigate("/add-vendor", { state: { mode: "add" } });
@@ -28,6 +32,7 @@ function VendorController() {
       name: "vendor",
       successMessage: "Vendor deleted successfully!",
       onSuccess: refetchVendors,
+      executeRequest: deleteVendorMutation.mutateAsync,
     });
   };
 

@@ -17,10 +17,14 @@ import {
   FiX,
   FiChevronDown
 } from "react-icons/fi";
-import { createItem, updateItem, deleteItem } from "../../api/FetchItem";
 import Dropdown from "../../Components/common/formDropDown/DropDown";
 import toast from "react-hot-toast";
 import { useBranchItems } from "../../hooks/useBranchItems";
+import {
+  useCreateBranchItemMutation,
+  useDeleteBranchItemMutation,
+  useUpdateBranchItemMutation,
+} from "../../hooks/useBranchItemMutations";
 import {
   getBranchBills,
   getInvoiceSetup,
@@ -373,6 +377,9 @@ const GstBillingModule = () => {
   const [historyLoading, setHistoryLoading] = useState(false);
 
   const [settingsLoading, setSettingsLoading] = useState(true);
+  const createBranchItemMutation = useCreateBranchItemMutation();
+  const updateBranchItemMutation = useUpdateBranchItemMutation();
+  const deleteBranchItemMutation = useDeleteBranchItemMutation();
 
   // Initialize with empty defaults — API data will populate
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
@@ -1061,11 +1068,10 @@ const GstBillingModule = () => {
 
       try {
         if (isNew) {
-          await createItem(payload);
+          await createBranchItemMutation.mutateAsync(payload);
         } else {
-          await updateItem(data.id, payload);
+          await updateBranchItemMutation.mutateAsync({ id: data.id, data: payload });
         }
-
         await refetchItemsManagementList();
         // Also refresh the form items if the branch matches
         const bId = data.branch;
@@ -1091,7 +1097,7 @@ const GstBillingModule = () => {
 
       if (result.isConfirmed) {
         try {
-          await deleteItem(item.id || item.pk);
+          await deleteBranchItemMutation.mutateAsync(item.id || item.pk);
           await refetchItemsManagementList();
           // Refresh form items if branch matches
           const bId = item.branch?.id || item.branch;

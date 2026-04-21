@@ -2,14 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import AddIngredientItemComponent from "./AddIngredientItemComponent";
-import { addIngredientItem } from "../../../api/PostIngredient";
 import { useIngredientCategories } from "../../../hooks/useIngredientCategories";
+import { useCreateIngredientItemMutation } from "../../../hooks/useVendorMutations";
 
 function AddIngredientItemController() {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
   const { data: categories = [] } = useIngredientCategories();
+  const createIngredientItemMutation = useCreateIngredientItemMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +47,10 @@ function AddIngredientItemController() {
       return;
     }
 
-    const response = await addIngredientItem(formattedName, category);
+    const response = await createIngredientItemMutation.mutateAsync({
+      itemName: formattedName,
+      category,
+    });
     if (response) {
       navigate("/create-recipe-ingredient");
     }

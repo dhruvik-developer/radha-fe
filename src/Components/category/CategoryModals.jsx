@@ -14,8 +14,11 @@ import { FaTimes } from "react-icons/fa";
 import Input from "../common/formInputs/Input";
 import Dropdown from "../common/formDropDown/DropDown";
 import toast from "react-hot-toast";
-import { createCategory, createItem } from "../../api/PostCategory";
-import { addRecipe } from "../../api/PostRecipe";
+import {
+  useCreateCategoryMutation,
+  useCreateMenuItemMutation,
+} from "../../hooks/useCategoryMutations";
+import { useCreateRecipeMutation } from "../../hooks/useRecipeMutations";
 import { useCategories } from "../../hooks/useCategories";
 import { useBranchItems } from "../../hooks/useBranchItems";
 import { useIngredientItems } from "../../hooks/useIngredientItems";
@@ -50,6 +53,7 @@ const ModalWrapper = ({ isOpen, onClose, children }) => {
 export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
   const [categoryName, setCategoryName] = useState("");
   const [saving, setSaving] = useState(false);
+  const createCategoryMutation = useCreateCategoryMutation();
 
   useEffect(() => {
     if (isOpen) setCategoryName("");
@@ -71,7 +75,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
       .join(" ");
 
     setSaving(true);
-    const response = await createCategory(formattedName);
+    const response = await createCategoryMutation.mutateAsync(formattedName);
     setSaving(false);
     if (response) {
       onSuccess?.();
@@ -147,6 +151,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
   const [baseCost, setBaseCost] = useState("");
   const [selectionRate, setSelectionRate] = useState("");
   const [saving, setSaving] = useState(false);
+  const createItemMutation = useCreateMenuItemMutation();
   const { data: categories = [] } = useCategories({}, { enabled: isOpen });
 
   useEffect(() => {
@@ -200,12 +205,12 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
     }
 
     setSaving(true);
-    const response = await createItem(
-      formattedName,
+    const response = await createItemMutation.mutateAsync({
+      itemName: formattedName,
       category,
-      Number(baseCost) || 0,
-      Number(selectionRate) || 0
-    );
+      base_cost: Number(baseCost) || 0,
+      selection_rate: Number(selectionRate) || 0,
+    });
     setSaving(false);
     if (response) {
       onSuccess?.();
@@ -341,6 +346,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
     { ingredient: null, quantity: "", unit: "g" },
   ]);
   const [saving, setSaving] = useState(false);
+  const createRecipeMutation = useCreateRecipeMutation();
   const { data: items = [] } = useBranchItems({}, { enabled: isOpen });
   const { data: ingredientItems = [] } = useIngredientItems(
     {},
@@ -398,7 +404,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
 
     try {
       const calls = validIngredients.map((ing) =>
-        addRecipe({
+        createRecipeMutation.mutateAsync({
           item: selectedItem,
           ingredient: ing.ingredient,
           quantity: ing.quantity,

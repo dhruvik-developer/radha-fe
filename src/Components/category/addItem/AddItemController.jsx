@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { createItem } from "../../../api/PostCategory";
+import { useCreateMenuItemMutation } from "../../../hooks/useCategoryMutations";
 import AddItemComponent from "./AddItemComponent";
 import { useCategories } from "../../../hooks/useCategories";
 
@@ -12,6 +12,7 @@ function AddItemController() {
   const [selectionRate, setSelectionRate] = useState("");
   const { data: categories = [] } = useCategories();
   const navigate = useNavigate();
+  const createItemMutation = useCreateMenuItemMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,12 +57,12 @@ function AddItemController() {
       return;
     }
 
-    const response = await createItem(
-      formattedName,
+    const response = await createItemMutation.mutateAsync({
+      itemName: formattedName,
       category,
-      Number(baseCost) || 0,
-      Number(selectionRate) || 0
-    );
+      base_cost: Number(baseCost) || 0,
+      selection_rate: Number(selectionRate) || 0,
+    });
     if (response) {
       navigate("/category");
     }

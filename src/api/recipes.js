@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 import ApiInstance from "../services/ApiInstance";
-import { queryClient } from "../lib/queryClient";
 import {
   ensureSuccessfulResponse,
   getApiErrorMessage,
@@ -64,7 +63,6 @@ export const createRecipe = async (recipeData) => {
 
     ensureSuccessfulResponse(response, "Failed to add recipe");
     toast.success("Recipe ingredient saved successfully!");
-    queryClient.invalidateQueries({ queryKey: ["recipes"] });
     return response;
   } catch (error) {
     return handleMutationError(
@@ -86,7 +84,6 @@ export const updateRecipe = async (id, recipeData) => {
 
     ensureSuccessfulResponse(response, "Failed to update recipe");
     toast.success("Recipe ingredient updated successfully!");
-    queryClient.invalidateQueries({ queryKey: ["recipes"] });
     return response;
   } catch (error) {
     return handleMutationError(
@@ -99,9 +96,7 @@ export const updateRecipe = async (id, recipeData) => {
 
 export const deleteRecipe = async (id) => {
   try {
-    const response = await ApiInstance.delete(`/recipes/${id}/`);
-    queryClient.invalidateQueries({ queryKey: ["recipes"] });
-    return response;
+    return await ApiInstance.delete(`/recipes/${id}/`);
   } catch (error) {
     return handleMutationError(
       "Delete Recipe API Error:",

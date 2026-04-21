@@ -1,6 +1,5 @@
 import ApiInstance from "../services/ApiInstance";
 import toast from "react-hot-toast";
-import { queryClient } from "../lib/queryClient";
 import {
   ensureSuccessfulResponse,
   getApiErrorMessage,
@@ -26,7 +25,6 @@ const handleMutationError = (
 const handleMutationSuccess = (response, successMessage, failureMessage) => {
   ensureSuccessfulResponse(response, failureMessage);
   toast.success(successMessage);
-  queryClient.invalidateQueries({ queryKey: ["vendors"] });
   return response;
 };
 

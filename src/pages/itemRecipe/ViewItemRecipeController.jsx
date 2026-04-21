@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { deleteRecipe } from "../../api/FetchRecipe";
 import toast from "react-hot-toast";
 import ViewItemRecipeComponent from "./ViewItemRecipeComponent";
 import Swal from "sweetalert2";
-import { updateItemCosts } from "../../api/PutItem";
-import { updateRecipe } from "../../api/PutRecipe";
-import { addRecipe } from "../../api/PostRecipe";
 import { useNavigate } from "react-router-dom";
 import { useRecipes } from "../../hooks/useRecipes";
 import { useBranchItemById } from "../../hooks/useBranchItems";
 import { useIngredientItems } from "../../hooks/useIngredientItems";
+import { useUpdateItemCostsMutation } from "../../hooks/useCategoryMutations";
+import {
+  useCreateRecipeMutation,
+  useDeleteRecipeMutation,
+  useUpdateRecipeMutation,
+} from "../../hooks/useRecipeMutations";
 
 function ViewItemRecipeController({
   itemId,
@@ -41,6 +43,10 @@ function ViewItemRecipeController({
   const [editIngredientsList, setEditIngredientsList] = useState([]);
   const [editPersonCount, setEditPersonCount] = useState(100);
   const [saving, setSaving] = useState(false);
+  const updateItemCostsMutation = useUpdateItemCostsMutation();
+  const createRecipeMutation = useCreateRecipeMutation();
+  const updateRecipeMutation = useUpdateRecipeMutation();
+  const deleteRecipeMutation = useDeleteRecipeMutation();
   const { data: ingredientOptions = [], isLoading: isIngredientOptionsLoading } =
     useIngredientItems();
   const { data: itemDetail, isLoading: isItemDetailLoading } = useBranchItemById(
@@ -102,11 +108,11 @@ function ViewItemRecipeController({
     });
 
     if (formValues) {
-      const response = await updateItemCosts(
+      const response = await updateItemCostsMutation.mutateAsync({
         itemId,
-        formValues.baseCost,
-        formValues.selectionRate
-      );
+        base_cost: formValues.baseCost,
+        selection_rate: formValues.selectionRate,
+      });
       if (response) {
         setCurrentBaseCost(formValues.baseCost);
         setCurrentSelectionRate(formValues.selectionRate);
@@ -191,7 +197,7 @@ function ViewItemRecipeController({
   const handleDeleteEditIngredient = async (index) => {
     const deletedRow = editIngredientsList[index];
     if (deletedRow?.id) {
-      await deleteRecipe(deletedRow.id);
+      await deleteRecipeMutation.mutateAsync(deletedRow.id);
       await refetchRecipes();
       setIsEditing(false);
       return;
@@ -246,9 +252,12 @@ function ViewItemRecipeController({
           };
 
           if (ing.id) {
-            return updateRecipe(ing.id, nowPayload);
+            return updateRecipeMutation.mutateAsync({
+              id: ing.id,
+              recipeData: nowPayload,
+            });
           }
-          return addRecipe(nowPayload);
+          return createRecipeMutation.mutateAsync(nowPayload);
         })
       );
 
@@ -336,7 +345,7 @@ function ViewItemRecipeController({
     try {
       await Promise.all(
         validRows.map((ing) =>
-          addRecipe({
+          createRecipeMutation.mutateAsync({
             item: itemId,
             ingredient: Number(ing.ingredientId),
             quantity: ing.quantity,

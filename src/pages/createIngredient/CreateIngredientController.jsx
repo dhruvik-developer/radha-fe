@@ -3,10 +3,11 @@ import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
 import Swal from "sweetalert2";
-import { addIngredientCategory } from "../../api/PostIngredient";
 import { useNavigate } from "react-router-dom";
 import CreateIngredientComponent from "./CreateIngredientComponent";
 import { useIngredientCategories } from "../../hooks/useIngredientCategories";
+import { useCreateIngredientCategoryMutation } from "../../hooks/useVendorMutations";
+import useConfirmationMutation from "../../hooks/useConfirmationMutation";
 
 function CreateIngredientController() {
   const [items, setItems] = useState([]);
@@ -16,6 +17,13 @@ function CreateIngredientController() {
     isLoading: loading,
     refetch: refetchIngredientCategories,
   } = useIngredientCategories();
+  const createIngredientCategoryMutation = useCreateIngredientCategoryMutation();
+  const deleteIngredientItemMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["ingredient-categories"], ["ingredient-items"]],
+  });
+  const deleteIngredientCategoryMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["ingredient-categories"], ["ingredient-items"]],
+  });
 
   const categories = useMemo(
     () =>
@@ -92,10 +100,10 @@ function CreateIngredientController() {
         return;
       }
 
-      const response = await addIngredientCategory(
-        formattedName,
-        formValues.isCommon
-      );
+      const response = await createIngredientCategoryMutation.mutateAsync({
+        name: formattedName,
+        isCommon: formValues.isCommon,
+      });
       if (response) {
         refetchIngredientCategories();
         Swal.close();
@@ -111,6 +119,7 @@ function CreateIngredientController() {
       name: "ingredient item",
       successMessage: "Ingredient item deleted successfully!",
       onSuccess: refetchIngredientCategories,
+      executeRequest: deleteIngredientItemMutation.mutateAsync,
     });
   };
 
@@ -122,6 +131,7 @@ function CreateIngredientController() {
       name: "ingredient category",
       successMessage: "Ingredient category deleted successfully!",
       onSuccess: refetchIngredientCategories,
+      executeRequest: deleteIngredientCategoryMutation.mutateAsync,
     });
   };
 
