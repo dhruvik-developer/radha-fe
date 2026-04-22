@@ -386,7 +386,7 @@ function AddEditAssignmentComponent({
                 type="button"
                 onClick={goToStep2}
                 disabled={selectedStaffEntries.length === 0}
-                className="px-6 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 Continue
                 <FiArrowRight size={16} />
@@ -573,7 +573,7 @@ function AddEditAssignmentComponent({
               <button
                 type="submit"
                 disabled={saving || selectedStaffEntries.length === 0}
-                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 {saving ? (
                   <>
@@ -746,7 +746,7 @@ function AddEditAssignmentComponent({
                 Cancel
               </button>
               <button type="submit" disabled={saving}
-                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
+                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
                 {saving ? (
                   <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Saving...</>
                 ) : ("Update Assignment")}

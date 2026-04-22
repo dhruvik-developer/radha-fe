@@ -82,7 +82,7 @@ function LoginComponent({
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[var(--color-primary)] text-white py-3 rounded-md font-semibold hover:bg-[#8a58d1] transition duration-300 outline-none cursor-pointer"
+              className="w-full bg-[var(--color-primary)] text-white py-3 rounded-md font-semibold hover:brightness-95 transition duration-300 outline-none cursor-pointer"
             >
               Sign In
             </button>

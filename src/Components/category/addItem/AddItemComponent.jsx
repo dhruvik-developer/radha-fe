@@ -115,7 +115,7 @@ function AddItemComponent({
         <div className="flex items-center justify-center pt-3">
           <button
             type="submit"
-            className="px-8 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
+            className="px-8 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
           >
             Save Item
           </button>

@@ -72,7 +72,7 @@ function ViewOrderDetailsComponent({
         <p className="text-xl font-medium text-gray-600">Order not found</p>
         <button
           onClick={handleBack}
-          className="mt-4 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] hover:bg-[#724eb0] rounded-lg shadow-md transition-all duration-200"
+          className="mt-4 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-lg shadow-md transition-all duration-200"
         >
           <FiArrowLeft size={16} /> Go Back
         </button>

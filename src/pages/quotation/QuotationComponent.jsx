@@ -340,7 +340,7 @@ function QuotationComponent({
               <button
                 type="button"
                 onClick={() => setSessionsModal(null)}
-                className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:bg-[#7350a8] cursor-pointer shadow-sm"
+                className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:brightness-95 cursor-pointer shadow-sm"
               >
                 Close
               </button>

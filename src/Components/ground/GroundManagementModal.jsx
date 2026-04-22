@@ -327,7 +327,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-5 py-2 bg-[var(--color-primary)] hover:bg-[#724eb0] text-white text-sm font-semibold rounded-lg shadow-sm transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors disabled:opacity-50"
             >
               <FiSave size={14} />
               {saving ? "Saving..." : "Save Ground Items"}

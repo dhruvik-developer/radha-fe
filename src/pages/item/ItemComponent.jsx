@@ -55,7 +55,7 @@ function ItemComponent({
         </div>
         <button
           onClick={() => navigate("/create-item")}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
         >
           <FiPlus size={15} />
           Add Item
@@ -199,7 +199,7 @@ function ItemComponent({
                 </button>
                 <button
                   type="button"
-                  className="flex items-center gap-1.5 px-6 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
+                  className="flex items-center gap-1.5 px-6 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
                   onClick={generatePDF}
                 >
                   <FiCheck size={15} />

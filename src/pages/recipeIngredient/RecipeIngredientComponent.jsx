@@ -52,7 +52,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
         </div>
         <button
           onClick={() => navigate("/create-ingredient")}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
         >
           <FiPlus size={15} />
           Add Ingredient

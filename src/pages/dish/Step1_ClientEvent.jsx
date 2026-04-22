@@ -298,7 +298,7 @@ function Step1_ClientEvent({
         <button
           type="button"
           onClick={onNext}
-          className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
+          className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
         >
           Continue to Menu Selection <FiArrowRight size={18} />
         </button>

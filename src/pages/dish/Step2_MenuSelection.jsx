@@ -368,7 +368,7 @@ function Step2_MenuSelection({
           <button
             type="button"
             onClick={onNext}
-            className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2"
+            className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2"
           >
             Continue to Summary <FiArrowRight size={18} />
           </button>

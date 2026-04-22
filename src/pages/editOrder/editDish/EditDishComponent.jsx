@@ -448,7 +448,7 @@ function EditDishComponent({
                               onClick={() =>
                                 openDishModal(dIdx, sIdx, slot.dishes)
                               }
-                              className="text-[11px] font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                              className="text-[11px] font-bold text-white bg-[var(--color-primary)] hover:brightness-95 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                             >
                               Select
                             </button>
@@ -894,7 +894,7 @@ function EditDishComponent({
                 <button
                   type="button"
                   onClick={saveDishModal}
-                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:bg-[#7350a8] cursor-pointer shadow-sm"
+                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:brightness-95 cursor-pointer shadow-sm"
                 >
                   Save
                 </button>

@@ -228,7 +228,7 @@ function ViewItemRecipeComponent({
           <button
             onClick={onSaveEdit}
             disabled={saving}
-            className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <FiSave size={16} />
             {saving ? "Saving..." : "Save Changes"}
@@ -418,7 +418,7 @@ function ViewItemRecipeComponent({
             </p>
             <button
               onClick={onStartAdd}
-              className="px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-all duration-200 text-sm font-medium shadow-md flex items-center gap-2"
+              className="px-5 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-all duration-200 text-sm font-medium shadow-md flex items-center gap-2"
             >
               <FiPlus size={16} />
               Add Recipe Ingredient
@@ -593,7 +593,7 @@ function ViewItemRecipeComponent({
           <button
             onClick={onSaveAdd}
             disabled={addSaving}
-            className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <FiSave size={16} />
             {addSaving ? "Saving..." : "Save Ingredient"}

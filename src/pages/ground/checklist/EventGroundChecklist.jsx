@@ -163,7 +163,7 @@ const EventGroundChecklist = () => {
               setEditCategoryData(null);
               setShowAddCategory(true);
             }}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
+            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
           >
             + Add Category
           </button>

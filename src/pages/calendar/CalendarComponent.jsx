@@ -224,7 +224,7 @@ function CalendarComponent({ orders, loading, navigate }) {
 
           <button
             onClick={goToToday}
-            className="text-sm font-semibold px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white hover:bg-[#6b3fa0] transition-colors cursor-pointer shadow-sm"
+            className="text-sm font-semibold px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white hover:brightness-95 transition-colors cursor-pointer shadow-sm"
           >
             Today
           </button>

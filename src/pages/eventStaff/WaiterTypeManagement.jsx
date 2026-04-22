@@ -139,7 +139,7 @@ const WaiterTypeManagement = () => {
           </div>
         </div>
         <button
-          className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] hover:bg-[#7350a8] px-5 py-2.5 text-white font-semibold transition-all shadow-md shadow-[var(--color-primary)]/20 cursor-pointer"
+          className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] hover:brightness-95 px-5 py-2.5 text-white font-semibold transition-all shadow-md shadow-[var(--color-primary)]/20 cursor-pointer"
           onClick={() => setIsAddModalOpen(true)}
         >
           <FiPlus size={18} />
@@ -236,7 +236,7 @@ const WaiterTypeManagement = () => {
                 Cancel
               </button>
               <button
-                className="rounded-xl bg-[var(--color-primary)] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#7350a8] shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] cursor-pointer"
+                className="rounded-xl bg-[var(--color-primary)] px-6 py-2.5 text-sm font-bold text-white hover:brightness-95 shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] cursor-pointer"
                 onClick={onAdd}
               >
                 Save Waiter Type
@@ -352,7 +352,7 @@ const WaiterTypeManagement = () => {
                           </div>
                           <div className="md:col-span-2 flex items-center justify-end gap-2">
                             <button
-                              className="flex-1 flex items-center justify-center gap-1 bg-[var(--color-primary)] text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-[#7350a8] transition-colors"
+                              className="flex-1 flex items-center justify-center gap-1 bg-[var(--color-primary)] text-white px-3 py-2 rounded-lg text-xs font-bold hover:brightness-95 transition-colors"
                               onClick={() => onUpdate(type)}
                             >
                               <FiCheckCircle size={14} /> Save

@@ -96,7 +96,7 @@ function StockComponent({
             )}
             <div className="flex gap-2">
               <button
-                className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+                className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
                 onClick={handleAddCategory}
               >
                 Add Category

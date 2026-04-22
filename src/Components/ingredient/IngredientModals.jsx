@@ -164,7 +164,7 @@ export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCate
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Item"}
             </button>
