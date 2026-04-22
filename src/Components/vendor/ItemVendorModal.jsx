@@ -6,6 +6,7 @@ import {
 } from "../../api/VendorAssignmentApis";
 import { FiX, FiCheck } from "react-icons/fi";
 import { useVendors } from "../../hooks/useVendors";
+import Loader from "../common/Loader";
 
 const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
   const [loading, setLoading] = useState(false);
@@ -138,7 +139,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50/30">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
+              <Loader message="Loading item configuration..." fullScreen={false} compact />
             </div>
           ) : entries.length === 0 ? (
             <div className="text-center py-10 text-gray-500">

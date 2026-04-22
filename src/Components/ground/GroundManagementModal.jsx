@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { FiX, FiSearch, FiSave, FiBox, FiTag, FiChevronRight } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { getGroundCategories } from "../../api/GroundApis";
+import Loader from "../common/Loader";
 
 /**
  * GroundManagementModal
@@ -162,8 +163,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
         <div className="flex-1 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-primary)]"></div>
-              <span className="ml-3 text-sm text-gray-500">Loading categories...</span>
+              <Loader message="Loading categories..." fullScreen={false} compact />
             </div>
           ) : categories.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-gray-400">
