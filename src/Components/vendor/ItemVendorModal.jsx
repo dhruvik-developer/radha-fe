@@ -150,9 +150,9 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                 key={category}
                 className="bg-white border text-sm border-gray-200 rounded-xl overflow-hidden shadow-sm"
               >
-                <div className="px-5 py-3 bg-purple-50/50 border-b border-gray-100 flex items-center justify-between">
-                  <h3 className="font-bold text-purple-900">{category}</h3>
-                  <span className="px-2.5 py-1 text-xs font-semibold text-purple-700 bg-purple-100 rounded-full">
+                <div className="px-5 py-3 bg-[var(--color-primary-tint)]/50 border-b border-gray-100 flex items-center justify-between">
+                  <h3 className="font-bold text-[var(--color-primary-text)]">{category}</h3>
+                  <span className="px-2.5 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] rounded-full">
                     {items.length} item{items.length !== 1 ? "s" : ""}
                   </span>
                 </div>

@@ -54,7 +54,7 @@ function AgencySummaryComponent({ loading, summaryData }) {
                       </div>
                     </td>
                     <td className="border border-gray-300 px-4 py-3 text-center font-medium text-gray-700">
-                      <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">
+                      <span className="bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] px-3 py-1 rounded-full text-xs font-bold">
                         {row.staff_count || 0} Staff
                       </span>
                     </td>

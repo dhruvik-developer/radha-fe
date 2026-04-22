@@ -52,8 +52,8 @@ const IngredientTable = ({
                 onClick={() => setActiveCategoryId(category.id)}
                 className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? "bg-gradient-to-r from-purple-50 to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                    : "bg-white border-gray-200 hover:border-purple-300 hover:shadow-sm"
+                    ? "bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
+                    : "bg-white border-gray-200 hover:border-[var(--color-primary-border)] hover:shadow-sm"
                 }`}
               >
                 <div className="flex items-center gap-3 overflow-hidden">
@@ -147,7 +147,7 @@ const IngredientTable = ({
                   className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-[var(--color-primary-tint)] flex items-center justify-center flex-shrink-0">
                       <FiTag className="text-[var(--color-primary-text)]" size={14} />
                     </div>
                     <span className="text-[14px] font-bold text-gray-800 truncate group-hover:text-[var(--color-primary)] transition-colors">

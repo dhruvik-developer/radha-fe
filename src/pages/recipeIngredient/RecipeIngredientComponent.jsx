@@ -95,7 +95,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                     </div>
                     <div className="flex items-center gap-2">
                       {rec.person_count && (
-                        <span className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-100">
+                        <span className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/30">
                           <FiUsers size={12} />
                           {rec.person_count}
                         </span>

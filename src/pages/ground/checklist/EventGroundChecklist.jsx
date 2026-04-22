@@ -210,8 +210,8 @@ const EventGroundChecklist = () => {
                     key={category.id}
                     className={`group flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? "bg-gradient-to-r from-purple-50 to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                        : "bg-white border-gray-200 hover:border-purple-300 hover:shadow-sm"
+                        ? "bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
+                        : "bg-white border-gray-200 hover:border-[var(--color-primary-border)] hover:shadow-sm"
                     }`}
                   >
                     <div
@@ -311,7 +311,7 @@ const EventGroundChecklist = () => {
                       className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200"
                     >
                       <div className="flex items-center gap-3 min-w-0 pr-2 flex-1">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-purple-50">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-[var(--color-primary-tint)]">
                           <FiTag className="text-[var(--color-primary-text)]" size={14} />
                         </div>
                         <div className="min-w-0">

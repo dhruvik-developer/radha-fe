@@ -62,7 +62,7 @@ function RoleDropdown({
       </div>
 
       {!hasRoles ? (
-        <p className="pl-1 text-xs font-medium text-amber-600">
+        <p className="pl-1 text-xs font-medium text-[var(--color-primary)]">
           No roles found. Choose "+ Add New Role" to create one instantly.
         </p>
       ) : (

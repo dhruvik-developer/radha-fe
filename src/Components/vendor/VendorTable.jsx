@@ -70,7 +70,7 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
                         >
                           <span>{vc.category_name}</span>
                           {vc.price != null && (
-                            <span className="text-purple-400 bg-white px-1.5 py-0.5 rounded-md text-[10px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+                            <span className="text-[var(--color-primary-light)] bg-white px-1.5 py-0.5 rounded-md text-[10px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
                               ₹{vc.price}
                             </span>
                           )}
@@ -85,10 +85,10 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
                 </td>
                 <td className="px-6 py-4 border-y border-transparent group-hover:border-[var(--color-primary-border)] text-center">
                   <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border shadow-sm ${vendor.is_active ? "bg-green-50 text-green-700 border-green-200" : "bg-red-50 text-red-600 border-red-200"}`}
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border shadow-sm ${vendor.is_active ? "bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border-green-200" : "bg-red-50 text-red-600 border-red-200"}`}
                   >
                     <span
-                      className={`w-1.5 h-1.5 rounded-full mr-1.5 ${vendor.is_active ? "bg-green-500" : "bg-red-500"}`}
+                      className={`w-1.5 h-1.5 rounded-full mr-1.5 ${vendor.is_active ? "bg-[var(--color-primary-tint)]0" : "bg-red-500"}`}
                     ></span>
                     {vendor.is_active ? "Active" : "Inactive"}
                   </span>
@@ -99,7 +99,7 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
                       <button
                         onClick={() => onVendorEdit(vendor)}
                         title="Edit Vendor"
-                        className="p-2 rounded-lg text-gray-500 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
+                        className="p-2 rounded-lg text-gray-500 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer shadow-sm border border-transparent hover:border-[var(--color-primary-border)]/30"
                       >
                         <FiEdit2 size={16} />
                       </button>

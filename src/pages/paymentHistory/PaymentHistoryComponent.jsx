@@ -46,8 +46,8 @@ function PaymentHistoryComponent({ paymentData, loading }) {
             {/* Total Paid */}
             <div className="bg-white border border-green-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="flex items-center gap-2.5 mb-2">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <FaCheckCircle size={18} className="text-green-600" />
+                <div className="bg-[var(--color-primary-soft)] p-2 rounded-lg">
+                  <FaCheckCircle size={18} className="text-[var(--color-primary-text)]" />
                 </div>
                 <p className="text-sm font-medium text-gray-500">
                   Total Paid Amount
@@ -90,10 +90,10 @@ function PaymentHistoryComponent({ paymentData, loading }) {
             </div>
 
             {/* Total Expense */}
-            <div className="bg-white border border-orange-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div className="bg-white border border-[var(--color-primary-border)] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="flex items-center gap-2.5 mb-2">
-                <div className="bg-orange-100 p-2 rounded-lg">
-                  <FaReceipt size={18} className="text-orange-500" />
+                <div className="bg-[var(--color-primary-soft)] p-2 rounded-lg">
+                  <FaReceipt size={18} className="text-[var(--color-primary-tint)]0" />
                 </div>
                 <p className="text-sm font-medium text-gray-500">
                   Total Expense Amount

@@ -175,7 +175,7 @@ function StaffDetailPage() {
               {staffData.staff_type === "Fixed" && (
                 <button
                   onClick={() => navigate(`/fixed-staff-payments/${staffData.staff_id}`)}
-                  className="flex items-center gap-2 bg-white text-[var(--color-primary)] hover:bg-purple-50 px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all active:scale-95 border border-transparent whitespace-nowrap"
+                  className="flex items-center gap-2 bg-white text-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all active:scale-95 border border-transparent whitespace-nowrap"
                 >
                   <FaMoneyBillWave size={18} />
                   Manage Salary Payments
@@ -204,7 +204,7 @@ function StaffDetailPage() {
                     <p className="text-2xl font-black text-gray-800">
                       ₹{fmt(staffData.total_amount)}
                     </p>
-                    <p className="text-xs text-green-600 font-semibold mt-0.5">
+                    <p className="text-xs text-[var(--color-primary)] font-semibold mt-0.5">
                       Paid: ₹{fmt(staffData.total_paid)}
                     </p>
                   </>
@@ -219,12 +219,12 @@ function StaffDetailPage() {
                 ) : (
                   <>
                     <p
-                      className={`text-2xl font-black ${staffData.total_pending > 0 ? "text-red-500" : "text-green-600"}`}
+                      className={`text-2xl font-black ${staffData.total_pending > 0 ? "text-red-500" : "text-[var(--color-primary)]"}`}
                     >
                       ₹{fmt(staffData.total_pending)}
                     </p>
                     {staffData.total_pending <= 0 && (
-                      <span className="text-xs text-green-600 font-bold flex items-center justify-center gap-1 mt-0.5">
+                      <span className="text-xs text-[var(--color-primary)] font-bold flex items-center justify-center gap-1 mt-0.5">
                         <FiCheckCircle size={12} /> Fully Cleared
                       </span>
                     )}
@@ -252,7 +252,7 @@ function StaffDetailPage() {
                 {events.map((ev, idx) => (
                   <div
                     key={idx}
-                    className="p-5 hover:bg-purple-50/30 transition-colors"
+                    className="p-5 hover:bg-[var(--color-primary-tint)] transition-colors"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                       <div className="flex-1">
@@ -268,7 +268,7 @@ function StaffDetailPage() {
                           <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium capitalize">
                             Role: {ev.role_name_at_event || "Staff"}
                           </span>
-                          <span className="bg-purple-50 text-[var(--color-primary)] px-3 py-1 rounded-full text-xs font-medium">
+                          <span className="bg-[var(--color-primary-tint)] text-[var(--color-primary)] px-3 py-1 rounded-full text-xs font-medium">
                             {ev.total_days} Day(s) × {ev.number_of_persons}{" "}
                             Person(s)
                           </span>
@@ -279,7 +279,7 @@ function StaffDetailPage() {
                       <div className="flex flex-col sm:items-end gap-1 min-w-[160px]">
                         {staffData.staff_type === "Fixed" ? (
                           <div className="flex items-center justify-end h-full">
-                            <span className="text-xs font-bold text-[var(--color-primary)] bg-purple-50 px-4 py-2 rounded-lg border border-purple-100 flex items-center gap-1.5 shadow-sm mt-3 sm:mt-0">
+                            <span className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] px-4 py-2 rounded-lg border border-[var(--color-primary-border)]/30 flex items-center gap-1.5 shadow-sm mt-3 sm:mt-0">
                                Fixed Staff - Paid Monthly
                             </span>
                           </div>
@@ -297,7 +297,7 @@ function StaffDetailPage() {
                               <span className="text-xs text-gray-400 font-semibold">
                                 Paid
                               </span>
-                              <span className="text-sm font-bold text-green-600">
+                              <span className="text-sm font-bold text-[var(--color-primary)]">
                                 ₹{fmt(ev.paid_amount)}
                               </span>
                             </div>
@@ -316,12 +316,12 @@ function StaffDetailPage() {
                               {parseFloat(ev.remaining_amount) > 0 ? (
                                 <button
                                   onClick={() => handlePayClick(ev)}
-                                  className="bg-[var(--color-primary)] hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer w-full"
+                                  className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer w-full"
                                 >
                                   Pay Amount
                                 </button>
                               ) : (
-                                <span className="text-xs font-bold text-green-600 bg-green-50 px-4 py-2 rounded-lg flex items-center gap-1.5">
+                                <span className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] px-4 py-2 rounded-lg flex items-center gap-1.5">
                                   <FiCheckCircle size={12} /> Cleared
                                 </span>
                               )}

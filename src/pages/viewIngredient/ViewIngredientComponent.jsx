@@ -184,7 +184,7 @@ function ViewIngredientComponent({
                     <div className="flex flex-wrap gap-5">
                       {viewIngredient?.name && (
                         <div>
-                          <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                             Customer
                           </p>
                           <p className="text-base font-bold text-gray-900">
@@ -194,7 +194,7 @@ function ViewIngredientComponent({
                       )}
                       {viewIngredient?.mobile_no && (
                         <div>
-                          <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                             Mobile
                           </p>
                           <p className="text-base font-semibold text-gray-700">
@@ -204,7 +204,7 @@ function ViewIngredientComponent({
                       )}
                        {displayDate && (
                         <div>
-                          <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                             Event Date
                           </p>
                           <p className="text-base font-semibold text-gray-700">
@@ -213,7 +213,7 @@ function ViewIngredientComponent({
                         </div>
                       )}
                       <div>
-                        <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                           Estimated Persons
                         </p>
                         <p className="text-2xl font-bold text-gray-900">
@@ -222,7 +222,7 @@ function ViewIngredientComponent({
                       </div>
                       {address && address !== "—" && (
                         <div>
-                          <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                             Event Address
                           </p>
                           <p className="text-base font-medium text-gray-700">
@@ -296,7 +296,7 @@ function ViewIngredientComponent({
                   <>
                     {viewIngredient?.name && (
                       <div>
-                        <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                           Customer
                         </p>
                         <p className="text-base font-bold text-gray-900">
@@ -306,7 +306,7 @@ function ViewIngredientComponent({
                     )}
                     {viewIngredient?.mobile_no && (
                       <div>
-                        <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                           Mobile
                         </p>
                         <p className="text-base font-semibold text-gray-700">
@@ -316,7 +316,7 @@ function ViewIngredientComponent({
                     )}
                     {allDates.length > 0 && (
                       <div>
-                        <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                           Event Date{allDates.length > 1 ? 's' : ''}
                         </p>
                         <p className="text-base font-semibold text-gray-700">
@@ -328,7 +328,7 @@ function ViewIngredientComponent({
                 );
               })()}
               <div>
-                <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                   Estimated Persons
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
@@ -336,7 +336,7 @@ function ViewIngredientComponent({
                 </p>
               </div>
               <div>
-                <p className="text-xs font-semibold text-purple-600 uppercase tracking-wider mb-0.5">
+                <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
                   Event Address
                 </p>
                 <p className="text-base font-medium text-gray-700">
@@ -348,29 +348,29 @@ function ViewIngredientComponent({
 
           {/* Vendor Supplied / Outsourced Items Block */}
           {outsourcedItemsList.length > 0 && (
-            <div className="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden mb-6">
-              <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-100 px-6 py-3 flex items-center justify-between">
-                <h3 className="text-base font-bold text-emerald-800 tracking-wide flex items-center gap-2">
+            <div className="bg-white rounded-2xl border border-[var(--color-primary-border)]/30 shadow-sm overflow-hidden mb-6">
+              <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/30 px-6 py-3 flex items-center justify-between">
+                <h3 className="text-base font-bold text-[var(--color-primary-text)] tracking-wide flex items-center gap-2">
                   <span className="text-lg">🍱</span> Vendor Supplied Items
                 </h3>
-                <span className="px-2.5 py-1 text-xs font-semibold text-emerald-700 bg-emerald-100 rounded-full border border-emerald-200">
+                <span className="px-2.5 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] rounded-full border border-[var(--color-primary-border)]/50">
                   {outsourcedItemsList.length} item{outsourcedItemsList.length !== 1 ? 's' : ''}
                 </span>
               </div>
               <div className="p-4 sm:p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {outsourcedItemsList.map((oi, idx) => {
                   return (
-                    <div key={idx} className="bg-white border border-gray-200 shadow-sm hover:border-emerald-200 hover:shadow-md transition-all rounded-xl p-4 flex flex-col gap-2">
+                    <div key={idx} className="bg-white border border-gray-200 shadow-sm hover:border-[var(--color-primary-border)]/50 hover:shadow-md transition-all rounded-xl p-4 flex flex-col gap-2">
                       <div className="flex items-start justify-between gap-2">
                         <span className="font-bold text-gray-800 text-sm leading-snug">{oi.item_name}</span>
-                        <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-emerald-200 shrink-0">
+                        <span className="text-[10px] bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-[var(--color-primary-border)]/50 shrink-0">
                           Outsourced
                         </span>
                       </div>
 
                       {/* Quantity */}
                       {oi.quantity ? (
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded-lg border border-blue-100">
+                        <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] px-2 py-1 rounded-lg border border-[var(--color-primary-border)]/30">
                           <span>📦</span>
                           <span>Qty: {oi.quantity} {oi.unit || ''}</span>
                         </div>
@@ -378,12 +378,12 @@ function ViewIngredientComponent({
 
                       {oi.vendor ? (
                          <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100">
-                           <span className="text-emerald-600">🏢</span> 
+                           <span className="text-[var(--color-primary)]">🏢</span> 
                            <span>Supplier:</span>
                            <span className="text-gray-800 truncate">{oi.vendor.name}</span>
                          </div>
                       ) : (
-                         <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-100">
+                         <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] p-2 rounded-lg border border-[var(--color-primary-border)]/30">
                            <span>⚠️</span> 
                            <span>No Vendor Assigned</span>
                          </div>
@@ -495,8 +495,8 @@ function ViewIngredientComponent({
                 className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
               >
                 {/* Category name bar */}
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-purple-100 px-6 py-3 flex items-center justify-between">
-                  <h3 className="text-base font-bold text-purple-800 tracking-wide">
+                <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/30 px-6 py-3 flex items-center justify-between">
+                  <h3 className="text-base font-bold text-[var(--color-primary-text)] tracking-wide">
                     {category.name}
                   </h3>
                   <div className="flex gap-2">
@@ -657,10 +657,10 @@ function ViewIngredientComponent({
                               return (
                                 <div
                                   key={j}
-                                  className="group/row flex items-center justify-between bg-purple-50 border border-purple-100 rounded-lg px-3 py-1.5"
+                                  className="group/row flex items-center justify-between bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 rounded-lg px-3 py-1.5"
                                 >
                                   <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full">
+                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] text-xs font-bold rounded-full">
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-3 w-3"
@@ -687,7 +687,7 @@ function ViewIngredientComponent({
                                         type="text"
                                         value={editValue}
                                         onChange={(e) => setEditValue(e.target.value)}
-                                        className="w-24 px-2 py-0.5 text-sm font-bold text-gray-800 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
+                                        className="w-24 px-2 py-0.5 text-sm font-bold text-gray-800 border border-[var(--color-primary-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white"
                                         autoFocus
                                         onKeyDown={(e) => {
                                           if (e.key === "Enter") handleSaveEdit(usedItem.session_id, item.item);
@@ -699,7 +699,7 @@ function ViewIngredientComponent({
                                         type="button"
                                         onClick={() => handleSaveEdit(usedItem.session_id, item.item)}
                                         disabled={savingEdit}
-                                        className="p-1 text-green-600 hover:bg-green-50 rounded transition-colors cursor-pointer"
+                                        className="p-1 text-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] rounded transition-colors cursor-pointer"
                                         title="Save"
                                       >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
@@ -729,7 +729,7 @@ function ViewIngredientComponent({
                                           setEditingKey(`${item.item}||${usedItem.session_id}`);
                                           setEditValue(qty);
                                         }}
-                                        className="p-0.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded transition-colors cursor-pointer opacity-0 group-hover/row:opacity-100"
+                                        className="p-0.5 text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] rounded transition-colors cursor-pointer opacity-0 group-hover/row:opacity-100"
                                         title="Edit quantity"
                                       >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
@@ -744,8 +744,8 @@ function ViewIngredientComponent({
                           </div>
 
                           {usedInItems.length > 0 && (
-                            <div className="mb-3 rounded-lg border border-indigo-100 bg-indigo-50/60 px-3 py-2">
-                              <p className="text-[11px] font-semibold uppercase tracking-wider text-indigo-600">
+                            <div className="mb-3 rounded-lg border border-[var(--color-primary-border)]/30 bg-[var(--color-primary-tint)]/60 px-3 py-2">
+                              <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-primary)]">
                                 Used In Items
                               </p>
                               <p className="mt-1 text-sm font-medium text-gray-700 leading-6">
@@ -783,9 +783,9 @@ function ViewIngredientComponent({
                                       <div key={v.id || v.name} className="flex justify-between items-center w-full">
                                         <span>★ Assigned to: {v.name}</span>
                                         {v.source_type === "item" ? (
-                                            <span className="text-[10px] bg-blue-100 text-blue-700 font-medium px-1.5 py-0.5 rounded ml-2 border border-blue-200">Auto (Item)</span>
+                                            <span className="text-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] font-medium px-1.5 py-0.5 rounded ml-2 border border-[var(--color-primary-border)]">Auto (Item)</span>
                                         ) : v.source_type === "manual" ? (
-                                            <span className="text-[10px] bg-purple-100/50 text-purple-800 font-medium px-1.5 py-0.5 rounded ml-2 border border-purple-200">Manual</span>
+                                            <span className="text-[10px] bg-[var(--color-primary-soft)]/50 text-[var(--color-primary-text)] font-medium px-1.5 py-0.5 rounded ml-2 border border-[var(--color-primary-border)]/50">Manual</span>
                                         ) : null}
                                       </div>
                                     ))}
@@ -802,13 +802,13 @@ function ViewIngredientComponent({
                               {isFromGodown && (
                                 <div className={`flex items-center gap-1.5 font-semibold px-2.5 py-1 rounded-full border ${
                                   convertedGodown >= totalRequiredValue
-                                    ? "text-green-700 bg-green-50 border-green-200"
-                                    : "text-amber-700 bg-amber-50 border-amber-200"
+                                    ? "text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border-green-200"
+                                    : "text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border-[var(--color-primary-border)]"
                                 }`}>
                                   <span>{convertedGodown >= totalRequiredValue ? "✅" : "🏭"}</span>
                                   <span>Godown: {godownRaw} {godownUnit}</span>
                                   {convertedGodown < totalRequiredValue && (
-                                    <span className="text-[10px] text-amber-600 font-medium">(partial)</span>
+                                    <span className="text-[10px] text-[var(--color-primary)] font-medium">(partial)</span>
                                   )}
                                 </div>
                               )}
@@ -821,13 +821,13 @@ function ViewIngredientComponent({
 
                               {/* Vendor badge */}
                               {hasNonGodownVendor && (
-                                <div className="flex items-center gap-1.5 font-semibold text-[var(--color-primary)] bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-full">
+                                <div className="flex items-center gap-1.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 px-2.5 py-1 rounded-full">
                                   <span>🛒</span>
                                   <span>Vendor: {Math.max(0, remaining)} {requiredUnit || item.quantity_type || ""}</span>
                                 </div>
                               )}
                               {!hasNonGodownVendor && totalQuantity > 0 && (
-                                <div className="flex items-center gap-1.5 font-semibold text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">
+                                <div className="flex items-center gap-1.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)] px-2.5 py-1 rounded-full">
                                   <span>⚠️</span>
                                   <span>Vendor: Not assigned</span>
                                 </div>
@@ -848,10 +848,10 @@ function ViewIngredientComponent({
                                 </span>
                               </div>
                               <div className="flex items-center gap-1.5">
-                                <span className={`font-semibold ${totalQuantity === 0 ? "text-green-600" : "text-orange-600"}`}>
+                                <span className={`font-semibold ${totalQuantity === 0 ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}>
                                   {totalQuantity === 0 ? "✅" : "⚠️"} Remaining:
                                 </span>
-                                <span className={`text-base font-black ${totalQuantity === 0 ? "text-green-600" : "text-orange-600"}`}>
+                                <span className={`text-base font-black ${totalQuantity === 0 ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}>
                                   {totalQuantity}
                                   <span className="text-xs font-medium ml-1 text-gray-500">
                                     {formValues[

@@ -392,8 +392,8 @@ const WaiterTypeManagement = () => {
                         </td>
                         <td className="px-6 py-4">
                           {type.is_active ? (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Active
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--color-primary-tint)] text-[var(--color-primary)] border border-[var(--color-primary-border)]/30">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary-tint)]0" /> Active
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500 border border-gray-200">
@@ -404,7 +404,7 @@ const WaiterTypeManagement = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <button
-                              className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors cursor-pointer"
+                              className="p-2 bg-[var(--color-primary-tint)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary-text)] rounded-lg transition-colors cursor-pointer"
                               title="Edit"
                               onClick={() => setEditMode((prev) => ({ ...prev, [type.id]: true }))}
                             >

@@ -97,9 +97,9 @@ function SettingsComponent({
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             {/* Editing Mode Banner */}
             {isEditing && (
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200 px-6 py-3 flex items-center gap-2">
-                <FiEdit3 className="text-amber-600" size={14} />
-                <span className="text-sm font-medium text-amber-700">
+              <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)] px-6 py-3 flex items-center gap-2">
+                <FiEdit3 className="text-[var(--color-primary-text)]" size={14} />
+                <span className="text-sm font-medium text-[var(--color-primary-text)]">
                   You are editing your business profile
                 </span>
               </div>
@@ -219,7 +219,7 @@ function SettingsComponent({
             <div className="p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-1 h-5 rounded-full bg-indigo-500"></div>
+                  <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
                   <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                     Brand Identity
                   </h3>
@@ -236,7 +236,7 @@ function SettingsComponent({
                 <div className="space-y-4">
                   <div className="space-y-1.5">
                     <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      <FiDroplet size={12} className="text-indigo-500" />
+                      <FiDroplet size={12} className="text-[var(--color-primary-tint)]0" />
                       Brand Color Code
                     </label>
                     <div className="relative group">
@@ -249,7 +249,7 @@ function SettingsComponent({
                         placeholder="#000000"
                         className={`w-full p-3 border-2 ${
                           isEditing
-                            ? "border-[var(--color-primary-border)] focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 cursor-text"
+                            ? "border-[var(--color-primary-border)] focus:border-[var(--color-primary-tint)]0 focus:ring-4 focus:ring-[var(--color-primary-tint)]0/10 cursor-text"
                             : "border-transparent bg-gray-100 cursor-default"
                         } rounded-xl bg-white transition-all text-gray-800 font-mono font-bold tracking-widest`}
                       />
@@ -313,7 +313,7 @@ function SettingsComponent({
                               className={`h-11 w-full rounded-xl border-4 ${
                                 normalizedColorCode.toLowerCase() ===
                                 normalizeHexColor(color).toLowerCase()
-                                  ? "border-indigo-500 shadow-md scale-110"
+                                  ? "border-[var(--color-primary-tint)]0 shadow-md scale-110"
                                   : "border-white shadow-sm"
                               } transition-transform cursor-pointer`}
                               style={{ backgroundColor: color }}
@@ -344,7 +344,7 @@ function SettingsComponent({
             {/* ---- Contact Information Section ---- */}
             <div className="p-6 space-y-6">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-emerald-500"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Contact Information
                 </h3>
@@ -354,7 +354,7 @@ function SettingsComponent({
                 {/* Phone Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiPhone size={12} className="text-emerald-500" />
+                    <FiPhone size={12} className="text-[var(--color-primary-tint)]0" />
                     Phone Number
                   </label>
                   {isEditing ? (
@@ -379,7 +379,7 @@ function SettingsComponent({
                 {/* WhatsApp Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiMessageCircle size={12} className="text-emerald-500" />
+                    <FiMessageCircle size={12} className="text-[var(--color-primary-tint)]0" />
                     WhatsApp Number
                   </label>
                   {isEditing ? (
@@ -409,7 +409,7 @@ function SettingsComponent({
             {/* ---- Address Section ---- */}
             <div className="p-6 space-y-6">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-amber-500"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Address
                 </h3>
@@ -417,7 +417,7 @@ function SettingsComponent({
 
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <FiMapPin size={12} className="text-amber-500" />
+                  <FiMapPin size={12} className="text-[var(--color-primary-tint)]0" />
                   Godown / Office Address
                   <span className="text-red-400">*</span>
                 </label>

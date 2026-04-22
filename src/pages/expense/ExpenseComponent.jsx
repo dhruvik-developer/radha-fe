@@ -163,9 +163,9 @@ function ExpenseComponent({
                     <span
                       className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                         expense.payment_mode === "CASH"
-                          ? "bg-green-50 text-green-600"
+                          ? "bg-[var(--color-primary-tint)] text-[var(--color-primary)]"
                           : expense.payment_mode === "ONLINE"
-                            ? "bg-blue-50 text-blue-600"
+                            ? "bg-[var(--color-primary-tint)] text-[var(--color-primary)]"
                             : "bg-[var(--color-primary-soft)] text-[var(--color-primary)]"
                       }`}
                     >

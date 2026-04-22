@@ -104,8 +104,8 @@ function Step1_ClientEvent({
       <div>
         <div className="flex items-center mb-5">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-blue-50">
-              <FiCalendar className="text-blue-600" size={20} />
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary-tint)]">
+              <FiCalendar className="text-[var(--color-primary-text)]" size={20} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-800">
@@ -133,7 +133,7 @@ function Step1_ClientEvent({
           {formData.schedule.map((day, dIdx) => (
             <div
               key={dIdx}
-              className="p-5 border-2 border-purple-100 rounded-xl bg-gradient-to-br from-gray-50/80 to-purple-50/30 shadow-sm relative"
+              className="p-5 border-2 border-[var(--color-primary-border)]/30 rounded-xl bg-gradient-to-br from-gray-50/80 to-[var(--color-primary-tint)] shadow-sm relative"
             >
               {/* Day Header */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
@@ -149,7 +149,7 @@ function Step1_ClientEvent({
                       dateFormat="dd/MM/yyyy"
                       selected={day.event_date}
                       onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 p-2 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-semibold text-gray-700 bg-white"
+                      className="w-36 p-2 border border-[var(--color-primary-border)]/50 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-semibold text-gray-700 bg-white"
                     />
                   </div>
                 </div>
@@ -291,7 +291,7 @@ function Step1_ClientEvent({
         <button
           type="button"
           onClick={handleAddSchedule}
-          className="px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 rounded-xl flex items-center gap-2 transition-colors border border-purple-200 text-sm"
+          className="px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] rounded-xl flex items-center gap-2 transition-colors border border-[var(--color-primary-border)]/50 text-sm"
         >
           <FiPlus size={16} /> Add Event Date
         </button>

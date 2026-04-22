@@ -12,11 +12,11 @@ function PdfShareFullIngredientComponent({
   businessProfile,
 }) {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen p-4 font-sans text-gray-800 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+    <div className="flex flex-col justify-center items-center min-h-screen p-4 font-sans text-gray-800 bg-gradient-to-br from-[var(--color-primary-tint)] via-[var(--color-primary-tint)] to-[var(--color-primary-tint)]">
       {/* Action Bar (Top) */}
       <div className="flex justify-end gap-3 mb-6 w-full max-w-4xl xl:w-[60%] no-print-button">
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-[var(--color-primary-soft)] transition-all cursor-pointer group font-semibold text-sm"
           onClick={() => navigate(-1)}
           title="Back"
         >
@@ -52,7 +52,7 @@ function PdfShareFullIngredientComponent({
         </button>
 
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-[var(--color-primary-text)] focus:ring-4 focus:ring-[var(--color-primary-soft)] transition-all cursor-pointer group font-semibold text-sm"
           onClick={downloadPDF}
           title="Download PDF"
         >
@@ -74,7 +74,7 @@ function PdfShareFullIngredientComponent({
       </div>
       <div
         id="pdf-content"
-        className="relative bg-amber-50/30 backdrop-blur-sm shadow-[0_20px_50px_rgba(132,92,189,0.15)] rounded-2xl overflow-hidden w-full max-w-4xl border border-white/50 ring-1 ring-purple-100/50 xl:w-[60%]"
+        className="relative bg-[var(--color-primary-tint)]/30 backdrop-blur-sm shadow-[0_20px_50px_rgba(132,92,189,0.15)] rounded-2xl overflow-hidden w-full max-w-4xl border border-white/50 ring-1 ring-[var(--color-primary-soft)] xl:w-[60%]"
       >
         {/* Watermark Logo Container */}
         <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
@@ -86,16 +86,16 @@ function PdfShareFullIngredientComponent({
         </div>
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-pink-500/5 to-transparent blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]0/5 to-transparent blur-3xl pointer-events-none"></div>
         {/* Top Accent Bar */}
-        <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-purple-400 to-[var(--color-primary)] z-10"></div>
+        <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-soft)] to-[var(--color-primary)] z-10"></div>
         <div className="relative z-10 p-10">
           {/* Header Section */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-purple-600 tracking-wide uppercase mb-2 drop-shadow-sm">
+            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)] tracking-wide uppercase mb-2 drop-shadow-sm">
               {businessProfile?.caters_name || "radha Sweet & Caterers"}
             </h2>
-            <div className="inline-block bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-purple-100 shadow-sm mt-2">
+            <div className="inline-block bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-[var(--color-primary-border)]/30 shadow-sm mt-2">
               <span className="text-sm font-bold text-[var(--color-primary)] tracking-widest uppercase">
                 Share Full Order Item
               </span>
@@ -176,7 +176,7 @@ function PdfShareFullIngredientComponent({
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-2 h-2 rounded-full ${!item.party_name ? "bg-red-500" : "bg-green-500"}`}
+                            className={`w-2 h-2 rounded-full ${!item.party_name ? "bg-red-500" : "bg-[var(--color-primary-tint)]0"}`}
                           ></div>
                           <span
                             className={`text-base font-medium ${!item.party_name ? "text-red-700" : "text-gray-800"}`}

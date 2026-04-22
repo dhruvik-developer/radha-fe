@@ -132,10 +132,10 @@ function ViewOrderDetailsComponent({
               <span
                 className={`px-2.5 py-1 text-[10px] font-bold uppercase rounded-full border ${
                   status === "done"
-                    ? "bg-emerald-50 text-emerald-600 border-emerald-200"
+                    ? "bg-[var(--color-primary-tint)] text-[var(--color-primary)] border-[var(--color-primary-border)]/50"
                     : status === "cancelled"
                       ? "bg-red-50 text-red-500 border-red-200"
-                      : "bg-amber-50 text-amber-600 border-amber-200"
+                      : "bg-[var(--color-primary-tint)] text-[var(--color-primary)] border-[var(--color-primary-border)]"
                 }`}
               >
                 {status || "Pending"}
@@ -151,7 +151,7 @@ function ViewOrderDetailsComponent({
 
           <button
             onClick={() => handleEditOrder(id)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-md transition-all duration-200 cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[var(--color-primary-tint)]0 to-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-md transition-all duration-200 cursor-pointer"
             title="Edit entire order (all sessions)"
           >
             <FiEdit2 size={16} /> Edit Complete Order
@@ -226,7 +226,7 @@ function ViewOrderDetailsComponent({
 
       {/* Sessions List */}
       <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <div className="p-1.5 bg-indigo-100 rounded-lg text-indigo-600">
+        <div className="p-1.5 bg-[var(--color-primary-soft)] rounded-lg text-[var(--color-primary)]">
           <FiClock size={18} />
         </div>
         Session Breakdown ({orderSessions.length})
@@ -275,7 +275,7 @@ function ViewOrderDetailsComponent({
 
                 <div className="flex items-center gap-2">
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-500 bg-white border border-gray-200 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-indigo-50 rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-500 bg-white border border-gray-200 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] rounded-lg transition-colors cursor-pointer"
                     onClick={() => handleEditSession(id, index)}
                     title={`Edit ${session.event_time || `Session ${index + 1}`}`}
                   >
@@ -283,7 +283,7 @@ function ViewOrderDetailsComponent({
                     <span className="hidden sm:inline">Edit</span>
                   </button>
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[var(--color-primary)] bg-indigo-50 border border-indigo-100 hover:bg-[var(--color-primary)] hover:text-white rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 hover:bg-[var(--color-primary)] hover:text-white rounded-lg transition-colors cursor-pointer"
                     onClick={() =>
                       handleAssignStaff(id, session.id, session.event_time)
                     }
@@ -355,7 +355,7 @@ function ViewOrderDetailsComponent({
                         <button
                           type="button"
                           onClick={() => showDishes(session)}
-                          className="flex items-center text-xs font-medium px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 border border-purple-100 hover:bg-purple-100 hover:border-purple-300 transition-colors cursor-pointer"
+                          className="flex items-center text-xs font-medium px-2.5 py-1 rounded-md bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/30 hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary-border)] transition-colors cursor-pointer"
                           title="Click to view category-wise selected dishes and assign vendors"
                         >
                           Selected Dishes
@@ -371,7 +371,7 @@ function ViewOrderDetailsComponent({
                       </>
                     )}
                     <button
-                      className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-purple-700 bg-purple-50 border border-purple-200 hover:bg-purple-100 rounded-md transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 hover:bg-[var(--color-primary-soft)] rounded-md transition-colors cursor-pointer"
                       onClick={() =>
                         handleOpenSessionChecklistPreview(id, session.id ?? index)
                       }
@@ -381,14 +381,14 @@ function ViewOrderDetailsComponent({
                       <span>Checklist PDF</span>
                     </button>
                     <button
-                      className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded-md transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 hover:bg-[var(--color-primary-soft)] rounded-md transition-colors cursor-pointer"
                       onClick={() => setGroundMgmtSession(session)}
                       title={`Manage Ground Items for ${session.event_time || `Session ${index + 1}`}`}
                     >
                       <FiBox size={14} />
                       <span>Ground Mgmt</span>
                       {session.ground_management && Object.keys(session.ground_management).length > 0 && (
-                        <span className="ml-0.5 bg-emerald-200 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                        <span className="ml-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                           {Object.values(session.ground_management).reduce(
                             (sum, items) => sum + (Array.isArray(items) ? items.length : 1), 0
                           )}
@@ -418,10 +418,10 @@ function ViewOrderDetailsComponent({
                                 ? "Edit Manager Assignment"
                                 : "No Assignment ID"
                             }
-                            className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-orange-100 bg-orange-50 hover:bg-orange-100 hover:border-orange-200 cursor-pointer" : "border-gray-100 bg-gray-50"}`}
+                            className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-[var(--color-primary-soft)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary-border)] cursor-pointer" : "border-gray-100 bg-gray-50"}`}
                           >
                             <div className="flex items-center justify-between gap-4">
-                              <span className="font-bold text-orange-700">
+                              <span className="font-bold text-[var(--color-primary-text)]">
                                 {staff.name || staff}
                               </span>
                               {staff.staff_type && (
@@ -472,7 +472,7 @@ function ViewOrderDetailsComponent({
                                 ? "Edit Assignment"
                                 : "No Assignment ID"
                             }
-                            className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-indigo-100 bg-indigo-50 hover:bg-indigo-100 hover:border-indigo-200 cursor-pointer" : "border-gray-100 bg-gray-50"}`}
+                            className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-[var(--color-primary-border)]/30 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary-border)] cursor-pointer" : "border-gray-100 bg-gray-50"}`}
                           >
                             <div className="flex items-center justify-between gap-4">
                               <span className="font-bold text-[var(--color-primary)]">

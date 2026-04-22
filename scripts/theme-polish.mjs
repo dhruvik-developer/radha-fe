@@ -6,6 +6,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, '..', 'src');
 
+const COLORS_TO_REPLACE = [
+  'purple', 'indigo', 'blue', 'emerald', 'teal', 'cyan', 'rose', 'pink', 'violet'
+];
+
+// We treat 'amber' and 'orange' separately as they are often decorative but sometimes warning
+const DECORATIVE_COLORS = ['amber', 'orange'];
+
 function walk(dir) {
   const files = fs.readdirSync(dir);
   for (const file of files) {
@@ -15,64 +22,59 @@ function walk(dir) {
       walk(fullPath);
     } else if (file.endsWith('.jsx')) {
       let content = fs.readFileSync(fullPath, 'utf8');
-      let changed = false;
+      let originalContent = content;
 
-      // 1. Darken icons
-      const iconContent = content.replace(/(<[A-Z][a-zA-Z0-9]*[^>]*className="[^"]*)text-\[var\(--color-primary\)\]([^"]*"[^>]*size={?\d+}?[^>]*\/>)/g, '$1text-[var(--color-primary-text)]$2')
-                                .replace(/(<[A-Z][a-zA-Z0-9]*[^>]*size={?\d+}?[^>]*className="[^"]*)text-\[var\(--color-primary\)\]([^"]*"[^>]*\/>)/g, '$1text-[var(--color-primary-text)]$2')
-                                .replace(/color="var\(--color-primary\)"/g, 'color="var(--color-primary-text)"');
+      // 1. Core Primary Variable Normalize
+      content = content.replace(/color="var\(--color-primary\)"/g, 'color="var(--color-primary-text)"');
 
-      if (iconContent !== content) {
-        content = iconContent;
-        changed = true;
-      }
-
-      // 2. Update Empty States
-      if (content.includes('IoIosWarning')) {
-        const emptyStatePattern = /<div[^>]*className="flex flex-col items-center justify-center py-16 text-gray-400">[\s\S]*?<IoIosWarning size={48} className="text-yellow-400 mb-3" \/>[\s\S]*?<p[^>]*className="text-lg font-semibold text-gray-500">\s*([\s\S]*?)\s*<\/p>[\s\S]*?<p[^>]*className="text-sm text-gray-400 mt-1">\s*([\s\S]*?)\s*<\/p>[\s\S]*?<\/div>/g;
-        
-        const nextContent = content.replace(emptyStatePattern, (match, title, subtitle) => {
-          changed = true;
-          return `<div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
-          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
-          <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
-            ${title.trim()}
-          </p>
-          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
-            ${subtitle.trim()}
-          </p>
-        </div>`;
+      // 2. Comprehensive Regex for Tailwind Colors
+      // Handles bg-, text-, border-, from-, to-, via-, ring-, focus:ring-, etc.
+      const prefixPattern = '(bg|text|border|from|to|via|ring|focus:ring)';
+      const allColors = [...COLORS_TO_REPLACE, ...DECORATIVE_COLORS];
+      
+      allColors.forEach(color => {
+        // Pattern for -50 or -100 (Tints/Softs)
+        const tintRegex = new RegExp(`${prefixPattern}-${color}-(50|100)(\\/\\d+)?`, 'g');
+        content = content.replace(tintRegex, (match, prefix, shade) => {
+          if (shade === '50') return `${prefix}-[var(--color-primary-tint)]`;
+          return `${prefix}-[var(--color-primary-soft)]`;
         });
 
-        if (nextContent !== content) {
-          content = nextContent;
-        }
-
-        const tableEmptyPattern = /<div[^>]*className="flex flex-col items-center justify-center h-full text-gray-400 gap-3 py-10">[\s\S]*?<IoIosWarning size={40} className="text-yellow-400" \/>[\s\S]*?<p[^>]*className="text-base font-medium text-gray-500">\s*([\s\S]*?)\s*<\/p>[\s\S]*?<\/div>/g;
-        
-        const finalContent = content.replace(tableEmptyPattern, (match, textExpr) => {
-          changed = true;
-          return `<div className="flex flex-col items-center justify-center h-full gap-3 py-10">
-                  <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
-                  <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
-                    ${textExpr.trim()}
-                  </p>
-                </div>`;
+        // Pattern for -200 to -400 (Borders/Lights)
+        const lightRegex = new RegExp(`${prefixPattern}-${color}-(200|300|400)(\\/\\d+)?`, 'g');
+        content = content.replace(lightRegex, (match, prefix) => {
+          if (prefix === 'text') return `${prefix}-[var(--color-primary-light)]`;
+          if (prefix === 'border' || prefix === 'from' || prefix === 'to') return `${prefix}-[var(--color-primary-border)]`;
+          return `${prefix}-[var(--color-primary-soft)]`;
         });
 
-        if (finalContent !== content) {
-          content = finalContent;
-        }
-      }
+        // Pattern for -500 to -600 (Primary/Standard)
+        const primaryRegex = new RegExp(`${prefixPattern}-${color}-(500|600)(\\/\\d+)?`, 'g');
+        content = content.replace(primaryRegex, (match, prefix) => {
+          if (prefix === 'text') return `${prefix}-[var(--color-primary)]`;
+          return `${prefix}-[var(--color-primary)]`;
+        });
 
-      if (changed) {
-        fs.writeFileSync(fullPath, content);
-        console.log(`Polished: ${fullPath}`);
+        // Pattern for -700 to -950 (Darks/Text)
+        const darkRegex = new RegExp(`${prefixPattern}-${color}-(700|800|900|950)(\\/\\d+)?`, 'g');
+        content = content.replace(darkRegex, (match, prefix) => {
+          return `${prefix}-[var(--color-primary-text)]`;
+        });
+      });
+
+      // 3. Icon specific normalization (ensure icons are dark enough)
+      content = content
+        .replace(/(<[A-Z][a-zA-Z0-9]*[^>]*className="[^"]*)text-\[var\(--color-primary\)\]([^"]*"[^>]*size={?\d+}?[^>]*\/>)/g, '$1text-[var(--color-primary-text)]$2')
+        .replace(/(<[A-Z][a-zA-Z0-9]*[^>]*size={?\d+}?[^>]*className="[^"]*)text-\[var\(--color-primary\)\]([^"]*"[^>]*\/>)/g, '$1text-[var(--color-primary-text)]$2');
+
+      if (content !== originalContent) {
+        fs.writeFileSync(fullPath, content, 'utf8');
+        console.log(`Updated: ${fullPath}`);
       }
     }
   }
 }
 
-console.log('Starting theme polish...');
+console.log('Starting God-Mode theme polish...');
 walk(rootDir);
-console.log('Polish complete.');
+console.log('God-Mode theme polish complete.');

@@ -410,7 +410,7 @@ function CalendarComponent({ orders, loading, navigate }) {
                       </div>
                       <div className="flex items-center gap-1.5">
                         {sessions.length > 1 && (
-                          <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-50 text-blue-500">
+                          <span className="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary-tint)]0">
                             {sessions.length} sessions
                           </span>
                         )}
@@ -418,10 +418,10 @@ function CalendarComponent({ orders, loading, navigate }) {
                           <span
                             className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded-full ${
                               order.status === "done"
-                                ? "bg-emerald-100 text-emerald-600"
+                                ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)]"
                                 : order.status === "cancelled"
                                   ? "bg-red-100 text-red-500"
-                                  : "bg-amber-100 text-amber-600"
+                                  : "bg-[var(--color-primary-soft)] text-[var(--color-primary)]"
                             }`}
                           >
                             {order.status}

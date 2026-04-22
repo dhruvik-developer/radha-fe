@@ -76,7 +76,7 @@ function CompleteInvoiceComponent({
       ) : (
         <>
           {/* Customer Details */}
-          <div className="bg-purple-50/50 border border-purple-100 rounded-md mb-4 p-4">
+          <div className="bg-[var(--color-primary-tint)]/50 border border-[var(--color-primary-border)]/30 rounded-md mb-4 p-4">
             <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-3 flex items-center gap-2">
               <span className="w-1.5 h-4 bg-[var(--color-primary)] rounded-full inline-block"></span>
               Billed To
@@ -110,7 +110,7 @@ function CompleteInvoiceComponent({
                 <p className="text-xs text-gray-500 uppercase font-bold mb-1">
                   Status
                 </p>
-                <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-bold uppercase">
+                <span className="bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] px-2 py-0.5 rounded text-xs font-bold uppercase">
                   {completeInvoice?.status || "-"}
                 </span>
               </div>

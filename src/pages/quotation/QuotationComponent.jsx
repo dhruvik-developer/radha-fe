@@ -259,7 +259,7 @@ function QuotationComponent({
                   </button>
 
                   <button
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                     onClick={() => handleCompleteQuotation(quote.id)}
                   >
                     <FiCheckCircle size={14} />
@@ -313,7 +313,7 @@ function QuotationComponent({
               {sessionsModal.sessions.map((session, sIdx) => (
                 <div
                   key={sIdx}
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 bg-indigo-50/40 border border-[var(--color-primary-border)] rounded-lg px-4 py-3"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 bg-[var(--color-primary-tint)]/40 border border-[var(--color-primary-border)] rounded-lg px-4 py-3"
                 >
                   <div className="flex items-center gap-2 text-sm text-gray-700">
                     <FiClock size={14} className="text-[var(--color-primary-text)]" />

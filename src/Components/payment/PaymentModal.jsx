@@ -141,7 +141,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex flex-shrink-0 items-center justify-center border border-emerald-200 shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex flex-shrink-0 items-center justify-center border border-[var(--color-primary-border)]/50 shadow-sm">
               <FiDollarSign size={20} />
             </div>
             <div>
@@ -166,7 +166,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center p-10 py-16 text-gray-400">
-            <div className="w-8 h-8 rounded-full border-t-2 border-b-2 border-emerald-500 animate-spin mb-3"></div>
+            <div className="w-8 h-8 rounded-full border-t-2 border-b-2 border-[var(--color-primary-tint)]0 animate-spin mb-3"></div>
             <p className="text-sm font-medium">Fetching balance...</p>
           </div>
         ) : !paymentData ? (
@@ -176,12 +176,12 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
         ) : (
           <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-5">
             {/* Summary Box */}
-            <div className="flex items-center justify-between bg-emerald-50 border border-emerald-100 rounded-xl p-4">
-              <div className="flex flex-col gap-1 text-center flex-1 border-r border-emerald-200/50">
-                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">
+            <div className="flex items-center justify-between bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 rounded-xl p-4">
+              <div className="flex flex-col gap-1 text-center flex-1 border-r border-[var(--color-primary-border)]/50/50">
+                <span className="text-[10px] font-bold text-[var(--color-primary-text)] uppercase tracking-widest">
                   Total Order
                 </span>
-                <span className="font-bold text-emerald-900">
+                <span className="font-bold text-[var(--color-primary-text)]">
                   ₹ {Number(paymentData.total_amount || 0).toLocaleString()}
                 </span>
               </div>
@@ -197,7 +197,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
 
             {paymentData.payment_status === "PAID" ? (
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl text-center flex flex-col items-center gap-2">
-                <span className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <span className="w-10 h-10 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
                   <FiDollarSign size={20} />
                 </span>
                 <h3 className="font-bold text-gray-800">Fully Paid</h3>
@@ -208,7 +208,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
             ) : (
               <>
                 {/* Amount Input */}
-                <div className="space-y-1.5 focus-within:text-emerald-600">
+                <div className="space-y-1.5 focus-within:text-[var(--color-primary)]">
                   <label className="text-xs tracking-wide font-bold uppercase text-gray-600 ml-1">
                     Amount Paying Now <span className="text-red-500">*</span>
                   </label>
@@ -221,7 +221,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                       name="transaction_amount"
                       value={formData.transaction_amount}
                       onChange={handleChange}
-                      className="w-full pl-8 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 bg-white transition-all text-gray-800"
+                      className="w-full pl-8 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all text-gray-800"
                       placeholder={`Max ₹${Number(paymentData.pending_amount || 0).toLocaleString()}`}
                       required
                     />
@@ -242,7 +242,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                         name="payment_mode"
                         value={formData.payment_mode}
                         onChange={handleChange}
-                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 bg-white appearance-none cursor-pointer transition-all text-gray-800"
+                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white appearance-none cursor-pointer transition-all text-gray-800"
                         required
                       >
                         {PAYMENT_MODES.map((mode) => (
@@ -269,7 +269,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                           setFormData({ ...formData, payment_date: date })
                         }
                         dateFormat="dd-MM-yyyy"
-                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 bg-white transition-all cursor-pointer text-gray-800"
+                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all cursor-pointer text-gray-800"
                         required
                       />
                     </div>
@@ -277,7 +277,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                 </div>
 
                 {/* Note */}
-                <div className="space-y-1.5 focus-within:text-emerald-600">
+                <div className="space-y-1.5 focus-within:text-[var(--color-primary)]">
                   <label className="text-xs tracking-wide font-bold uppercase text-gray-600 ml-1">
                     Note{" "}
                     <span className="text-gray-400 font-normal lowercase">
@@ -293,7 +293,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                       value={formData.note}
                       onChange={handleChange}
                       rows="2"
-                      className="w-full pl-9 pr-4 py-2 text-sm font-medium rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 bg-white transition-all text-gray-800 resize-none"
+                      className="w-full pl-9 pr-4 py-2 text-sm font-medium rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all text-gray-800 resize-none"
                       placeholder="Enter any notes..."
                     />
                   </div>
@@ -314,7 +314,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                  className="flex-1 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   {submitting ? (
                     <>

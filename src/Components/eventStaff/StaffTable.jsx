@@ -49,7 +49,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                 </td>
                 <td className="px-6 py-4 border-y border-transparent group-hover:border-[var(--color-primary-border)]">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-purple-400 text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-purple-50 group-hover:ring-purple-100 transition-all flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-border)] text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-[var(--color-primary-tint)] group-hover:ring-[var(--color-primary-soft)] transition-all flex-shrink-0">
                       {staff.name ? staff.name.charAt(0).toUpperCase() : "?"}
                     </div>
                     <div className="flex flex-col">
@@ -73,7 +73,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                         Waiter Type: {staff.waiter_type_name || staff.waiter_type.name}
                       </span>
                     ) : null}
-                    <span className="text-[10px] font-extrabold tracking-wider text-purple-700 bg-purple-50 group-hover:bg-purple-100 transition-colors uppercase px-2.5 py-1 rounded-md shadow-sm border border-purple-100 w-fit">
+                    <span className="text-[10px] font-extrabold tracking-wider text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] group-hover:bg-[var(--color-primary-soft)] transition-colors uppercase px-2.5 py-1 rounded-md shadow-sm border border-[var(--color-primary-border)]/30 w-fit">
                       {staff.staff_type}{" "}
                       {staff.agency_name ? `• ${staff.agency_name}` : ""}
                     </span>
@@ -93,11 +93,11 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                     )}
                     {staff.staff_type === "Fixed" &&
                       parseFloat(staff.fixed_salary) > 0 && (
-                        <div className="flex items-center justify-between text-xs w-36 bg-blue-50/80 px-3 py-1.5 rounded-lg border border-blue-100 shadow-sm">
-                          <span className="text-blue-600 font-medium">
+                        <div className="flex items-center justify-between text-xs w-36 bg-[var(--color-primary-tint)]/80 px-3 py-1.5 rounded-lg border border-[var(--color-primary-border)]/30 shadow-sm">
+                          <span className="text-[var(--color-primary)] font-medium">
                             Fixed
                           </span>
-                          <span className="font-bold text-blue-900">
+                          <span className="font-bold text-[var(--color-primary-text)]">
                             ₹{parseFloat(staff.fixed_salary).toFixed(2)}
                             <span className="font-normal opacity-60 text-[10px]">
                               /mo
@@ -107,11 +107,11 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                       )}
                     {staff.staff_type === "Contract" &&
                       parseFloat(staff.contract_rate) > 0 && (
-                        <div className="flex items-center justify-between text-xs w-36 bg-purple-50/80 px-3 py-1.5 rounded-lg border border-purple-100 shadow-sm">
-                          <span className="text-purple-600 font-medium">
+                        <div className="flex items-center justify-between text-xs w-36 bg-[var(--color-primary-tint)]/80 px-3 py-1.5 rounded-lg border border-[var(--color-primary-border)]/30 shadow-sm">
+                          <span className="text-[var(--color-primary)] font-medium">
                             Contract
                           </span>
-                          <span className="font-bold text-purple-900">
+                          <span className="font-bold text-[var(--color-primary-text)]">
                             ₹{parseFloat(staff.contract_rate).toFixed(2)}
                           </span>
                         </div>
@@ -134,10 +134,10 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                 </td>
                 <td className="px-6 py-4 border-y border-transparent group-hover:border-[var(--color-primary-border)] text-center">
                   <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border shadow-sm ${staff.is_active ? "bg-green-50 text-green-700 border-green-200" : "bg-red-50 text-red-600 border-red-200"}`}
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide border shadow-sm ${staff.is_active ? "bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border-green-200" : "bg-red-50 text-red-600 border-red-200"}`}
                   >
                     <span
-                      className={`w-1.5 h-1.5 rounded-full mr-1.5 ${staff.is_active ? "bg-green-500" : "bg-red-500"}`}
+                      className={`w-1.5 h-1.5 rounded-full mr-1.5 ${staff.is_active ? "bg-[var(--color-primary-tint)]0" : "bg-red-500"}`}
                     ></span>
                     {staff.is_active ? "Active" : "Inactive"}
                   </span>
@@ -148,7 +148,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                       <button
                         onClick={() => onStaffPaymentSummary(staff.id)}
                         title="Salary Payments"
-                        className="p-2 rounded-lg text-emerald-500 hover:text-emerald-700 hover:bg-emerald-50 transition-all cursor-pointer shadow-sm border border-transparent hover:border-emerald-100"
+                        className="p-2 rounded-lg text-[var(--color-primary-tint)]0 hover:text-[var(--color-primary-text)] hover:bg-[var(--color-primary-tint)] transition-all cursor-pointer shadow-sm border border-transparent hover:border-[var(--color-primary-border)]/30"
                       >
                         <FaWallet size={16} />
                       </button>
@@ -157,7 +157,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                       <button
                         onClick={() => onStaffEdit(staff)}
                         title="Edit Staff"
-                        className="p-2 rounded-lg text-gray-500 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
+                        className="p-2 rounded-lg text-gray-500 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer shadow-sm border border-transparent hover:border-[var(--color-primary-border)]/30"
                       >
                         <FiEdit2 size={16} />
                       </button>

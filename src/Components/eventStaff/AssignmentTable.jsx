@@ -81,7 +81,7 @@ function AssignmentTable({
                     </div>
                     <div className="flex justify-between text-xs mt-0.5">
                       <span className="text-gray-400">Paid:</span>
-                      <span className="text-green-600 font-medium">
+                      <span className="text-[var(--color-primary)] font-medium">
                         ₹{assignment.paid_amount}
                       </span>
                     </div>
@@ -91,7 +91,7 @@ function AssignmentTable({
                   {(() => {
                     let badgeColor = "bg-gray-100 text-gray-600";
                     if (assignment.payment_status === "Paid")
-                      badgeColor = "bg-green-100 text-green-700";
+                      badgeColor = "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]";
                     if (assignment.payment_status === "Partial")
                       badgeColor = "bg-yellow-100 text-yellow-700";
                     if (assignment.payment_status === "Pending")

@@ -172,7 +172,7 @@ function AllOrderComponent({
 
                 {/* Order Summary — clickable */}
                 <div
-                  className="flex flex-col gap-2 bg-indigo-50/40 border border-[var(--color-primary-border)] rounded-lg px-4 py-3 cursor-pointer hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary)] transition-all duration-150 group"
+                  className="flex flex-col gap-2 bg-[var(--color-primary-tint)]/40 border border-[var(--color-primary-border)] rounded-lg px-4 py-3 cursor-pointer hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary)] transition-all duration-150 group"
                   onClick={() => handleViewOrderDetails(order.id)}
                   title="View Detailed Order"
                 >
@@ -219,21 +219,21 @@ function AllOrderComponent({
               {/* Card Footer - Actions */}
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 px-5 py-3 border-t border-[var(--color-primary-border)]">
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleCompleteOrder(order.id)}
                 >
                   <FiCheckCircle size={14} />
                   Complete
                 </button>
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleShareOrder(order.id)}
                 >
                   <FiShare2 size={14} />
                   Share
                 </button>
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-purple-50 hover:bg-purple-100 text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleDownloadOrderPDF(order.id)}
                 >
                   <FiClipboard size={14} />

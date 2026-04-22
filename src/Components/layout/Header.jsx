@@ -772,7 +772,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={() => setShowUpcoming(!showUpcoming)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${
               upcomingOrderCount > 0
-                ? "bg-emerald-500/20 text-emerald-200 hover:bg-emerald-500/30"
+                ? "bg-[var(--color-primary-tint)]0/20 text-[var(--color-primary-light)] hover:bg-[var(--color-primary-tint)]0/30"
                 : "bg-white/10 text-white/60 hover:bg-white/20"
             }`}
             title="Upcoming Orders (Next 7 Days)"
@@ -783,7 +783,7 @@ const Header = ({ toggleSidebar }) => {
             </span>
             <span className="sm:hidden">{upcomingOrderCount}</span>
             {upcomingOrderCount > 0 && (
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary-soft)] animate-pulse" />
             )}
           </button>
 
@@ -869,8 +869,8 @@ const Header = ({ toggleSidebar }) => {
                             diffDays === 0
                               ? "bg-red-50 text-red-500"
                               : diffDays === 1
-                                ? "bg-amber-50 text-amber-600"
-                                : "bg-emerald-50 text-emerald-600"
+                                ? "bg-[var(--color-primary-tint)] text-[var(--color-primary)]"
+                                : "bg-[var(--color-primary-tint)] text-[var(--color-primary)]"
                           }`}
                         >
                           {dayLabel}

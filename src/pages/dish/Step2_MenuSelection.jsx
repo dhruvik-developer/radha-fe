@@ -140,7 +140,7 @@ function Step2_MenuSelection({
         <button
           type="button"
           onClick={onBack}
-          className="mt-4 px-6 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg font-semibold hover:bg-purple-50 transition-colors"
+          className="mt-4 px-6 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg font-semibold hover:bg-[var(--color-primary-tint)] transition-colors"
         >
           <FiArrowLeft className="inline mr-2" /> Go Back
         </button>

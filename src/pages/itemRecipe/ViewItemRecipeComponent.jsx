@@ -108,7 +108,7 @@ function ViewItemRecipeComponent({
         {/* Person Count Field */}
         <div className="mb-5">
           <label className="block text-sm font-bold text-gray-600 uppercase tracking-wider mb-2">
-            <FiUsers className="inline mr-1.5 text-green-600" size={14} />
+            <FiUsers className="inline mr-1.5 text-[var(--color-primary-text)]" size={14} />
             Recipe For Person Count
           </label>
           <input
@@ -124,7 +124,7 @@ function ViewItemRecipeComponent({
         {/* Ingredients Editable List */}
         <div>
           <label className="block text-sm font-bold text-gray-600 uppercase tracking-wider mb-3">
-            <FiBox className="inline mr-1.5 text-blue-600" size={14} />
+            <FiBox className="inline mr-1.5 text-[var(--color-primary-text)]" size={14} />
             Ingredients
           </label>
 
@@ -177,7 +177,7 @@ function ViewItemRecipeComponent({
                     placeholder="e.g. 100g"
                     className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
+                        ? "border-gray-200 bg-[var(--color-primary-tint)] text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -190,7 +190,7 @@ function ViewItemRecipeComponent({
                     placeholder="Unit"
                     className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
+                        ? "border-gray-200 bg-[var(--color-primary-tint)] text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -264,21 +264,21 @@ function ViewItemRecipeComponent({
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-2 mr-2">
             {baseCost !== undefined && baseCost !== null && (
-              <div className="flex flex-col items-end px-3 py-1.5 bg-green-50/50 rounded-lg border border-green-100 shadow-sm">
+              <div className="flex flex-col items-end px-3 py-1.5 bg-[var(--color-primary-tint)] rounded-lg border border-[var(--color-primary-border)]/30 shadow-sm">
                 <span className="text-[9px] uppercase tracking-wider font-bold text-gray-500 mb-0.5">
                   Base Cost
                 </span>
-                <span className="text-xs font-bold text-green-700">
+                <span className="text-xs font-bold text-[var(--color-primary-text)]">
                   ₹{baseCost}
                 </span>
               </div>
             )}
             {selectionRate !== undefined && selectionRate !== null && (
-              <div className="flex flex-col items-end px-3 py-1.5 bg-blue-50/50 rounded-lg border border-blue-100 shadow-sm">
+              <div className="flex flex-col items-end px-3 py-1.5 bg-[var(--color-primary-soft)] rounded-lg border border-[var(--color-primary-border)]/50 shadow-sm">
                 <span className="text-[9px] uppercase tracking-wider font-bold text-gray-500 mb-0.5">
                   Sel. Rate
                 </span>
-                <span className="text-xs font-bold text-blue-700">
+                <span className="text-xs font-bold text-[var(--color-primary)]">
                   ₹{selectionRate}
                 </span>
               </div>
@@ -309,21 +309,21 @@ function ViewItemRecipeComponent({
         <div className="flex sm:hidden items-center justify-between mb-6 pb-6 border-b border-gray-100">
           <div className="flex items-center gap-2">
             {baseCost !== undefined && baseCost !== null && (
-              <div className="flex flex-col items-end px-3 py-1.5 bg-green-50/50 rounded-lg border border-green-100 shadow-sm">
+              <div className="flex flex-col items-end px-3 py-1.5 bg-[var(--color-primary-tint)] rounded-lg border border-[var(--color-primary-border)]/30 shadow-sm">
                 <span className="text-[9px] uppercase tracking-wider font-bold text-gray-500">
                   Base Cost
                 </span>
-                <span className="text-xs font-bold text-green-700">
+                <span className="text-xs font-bold text-[var(--color-primary-text)]">
                   ₹{baseCost}
                 </span>
               </div>
             )}
             {selectionRate !== undefined && selectionRate !== null && (
-              <div className="flex flex-col items-end px-3 py-1.5 bg-blue-50/50 rounded-lg border border-blue-100 shadow-sm">
+              <div className="flex flex-col items-end px-3 py-1.5 bg-[var(--color-primary-soft)] rounded-lg border border-[var(--color-primary-border)]/50 shadow-sm">
                 <span className="text-[9px] uppercase tracking-wider font-bold text-gray-500">
                   Sel. Rate
                 </span>
-                <span className="text-xs font-bold text-blue-700">
+                <span className="text-xs font-bold text-[var(--color-primary)]">
                   ₹{selectionRate}
                 </span>
               </div>
@@ -345,13 +345,13 @@ function ViewItemRecipeComponent({
           <div className="w-full">
             <div className="flex flex-wrap items-center gap-3 mb-6">
               {recipeData.person_count && (
-                <div className="flex items-center gap-2 bg-green-50 px-3.5 py-1.5 border border-green-100 rounded-lg text-green-700 font-bold text-sm">
-                  <FiUsers size={16} className="text-green-600" />
+                <div className="flex items-center gap-2 bg-[var(--color-primary-tint)] px-3.5 py-1.5 border border-[var(--color-primary-border)]/30 rounded-lg text-[var(--color-primary-text)] font-bold text-sm">
+                  <FiUsers size={16} className="text-[var(--color-primary-text)]" />
                   <span>{recipeData.person_count} Persons</span>
                 </div>
               )}
-              <div className="flex items-center gap-2 bg-blue-50 px-3.5 py-1.5 border border-blue-100 rounded-lg text-blue-700 font-bold text-sm">
-                <FiBox size={16} className="text-blue-600" />
+              <div className="flex items-center gap-2 bg-[var(--color-primary-soft)] px-3.5 py-1.5 border border-[var(--color-primary-border)]/50 rounded-lg text-[var(--color-primary)] font-bold text-sm">
+                <FiBox size={16} className="text-[var(--color-primary-text)]" />
                 <span>{ingredientEntries.length} Ingredients</span>
               </div>
               <button
@@ -381,7 +381,7 @@ function ViewItemRecipeComponent({
                       className="grid grid-cols-[1fr_100px] sm:grid-cols-[1fr_150px] gap-4 items-center px-5 py-3 bg-white hover:bg-gray-50/50 transition-colors"
                     >
                       <div className="flex items-center gap-3 min-w-0 pr-2">
-                        <div className="w-6 h-6 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center text-[10px] font-bold shrink-0">
+                        <div className="w-6 h-6 rounded-md bg-[var(--color-primary-tint)] text-[var(--color-primary)] flex items-center justify-center text-[10px] font-bold shrink-0 border border-[var(--color-primary-border)]/20">
                           {index + 1}
                         </div>
                         <span
@@ -473,7 +473,7 @@ function ViewItemRecipeComponent({
         {/* Person Count */}
         <div className="mb-5">
           <label className="block text-sm font-bold text-gray-600 uppercase tracking-wider mb-2">
-            <FiUsers className="inline mr-1.5 text-green-600" size={14} />
+            <FiUsers className="inline mr-1.5 text-[var(--color-primary-text)]" size={14} />
             Recipe For Person Count
           </label>
           <input
@@ -489,7 +489,7 @@ function ViewItemRecipeComponent({
         {/* Ingredients */}
         <div>
           <label className="block text-sm font-bold text-gray-600 uppercase tracking-wider mb-3">
-            <FiBox className="inline mr-1.5 text-blue-600" size={14} />
+            <FiBox className="inline mr-1.5 text-[var(--color-primary-text)]" size={14} />
             Ingredients
           </label>
 
@@ -541,7 +541,7 @@ function ViewItemRecipeComponent({
                     placeholder="e.g. 100g"
                     className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
+                        ? "border-gray-200 bg-[var(--color-primary-tint)] text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -554,7 +554,7 @@ function ViewItemRecipeComponent({
                     placeholder="Unit"
                     className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
+                        ? "border-gray-200 bg-[var(--color-primary-tint)] text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />

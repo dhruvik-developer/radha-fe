@@ -77,7 +77,7 @@ function AddEditStaffComponent({
                   checked={formData.is_active}
                   onChange={handleStatusToggle}
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500" />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary-tint)]0" />
               </label>
             </div>
 
@@ -214,7 +214,7 @@ function AddEditStaffComponent({
                 </div>
 
                 {hasExistingLogin ? (
-                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  <p className="text-xs text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)] rounded-lg px-3 py-2">
                     Existing linked login mila hai. Current backend se login
                     disable nahi hota, sirf update hota hai.
                   </p>

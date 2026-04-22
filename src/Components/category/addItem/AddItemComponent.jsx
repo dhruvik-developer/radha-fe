@@ -69,7 +69,7 @@ function AddItemComponent({
         {/* ---- Pricing Section ---- */}
         <div className="border-t border-gray-100 pt-5">
           <div className="flex items-center gap-2 mb-4">
-            <FiDollarSign className="text-green-600" size={18} />
+            <FiDollarSign className="text-[var(--color-primary-text)]" size={18} />
             <h3 className="font-semibold text-gray-700">Pricing</h3>
           </div>
 
@@ -102,7 +102,7 @@ function AddItemComponent({
                 onChange={(e) =>
                   setSelectionRate(e.target.value.replace(/[^0-9.]/g, ""))
                 }
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all text-base font-medium"
+                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-tint)]0 transition-all text-base font-medium"
               />
               <p className="text-xs text-gray-400 mt-1">
                 The rate when item is selected for an event

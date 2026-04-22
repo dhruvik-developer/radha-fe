@@ -157,7 +157,7 @@ export default function WaiterTypeManagerModal({
                 <div className="col-span-1 flex items-center justify-end gap-1">
                   <button
                     type="button"
-                    className="rounded-md p-2 text-green-600 hover:bg-green-100"
+                    className="rounded-md p-2 text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]"
                     onClick={() => saveType(type)}
                     title="Save"
                   >

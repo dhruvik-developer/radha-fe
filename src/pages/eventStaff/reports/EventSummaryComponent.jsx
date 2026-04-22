@@ -105,7 +105,7 @@ function EventSummaryComponent({
               {summaryData.map((row, index) => (
                 <tr
                   key={index}
-                  className="bg-white hover:bg-purple-50 cursor-pointer transition-colors group"
+                  className="bg-white hover:bg-[var(--color-primary-tint)] cursor-pointer transition-colors group"
                   onClick={() => navigate(`/staff-detail/${row.staff_id}`)}
                 >
                   <td className="px-4 py-4">
@@ -137,7 +137,7 @@ function EventSummaryComponent({
                       <td className="px-4 py-4 text-right font-black text-gray-800">
                         ₹{fmt(row.total_amount)}
                       </td>
-                      <td className="px-4 py-4 text-right font-bold text-green-600">
+                      <td className="px-4 py-4 text-right font-bold text-[var(--color-primary)]">
                         ₹{fmt(row.total_paid)}
                       </td>
                       <td className="px-4 py-4 text-right">

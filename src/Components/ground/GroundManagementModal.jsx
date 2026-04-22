@@ -207,7 +207,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className="text-[11px] text-gray-400">{qty} items</span>
                             {catSelectedCount > 0 && (
-                              <span className="text-[10px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] px-1.5 py-0.5 rounded">
                                 {catSelectedCount} selected
                               </span>
                             )}

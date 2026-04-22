@@ -1124,14 +1124,14 @@ const GstBillingModule = () => {
                   setSettingsDraft(settings);
                   setView("form");
                 }}
-                className="flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition shadow-md"
+                className="flex items-center px-4 py-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white rounded-lg font-medium transition shadow-md"
               >
                 <FiArrowLeft className="mr-2" /> Back to Invoice
               </button>
             </div>
           </div>
 
-          <div className="bg-blue-50 border border-blue-100 text-blue-800 rounded-lg px-4 py-3 text-sm">
+          <div className="bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 text-[var(--color-primary-text)] rounded-lg px-4 py-3 text-sm">
             Invoice number series is now controlled by the selected party. Branch settings are only used for the seller name, address, and GST details.
           </div>
 
@@ -1140,7 +1140,7 @@ const GstBillingModule = () => {
               <h2 className="text-lg font-bold text-gray-700">Global Configurations</h2>
               <button
                 onClick={saveGlobalSettingsHandler}
-                className="flex items-center text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 px-3 py-1.5 rounded transition shadow-sm"
+                className="flex items-center text-sm font-medium text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] px-3 py-1.5 rounded transition shadow-sm"
               >
                 <FiSave className="mr-1" /> Save Global
               </button>
@@ -1150,7 +1150,7 @@ const GstBillingModule = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Default HSN Code</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase"
                   value={settingsDraft.defaultHsn}
                   onChange={(e) =>
                     setSettingsDraft({
@@ -1165,7 +1165,7 @@ const GstBillingModule = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Available GST % (Comma separated)</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                     value={settingsDraft.availableGstPctsString}
                     onChange={(e) =>
                       setSettingsDraft({
@@ -1180,7 +1180,7 @@ const GstBillingModule = () => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Default GST Percentage</label>
                   <select
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                     value={settingsDraft.defaultGstPct}
                     onChange={(e) =>
                       setSettingsDraft({
@@ -1209,7 +1209,7 @@ const GstBillingModule = () => {
               </div>
               <button
                 onClick={handleAddBranchClick}
-                className="flex items-center text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-4 py-2 rounded-md transition"
+                className="flex items-center text-sm font-medium text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] border border-[var(--color-primary-border)]/50 px-4 py-2 rounded-md transition"
               >
                 <FiPlus className="mr-2" /> Add Branch
               </button>
@@ -1234,7 +1234,7 @@ const GstBillingModule = () => {
                         <td className="p-3 align-top text-sm font-mono text-gray-600">{b.gstNo}</td>
                         <td className="p-3 align-top text-right">
                           <div className="flex justify-end gap-2">
-                            <button onClick={() => handleEditBranchClick(i)} className="text-blue-500 hover:text-blue-700 bg-blue-50 p-2 rounded transition" title="Edit"><FiEdit2 size={16} /></button>
+                            <button onClick={() => handleEditBranchClick(i)} className="text-[var(--color-primary-tint)]0 hover:text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] p-2 rounded transition" title="Edit"><FiEdit2 size={16} /></button>
                             <button onClick={() => handleDeleteBranchClick(i)} className="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded transition" title="Delete"><FiTrash2 size={16} /></button>
                           </div>
                         </td>
@@ -1254,7 +1254,7 @@ const GstBillingModule = () => {
               </div>
               <button
                 onClick={handleAddPartyClick}
-                className="flex items-center text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-4 py-2 rounded-md transition"
+                className="flex items-center text-sm font-medium text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] border border-[var(--color-primary-border)]/50 px-4 py-2 rounded-md transition"
               >
                 <FiPlus className="mr-2" /> Add Party
               </button>
@@ -1289,7 +1289,7 @@ const GstBillingModule = () => {
                         </td>
                         <td className="p-3 align-top text-right">
                           <div className="flex justify-end gap-2">
-                            <button onClick={() => handleEditPartyClick(index)} className="text-blue-500 hover:text-blue-700 bg-blue-50 p-2 rounded transition" title="Edit"><FiEdit2 size={16} /></button>
+                            <button onClick={() => handleEditPartyClick(index)} className="text-[var(--color-primary-tint)]0 hover:text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] p-2 rounded transition" title="Edit"><FiEdit2 size={16} /></button>
                             <button onClick={() => handleDeletePartyClick(index)} className="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded transition" title="Delete"><FiTrash2 size={16} /></button>
                           </div>
                         </td>
@@ -1311,7 +1311,7 @@ const GstBillingModule = () => {
                 <div className="flex items-center gap-2">
                   <label className="text-xs font-semibold text-gray-400 uppercase">Filter Branch:</label>
                   <select
-                    className="border border-gray-200 rounded-md py-1 px-2 text-sm focus:ring-2 focus:ring-purple-200 outline-none bg-white font-medium text-gray-700 transition"
+                    className="border border-gray-200 rounded-md py-1 px-2 text-sm focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none bg-white font-medium text-gray-700 transition"
                     value={itemsManagementBranch}
                     onChange={(e) => setItemsManagementBranch(e.target.value)}
                   >
@@ -1323,7 +1323,7 @@ const GstBillingModule = () => {
                 </div>
                 <button
                   onClick={handleAddItemClick}
-                  className="flex items-center text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-4 py-2 rounded-md transition"
+                  className="flex items-center text-sm font-medium text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] border border-[var(--color-primary-border)]/50 px-4 py-2 rounded-md transition"
                 >
                   <FiPlus className="mr-2" /> Add Item
                 </button>
@@ -1348,10 +1348,10 @@ const GstBillingModule = () => {
                       <tr key={item.id || idx} className="hover:bg-gray-50/50 bg-white transition-colors">
                         <td className="p-3 font-medium text-gray-800 uppercase">{item.name}</td>
                         <td className="p-3 text-sm text-gray-600">{b?.name || "Unknown Branch"}</td>
-                        <td className="p-3 text-right text-sm font-bold text-purple-700">₹{parseFloat(item.rate).toFixed(2)}</td>
+                        <td className="p-3 text-right text-sm font-bold text-[var(--color-primary-text)]">₹{parseFloat(item.rate).toFixed(2)}</td>
                         <td className="p-3 text-right">
                           <div className="flex justify-end gap-2">
-                            <button onClick={() => handleEditItemClick(item)} className="text-blue-500 hover:text-blue-700 bg-blue-50 p-2 rounded transition" title="Edit"><FiEdit2 size={16} /></button>
+                            <button onClick={() => handleEditItemClick(item)} className="text-[var(--color-primary-tint)]0 hover:text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] p-2 rounded transition" title="Edit"><FiEdit2 size={16} /></button>
                             <button onClick={() => handleDeleteItemClick(item)} className="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded transition" title="Delete"><FiTrash2 size={16} /></button>
                           </div>
                         </td>
@@ -1380,43 +1380,43 @@ const GstBillingModule = () => {
               <div className="p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Branch Name</label>
-                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition" value={branchModalInfo.data.name} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, name: e.target.value } }))} placeholder="Enter branch name" />
+                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition" value={branchModalInfo.data.name} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, name: e.target.value } }))} placeholder="Enter branch name" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Address</label>
-                  <textarea rows="3" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition resize-none" value={branchModalInfo.data.address} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, address: e.target.value } }))} placeholder="Enter full address" />
+                  <textarea rows="3" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition resize-none" value={branchModalInfo.data.address} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, address: e.target.value } }))} placeholder="Enter full address" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">GST Number</label>
-                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase font-mono" value={branchModalInfo.data.gstNo} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, gstNo: e.target.value } }))} placeholder="22AAAAA0000A1Z5" />
+                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase font-mono" value={branchModalInfo.data.gstNo} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, gstNo: e.target.value } }))} placeholder="22AAAAA0000A1Z5" />
                 </div>
 
                 <div className="pt-2 border-t border-gray-100">
                   <button
                     type="button"
                     onClick={() => setBranchModalInfo(p => ({ ...p, showBankDetails: !p.showBankDetails }))}
-                    className="text-purple-600 text-sm font-semibold flex items-center hover:text-purple-800 transition"
+                    className="text-[var(--color-primary)] text-sm font-semibold flex items-center hover:text-[var(--color-primary-text)] transition"
                   >
                     {branchModalInfo.showBankDetails ? "- Hide Bank Details" : "+ Add Bank Details"}
                   </button>
 
                   {branchModalInfo.showBankDetails && (
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 bg-purple-50 p-4 rounded-lg border border-purple-100">
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 bg-[var(--color-primary-tint)] p-4 rounded-lg border border-[var(--color-primary-border)]/30">
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">Bank Name</label>
-                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition text-sm" value={branchModalInfo.data.bank_details?.bank_name || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), bank_name: e.target.value } } }))} placeholder="e.g. Bank of Baroda" />
+                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition text-sm" value={branchModalInfo.data.bank_details?.bank_name || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), bank_name: e.target.value } } }))} placeholder="e.g. Bank of Baroda" />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">Account Number</label>
-                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition text-sm font-mono" value={branchModalInfo.data.bank_details?.account_number || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), account_number: e.target.value } } }))} placeholder="Account Number" />
+                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition text-sm font-mono" value={branchModalInfo.data.bank_details?.account_number || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), account_number: e.target.value } } }))} placeholder="Account Number" />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">IFSC Code</label>
-                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition text-sm font-mono uppercase" value={branchModalInfo.data.bank_details?.ifsc_code || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), ifsc_code: e.target.value } } }))} placeholder="IFSC Code" />
+                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition text-sm font-mono uppercase" value={branchModalInfo.data.bank_details?.ifsc_code || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), ifsc_code: e.target.value } } }))} placeholder="IFSC Code" />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-gray-700 mb-1">Account Holder Name</label>
-                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition text-sm uppercase" value={branchModalInfo.data.bank_details?.account_holder_name || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), account_holder_name: e.target.value } } }))} placeholder="Account Holder Name" />
+                        <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition text-sm uppercase" value={branchModalInfo.data.bank_details?.account_holder_name || ""} onChange={(e) => setBranchModalInfo(p => ({ ...p, data: { ...p.data, bank_details: { ...(p.data.bank_details || {}), account_holder_name: e.target.value } } }))} placeholder="Account Holder Name" />
                       </div>
                     </div>
                   )}
@@ -1424,7 +1424,7 @@ const GstBillingModule = () => {
               </div>
               <div className="p-5 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
                 <button onClick={() => setBranchModalInfo({ isOpen: false, isNew: false, index: null, data: null, showBankDetails: false })} className="px-5 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium transition">Cancel</button>
-                <button onClick={handleSaveBranchModal} className="px-5 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg font-medium flex items-center shadow-md transition"><FiSave className="mr-2" /> Save Branch</button>
+                <button onClick={handleSaveBranchModal} className="px-5 py-2 text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] rounded-lg font-medium flex items-center shadow-md transition"><FiSave className="mr-2" /> Save Branch</button>
               </div>
             </div>
           </div>
@@ -1440,7 +1440,7 @@ const GstBillingModule = () => {
               <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Party Name</label>
-                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase" value={partyModalInfo.data.name} onChange={(e) => {
+                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase" value={partyModalInfo.data.name} onChange={(e) => {
                     const val = e.target.value;
                     const nextPrefix = partyModalInfo.data.prefix === buildPartyPrefix(partyModalInfo.data.name) ? buildPartyPrefix(val) : partyModalInfo.data.prefix;
                     setPartyModalInfo(p => ({ ...p, data: { ...p.data, name: val, prefix: nextPrefix } }));
@@ -1448,25 +1448,25 @@ const GstBillingModule = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Party Code</label>
-                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase" value={partyModalInfo.data.code} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, code: e.target.value } }))} placeholder="e.g. 1522" />
+                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase" value={partyModalInfo.data.code} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, code: e.target.value } }))} placeholder="e.g. 1522" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">GST Number</label>
-                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase font-mono" value={partyModalInfo.data.gstNo} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, gstNo: e.target.value } }))} placeholder="..." />
+                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase font-mono" value={partyModalInfo.data.gstNo} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, gstNo: e.target.value } }))} placeholder="..." />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Invoice Prefix</label>
-                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase font-mono" value={partyModalInfo.data.prefix} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, prefix: e.target.value } }))} placeholder="PRE-" />
+                  <input type="text" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase font-mono" value={partyModalInfo.data.prefix} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, prefix: e.target.value } }))} placeholder="PRE-" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Next Sequence No.</label>
-                  <input type="number" min="1" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition font-mono" value={partyModalInfo.data.startFrom} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, startFrom: toSequenceNumber(e.target.value, 1) } }))} />
+                  <input type="number" min="1" className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition font-mono" value={partyModalInfo.data.startFrom} onChange={(e) => setPartyModalInfo(p => ({ ...p, data: { ...p.data, startFrom: toSequenceNumber(e.target.value, 1) } }))} />
                   <p className="text-[10px] text-gray-400 mt-1">Preview: {partyModalInfo.data.prefix}{String(toSequenceNumber(partyModalInfo.data.startFrom, 1)).padStart(3, "0")}</p>
                 </div>
               </div>
               <div className="p-5 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
                 <button onClick={() => setPartyModalInfo({ isOpen: false, isNew: false, index: null, data: null })} className="px-5 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium transition">Cancel</button>
-                <button onClick={handleSavePartyModal} className="px-5 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg font-medium flex items-center shadow-md transition"><FiSave className="mr-2" /> Save Party</button>
+                <button onClick={handleSavePartyModal} className="px-5 py-2 text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] rounded-lg font-medium flex items-center shadow-md transition"><FiSave className="mr-2" /> Save Party</button>
               </div>
             </div>
           </div>
@@ -1484,7 +1484,7 @@ const GstBillingModule = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Item Name</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase"
+                    className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase"
                     value={itemModalInfo.data.name}
                     onChange={(e) => setItemModalInfo(p => ({ ...p, data: { ...p.data, name: e.target.value } }))}
                     placeholder="e.g. PIZZA"
@@ -1494,7 +1494,7 @@ const GstBillingModule = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Item Rate (Price)</label>
                   <input
                     type="number"
-                    className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                    className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                     value={itemModalInfo.data.rate}
                     onChange={(e) => setItemModalInfo(p => ({ ...p, data: { ...p.data, rate: e.target.value } }))}
                     placeholder="0.00"
@@ -1503,7 +1503,7 @@ const GstBillingModule = () => {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Branch</label>
                   <select
-                    className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-purple-200 outline-none transition bg-white"
+                    className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition bg-white"
                     value={itemModalInfo.data.branch}
                     onChange={(e) => setItemModalInfo(p => ({ ...p, data: { ...p.data, branch: e.target.value } }))}
                   >
@@ -1516,7 +1516,7 @@ const GstBillingModule = () => {
               </div>
               <div className="p-5 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
                 <button onClick={() => setItemModalInfo({ isOpen: false, isNew: false, data: null })} className="px-5 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium transition">Cancel</button>
-                <button onClick={handleSaveItemModal} className="px-5 py-2 text-white bg-purple-600 hover:bg-purple-700 rounded-lg font-medium flex items-center shadow-md transition"><FiSave className="mr-2" /> Save Item</button>
+                <button onClick={handleSaveItemModal} className="px-5 py-2 text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] rounded-lg font-medium flex items-center shadow-md transition"><FiSave className="mr-2" /> Save Item</button>
               </div>
             </div>
           </div>
@@ -1558,7 +1558,7 @@ const GstBillingModule = () => {
               setView(viewingHistoryBill ? "history" : "form");
               setViewingHistoryBill(null);
             }}
-            className="flex items-center text-slate-600 hover:text-indigo-600 transition-all font-semibold px-4 py-2 rounded-lg hover:bg-slate-50"
+            className="flex items-center text-slate-600 hover:text-[var(--color-primary)] transition-all font-semibold px-4 py-2 rounded-lg hover:bg-slate-50"
           >
             <FiArrowLeft className="mr-2" /> {viewingHistoryBill ? "Back to History" : "Back to Edit"}
           </button>
@@ -1567,14 +1567,14 @@ const GstBillingModule = () => {
               <button
                 onClick={handleSaveBill}
                 disabled={isSavingBill}
-                className="flex items-center bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95"
+                className="flex items-center bg-[var(--color-primary-tint)]0 hover:bg-[var(--color-primary)] disabled:bg-[var(--color-primary-soft)] disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95"
               >
                 <FiSave className="mr-2" /> {isSavingBill ? "Saving..." : (editingBillId ? "Save Changes" : "Save Bill")}
               </button>
             )}
             <button
               onClick={downloadPdf}
-              className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95"
+              className="flex items-center bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95"
             >
               <FiDownload className="mr-2" /> Download Direct PDF
             </button>
@@ -1613,7 +1613,7 @@ const GstBillingModule = () => {
             }}
           >
             {/* Top Border Accent */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-700 via-blue-600 to-indigo-700"></div>
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[var(--color-primary-text)] via-[var(--color-primary)] to-[var(--color-primary-text)]"></div>
 
             {/* Redesigned Unified Header */}
             <div className="flex justify-between items-stretch mb-6 mt-1 min-h-[130px]">
@@ -1634,10 +1634,10 @@ const GstBillingModule = () => {
 
               {/* Right: Tax Invoice Details Grid */}
               <div className="flex-1 bg-slate-50/50 rounded-2xl border border-slate-200/60 p-5 flex flex-col justify-between shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full -mr-10 -mt-10"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-primary-tint)]0/5 rounded-full -mr-10 -mt-10"></div>
 
                 <div className="flex justify-between items-start mb-4 transition-all gap-2 flex-wrap">
-                  <div className="bg-indigo-700 text-white px-4 py-1.5 rounded-md shadow-md shrink-0">
+                  <div className="bg-[var(--color-primary-text)] text-white px-4 py-1.5 rounded-md shadow-md shrink-0">
                     <h2 className="text-[10px] font-black tracking-[0.25em] uppercase m-0 leading-none">TAX INVOICE</h2>
                   </div>
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-right shrink-0">
@@ -1672,8 +1672,8 @@ const GstBillingModule = () => {
 
             {/* Client Info Section */}
             <div className="mb-6">
-              <h3 className="text-[11px] font-black text-indigo-700 uppercase tracking-[0.2em] mb-3 pb-1.5 border-b border-indigo-100 items-center gap-2 flex">
-                <span className="w-1 h-3.5 bg-indigo-600 rounded"></span>
+              <h3 className="text-[11px] font-black text-[var(--color-primary-text)] uppercase tracking-[0.2em] mb-3 pb-1.5 border-b border-[var(--color-primary-border)]/30 items-center gap-2 flex">
+                <span className="w-1 h-3.5 bg-[var(--color-primary)] rounded"></span>
                 Client Information
               </h3>
               <div className="grid grid-cols-[40%_60%] gap-4 px-2">
@@ -1684,7 +1684,7 @@ const GstBillingModule = () => {
                     {pData.partyGst ? (
                       <p className="flex items-center gap-2">
                         <span className="bg-white border border-slate-200 text-[9px] px-2 py-0.5 rounded-md font-black text-slate-500 tracking-wider">GSTIN</span>
-                        <span className="font-bold text-indigo-700 font-mono text-base tracking-tight">{pData.partyGst}</span>
+                        <span className="font-bold text-[var(--color-primary-text)] font-mono text-base tracking-tight">{pData.partyGst}</span>
                       </p>
                     ) : <p className="text-xs text-slate-400 italic">No GST Details</p>}
                   </div>
@@ -1710,7 +1710,7 @@ const GstBillingModule = () => {
             <div className="mb-6 overflow-hidden rounded-xl border border-slate-200 shadow-sm print:overflow-visible">
               <table className="w-full text-left border-collapse" style={{ tableLayout: "fixed" }}>
                 <thead>
-                  <tr className="bg-indigo-700 text-white">
+                  <tr className="bg-[var(--color-primary-text)] text-white">
                     <th className="py-2.5 px-4 text-[9px] font-black uppercase tracking-[0.15em] text-center w-[5%] border-r border-white/10">#</th>
                     <th className="py-2.5 px-4 text-[9px] font-black uppercase tracking-[0.15em] w-[25%] border-r border-white/10">Item Name</th>
                     <th className="py-2.5 px-4 text-[9px] font-black uppercase tracking-[0.15em] text-center w-[8%] border-r border-white/10">Qty</th>
@@ -1733,14 +1733,14 @@ const GstBillingModule = () => {
                       <td className="px-4 text-right font-bold text-slate-700 border-r border-slate-100">₹{parseFloat(item.taxable).toFixed(2)}</td>
                       <td className="px-4 text-right font-medium text-slate-500 border-r border-slate-100">₹{parseFloat(item.sgst).toFixed(2)}</td>
                       <td className="px-4 text-right font-medium text-slate-500 border-r border-slate-100">₹{parseFloat(item.cgst).toFixed(2)}</td>
-                      <td className="px-4 text-right font-black text-indigo-700 bg-indigo-50/50">₹{parseFloat(item.amount).toFixed(2)}</td>
+                      <td className="px-4 text-right font-black text-[var(--color-primary-text)] bg-[var(--color-primary-tint)]/50">₹{parseFloat(item.amount).toFixed(2)}</td>
                     </tr>
                   ))}
                   {/* Fill padding rows if items are few to maintain size */}
                   {pData.items.length < 5 && Array.from({ length: 5 - pData.items.length }).map((_, i) => (
                     <tr key={`pad-${i}`} className="bg-transparent h-[38px] border-b border-slate-50/50 last:border-0">
                       {Array.from({ length: 9 }).map((_, j) => (
-                        <td key={j} className={`${j < 8 ? "border-r border-slate-50/50" : ""} ${j === 8 ? "bg-indigo-50/30" : ""}`}></td>
+                        <td key={j} className={`${j < 8 ? "border-r border-slate-50/50" : ""} ${j === 8 ? "bg-[var(--color-primary-tint)]/30" : ""}`}></td>
                       ))}
                     </tr>
                   ))}
@@ -1754,15 +1754,15 @@ const GstBillingModule = () => {
               <div className="flex-1 space-y-4">
                 {/* Notes Card */}
                 {pData.note && (
-                  <div className="bg-amber-50 rounded-xl p-3 border-l-4 border-amber-400">
-                    <h4 className="text-[9px] font-black text-amber-700 uppercase tracking-widest mb-1">Notes / Terms</h4>
-                    <p className="text-[10px] text-amber-900 font-medium leading-tight italic">{pData.note}</p>
+                  <div className="bg-[var(--color-primary-tint)] rounded-xl p-3 border-l-4 border-[var(--color-primary-border)]">
+                    <h4 className="text-[9px] font-black text-[var(--color-primary-text)] uppercase tracking-widest mb-1">Notes / Terms</h4>
+                    <p className="text-[10px] text-[var(--color-primary-text)] font-medium leading-tight italic">{pData.note}</p>
                   </div>
                 )}
 
                 {/* Bank Details Card */}
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                  <h4 className="text-[9px] font-black text-indigo-700 uppercase tracking-widest mb-2 pb-1 border-b border-indigo-100">Bank Details</h4>
+                  <h4 className="text-[9px] font-black text-[var(--color-primary-text)] uppercase tracking-widest mb-2 pb-1 border-b border-[var(--color-primary-border)]/30">Bank Details</h4>
                   {pData.branchBankDetails && pData.branchBankDetails.bank_name ? (
                     <div className="grid grid-cols-2 gap-y-2 gap-x-4">
                       <div>
@@ -1805,13 +1805,13 @@ const GstBillingModule = () => {
                   </div>
                   <div className="flex justify-between text-[10px] items-center border-t border-slate-100 mt-1 pt-1.5">
                     <span className="text-slate-400 font-bold uppercase tracking-widest">Round Off</span>
-                    <span className={`font-extrabold ${pData.roundOffAmount >= 0 ? "text-emerald-600" : "text-amber-600"}`}>
+                    <span className={`font-extrabold ${pData.roundOffAmount >= 0 ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}>
                       {pData.roundOffAmount >= 0 ? "+" : ""}₹{Math.abs(pData.roundOffAmount).toFixed(2)}
                     </span>
                   </div>
                 </div>
 
-                <div className="bg-indigo-700 text-white rounded-xl p-3 shadow-inner mt-1 flex flex-col items-center">
+                <div className="bg-[var(--color-primary-text)] text-white rounded-xl p-3 shadow-inner mt-1 flex flex-col items-center">
                   <p className="text-[8px] font-black uppercase tracking-[0.3em] mb-0.5 opacity-80">Final Payable Amount</p>
                   <div className="text-2xl font-black flex items-start">
                     <span className="text-sm mt-0.5 mr-0.5">₹</span>
@@ -1832,21 +1832,21 @@ const GstBillingModule = () => {
                 <div className="flex flex-col items-center">
                   <div className={`
                         ${pData.branchName.length > 40 ? 'text-[12px]' : pData.branchName.length > 20 ? 'text-[14px]' : 'text-base'} 
-                        text-indigo-900/20 font-serif italic mb-2 pointer-events-none select-none uppercase 
+                        text-[var(--color-primary-text)] font-serif italic mb-2 pointer-events-none select-none uppercase 
                         font-black tracking-widest text-center break-words max-w-[260px] leading-tight
                       `}>
                     {pData.branchName}
                   </div>
                   <div className="flex flex-col items-center">
-                    <div className="w-48 border-b-2 border-indigo-600"></div>
-                    <span className="text-[10px] font-black text-indigo-700 uppercase tracking-widest mt-2">Authorized Signatory</span>
+                    <div className="w-48 border-b-2 border-[var(--color-primary)]"></div>
+                    <span className="text-[10px] font-black text-[var(--color-primary-text)] uppercase tracking-widest mt-2">Authorized Signatory</span>
                   </div>
                 </div>
               </div>
 
               {/* Footer */}
-              <div className="bg-indigo-900 rounded-xl py-3 px-6 text-center shadow-md relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-800 via-indigo-900 to-indigo-800 opacity-50"></div>
+              <div className="bg-[var(--color-primary-text)] rounded-xl py-3 px-6 text-center shadow-md relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-text)] via-[var(--color-primary-text)] to-[var(--color-primary-text)] opacity-50"></div>
                 <p className="text-white text-[10px] font-black tracking-[0.1em] uppercase relative z-10 leading-relaxed max-w-[95%] mx-auto flex items-center justify-center flex-wrap gap-y-1">
                   <span>Thank you for choosing</span>
                   <span className="text-white bg-white/10 px-3 py-1.5 rounded-lg border border-white/20 ml-2 shadow-sm whitespace-normal text-center text-[11px]">
@@ -1900,7 +1900,7 @@ const GstBillingModule = () => {
             <input
               type="text"
               placeholder="Search by Invoice No, Party Name, Branch, or Date..."
-              className="w-full bg-white border border-gray-200 rounded-lg py-3 pl-11 pr-4 text-sm focus:ring-2 focus:ring-purple-200 outline-none shadow-sm transition placeholder-gray-400"
+              className="w-full bg-white border border-gray-200 rounded-lg py-3 pl-11 pr-4 text-sm focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none shadow-sm transition placeholder-gray-400"
               value={historySearch}
               onChange={(e) => setHistorySearch(e.target.value)}
             />
@@ -1937,17 +1937,17 @@ const GstBillingModule = () => {
                         <td className="p-4 font-bold text-gray-800">{bill.invoiceNumber}</td>
                         <td className="p-4 text-gray-600 uppercase font-semibold">{bill.partyName}</td>
                         <td className="p-4 text-gray-500">{bill.branchName}</td>
-                        <td className="p-4 text-right font-bold text-purple-700">{bill.roundedTotal.toFixed(2)}</td>
+                        <td className="p-4 text-right font-bold text-[var(--color-primary-text)]">{bill.roundedTotal.toFixed(2)}</td>
                         <td className="p-4">
                           <div className="flex flex-col items-stretch gap-2 w-full max-w-[110px] mx-auto">
                             <button
-                              className="bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 px-3 py-2 text-xs font-semibold rounded-md transition inline-flex items-center justify-center shadow-sm whitespace-nowrap"
+                              className="bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)] hover:bg-[var(--color-primary-soft)] px-3 py-2 text-xs font-semibold rounded-md transition inline-flex items-center justify-center shadow-sm whitespace-nowrap"
                               onClick={() => handleEditBill(bill)}
                             >
                               <FiEdit2 className="mr-1.5 shrink-0" size={14} /> Edit
                             </button>
                             <button
-                              className="bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 px-3 py-2 text-xs font-semibold rounded-md transition inline-flex items-center justify-center shadow-sm whitespace-nowrap"
+                              className="bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/50 hover:bg-[var(--color-primary-soft)] px-3 py-2 text-xs font-semibold rounded-md transition inline-flex items-center justify-center shadow-sm whitespace-nowrap"
                               onClick={() => {
                                 setViewingHistoryBill(bill);
                                 setView("preview");
@@ -1984,7 +1984,7 @@ const GstBillingModule = () => {
                 setViewingHistoryBill(null);
                 setView("history");
               }}
-              className="flex items-center px-4 py-2.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg font-medium transition-all gap-2 border border-blue-200"
+              className="flex items-center px-4 py-2.5 bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] hover:bg-[var(--color-primary-soft)] rounded-lg font-medium transition-all gap-2 border border-[var(--color-primary-border)]"
             >
               <FiClock size={18} /> History
             </button>
@@ -2002,7 +2002,7 @@ const GstBillingModule = () => {
                 setViewingHistoryBill(null);
                 setView("preview");
               }}
-              className="flex items-center px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium shadow-md transition-all gap-2"
+              className="flex items-center px-6 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white rounded-lg font-medium shadow-md transition-all gap-2"
             >
               <FiEye size={18} /> Review & Generate
             </button>
@@ -2018,7 +2018,7 @@ const GstBillingModule = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
                 <div className="relative">
                   <select
-                    className="w-full border border-gray-300 rounded-md p-2 pr-10 appearance-none focus:ring-2 focus:ring-purple-200 outline-none transition bg-white cursor-pointer"
+                    className="w-full border border-gray-300 rounded-md p-2 pr-10 appearance-none focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition bg-white cursor-pointer"
                     value={branchId}
                     onChange={(e) => setBranchId(e.target.value)}
                   >
@@ -2037,7 +2037,7 @@ const GstBillingModule = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
                 <input
                   type="date"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                   value={invoiceDate}
                   onChange={(e) => setInvoiceDate(e.target.value)}
                 />
@@ -2046,7 +2046,7 @@ const GstBillingModule = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">HSN Code</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                   value={hsnCode}
                   onChange={(e) => setHsnCode(e.target.value)}
                 />
@@ -2056,7 +2056,7 @@ const GstBillingModule = () => {
                 <input
                   type="text"
                   placeholder="e.g. ORD-001"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                   value={orderNo}
                   onChange={(e) => setOrderNo(e.target.value)}
                 />
@@ -2065,7 +2065,7 @@ const GstBillingModule = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Order Date</label>
                 <input
                   type="date"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                   value={orderDate}
                   onChange={(e) => setOrderDate(e.target.value)}
                 />
@@ -2075,7 +2075,7 @@ const GstBillingModule = () => {
                 <input
                   type="text"
                   placeholder="e.g. 01-01-2026 TO 31-01-2026"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition"
                   value={refText}
                   onChange={(e) => setRefText(e.target.value)}
                 />
@@ -2085,7 +2085,7 @@ const GstBillingModule = () => {
                 <textarea
                   rows="3"
                   placeholder="Enter note"
-                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition resize-none"
+                  className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition resize-none"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                 />
@@ -2101,7 +2101,7 @@ const GstBillingModule = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Party Name</label>
                 <div className="relative" ref={partyDropdownRef}>
                   <input
-                    className="w-full border border-gray-300 rounded-md p-2 pl-9 pr-10 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase"
+                    className="w-full border border-gray-300 rounded-md p-2 pl-9 pr-10 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase"
                     value={partyName}
                     autoComplete="off"
                     onChange={(e) => {
@@ -2136,7 +2136,7 @@ const GstBillingModule = () => {
                           <div
                             key={p.id}
                             tabIndex="0"
-                            className="px-4 py-2 hover:bg-purple-50 cursor-pointer text-sm text-gray-700 border-b border-gray-50 last:border-0"
+                            className="px-4 py-2 hover:bg-[var(--color-primary-tint)] cursor-pointer text-sm text-gray-700 border-b border-gray-50 last:border-0"
                             onClick={() => {
                               setPartyName(p.name);
                               setPartySearchQuery("");
@@ -2157,7 +2157,7 @@ const GstBillingModule = () => {
                   )}
                 </div>
                 <p
-                  className={`mt-2 text-xs ${selectedParty ? "text-emerald-600" : "text-amber-600"
+                  className={`mt-2 text-xs ${selectedParty ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"
                     }`}
                 >
                   Invoice No. will use: <span className="font-semibold">{invoiceNumber}</span>
@@ -2171,7 +2171,7 @@ const GstBillingModule = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Party GST No</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase"
+                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase"
                     value={partyGst}
                     onChange={(e) => setPartyGst(e.target.value)}
                     placeholder="24XXXXX..."
@@ -2181,7 +2181,7 @@ const GstBillingModule = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Party Code</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-purple-200 outline-none transition uppercase"
+                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none transition uppercase"
                     value={partyCode}
                     onChange={(e) => setPartyCode(e.target.value)}
                     placeholder="-"
@@ -2198,7 +2198,7 @@ const GstBillingModule = () => {
             <h2 className="text-lg font-bold text-gray-700">Invoice Items</h2>
             <button
               onClick={addItemRow}
-              className="flex items-center text-sm font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-1.5 rounded transition"
+              className="flex items-center text-sm font-medium text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] border border-[var(--color-primary-border)]/50 px-3 py-1.5 rounded transition"
             >
               <FiPlus className="mr-1" /> Add Row
             </button>
@@ -2236,7 +2236,7 @@ const GstBillingModule = () => {
                       <input
                         type="number"
                         min="1"
-                        className="w-full border-gray-300 rounded p-1.5 border focus:ring-2 focus:ring-purple-200 outline-none text-center"
+                        className="w-full border-gray-300 rounded p-1.5 border focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none text-center"
                         value={item.qty}
                         onChange={(e) => handleItemChange(index, "qty", parseFloat(e.target.value) || "")}
                       />
@@ -2246,14 +2246,14 @@ const GstBillingModule = () => {
                         <input
                           type="number"
                           min="0"
-                          className="w-full border-gray-300 rounded p-1.5 border focus:ring-2 focus:ring-purple-200 outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-full border-gray-300 rounded p-1.5 border focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                           value={item.rate}
                           onChange={(e) => handleItemChange(index, "rate", parseFloat(e.target.value) || "")}
                         />
                         <label className="flex items-center text-[10px] text-gray-500 justify-end cursor-pointer">
                           <input
                             type="checkbox"
-                            className="mr-1 rounded text-purple-600 focus:ring-purple-500"
+                            className="mr-1 rounded text-[var(--color-primary)] focus:ring-[var(--color-primary-tint)]0"
                             checked={item.inclusive}
                             onChange={(e) => handleItemChange(index, "inclusive", e.target.checked)}
                           />
@@ -2264,7 +2264,7 @@ const GstBillingModule = () => {
                     <td className="p-3">
                       <div className="relative flex items-center">
                         <select
-                          className="w-full border-gray-300 rounded p-1.5 pr-6 border appearance-none focus:ring-2 focus:ring-purple-200 outline-none text-center bg-white cursor-pointer text-xs"
+                          className="w-full border-gray-300 rounded p-1.5 pr-6 border appearance-none focus:ring-2 focus:ring-[var(--color-primary-soft)] outline-none text-center bg-white cursor-pointer text-xs"
                           value={item.gstPct}
                           onChange={(e) => handleItemChange(index, "gstPct", parseFloat(e.target.value) || 0)}
                         >
@@ -2287,7 +2287,7 @@ const GstBillingModule = () => {
                       <span className="font-medium text-xs">{(item.sgst + item.cgst).toFixed(2)}</span>
                       <span className="text-[10px] text-gray-400">({item.sgst.toFixed(2)} + {item.cgst.toFixed(2)})</span>
                     </td>
-                    <td className="p-3 text-right font-bold text-gray-800 bg-purple-50/30">
+                    <td className="p-3 text-right font-bold text-gray-800 bg-[var(--color-primary-tint)]">
                       {item.amount.toFixed(2)}
                     </td>
                     <td className="p-3 text-center">
@@ -2325,7 +2325,7 @@ const GstBillingModule = () => {
               </div>
               <div className="flex justify-between text-lg font-bold text-gray-800 border-t pt-2 border-gray-300">
                 <span>Grand Total:</span>
-                <span className="text-purple-700">₹ {roundedTotal.toFixed(2)}</span>
+                <span className="text-[var(--color-primary-text)]">₹ {roundedTotal.toFixed(2)}</span>
               </div>
               <button
                 onClick={() => setView("preview")}
@@ -2337,7 +2337,7 @@ const GstBillingModule = () => {
                 <button
                   onClick={handleSaveBill}
                   disabled={isSavingBill}
-                  className="w-full mt-2 flex items-center justify-center px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white rounded font-medium shadow transition-all gap-2"
+                  className="w-full mt-2 flex items-center justify-center px-4 py-2.5 bg-[var(--color-primary-tint)]0 hover:bg-[var(--color-primary)] disabled:bg-[var(--color-primary-soft)] text-white rounded font-medium shadow transition-all gap-2"
                 >
                   <FiSave size={18} /> {isSavingBill ? "Saving..." : "Save Changes"}
                 </button>

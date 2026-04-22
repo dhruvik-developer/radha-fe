@@ -97,7 +97,7 @@ function EditItemComponent({
                               {category.items?.length || 0} items
                             </span>
                             {selectedCount > 0 && (
-                              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600">
+                              <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary)]">
                                 <FiCheck
                                   size={10}
                                   className="inline mr-1 -mt-0.5"

@@ -184,7 +184,7 @@ const CategoryTable = ({
                   onClick={() => setSelectedItemForRecipe(sub)}
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${sub.has_recipe === false ? "bg-red-50" : "bg-purple-50"}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${sub.has_recipe === false ? "bg-red-50" : "bg-[var(--color-primary-tint)]"}`}>
                       <FiTag className={sub.has_recipe === false ? "text-red-500" : "text-[var(--color-primary)]"} size={14} />
                     </div>
                     <span className={`text-[14px] font-bold truncate transition-colors ${sub.has_recipe === false ? "text-red-500 group-hover:text-red-600" : "text-gray-800 group-hover:text-[var(--color-primary)]"}`}>

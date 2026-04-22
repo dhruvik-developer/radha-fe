@@ -184,8 +184,8 @@ function InvoiceComponent({
                           size={14}
                           className={
                             invo.payment_status === "PAID"
-                              ? "text-emerald-500"
-                              : "text-emerald-500"
+                              ? "text-[var(--color-primary-tint)]0"
+                              : "text-[var(--color-primary-tint)]0"
                           }
                         />
                         <span className="font-medium">
@@ -230,7 +230,7 @@ function InvoiceComponent({
 
                 {invo.payment_status !== "PAID" && (
                   <button
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                     onClick={() => navigate(`/complete-invoice-pdf/${invo.id}`)}
                   >
                     <FiCheckCircle size={14} />
@@ -239,7 +239,7 @@ function InvoiceComponent({
                 )}
 
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => navigate(`/invoice-bill-pdf/${invo.id}`)}
                 >
                   <FiSend size={14} />

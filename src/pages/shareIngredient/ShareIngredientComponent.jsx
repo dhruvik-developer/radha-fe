@@ -203,8 +203,8 @@ function ShareIngredientComponent({
                       onClick={() => setSelectedVendor(vendor)}
                       className={`cursor-pointer p-3 border-2 rounded-lg transition-all ${
                         isSelected
-                          ? "border-[var(--color-primary)] bg-purple-50 shadow-md"
-                          : "border-gray-200 hover:border-[var(--color-primary)] hover:bg-purple-50"
+                          ? "border-[var(--color-primary)] bg-[var(--color-primary-tint)] shadow-md"
+                          : "border-gray-200 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-tint)]"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -288,9 +288,9 @@ function ShareIngredientComponent({
                   key={i}
                   className={`p-3 border rounded-md mb-3 transition-all ${
                     isGodownSource && isFromGodown
-                      ? "border-green-200 bg-green-50"
+                      ? "border-green-200 bg-[var(--color-primary-tint)]"
                       : isChecked
-                        ? "border-[var(--color-primary)] bg-purple-50"
+                        ? "border-[var(--color-primary)] bg-[var(--color-primary-tint)]"
                         : "border-gray-300"
                   }`}
                 >
@@ -305,8 +305,8 @@ function ShareIngredientComponent({
                         onClick={() => handleSourceChange(itemKey, "godown")}
                         className={`px-3 py-1 text-xs font-semibold rounded-full border transition-all ${
                           isGodownSource
-                            ? "bg-green-500 text-white border-green-500"
-                            : "bg-white text-gray-500 border-gray-300 hover:border-green-400 hover:text-green-600"
+                            ? "bg-[var(--color-primary-tint)]0 text-white border-green-500"
+                            : "bg-white text-gray-500 border-gray-300 hover:border-green-400 hover:text-[var(--color-primary)]"
                         }`}
                       >
                         🏭 Godown
@@ -330,7 +330,7 @@ function ShareIngredientComponent({
                       <div className="flex items-center gap-2 flex-wrap">
                         <p className="font-semibold">* {item.itemName}</p>
                         {isFromGodown && isGodownSource && (
-                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-100 border border-green-300 px-2 py-0.5 rounded-full">
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] border border-green-300 px-2 py-0.5 rounded-full">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-3 w-3"
@@ -365,21 +365,21 @@ function ShareIngredientComponent({
                               {godownQty > 0 && (
                                 <span className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full border ${
                                   godownQty >= numericTotal
-                                    ? "text-green-700 bg-green-50 border-green-200"
-                                    : "text-amber-700 bg-amber-50 border-amber-200"
+                                    ? "text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border-green-200"
+                                    : "text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border-[var(--color-primary-border)]"
                                 }`}>
                                   🏭 Godown: {godownQty} {unit}
                                   {godownQty < numericTotal && <span className="text-[9px]">(partial)</span>}
                                 </span>
                               )}
                               {isVendorAssigned && (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--color-primary)] bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 px-2 py-0.5 rounded-full">
                                   🛒 Vendor: {vendorCoverage} {unit}
                                 </span>
                               )}
                             </div>
                             {/* Remaining */}
-                            <p className={`text-sm font-semibold ${remainingVal === 0 ? "text-green-600" : "text-orange-600"}`}>
+                            <p className={`text-sm font-semibold ${remainingVal === 0 ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}>
                               {remainingVal === 0 ? "✅" : "⚠️"} Remaining: {remainingVal} {unit}
                             </p>
                           </div>
@@ -387,7 +387,7 @@ function ShareIngredientComponent({
                       })()}
                       {item.vendor && (
                         <p
-                          className={`text-xs mt-0.5 font-bold ${item.vendor.id === "godown" ? "text-green-600" : "text-[var(--color-primary)]"}`}
+                          className={`text-xs mt-0.5 font-bold ${item.vendor.id === "godown" ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}
                         >
                           {item.vendor.id === "godown"
                             ? "🏭 From Godown"

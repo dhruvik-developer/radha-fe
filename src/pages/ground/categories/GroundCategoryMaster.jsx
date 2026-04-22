@@ -118,7 +118,7 @@ const GroundCategoryMaster = () => {
                       <span
                         className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                           cat.is_active
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]"
                             : "bg-red-100 text-red-700"
                         }`}
                       >
