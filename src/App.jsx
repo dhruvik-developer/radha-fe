@@ -115,7 +115,35 @@ const App = () => {
   return (
     <UserProvider>
       <Router basename={BASE_PATH}>
-        <Toaster position="top-center" reverseOrder={false} />
+        <Toaster 
+          position="top-center" 
+          reverseOrder={false} 
+          toastOptions={{
+            duration: 3000,
+            style: {
+              borderRadius: '16px',
+              background: '#fff',
+              color: '#1f2937',
+              fontSize: '14px',
+              fontWeight: '600',
+              padding: '12px 20px',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              border: '1px solid rgba(0, 0, 0, 0.05)',
+            },
+            success: {
+              iconTheme: {
+                primary: 'var(--color-primary)',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            }
+          }}
+        />
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/login" element={<Login />} />

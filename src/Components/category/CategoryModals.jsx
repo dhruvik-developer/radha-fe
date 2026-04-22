@@ -20,7 +20,7 @@ import {
 } from "../../hooks/useCategoryMutations";
 import { useCreateRecipeMutation } from "../../hooks/useRecipeMutations";
 import { useCategories } from "../../hooks/useCategories";
-import { useBranchItems } from "../../hooks/useBranchItems";
+
 import { useIngredientItems } from "../../hooks/useIngredientItems";
 
 // ==================== MODAL WRAPPER ====================
@@ -290,7 +290,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
                   onChange={(e) =>
                     setBaseCost(e.target.value.replace(/[^0-9.]/g, ""))
                   }
-                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-500 transition-all text-base font-medium"
+                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
                 />
                 <p className="text-xs text-gray-400 mt-1">
                   The raw cost of this item
@@ -307,7 +307,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
                   onChange={(e) =>
                     setSelectionRate(e.target.value.replace(/[^0-9.]/g, ""))
                   }
-                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-tint)]0 transition-all text-base font-medium"
+                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
                 />
                 <p className="text-xs text-gray-400 mt-1">
                   The rate when item is selected
@@ -347,10 +347,17 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
   ]);
   const [saving, setSaving] = useState(false);
   const createRecipeMutation = useCreateRecipeMutation();
-  const { data: items = [] } = useBranchItems({}, { enabled: isOpen });
+  const { data: categories = [] } = useCategories({}, { enabled: isOpen });
   const { data: ingredientItems = [] } = useIngredientItems(
     {},
     { enabled: isOpen }
+  );
+
+  const items = categories.flatMap((cat) => 
+    (cat.items || []).map(item => ({
+      ...item,
+      categoryName: cat.name
+    }))
   );
 
   useEffect(() => {

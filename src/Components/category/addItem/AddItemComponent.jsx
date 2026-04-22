@@ -85,7 +85,7 @@ function AddItemComponent({
                 onChange={(e) =>
                   setBaseCost(e.target.value.replace(/[^0-9.]/g, ""))
                 }
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-500 transition-all text-base font-medium"
+                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
               />
               <p className="text-xs text-gray-400 mt-1">
                 The raw cost of this item
@@ -102,7 +102,7 @@ function AddItemComponent({
                 onChange={(e) =>
                   setSelectionRate(e.target.value.replace(/[^0-9.]/g, ""))
                 }
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-tint)]0 transition-all text-base font-medium"
+                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
               />
               <p className="text-xs text-gray-400 mt-1">
                 The rate when item is selected for an event

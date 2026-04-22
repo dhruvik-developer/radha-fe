@@ -98,7 +98,7 @@ const routeLabels = {
   "event-summary": "Event Summary",
   "staff-detail": "Staff Detail",
   "fixed-staff-payments": "Fixed Staff Payments",
-  "gst-billing": "GST Billing",
+
   "ground-checklist": "Ground Checklist",
   "ground-categories": "Ground Categories",
   "ground-items": "Ground Items",
@@ -653,7 +653,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={() => setShowLowStock(!showLowStock)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${
               lowStockCount > 0
-                ? "bg-red-500/20 text-red-200 hover:bg-red-500/30"
+                ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]/80"
                 : "bg-white/10 text-white/60 hover:bg-white/20"
             }`}
             title="Low Stock Items"
@@ -670,15 +670,15 @@ const Header = ({ toggleSidebar }) => {
           {showLowStock && (
             <div className="absolute right-0 mt-2 bg-white rounded-xl shadow-2xl z-50 border border-gray-100 w-[320px] overflow-hidden">
               {/* Dropdown Header */}
-              <div className="px-4 py-3 bg-red-50 border-b border-red-100">
+              <div className="px-4 py-3 bg-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/20">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FiAlertTriangle size={14} className="text-red-500" />
+                    <FiAlertTriangle size={14} className="text-[var(--color-primary)]" />
                     <span className="text-sm font-semibold text-gray-700">
                       Low Stock Items
                     </span>
                   </div>
-                  <span className="text-[10px] font-medium text-red-500 bg-white px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-medium text-[var(--color-primary)] bg-white px-2 py-0.5 rounded-full shadow-sm">
                     {lowStockCount} Alert{lowStockCount !== 1 ? "s" : ""}
                   </span>
                 </div>
@@ -720,7 +720,7 @@ const Header = ({ toggleSidebar }) => {
                         }}
                         className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50/50 transition-colors duration-150 border-b border-gray-50 last:border-b-0 cursor-pointer text-left"
                       >
-                        <div className="w-9 h-9 rounded-full bg-red-100 text-red-500 flex items-center justify-center flex-shrink-0">
+                        <div className="w-9 h-9 rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
                           <FiBox size={16} />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -732,7 +732,7 @@ const Header = ({ toggleSidebar }) => {
                           </p>
                         </div>
                         <div className="flex flex-col items-end flex-shrink-0">
-                          <span className="text-xs font-bold text-red-500">
+                          <span className="text-xs font-bold text-[var(--color-primary)]">
                             {item.quantity} {unit}
                           </span>
                           <span className="text-[10px] text-gray-400">
@@ -755,7 +755,7 @@ const Header = ({ toggleSidebar }) => {
                         state: { view: "low_stock", _ts: Date.now() },
                       });
                     }}
-                    className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors cursor-pointer"
                   >
                     View All Low Stock Items
                     <FiChevronRight size={12} />
@@ -772,7 +772,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={() => setShowUpcoming(!showUpcoming)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${
               upcomingOrderCount > 0
-                ? "bg-[var(--color-primary-tint)]0/20 text-[var(--color-primary-light)] hover:bg-[var(--color-primary-tint)]0/30"
+                ? "bg-[var(--color-primary-soft)] text-white hover:bg-white/20"
                 : "bg-white/10 text-white/60 hover:bg-white/20"
             }`}
             title="Upcoming Orders (Next 7 Days)"

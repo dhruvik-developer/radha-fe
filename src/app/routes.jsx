@@ -19,7 +19,7 @@ const Expense = lazy(() => import("../pages/expense/ExpenseController"));
 const Calendar = lazy(() => import("../pages/calendar/CalendarController"));
 const ViewItemRecipe = lazy(() => import("../pages/itemRecipe/ViewItemRecipeController"));
 const Vendor = lazy(() => import("../pages/vendor/VendorController"));
-const GstBillingModule = lazy(() => import("../pages/gstBilling/GstBillingModule"));
+
 const SessionChecklistPreview = lazy(() => import("../pages/sessionChecklistPreview/SessionChecklistPreviewController"));
 const PeoplePage = lazy(() => import("../pages/people/PeoplePage"));
 const OrderManagementPage = lazy(() => import("../pages/orderManagement/OrderManagementPage"));
@@ -87,7 +87,7 @@ export {
   Calendar,
   ViewItemRecipe,
   Vendor,
-  GstBillingModule,
+
   SessionChecklistPreview,
   PeoplePage,
   OrderManagementPage,
