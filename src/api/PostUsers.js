@@ -6,7 +6,7 @@ import {
 
 export const addUser = async (payload) => {
   try {
-    const response = await ApiInstance.post("/user/users/", payload);
+    const response = await ApiInstance.post("/users/", payload);
     return ensureSuccessfulResponse(response, "Failed to create user");
   } catch (error) {
     throw new Error(getApiErrorMessage(error, "Failed to create user"));

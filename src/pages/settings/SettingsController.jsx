@@ -7,6 +7,26 @@ import {
 } from "../../api/BusinessProfile";
 import toast from "react-hot-toast";
 
+const ALLOWED_LOGO_MIME_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/webp",
+];
+
+const ALLOWED_LOGO_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp"];
+
+const isAllowedLogoFile = (file) => {
+  if (!file) return false;
+
+  if (ALLOWED_LOGO_MIME_TYPES.includes(file.type)) {
+    return true;
+  }
+
+  const lowerName = (file.name || "").toLowerCase();
+  return ALLOWED_LOGO_EXTENSIONS.some((ext) => lowerName.endsWith(ext));
+};
+
 function SettingsController() {
   const [loading, setLoading] = useState(false);
   const [profileId, setProfileId] = useState(null);
@@ -18,7 +38,8 @@ function SettingsController() {
     whatsapp_number: "",
     fssai_number: "",
     godown_address: "",
-    user: "550e8400-e29b-41d4-a716-446655440000",
+    logo: "",
+    logoFile: null,
   });
 
   // Keep a copy for cancel/revert
@@ -31,13 +52,14 @@ function SettingsController() {
   const fetchProfile = async () => {
     try {
       const response = await getAllBusinessProfiles();
-      if (
-        response &&
-        response.status &&
-        response.data &&
-        response.data.length > 0
-      ) {
-        const profile = response.data[0];
+      const profileList = Array.isArray(response?.data)
+        ? response.data
+        : response?.data
+          ? [response.data]
+          : [];
+
+      if (profileList.length > 0) {
+        const profile = profileList[0];
         setProfileId(profile.id);
         const profileData = {
           caters_name: profile.caters_name || "",
@@ -45,7 +67,8 @@ function SettingsController() {
           whatsapp_number: profile.whatsapp_number || "",
           fssai_number: profile.fssai_number || "",
           godown_address: profile.godown_address || "",
-          user: profile.user || formData.user,
+          logo: profile.logo || "",
+          logoFile: null,
         };
         setFormData(profileData);
         setOriginalData(profileData);
@@ -56,8 +79,25 @@ function SettingsController() {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    
+    const { name, value, files } = e.target;
+
+    if (name === "logoFile") {
+      const selectedFile = files?.[0] || null;
+
+      if (selectedFile && !isAllowedLogoFile(selectedFile)) {
+        toast.error("Please upload PNG, JPG, JPEG or WEBP logo only.");
+        e.target.value = "";
+        return;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        logoFile: selectedFile,
+        logo: selectedFile ? URL.createObjectURL(selectedFile) : prev.logo,
+      }));
+      return;
+    }
+
     if (name === "phone_number" || name === "whatsapp_number") {
       const formattedValue = value.replace(/[^0-9]/g, "").slice(0, 10);
       setFormData((prev) => ({
@@ -85,6 +125,7 @@ function SettingsController() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
 
     if (
       !formData.caters_name.trim() ||
@@ -107,20 +148,48 @@ function SettingsController() {
 
     setLoading(true);
     try {
+      const payload = {
+        caters_name: formData.caters_name,
+        phone_number: formData.phone_number,
+        whatsapp_number: formData.whatsapp_number,
+        fssai_number: formData.fssai_number,
+        godown_address: formData.godown_address,
+        logo: formData.logoFile || undefined,
+      };
+
       let response;
       if (profileId) {
-        response = await updateBusinessProfile(profileId, formData);
+        response = await updateBusinessProfile(profileId, payload);
       } else {
-        response = await createBusinessProfile(formData);
-        if (response && response.status && response.data) {
-          setProfileId(response.data.id);
-        }
+        response = await createBusinessProfile(payload);
       }
 
-      if (response && response.status) {
+      const isSuccess =
+        !!response &&
+        (response.status === true ||
+          response.success === true ||
+          typeof response.message === "string" ||
+          !!response.data);
+
+      if (isSuccess) {
+        const resolvedProfileId = response?.data?.id || response?.id || profileId;
+        if (resolvedProfileId && !profileId) {
+          setProfileId(resolvedProfileId);
+        }
+
+        const savedLogo = response?.data?.logo || formData.logo;
+        const savedFormData = {
+          ...formData,
+          logo: savedLogo,
+          logoFile: null,
+        };
+        setFormData(savedFormData);
         toast.success(response.message || "Profile saved successfully!");
-        setOriginalData({ ...formData });
+        setOriginalData(savedFormData);
         setIsEditing(false);
+        fetchProfile();
+      } else {
+        toast.error("Profile save response invalid. Please retry.");
       }
     } catch (error) {
       console.error("Save error:", error);

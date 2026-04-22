@@ -9,11 +9,11 @@ import {
   TaskAdd01Icon,
   TransactionHistoryIcon,
 } from "@hugeicons/core-free-icons";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import BaseImage from "../common/BaseImage";
 import { FiUsers } from "react-icons/fi";
 import usePermissions from "../../hooks/usePermissions";
+import { getAllBusinessProfiles } from "../../api/BusinessProfile";
 
 const menuItems = [
   {
@@ -85,6 +85,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const sidebarRef = useRef(null);
   const location = useLocation();
   const { hasPermission } = usePermissions();
+  const [businessLogo, setBusinessLogo] = useState("");
+  const [isLogoLoading, setIsLogoLoading] = useState(true);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -97,6 +99,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [setSidebarOpen]);
+
+  useEffect(() => {
+    const fetchBusinessLogo = async () => {
+      try {
+        const response = await getAllBusinessProfiles();
+        const profileList = Array.isArray(response?.data)
+          ? response.data
+          : response?.data
+            ? [response.data]
+            : [];
+
+        if (profileList.length > 0) {
+          setBusinessLogo(profileList[0]?.logo || "");
+        } else {
+          setBusinessLogo("");
+        }
+      } catch (error) {
+        console.error("Failed to load business logo:", error);
+        setBusinessLogo("");
+      } finally {
+        setIsLogoLoading(false);
+      }
+    };
+
+    fetchBusinessLogo();
+  }, []);
 
   // Open sidebar when mouse is within 15px of the left edge
   useEffect(() => {
@@ -194,8 +222,30 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-5 flex justify-center">
-          <BaseImage src="/logo1.png" alt="Logo" className="h-20" />
+        <div className="p-5 flex flex-col items-center gap-2">
+          {isLogoLoading ? (
+            <div className="h-20 w-40 rounded-lg bg-gray-100 animate-pulse" />
+          ) : businessLogo ? (
+            <img
+              src={businessLogo}
+              alt="Business Logo"
+              className="h-20 max-w-[180px] object-contain"
+              onError={() => setBusinessLogo("")}
+            />
+          ) : (
+            <>
+              <p className="text-[11px] text-center text-gray-500 leading-4">
+                Set your business profile logo in Settings tab.
+              </p>
+              <Link
+                to="/settings"
+                className="text-xs font-semibold text-[#845cbd] hover:underline"
+                onClick={handleItemClick}
+              >
+                Go to Settings
+              </Link>
+            </>
+          )}
         </div>
         <ul className="space-y-4 text-black p-4">
           {menuItems.map((item, index) => {

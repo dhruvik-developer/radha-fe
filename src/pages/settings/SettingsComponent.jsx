@@ -8,6 +8,7 @@ import {
   FiShield,
   FiUser,
   FiMessageCircle,
+  FiImage,
 } from "react-icons/fi";
 
 function SettingsComponent({
@@ -40,6 +41,7 @@ function SettingsComponent({
 
           {!isEditing ? (
             <button
+              type="button"
               onClick={handleEdit}
               className="flex items-center gap-2 px-5 py-2.5 font-semibold text-[#845cbd] bg-[#f4effc] hover:bg-[#e8ddf5] rounded-xl transition-all duration-200 border border-[#845cbd]/20 cursor-pointer"
             >
@@ -49,6 +51,7 @@ function SettingsComponent({
           ) : (
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={handleCancel}
                 className="flex items-center gap-2 px-4 py-2.5 font-semibold text-gray-600 bg-white hover:bg-gray-50 rounded-xl transition-all duration-200 border border-gray-300 cursor-pointer"
               >
@@ -56,6 +59,7 @@ function SettingsComponent({
                 <span>Cancel</span>
               </button>
               <button
+                type="button"
                 onClick={handleSubmit}
                 disabled={loading}
                 className={`flex items-center gap-2 px-5 py-2.5 font-semibold text-white bg-gradient-to-r from-[#845cbd] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-lg shadow-[#845cbd]/20 transition-all duration-200 cursor-pointer ${
@@ -84,6 +88,47 @@ function SettingsComponent({
 
             {/* ---- Business Details Section ---- */}
             <div className="p-6 space-y-6">
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <FiImage size={12} className="text-[#845cbd]" />
+                  Business Logo
+                </label>
+                {isEditing ? (
+                  <div className="space-y-3">
+                    {formData.logo ? (
+                      <img
+                        src={formData.logo}
+                        alt="Business logo preview"
+                        className="h-16 w-16 rounded-lg border border-gray-200 object-cover"
+                      />
+                    ) : (
+                      <div className="h-16 w-16 rounded-lg border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-xs text-gray-400">
+                        No logo
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      name="logoFile"
+                      accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+                      onChange={handleInputChange}
+                      className="w-full p-2.5 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] text-sm text-gray-700 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-[#f4effc] file:text-[#845cbd] file:font-medium"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 min-h-[80px] flex items-center">
+                    {formData.logo ? (
+                      <img
+                        src={formData.logo}
+                        alt="Business logo"
+                        className="h-14 w-14 rounded-lg border border-gray-200 object-cover"
+                      />
+                    ) : (
+                      <span className="text-gray-300 italic">Not set</span>
+                    )}
+                  </div>
+                )}
+              </div>
+
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-1 h-5 rounded-full bg-[#845cbd]"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
