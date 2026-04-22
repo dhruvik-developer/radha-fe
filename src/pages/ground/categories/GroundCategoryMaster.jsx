@@ -47,8 +47,8 @@ const GroundCategoryMaster = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <HugeiconsIcon icon={MenuRestaurantIcon} size={22} color="var(--color-primary)" className="text-[var(--color-primary)]" />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <HugeiconsIcon icon={MenuRestaurantIcon} size={22} color="var(--color-primary-text)" className="text-[var(--color-primary-text)]" />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Ground Categories</h2>
@@ -60,7 +60,7 @@ const GroundCategoryMaster = () => {
         <div className="flex flex-wrap gap-2 w-full md:w-auto mt-2 md:mt-0">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
           >
             + Add Category
           </button>
@@ -118,7 +118,7 @@ const GroundCategoryMaster = () => {
                       <span
                         className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                           cat.is_active
-                            ? "bg-green-100 text-green-700"
+                            ? "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]"
                             : "bg-red-100 text-red-700"
                         }`}
                       >

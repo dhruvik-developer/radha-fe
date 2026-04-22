@@ -140,12 +140,12 @@ const EventGroundChecklist = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
             <HugeiconsIcon
               icon={TaskAdd01Icon}
               size={22}
-              color="var(--color-primary)"
-              className="text-[var(--color-primary)]"
+              color="var(--color-primary-text)"
+              className="text-[var(--color-primary-text)]"
             />
           </div>
           <div>
@@ -163,7 +163,7 @@ const EventGroundChecklist = () => {
               setEditCategoryData(null);
               setShowAddCategory(true);
             }}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
+            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
           >
             + Add Category
           </button>
@@ -172,7 +172,7 @@ const EventGroundChecklist = () => {
               setEditItemData(null);
               setShowAddItem(true);
             }}
-            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[#f4effc] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
+            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
           >
             + Add Item
           </button>
@@ -183,12 +183,12 @@ const EventGroundChecklist = () => {
       {loading ? (
         <Loader message="Loading ground categories..." />
       ) : categories.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-          <p className="text-lg font-semibold text-gray-500">
+        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+          <p className="text-lg font-bold text-[var(--color-primary-text)]">
             No Categories Available
           </p>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
             Add a ground category to get started
           </p>
         </div>
@@ -210,8 +210,8 @@ const EventGroundChecklist = () => {
                     key={category.id}
                     className={`group flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? "bg-gradient-to-r from-purple-50 to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                        : "bg-white border-gray-200 hover:border-purple-300 hover:shadow-sm"
+                        ? "bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
+                        : "bg-white border-gray-200 hover:border-[var(--color-primary-border)] hover:shadow-sm"
                     }`}
                   >
                     <div
@@ -252,7 +252,7 @@ const EventGroundChecklist = () => {
                           handleEditCategory(category);
                         }}
                         title="Edit Category"
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[#f4effc] transition-all cursor-pointer"
+                        className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer"
                       >
                         <FiEdit2 size={14} />
                       </button>
@@ -279,7 +279,7 @@ const EventGroundChecklist = () => {
             <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <FiFolder className="text-[var(--color-primary)]" />
+                  <FiFolder className="text-[var(--color-primary-text)]" />
                   {activeCategory?.name}
                 </h3>
                 <p className="text-sm text-gray-500 mt-1 font-medium">
@@ -308,11 +308,11 @@ const EventGroundChecklist = () => {
                   {filteredItems.map((item) => (
                     <div
                       key={item.id}
-                      className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[#b39ddb] hover:shadow-sm transition-all duration-200"
+                      className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200"
                     >
                       <div className="flex items-center gap-3 min-w-0 pr-2 flex-1">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-purple-50">
-                          <FiTag className="text-[var(--color-primary)]" size={14} />
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-[var(--color-primary-tint)]">
+                          <FiTag className="text-[var(--color-primary-text)]" size={14} />
                         </div>
                         <div className="min-w-0">
                           <span className="text-[14px] font-bold truncate text-gray-800 group-hover:text-[var(--color-primary)] transition-colors block">
@@ -330,7 +330,7 @@ const EventGroundChecklist = () => {
                         <button
                           onClick={() => handleEditItem(item)}
                           title="Edit Item"
-                          className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[#f4effc] transition-all cursor-pointer"
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer"
                         >
                           <FiEdit2 size={14} />
                         </button>
@@ -346,9 +346,9 @@ const EventGroundChecklist = () => {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-3 py-10">
-                  <IoIosWarning size={40} className="text-yellow-400" />
-                  <p className="text-base font-medium text-gray-500">
+                <div className="flex flex-col items-center justify-center h-full gap-3 py-10">
+                  <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
+                  <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
                     {searchQuery
                       ? "No items match your search."
                       : "No items found in this category."}

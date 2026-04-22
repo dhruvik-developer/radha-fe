@@ -23,8 +23,8 @@ function EventSummaryComponent({
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiFileText className="text-[var(--color-primary)]" size={22} />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <FiFileText className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Summary Report</h2>
@@ -72,7 +72,7 @@ function EventSummaryComponent({
         <Loader message="Loading report data..." />
       ) : !summaryData || summaryData.length === 0 ? (
         <div className="flex flex-col justify-center items-center gap-2 text-yellow-500 py-16">
-          <IoIosWarning size={48} />
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)]" />
           <p className="text-center text-gray-600 text-lg font-semibold">
             No Report Data Available!
           </p>
@@ -81,7 +81,7 @@ function EventSummaryComponent({
         <div className="overflow-x-auto">
           <table className="min-w-[700px] w-full border-collapse">
             <thead>
-              <tr className="bg-[#f4effc] text-[var(--color-primary)]">
+              <tr className="bg-[var(--color-primary-soft)] text-[var(--color-primary)]">
                 <th className="px-4 py-3 text-left font-bold text-sm rounded-tl-lg">
                   Staff Name
                 </th>
@@ -105,7 +105,7 @@ function EventSummaryComponent({
               {summaryData.map((row, index) => (
                 <tr
                   key={index}
-                  className="bg-white hover:bg-purple-50 cursor-pointer transition-colors group"
+                  className="bg-white hover:bg-[var(--color-primary-tint)] cursor-pointer transition-colors group"
                   onClick={() => navigate(`/staff-detail/${row.staff_id}`)}
                 >
                   <td className="px-4 py-4">
@@ -137,7 +137,7 @@ function EventSummaryComponent({
                       <td className="px-4 py-4 text-right font-black text-gray-800">
                         ₹{fmt(row.total_amount)}
                       </td>
-                      <td className="px-4 py-4 text-right font-bold text-green-600">
+                      <td className="px-4 py-4 text-right font-bold text-[var(--color-primary)]">
                         ₹{fmt(row.total_paid)}
                       </td>
                       <td className="px-4 py-4 text-right">
@@ -151,7 +151,7 @@ function EventSummaryComponent({
                   )}
                   <td className="px-4 py-4 text-center">
                     <FiChevronRight
-                      className="mx-auto text-gray-400 group-hover:text-[var(--color-primary)] transition-colors"
+                      className="mx-auto text-gray-400 group-hover:text-[var(--color-primary-text)] transition-colors"
                       size={18}
                     />
                   </td>

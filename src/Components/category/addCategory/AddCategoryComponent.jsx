@@ -19,8 +19,8 @@ function AddCategoryComponent({
       </button>
 
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 rounded-xl bg-[#f4effc]">
-          <FiFolder className="text-[var(--color-primary)]" size={22} />
+        <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+          <FiFolder className="text-[var(--color-primary-text)]" size={22} />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">Create Category</h2>
@@ -48,7 +48,7 @@ function AddCategoryComponent({
         <div className="flex items-center justify-center pt-3">
           <button
             type="submit"
-            className="px-8 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
+            className="px-8 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
           >
             Save Category
           </button>

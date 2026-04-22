@@ -110,7 +110,7 @@ function AddEditAssignmentComponent({
     <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6">
+        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-5 sm:px-8 sm:py-6">
           <div className="flex justify-between items-center sm:flex-row flex-col gap-4">
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm self-start">
@@ -130,8 +130,8 @@ function AddEditAssignmentComponent({
             <div className="flex items-center flex-wrap gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end">
               {/* Waiters Needed (from Order) */}
               {totalWaiterCount > 0 && (
-                <div className="bg-amber-500/20 border border-amber-300/30 rounded-xl px-4 py-2 backdrop-blur-sm">
-                  <span className="text-amber-100/90 text-[10px] font-bold uppercase tracking-wider block mb-1">
+                <div className="bg-[var(--color-primary-tint)]0/20 border border-[var(--color-primary-border)] rounded-xl px-4 py-2 backdrop-blur-sm">
+                  <span className="text-[var(--color-primary-soft)] text-[10px] font-bold uppercase tracking-wider block mb-1">
                     Waiters Needed
                   </span>
                   <div className="flex items-center gap-1.5 flex-wrap">
@@ -142,20 +142,20 @@ function AddEditAssignmentComponent({
                           key={idx}
                           className={`flex items-center gap-1.5 text-white text-[13px] font-bold border px-2 py-1 rounded-md cursor-pointer transition-all ${
                             isAssigned
-                              ? "bg-amber-500/10 border-transparent opacity-60"
-                              : "bg-amber-500/30 border-amber-400/20 hover:bg-amber-500/40"
+                              ? "bg-[var(--color-primary-tint)]0/10 border-transparent opacity-60"
+                              : "bg-[var(--color-primary-tint)]0/30 border-[var(--color-primary-border)] hover:bg-[var(--color-primary-tint)]0/40"
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={!!isAssigned}
                             onChange={() => toggleWaiterTally(idx)}
-                            className="w-3.5 h-3.5 rounded-sm border-amber-300/50 text-amber-500 focus:ring-amber-500 bg-transparent/20 cursor-pointer"
+                            className="w-3.5 h-3.5 rounded-sm border-[var(--color-primary-border)] text-[var(--color-primary-tint)]0 focus:ring-[var(--color-primary-tint)]0 bg-transparent/20 cursor-pointer"
                             title="Tally when assigned"
                           />
                           <div className={`flex items-center gap-1 ${isAssigned ? "line-through" : ""}`}>
                             {w.type_name || w.type || w.waiterType}
-                            <span className={`text-[11px] font-black ${isAssigned ? "text-amber-200/50" : "text-amber-200/90"}`}>
+                            <span className={`text-[11px] font-black ${isAssigned ? "text-[var(--color-primary-light)]" : "text-[var(--color-primary-light)]"}`}>
                               {w.count || w.waiterCount}
                             </span>
                           </div>
@@ -275,8 +275,8 @@ function AddEditAssignmentComponent({
                       onClick={() => onToggleStaff(staff)}
                       className={`relative cursor-pointer p-4 rounded-2xl border-2 transition-all duration-200 group ${
                         selected
-                          ? "border-[var(--color-primary)] bg-gradient-to-br from-[#f8f4ff] to-[#f0e8ff] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                          : "border-gray-100 bg-white hover:border-purple-200 hover:shadow-sm"
+                          ? "border-[var(--color-primary)] bg-gradient-to-br from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] shadow-md ring-1 ring-[var(--color-primary)]/20"
+                          : "border-gray-100 bg-white hover:border-[var(--color-primary-border)]/50 hover:shadow-sm"
                       }`}
                     >
                       {/* Selection check */}
@@ -284,7 +284,7 @@ function AddEditAssignmentComponent({
                         className={`absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                           selected
                             ? "bg-[var(--color-primary)] text-white shadow-sm"
-                            : "border-2 border-gray-200 text-transparent group-hover:border-purple-300"
+                            : "border-2 border-gray-200 text-transparent group-hover:border-[var(--color-primary-border)]"
                         }`}
                       >
                         <FiCheck size={14} />
@@ -295,7 +295,7 @@ function AddEditAssignmentComponent({
                           className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm transition-colors ${
                             selected
                               ? "bg-[var(--color-primary)] text-white shadow-md"
-                              : "bg-gray-100 text-gray-500 group-hover:bg-purple-50 group-hover:text-[var(--color-primary)]"
+                              : "bg-gray-100 text-gray-500 group-hover:bg-[var(--color-primary-tint)] group-hover:text-[var(--color-primary)]"
                           }`}
                         >
                           {staff.name?.charAt(0).toUpperCase() || "?"}
@@ -315,7 +315,7 @@ function AddEditAssignmentComponent({
                           ₹{staff.per_person_rate || staff.per_day_rate || 0}/day
                         </span>
                         {staff.waiter_type_name && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-50 text-purple-600">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-[var(--color-primary-tint)] text-[var(--color-primary)]">
                             {staff.waiter_type_name}
                           </span>
                         )}
@@ -347,7 +347,7 @@ function AddEditAssignmentComponent({
                     return (
                       <div
                         key={entry.staffId}
-                        className="flex items-center gap-2 bg-[#f4effc] border border-[var(--color-primary)]/20 text-[var(--color-primary)] px-3 py-1.5 rounded-xl text-sm font-semibold"
+                        className="flex items-center gap-2 bg-[var(--color-primary-soft)] border border-[var(--color-primary)]/20 text-[var(--color-primary)] px-3 py-1.5 rounded-xl text-sm font-semibold"
                       >
                         <span className="w-5 h-5 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center text-[10px] font-black">
                           {staffObj?.name?.charAt(0).toUpperCase() || "?"}
@@ -386,7 +386,7 @@ function AddEditAssignmentComponent({
                 type="button"
                 onClick={goToStep2}
                 disabled={selectedStaffEntries.length === 0}
-                className="px-6 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 Continue
                 <FiArrowRight size={16} />
@@ -434,7 +434,7 @@ function AddEditAssignmentComponent({
                         </p>
                       </div>
                       {!isFixed && (
-                        <div className="bg-[#f4effc] px-3 py-1.5 rounded-lg text-right">
+                        <div className="bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg text-right">
                           <span className="text-[10px] font-bold text-gray-400 uppercase block">
                             Amount
                           </span>
@@ -444,7 +444,7 @@ function AddEditAssignmentComponent({
                         </div>
                       )}
                       {isFixed && (
-                        <span className="px-3 py-1 rounded-lg bg-green-50 text-green-600 text-[11px] font-bold">
+                        <span className="px-3 py-1 rounded-lg bg-[var(--color-primary-tint)] text-[var(--color-primary)] text-[11px] font-bold">
                           Fixed Staff
                         </span>
                       )}
@@ -535,19 +535,19 @@ function AddEditAssignmentComponent({
             </div>
 
             {/* Summary bar */}
-            <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-2xl border border-purple-100 flex flex-wrap items-center justify-between gap-4">
+            <div className="mt-6 p-4 bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] rounded-2xl border border-[var(--color-primary-border)]/30 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-6">
                 <div>
                   <span className="text-[10px] font-bold text-gray-400 uppercase block">Staff</span>
                   <span className="text-lg font-black text-gray-700">{selectedStaffEntries.length}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-purple-500 uppercase block">Grand Total</span>
-                  <span className="text-lg font-black text-purple-700">₹{grandTotal.toFixed(2)}</span>
+                  <span className="text-[10px] font-bold text-[var(--color-primary-tint)]0 uppercase block">Grand Total</span>
+                  <span className="text-lg font-black text-[var(--color-primary-text)]">₹{grandTotal.toFixed(2)}</span>
                 </div>
                 <div>
                   <span className="text-[10px] font-bold text-green-500 uppercase block">Paid</span>
-                  <span className="text-lg font-black text-green-700">
+                  <span className="text-lg font-black text-[var(--color-primary-text)]">
                     ₹{selectedStaffEntries.reduce((s, e) => s + (parseFloat(e.paid_amount) || 0), 0).toFixed(2)}
                   </span>
                 </div>
@@ -573,7 +573,7 @@ function AddEditAssignmentComponent({
               <button
                 type="submit"
                 disabled={saving || selectedStaffEntries.length === 0}
-                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 {saving ? (
                   <>
@@ -610,7 +610,7 @@ function AddEditAssignmentComponent({
     return (
       <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-5 sm:px-8 sm:py-6 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm">
                 <FiBriefcase className="text-white" size={24} />
@@ -712,7 +712,7 @@ function AddEditAssignmentComponent({
                   {!isFixedStaff && (
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                        <BiMoney className="text-[var(--color-primary)]" size={16} /> Per Day Rate <span className="text-red-500">*</span>
+                        <BiMoney className="text-[var(--color-primary-text)]" size={16} /> Per Day Rate <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>
@@ -726,7 +726,7 @@ function AddEditAssignmentComponent({
 
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                      <BiMoney className="text-[var(--color-primary)]" size={16} /> Amount Paid
+                      <BiMoney className="text-[var(--color-primary-text)]" size={16} /> Amount Paid
                     </label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>
@@ -746,7 +746,7 @@ function AddEditAssignmentComponent({
                 Cancel
               </button>
               <button type="submit" disabled={saving}
-                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
+                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
                 {saving ? (
                   <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Saving...</>
                 ) : ("Update Assignment")}

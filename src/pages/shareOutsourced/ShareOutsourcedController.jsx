@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { getAllBusinessProfiles } from "../../api/BusinessProfile";
 import { getSingleOrder, updateEventBooking } from "../../api/FetchAllOrder";
+import Loader from "../../Components/common/Loader";
 
 function ShareOutsourcedController() {
   const location = useLocation();
@@ -216,11 +217,7 @@ function ShareOutsourcedController() {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    return <Loader message="Saving outsourced items..." fullScreen={false} compact />;
   }
 
   return (

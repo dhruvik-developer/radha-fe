@@ -6,6 +6,7 @@ import {
 } from "../../api/VendorAssignmentApis";
 import { FiX, FiCheck } from "react-icons/fi";
 import { useVendors } from "../../hooks/useVendors";
+import Loader from "../common/Loader";
 
 const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
   const [loading, setLoading] = useState(false);
@@ -138,7 +139,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50/30">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
+              <Loader message="Loading item configuration..." fullScreen={false} compact />
             </div>
           ) : entries.length === 0 ? (
             <div className="text-center py-10 text-gray-500">
@@ -150,9 +151,9 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                 key={category}
                 className="bg-white border text-sm border-gray-200 rounded-xl overflow-hidden shadow-sm"
               >
-                <div className="px-5 py-3 bg-purple-50/50 border-b border-gray-100 flex items-center justify-between">
-                  <h3 className="font-bold text-purple-900">{category}</h3>
-                  <span className="px-2.5 py-1 text-xs font-semibold text-purple-700 bg-purple-100 rounded-full">
+                <div className="px-5 py-3 bg-[var(--color-primary-tint)]/50 border-b border-gray-100 flex items-center justify-between">
+                  <h3 className="font-bold text-[var(--color-primary-text)]">{category}</h3>
+                  <span className="px-2.5 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] rounded-full">
                     {items.length} item{items.length !== 1 ? "s" : ""}
                   </span>
                 </div>

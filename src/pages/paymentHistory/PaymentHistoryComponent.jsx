@@ -20,16 +20,16 @@ function PaymentHistoryComponent({ paymentData, loading }) {
         <Loader message="Loading Payment Histories..." />
       ) : !paymentData ? (
         <div className="flex justify-center items-center gap-2 text-yellow-500">
-          <IoIosWarning size={30} />
+          <IoIosWarning size={30} className="text-[var(--color-primary-light)]" />
           <p className="text-center text-red-500 text-xl font-semibold py-4">
             No Payment History Available!
           </p>
-          <IoIosWarning size={30} />
+          <IoIosWarning size={30} className="text-[var(--color-primary-light)]" />
         </div>
       ) : (
         <div className="space-y-4">
           {/* Total Balance - Hero Card */}
-          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3fa0] text-white rounded-xl p-6 shadow-md">
+          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] text-white rounded-xl p-6 shadow-md">
             <div className="flex items-center gap-3 mb-2">
               <div className="bg-white/20 p-2.5 rounded-lg">
                 <FaWallet size={22} />
@@ -46,8 +46,8 @@ function PaymentHistoryComponent({ paymentData, loading }) {
             {/* Total Paid */}
             <div className="bg-white border border-green-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="flex items-center gap-2.5 mb-2">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <FaCheckCircle size={18} className="text-green-600" />
+                <div className="bg-[var(--color-primary-soft)] p-2 rounded-lg">
+                  <FaCheckCircle size={18} className="text-[var(--color-primary-text)]" />
                 </div>
                 <p className="text-sm font-medium text-gray-500">
                   Total Paid Amount
@@ -90,10 +90,10 @@ function PaymentHistoryComponent({ paymentData, loading }) {
             </div>
 
             {/* Total Expense */}
-            <div className="bg-white border border-orange-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div className="bg-white border border-[var(--color-primary-border)] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="flex items-center gap-2.5 mb-2">
-                <div className="bg-orange-100 p-2 rounded-lg">
-                  <FaReceipt size={18} className="text-orange-500" />
+                <div className="bg-[var(--color-primary-soft)] p-2 rounded-lg">
+                  <FaReceipt size={18} className="text-[var(--color-primary-tint)]0" />
                 </div>
                 <p className="text-sm font-medium text-gray-500">
                   Total Expense Amount

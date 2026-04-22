@@ -4,7 +4,7 @@ import ViewItemRecipeComponent from "./ViewItemRecipeComponent";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useRecipes } from "../../hooks/useRecipes";
-import { useBranchItemById } from "../../hooks/useBranchItems";
+
 import { useIngredientItems } from "../../hooks/useIngredientItems";
 import { useUpdateItemCostsMutation } from "../../hooks/useCategoryMutations";
 import {
@@ -49,12 +49,7 @@ function ViewItemRecipeController({
   const deleteRecipeMutation = useDeleteRecipeMutation();
   const { data: ingredientOptions = [], isLoading: isIngredientOptionsLoading } =
     useIngredientItems();
-  const { data: itemDetail, isLoading: isItemDetailLoading } = useBranchItemById(
-    itemId,
-    {
-      enabled: Boolean(itemId) && !disableItemDetailsFetch,
-    }
-  );
+
 
   // --- Add Mode State (when no recipe exists) ---
   const [isAdding, setIsAdding] = useState(false);
@@ -377,11 +372,11 @@ function ViewItemRecipeController({
       }
     });
 
-    if (Object.keys(ingredientMap).length > 0 || itemDetail) {
+    if (Object.keys(ingredientMap).length > 0) {
       setRecipeData({
         id: null,
-        item: itemDetail || { id: itemId, name: itemName },
-        person_count: itemDetail?.person_count || recipeEntries[0]?.person_count || 100,
+        item: { id: itemId, name: itemName },
+        person_count: recipeEntries[0]?.person_count || 100,
         ingredients: ingredientMap,
       });
       return;
@@ -394,8 +389,7 @@ function ViewItemRecipeController({
     <ViewItemRecipeComponent
       loading={
         isRecipesLoading ||
-        isIngredientOptionsLoading ||
-        (!disableItemDetailsFetch && isItemDetailLoading)
+        isIngredientOptionsLoading
       }
       navigate={navigate}
       recipeData={recipeData}

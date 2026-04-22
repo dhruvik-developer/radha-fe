@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import SettingsComponent from "./SettingsComponent";
+import { extractColorsFromImage } from "../../utils/colorUtils";
 import {
   getAllBusinessProfiles,
   createBusinessProfile,
@@ -27,6 +28,14 @@ const isAllowedLogoFile = (file) => {
   return ALLOWED_LOGO_EXTENSIONS.some((ext) => lowerName.endsWith(ext));
 };
 
+const hardReloadPage = () => {
+  if (typeof window === "undefined") return;
+
+  const nextUrl = new URL(window.location.href);
+  nextUrl.searchParams.set("_refresh", Date.now().toString());
+  window.location.replace(nextUrl.toString());
+};
+
 function SettingsController() {
   const [loading, setLoading] = useState(false);
   const [profileId, setProfileId] = useState(null);
@@ -40,7 +49,10 @@ function SettingsController() {
     godown_address: "",
     logo: "",
     logoFile: null,
+    color_code: "#13609b", // Default color
   });
+
+  const [extractedColors, setExtractedColors] = useState([]);
 
   // Keep a copy for cancel/revert
   const [originalData, setOriginalData] = useState({ ...formData });
@@ -69,12 +81,26 @@ function SettingsController() {
           godown_address: profile.godown_address || "",
           logo: profile.logo || "",
           logoFile: null,
+          color_code: profile.color_code || "#845cbd",
         };
         setFormData(profileData);
         setOriginalData(profileData);
+        
+        if (profile.logo) {
+          handleExtractColors(profile.logo);
+        }
       }
     } catch (error) {
       console.error("Failed to load business profile:", error);
+    }
+  };
+
+  const handleExtractColors = async (source) => {
+    try {
+      const colors = await extractColorsFromImage(source);
+      setExtractedColors(colors);
+    } catch (error) {
+      console.error("Failed to extract colors:", error);
     }
   };
 
@@ -94,6 +120,18 @@ function SettingsController() {
         ...prev,
         logoFile: selectedFile,
         logo: selectedFile ? URL.createObjectURL(selectedFile) : prev.logo,
+      }));
+
+      if (selectedFile) {
+        handleExtractColors(selectedFile);
+      }
+      return;
+    }
+
+    if (name === "color_code") {
+      setFormData((prev) => ({
+        ...prev,
+        color_code: value,
       }));
       return;
     }
@@ -155,6 +193,7 @@ function SettingsController() {
         fssai_number: formData.fssai_number,
         godown_address: formData.godown_address,
         logo: formData.logoFile || undefined,
+        color_code: formData.color_code,
       };
 
       let response;
@@ -187,7 +226,9 @@ function SettingsController() {
         toast.success(response.message || "Profile saved successfully!");
         setOriginalData(savedFormData);
         setIsEditing(false);
-        fetchProfile();
+        setTimeout(() => {
+          hardReloadPage();
+        }, 250);
       } else {
         toast.error("Profile save response invalid. Please retry.");
       }
@@ -207,6 +248,7 @@ function SettingsController() {
       isEditing={isEditing}
       handleEdit={handleEdit}
       handleCancel={handleCancel}
+      extractedColors={extractedColors}
     />
   );
 }

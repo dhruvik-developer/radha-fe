@@ -4,6 +4,7 @@ import { BiMoney } from "react-icons/bi";
 import Loader from "../../../Components/common/Loader";
 import RoleDropdown from "../../../Components/eventStaff/RoleDropdown";
 import AddRoleModal from "../../../Components/eventStaff/AddRoleModal";
+import Input from "../../../Components/common/formInputs/Input";
 
 function AddEditStaffComponent({
   mode,
@@ -41,7 +42,7 @@ function AddEditStaffComponent({
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6">
+        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-5 sm:px-8 sm:py-6">
           <div className="flex items-center gap-3">
             <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm">
               <FiUsers className="text-white" size={24} />
@@ -77,7 +78,7 @@ function AddEditStaffComponent({
                   checked={formData.is_active}
                   onChange={handleStatusToggle}
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500" />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary-tint)]0" />
               </label>
             </div>
 
@@ -214,7 +215,7 @@ function AddEditStaffComponent({
                 </div>
 
                 {hasExistingLogin ? (
-                  <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  <p className="text-xs text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)] rounded-lg px-3 py-2">
                     Existing linked login mila hai. Current backend se login
                     disable nahi hota, sirf update hota hai.
                   </p>
@@ -233,6 +234,7 @@ function AddEditStaffComponent({
                         onChange={handleChange}
                         placeholder="e.g., ramesh_staff"
                         className={`w-full px-4 py-3 rounded-xl border ${errors.login_username ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
+                        autoComplete="none"
                       />
                       {errors.login_username ? (
                         <p className="text-red-500 text-xs font-medium pl-1">
@@ -241,14 +243,16 @@ function AddEditStaffComponent({
                       ) : null}
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        Login Password
-                        {!hasExistingLogin ? (
-                          <span className="text-red-500">*</span>
-                        ) : null}
-                      </label>
-                      <input
+                      <Input
+                        label={
+                          <span className="flex items-center gap-2">
+                            Login Password
+                            {!hasExistingLogin && (
+                              <span className="text-red-500">*</span>
+                            )}
+                          </span>
+                        }
+                        labelClass="text-sm font-semibold text-gray-700 mb-2"
                         type="password"
                         name="login_password"
                         value={formData.login_password}
@@ -259,13 +263,9 @@ function AddEditStaffComponent({
                             : "Minimum 4 characters"
                         }
                         className={`w-full px-4 py-3 rounded-xl border ${errors.login_password ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
+                        error={errors.login_password}
+                        autoComplete="new-password"
                       />
-                      {errors.login_password ? (
-                        <p className="text-red-500 text-xs font-medium pl-1">
-                          {errors.login_password}
-                        </p>
-                      ) : null}
-                    </div>
 
                     <div className="space-y-2 md:col-span-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
@@ -331,7 +331,7 @@ function AddEditStaffComponent({
                   <>
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        <BiMoney className="text-[var(--color-primary)]" size={18} /> Fixed
+                        <BiMoney className="text-[var(--color-primary-text)]" size={18} /> Fixed
                         Salary (Monthly) <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -380,7 +380,7 @@ function AddEditStaffComponent({
                 formData.staff_type === "Contract" ? (
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                      <BiMoney className="text-[var(--color-primary)]" size={18} /> Paid Per
+                      <BiMoney className="text-[var(--color-primary-text)]" size={18} /> Paid Per
                       Person (Rate) <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -421,7 +421,7 @@ function AddEditStaffComponent({
             <button
               type="submit"
               disabled={saving}
-              className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+              className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:brightness-95 hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
             >
               {saving ? (
                 <>

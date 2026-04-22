@@ -39,8 +39,8 @@ function Step1_ClientEvent({
       {/* ====== Section 1: Client Information ====== */}
       <div>
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiUser className="text-[var(--color-primary)]" size={20} />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <FiUser className="text-[var(--color-primary-text)]" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -104,8 +104,8 @@ function Step1_ClientEvent({
       <div>
         <div className="flex items-center mb-5">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-blue-50">
-              <FiCalendar className="text-blue-600" size={20} />
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary-tint)]">
+              <FiCalendar className="text-[var(--color-primary-text)]" size={20} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-800">
@@ -133,7 +133,7 @@ function Step1_ClientEvent({
           {formData.schedule.map((day, dIdx) => (
             <div
               key={dIdx}
-              className="p-5 border-2 border-purple-100 rounded-xl bg-gradient-to-br from-gray-50/80 to-purple-50/30 shadow-sm relative"
+              className="p-5 border-2 border-[var(--color-primary-border)]/30 rounded-xl bg-gradient-to-br from-gray-50/80 to-[var(--color-primary-tint)] shadow-sm relative"
             >
               {/* Day Header */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
@@ -149,7 +149,7 @@ function Step1_ClientEvent({
                       dateFormat="dd/MM/yyyy"
                       selected={day.event_date}
                       onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 p-2 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-semibold text-gray-700 bg-white"
+                      className="w-36 p-2 border border-[var(--color-primary-border)]/50 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-semibold text-gray-700 bg-white"
                     />
                   </div>
                 </div>
@@ -172,15 +172,15 @@ function Step1_ClientEvent({
                 {day.timeSlots.map((slot, sIdx) => (
                   <div
                     key={sIdx}
-                    className="p-4 bg-gradient-to-r from-[#f8f5fc] to-white border-2 border-[var(--color-primary)]/20 rounded-xl shadow-md relative overflow-hidden"
+                    className="p-4 bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-2 border-[var(--color-primary)]/20 rounded-xl shadow-md relative overflow-hidden"
                   >
                     {/* Highlighted left accent bar */}
-                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[var(--color-primary)] to-[#6a3faf] rounded-l-xl" />
+                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[var(--color-primary)] to-[var(--color-primary-dark)] rounded-l-xl" />
 
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 pl-3">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center">
-                          <FiClock size={15} className="text-[var(--color-primary)]" />
+                          <FiClock size={15} className="text-[var(--color-primary-text)]" />
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
                           Slot {sIdx + 1}
@@ -291,14 +291,14 @@ function Step1_ClientEvent({
         <button
           type="button"
           onClick={handleAddSchedule}
-          className="px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 rounded-xl flex items-center gap-2 transition-colors border border-purple-200 text-sm"
+          className="px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] rounded-xl flex items-center gap-2 transition-colors border border-[var(--color-primary-border)]/50 text-sm"
         >
           <FiPlus size={16} /> Add Event Date
         </button>
         <button
           type="button"
           onClick={onNext}
-          className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
+          className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
         >
           Continue to Menu Selection <FiArrowRight size={18} />
         </button>

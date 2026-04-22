@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { postLogin } from "../../api/AuthApis";
 import toast from "react-hot-toast";
 import LoginComponent from "./LoginComponent";
+import { getAllBusinessProfiles } from "../../api/BusinessProfile";
 import { USER_ROLE_ADMIN } from "../../services/tokenService";
 
 function LoginController() {
@@ -14,8 +15,35 @@ function LoginController() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const { login, logout } = useContext(UserContext);
+  const [businessLogo, setBusinessLogo] = useState("");
+  const [isLogoLoading, setIsLogoLoading] = useState(true);
+  const { login } = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBusinessLogo = async () => {
+      try {
+        const response = await getAllBusinessProfiles();
+        const profileList = Array.isArray(response?.data)
+          ? response.data
+          : response?.data
+            ? [response.data]
+            : [];
+
+        const logoUrl = profileList[0]?.logo;
+        setBusinessLogo(
+          typeof logoUrl === "string" && logoUrl.trim() ? logoUrl : ""
+        );
+      } catch (error) {
+        console.error("Failed to load login logo:", error);
+        setBusinessLogo("");
+      } finally {
+        setIsLogoLoading(false);
+      }
+    };
+
+    fetchBusinessLogo();
+  }, []);
 
   const validateForm = () => {
     let newErrors = {};
@@ -56,6 +84,11 @@ function LoginController() {
         throw new Error("Invalid login response");
       }
 
+      if (String(userType).toLowerCase() !== USER_ROLE_ADMIN) {
+        toast.error("Only admin can access this functionality.");
+        return;
+      }
+
       login(access, username, userType, permissions);
       toast.success(response?.data?.message || "Login successfully");
       navigate("/dish");
@@ -71,6 +104,8 @@ function LoginController() {
       loading={loading}
       showPassword={showPassword}
       errors={errors}
+      businessLogo={businessLogo}
+      isLogoLoading={isLogoLoading}
       onShowPassword={togglePassword}
       handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}

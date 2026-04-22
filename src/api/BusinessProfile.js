@@ -1,6 +1,9 @@
 import toast from "react-hot-toast";
 import ApiInstance from "../services/ApiInstance";
 
+let businessProfilesInFlightRequest = null;
+let businessProfilesCache = null;
+
 const toMultipartFormData = (payload = {}) => {
   const formData = new FormData();
 
@@ -18,6 +21,7 @@ export const createBusinessProfile = async (payload) => {
       "/business-profiles/",
       toMultipartFormData(payload)
     );
+    businessProfilesCache = null;
     return response.data;
   } catch (error) {
     toast.error("Error creating business profile");
@@ -31,6 +35,7 @@ export const updateBusinessProfile = async (id, payload) => {
       `/business-profiles/${id}/`,
       toMultipartFormData(payload)
     );
+    businessProfilesCache = null;
     return response.data;
   } catch (error) {
     toast.error("Error updating business profile");
@@ -39,9 +44,30 @@ export const updateBusinessProfile = async (id, payload) => {
 };
 
 export const getAllBusinessProfiles = async () => {
+  if (businessProfilesCache) {
+    return businessProfilesCache;
+  }
+
+  if (businessProfilesInFlightRequest) {
+    return businessProfilesInFlightRequest;
+  }
+
   try {
-    const response = await ApiInstance.get("/business-profiles/");
-    return response.data;
+    businessProfilesInFlightRequest = ApiInstance.get("/business-profiles/")
+      .then((response) => {
+        businessProfilesCache = response.data;
+        return response.data;
+      })
+      .catch((error) => {
+        // Suppress error toast here as it might be empty on first load.
+        console.error("API Error:", error);
+        return { status: false, data: [] };
+      })
+      .finally(() => {
+        businessProfilesInFlightRequest = null;
+      });
+
+    return await businessProfilesInFlightRequest;
   } catch (error) {
     // Suppress error toast here as it might be empty on first load.
     console.error("API Error:", error);

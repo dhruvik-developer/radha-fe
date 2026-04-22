@@ -101,7 +101,7 @@ export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCate
     <ModalWrapper isOpen={isOpen} onClose={onClose}>
       <div className="bg-white rounded-2xl shadow-2xl w-[95vw] sm:w-[540px] flex flex-col overflow-visible">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
+        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiTag className="text-white" size={20} />
@@ -164,7 +164,7 @@ export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCate
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Item"}
             </button>

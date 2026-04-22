@@ -45,8 +45,8 @@ function AddEditVendorComponent({
       </button>
 
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 rounded-xl bg-[#f4effc]">
-          <FiTruck className="text-[var(--color-primary)]" size={22} />
+        <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+          <FiTruck className="text-[var(--color-primary-text)]" size={22} />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">
@@ -127,7 +127,7 @@ function AddEditVendorComponent({
           </div>
 
           {hasExistingLogin ? (
-            <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+            <p className="text-xs text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)] rounded-lg px-3 py-2">
               Existing linked login mila hai. Current backend se login disable
               nahi hota, sirf update hota hai.
             </p>
@@ -144,6 +144,7 @@ function AddEditVendorComponent({
                   value={form.login_username}
                   className={`w-full p-2.5 border ${errors.login_username ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
+                  autoComplete="none"
                 />
                 {errors.login_username ? (
                   <p className="text-xs text-red-500 mt-1">
@@ -165,12 +166,9 @@ function AddEditVendorComponent({
                   value={form.login_password}
                   className={`w-full p-2.5 border ${errors.login_password ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
+                  error={errors.login_password}
+                  autoComplete="new-password"
                 />
-                {errors.login_password ? (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.login_password}
-                  </p>
-                ) : null}
               </div>
 
               <div className="md:col-span-2">
@@ -226,7 +224,7 @@ function AddEditVendorComponent({
               <button
                 type="button"
                 onClick={handleAddCategoryRow}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[var(--color-primary)] bg-[#f4effc] rounded-lg hover:bg-[#e8ddf5] transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[var(--color-primary)] bg-[var(--color-primary-soft)] rounded-lg hover:bg-[var(--color-primary-soft)] transition-colors cursor-pointer"
               >
                 <FiPlus size={14} /> Add Category
               </button>
@@ -289,7 +287,7 @@ function AddEditVendorComponent({
         <div className="flex items-center justify-center pt-3">
           <button
             type="submit"
-            className="px-8 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
+            className="px-8 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
           >
             {isEdit ? "Update Vendor" : "Save Vendor"}
           </button>

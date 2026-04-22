@@ -37,8 +37,8 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiBookOpen className="text-[var(--color-primary)]" size={22} />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <FiBookOpen className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
@@ -52,7 +52,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
         </div>
         <button
           onClick={() => navigate("/create-ingredient")}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
         >
           <FiPlus size={15} />
           Add Ingredient
@@ -64,12 +64,12 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
       ) : (
         <div className="space-y-3">
           {recipe.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-              <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-              <p className="text-lg font-semibold text-gray-500">
+            <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+              <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+              <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
                 No Recipe Ingredient Available
               </p>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
                 Create your first recipe ingredient to get started
               </p>
             </div>
@@ -79,10 +79,10 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
               return (
                 <div
                   key={rec.id}
-                  className="rounded-xl overflow-hidden border border-[#e8e0f3] transition-all duration-200 hover:shadow-md"
+                  className="rounded-xl overflow-hidden border border-[var(--color-primary-border)] transition-all duration-200 hover:shadow-md"
                 >
                   <div
-                    className="flex justify-between items-center bg-[#f4effc] px-5 py-4 cursor-pointer transition-colors duration-200 hover:bg-[#eee5f8]"
+                    className="flex justify-between items-center bg-[var(--color-primary-soft)] px-5 py-4 cursor-pointer transition-colors duration-200 hover:brightness-95"
                     onClick={() => toggleExpand(rec.id)}
                   >
                     <div className="flex items-center gap-3">
@@ -95,12 +95,12 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                     </div>
                     <div className="flex items-center gap-2">
                       {rec.person_count && (
-                        <span className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-green-50 text-green-700 border border-green-100">
+                        <span className="flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/30">
                           <FiUsers size={12} />
                           {rec.person_count}
                         </span>
                       )}
-                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-white text-[var(--color-primary)] border border-[#ede7f6]">
+                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-white text-[var(--color-primary)] border border-[var(--color-primary-border)]">
                         {ingredientEntries.length} items
                       </span>
                       <button
@@ -116,7 +116,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                         <FiEdit2 size={15} />
                       </button>
                       {expanded === rec.id ? (
-                        <FiChevronUp size={18} className="text-[var(--color-primary)]" />
+                        <FiChevronUp size={18} className="text-[var(--color-primary-text)]" />
                       ) : (
                         <FiChevronDown size={18} className="text-gray-400" />
                       )}
@@ -133,20 +133,20 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 py-4 bg-[#faf8fd] border-t border-[#ede7f6]">
+                    <div className="px-5 py-4 bg-[var(--color-primary-tint)] border-t border-[var(--color-primary-border)]">
                       {ingredientEntries.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                           {ingredientEntries.map(([name, qty], index) => (
                             <div
                               key={index}
-                              className="flex items-center gap-2 text-sm text-gray-600 bg-white rounded-lg px-3 py-2 border border-[#ede7f6]"
+                              className="flex items-center gap-2 text-sm text-gray-600 bg-white rounded-lg px-3 py-2 border border-[var(--color-primary-border)]"
                             >
-                              <span className="w-5 h-5 rounded bg-[#f4effc] text-[var(--color-primary)] text-xs font-bold flex items-center justify-center flex-shrink-0">
+                              <span className="w-5 h-5 rounded bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-xs font-bold flex items-center justify-center flex-shrink-0">
                                 {index + 1}
                               </span>
                               <span className="font-medium flex-1">{name}</span>
                               {qty && (
-                                <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-[#f4effc] text-[var(--color-primary)] border border-[#ede7f6]">
+                                <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-[var(--color-primary-soft)] text-[var(--color-primary)] border border-[var(--color-primary-border)]">
                                   {qty}
                                 </span>
                               )}
@@ -154,12 +154,12 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                           ))}
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center justify-center py-8 text-gray-400">
+                        <div className="flex flex-col items-center justify-center py-8 gap-3">
                           <IoIosWarning
                             size={32}
-                            className="text-yellow-400 mb-2"
+                            className="text-[var(--color-primary-light)] mb-2"
                           />
-                          <p className="text-sm font-medium text-gray-500">
+                          <p className="text-sm font-bold text-[var(--color-primary-text)]">
                             No Ingredients Available
                           </p>
                         </div>

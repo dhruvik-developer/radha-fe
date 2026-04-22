@@ -20,7 +20,7 @@ import {
 } from "../../hooks/useCategoryMutations";
 import { useCreateRecipeMutation } from "../../hooks/useRecipeMutations";
 import { useCategories } from "../../hooks/useCategories";
-import { useBranchItems } from "../../hooks/useBranchItems";
+
 import { useIngredientItems } from "../../hooks/useIngredientItems";
 
 // ==================== MODAL WRAPPER ====================
@@ -87,7 +87,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
     <ModalWrapper isOpen={isOpen} onClose={onClose}>
       <div className="bg-white rounded-2xl shadow-2xl w-[95vw] sm:w-[480px] max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
+        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiFolder className="text-white" size={20} />
@@ -133,7 +133,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Category"}
             </button>
@@ -222,7 +222,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
     <ModalWrapper isOpen={isOpen} onClose={onClose}>
       <div className="bg-white rounded-2xl shadow-2xl w-[95vw] sm:w-[540px] max-h-[90vh] flex flex-col overflow-visible">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
+        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiTag className="text-white" size={20} />
@@ -275,7 +275,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
           {/* Pricing */}
           <div className="border-t border-gray-100 pt-5">
             <div className="flex items-center gap-2 mb-4">
-              <FiDollarSign className="text-green-600" size={18} />
+              <FiDollarSign className="text-[var(--color-primary-text)]" size={18} />
               <h3 className="font-semibold text-gray-700">Pricing</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -290,7 +290,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
                   onChange={(e) =>
                     setBaseCost(e.target.value.replace(/[^0-9.]/g, ""))
                   }
-                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-500 transition-all text-base font-medium"
+                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
                 />
                 <p className="text-xs text-gray-400 mt-1">
                   The raw cost of this item
@@ -307,7 +307,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
                   onChange={(e) =>
                     setSelectionRate(e.target.value.replace(/[^0-9.]/g, ""))
                   }
-                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all text-base font-medium"
+                  className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
                 />
                 <p className="text-xs text-gray-400 mt-1">
                   The rate when item is selected
@@ -327,7 +327,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Item"}
             </button>
@@ -347,10 +347,17 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
   ]);
   const [saving, setSaving] = useState(false);
   const createRecipeMutation = useCreateRecipeMutation();
-  const { data: items = [] } = useBranchItems({}, { enabled: isOpen });
+  const { data: categories = [] } = useCategories({}, { enabled: isOpen });
   const { data: ingredientItems = [] } = useIngredientItems(
     {},
     { enabled: isOpen }
+  );
+
+  const items = categories.flatMap((cat) => 
+    (cat.items || []).map(item => ({
+      ...item,
+      categoryName: cat.name
+    }))
   );
 
   useEffect(() => {
@@ -435,7 +442,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
     <ModalWrapper isOpen={isOpen} onClose={onClose}>
       <div className="bg-white rounded-2xl shadow-2xl w-[95vw] sm:w-[650px] max-h-[90vh] flex flex-col overflow-visible">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
+        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiBookOpen className="text-white" size={20} />
@@ -465,7 +472,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
           {/* Person Count */}
           <div className="flex-none">
             <label className="block text-sm font-bold text-gray-600 uppercase tracking-wider mb-2">
-              <FiUsers className="inline mr-1.5 text-green-600" size={14} />
+              <FiUsers className="inline mr-1.5 text-[var(--color-primary-text)]" size={14} />
               Recipe For Person Count
             </label>
             <input
@@ -496,7 +503,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
           {selectedItem && (
             <div className="flex-1 overflow-visible pb-2 min-h-0">
               <label className="block text-sm font-bold text-gray-600 uppercase tracking-wider mb-3">
-                <FiBox className="inline mr-1.5 text-blue-600" size={14} />
+                <FiBox className="inline mr-1.5 text-[var(--color-primary-text)]" size={14} />
                 {selectedItemName} Ingredients
               </label>
 
@@ -603,7 +610,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               onClick={handleSubmit}
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Ingredient"}
             </button>

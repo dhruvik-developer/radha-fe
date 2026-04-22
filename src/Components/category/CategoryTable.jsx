@@ -31,12 +31,12 @@ const CategoryTable = ({
 
   if (sortedCategories.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-        <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-        <p className="text-lg font-semibold text-gray-500">
+      <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+        <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+        <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
           No Categories Available
         </p>
-        <p className="text-sm text-gray-400 mt-1">
+        <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
           Add a category to get started
         </p>
       </div>
@@ -69,8 +69,8 @@ const CategoryTable = ({
                 key={category.id}
                 onClick={() => setActiveCategoryId(category.id)}
                 className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${isActive
-                    ? "bg-gradient-to-r from-purple-50 to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                    : "bg-white border-gray-200 hover:border-purple-300 hover:shadow-sm"
+                    ? "bg-gradient-to-r from-[var(--color-primary-soft)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
+                    : "bg-white border-gray-200 hover:border-[var(--color-primary-light)] hover:shadow-sm"
                   }`}
               >
                 <div className="flex items-center gap-3 overflow-hidden">
@@ -101,7 +101,7 @@ const CategoryTable = ({
                       e.stopPropagation();
                       onEditCategory(category.id, category.name);
                     }}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-purple-100 transition-colors"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors"
                     title="Edit Name"
                   >
                     <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -111,7 +111,7 @@ const CategoryTable = ({
                       e.stopPropagation();
                       onSwappingCategory(category.id, category.name);
                     }}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-purple-100 transition-colors"
+                    className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors"
                     title="Change Position"
                   >
                     <LuArrowDownUp size={15} />
@@ -139,7 +139,7 @@ const CategoryTable = ({
         <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-              <FiFolder className="text-[var(--color-primary)]" />
+              <FiFolder className="text-[var(--color-primary-text)]" />
               {activeCategory?.name}
             </h3>
             <p className="text-sm text-gray-500 mt-1 font-medium">
@@ -180,11 +180,11 @@ const CategoryTable = ({
               {filteredSubcategories.map((sub, index) => (
                 <div
                   key={sub.id}
-                  className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[#b39ddb] hover:shadow-sm transition-all duration-200 cursor-pointer"
+                  className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200 cursor-pointer"
                   onClick={() => setSelectedItemForRecipe(sub)}
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${sub.has_recipe === false ? "bg-red-50" : "bg-purple-50"}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${sub.has_recipe === false ? "bg-red-50" : "bg-[var(--color-primary-tint)]"}`}>
                       <FiTag className={sub.has_recipe === false ? "text-red-500" : "text-[var(--color-primary)]"} size={14} />
                     </div>
                     <span className={`text-[14px] font-bold truncate transition-colors ${sub.has_recipe === false ? "text-red-500 group-hover:text-red-600" : "text-gray-800 group-hover:text-[var(--color-primary)]"}`}>
@@ -205,9 +205,9 @@ const CategoryTable = ({
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-3 py-10">
-              <IoIosWarning size={40} className="text-yellow-400" />
-              <p className="text-base font-medium text-gray-500">
+            <div className="flex flex-col items-center justify-center h-full gap-3 py-10">
+              <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
+              <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
                 {searchQuery
                   ? "No items match your search."
                   : "No items found in this category."}

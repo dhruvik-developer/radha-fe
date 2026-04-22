@@ -25,7 +25,7 @@ function AddRoleModal({
         type="submit"
         form="add-role-form"
         disabled={isSaving}
-        className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#7350a8] disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 font-bold text-white transition-colors hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSaving ? (
           <>

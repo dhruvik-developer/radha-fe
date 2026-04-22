@@ -164,7 +164,7 @@ function ShareOutsourcedComponent({
                 <div
                   key={iIdx}
                   className={`p-3 border rounded-md mb-3 transition-all ${
-                    isChecked ? "border-[var(--color-primary)] bg-purple-50" : "border-gray-300"
+                    isChecked ? "border-[var(--color-primary)] bg-[var(--color-primary-tint)]" : "border-gray-300"
                   }`}
                 >
                   <div className="flex items-center justify-between">

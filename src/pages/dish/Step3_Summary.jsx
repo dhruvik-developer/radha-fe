@@ -64,8 +64,8 @@ function Step3_Summary({
       {/* ====== Page Header ====== */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiClipboard className="text-[var(--color-primary)]" size={20} />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <FiClipboard className="text-[var(--color-primary-text)]" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -76,18 +76,18 @@ function Step3_Summary({
             </p>
           </div>
         </div>
-        <div className="text-right bg-green-50 px-5 py-2.5 rounded-xl border border-green-200">
-          <p className="text-[10px] text-green-700 uppercase font-bold tracking-wider mb-0.5">
+        <div className="text-right bg-[var(--color-primary-tint)] px-5 py-2.5 rounded-xl border border-green-200">
+          <p className="text-[10px] text-[var(--color-primary-text)] uppercase font-bold tracking-wider mb-0.5">
             Grand Total
           </p>
-          <p className="text-2xl font-black text-green-600">
+          <p className="text-2xl font-black text-[var(--color-primary)]">
             ₹{Number(formData.grandTotalAmount || 0).toFixed(2)}
           </p>
         </div>
       </div>
 
       {/* ====== Client Info Summary Card ====== */}
-      <div className="bg-gradient-to-r from-gray-50 to-purple-50/30 rounded-xl p-4 border border-gray-200">
+      <div className="bg-gradient-to-r from-gray-50 to-[var(--color-primary-tint)] rounded-xl p-4 border border-gray-200">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
             <p className="text-gray-400 text-xs font-semibold uppercase mb-1">
@@ -125,10 +125,10 @@ function Step3_Summary({
         {eventCards.map((event, cardIdx) => (
           <div
             key={`${event.dIdx}-${event.sIdx}`}
-            className="border-2 border-purple-100 rounded-xl overflow-hidden shadow-sm"
+            className="border-2 border-[var(--color-primary-border)]/30 rounded-xl overflow-hidden shadow-sm"
           >
             {/* Event Card Header */}
-            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-5 py-3.5 flex items-center justify-between text-white">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-5 py-3.5 flex items-center justify-between text-white">
               <div className="flex items-center gap-4">
                 <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center font-bold text-sm backdrop-blur-sm">
                   {cardIdx + 1}
@@ -154,7 +154,7 @@ function Step3_Summary({
               {/* ---- Info Row: Persons + Per Plate Price ---- */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                  <FiUsers className="text-[var(--color-primary)]" size={18} />
+                  <FiUsers className="text-[var(--color-primary-text)]" size={18} />
                   <div>
                     <p className="text-[10px] text-gray-400 uppercase font-bold">
                       Persons
@@ -184,7 +184,7 @@ function Step3_Summary({
                     className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all font-semibold text-lg ${
                       errors[`platePrice_${event.dIdx}_${event.sIdx}`]
                         ? "border-red-500"
-                        : "border-purple-200"
+                        : "border-[var(--color-primary-border)]/50"
                     }`}
                   />
                   {errors[`platePrice_${event.dIdx}_${event.sIdx}`] && (
@@ -225,11 +225,11 @@ function Step3_Summary({
               </div>
 
               {/* ---- Selected Dishes List ---- */}
-              <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100">
+              <div className="bg-[var(--color-primary-tint)]/50 rounded-xl p-4 border border-[var(--color-primary-border)]/30">
                 <div className="flex items-center justify-between mb-3">
-                  <h5 className="font-semibold text-blue-800 text-sm flex items-center gap-2">
+                  <h5 className="font-semibold text-[var(--color-primary-text)] text-sm flex items-center gap-2">
                     <FiFileText size={15} /> Selected Dishes
-                    <span className="ml-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs font-bold">
+                    <span className="ml-1 px-2 py-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] rounded-full text-xs font-bold">
                       {event.dishes.length}
                     </span>
                   </h5>
@@ -287,12 +287,12 @@ function Step3_Summary({
               </div>
 
               {/* ---- Waiter Services Section ---- */}
-              <div className="bg-indigo-50/50 rounded-xl p-4 border border-indigo-100">
+              <div className="bg-[var(--color-primary-tint)]/50 rounded-xl p-4 border border-[var(--color-primary-border)]/30">
                 <div className="flex justify-between items-center mb-3">
-                  <h5 className="font-semibold text-indigo-800 text-sm flex items-center gap-2">
+                  <h5 className="font-semibold text-[var(--color-primary-text)] text-sm flex items-center gap-2">
                     <FiUsers size={15} /> Waiter Service
                     {event.waiterServices.length > 0 && (
-                      <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold">
+                      <span className="px-2 py-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] rounded-full text-xs font-bold">
                         {event.waiterServices.length}
                       </span>
                     )}
@@ -300,7 +300,7 @@ function Step3_Summary({
                   <button
                     type="button"
                     onClick={() => handleSlotAddWaiter(event.dIdx, event.sIdx)}
-                    className="text-xs font-bold text-indigo-600 bg-indigo-100 hover:bg-indigo-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                    className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-soft)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
                   >
                     <FiPlus size={12} /> Add Waiter
                   </button>
@@ -315,7 +315,7 @@ function Step3_Summary({
                       return (
                         <div
                           key={wIdx}
-                          className="bg-white rounded-lg border border-indigo-100 p-3 space-y-2"
+                          className="bg-white rounded-lg border border-[var(--color-primary-border)]/30 p-3 space-y-2"
                         >
                           <div className="flex items-center gap-2">
                             {/* Type dropdown */}
@@ -330,7 +330,7 @@ function Step3_Summary({
                                   e.target.value
                                 )
                               }
-                              className="flex-1 p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-all"
+                              className="flex-1 p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-border)] transition-all"
                             >
                               <option value="">Select waiter type</option>
                               {isLoadingWaiterTypes && (
@@ -367,11 +367,11 @@ function Step3_Summary({
                               }
                               placeholder="Count"
                               autoComplete="off"
-                              className="w-20 p-2 border border-gray-300 rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-all"
+                              className="w-20 p-2 border border-gray-300 rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-border)] transition-all"
                             />
 
                             {/* Row total */}
-                            <span className="text-sm font-bold text-indigo-700 min-w-[70px] text-right">
+                            <span className="text-sm font-bold text-[var(--color-primary-text)] min-w-[70px] text-right">
                               ₹{entryTotal.toFixed(2)}
                             </span>
 
@@ -406,7 +406,7 @@ function Step3_Summary({
                             }
                             placeholder="Notes (optional)"
                             autoComplete="off"
-                            className="w-full p-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400 transition-all"
+                            className="w-full p-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-border)] transition-all"
                           />
                         </div>
                       );
@@ -415,7 +415,7 @@ function Step3_Summary({
                     {/* Grand total if multiple entries */}
                     {event.waiterServices.length > 1 && (
                       <div className="flex justify-end pt-1">
-                        <span className="text-xs font-bold text-indigo-700 bg-indigo-100 px-3 py-1 rounded-lg">
+                        <span className="text-xs font-bold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] px-3 py-1 rounded-lg">
                           Total Waiter Charge: ₹{
                             event.waiterServices
                               .reduce(
@@ -439,12 +439,12 @@ function Step3_Summary({
               </div>
 
               {/* ---- Extra Services Section ---- */}
-              <div className="bg-orange-50/50 rounded-xl p-4 border border-orange-100">
+              <div className="bg-[var(--color-primary-tint)] rounded-xl p-4 border border-[var(--color-primary-soft)]">
                 <div className="flex justify-between items-center mb-3">
-                  <h5 className="font-semibold text-orange-800 text-sm flex items-center gap-2">
+                  <h5 className="font-semibold text-[var(--color-primary-text)] text-sm flex items-center gap-2">
                     <FiPlus size={15} /> Extra Services
                     {event.extraServices.length > 0 && (
-                      <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs font-bold">
+                      <span className="px-2 py-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] rounded-full text-xs font-bold">
                         {event.extraServices.length}
                       </span>
                     )}
@@ -452,7 +452,7 @@ function Step3_Summary({
                   <button
                     type="button"
                     onClick={() => handleSlotAddExtra(event.dIdx, event.sIdx)}
-                    className="text-xs font-bold text-orange-600 bg-orange-100 hover:bg-orange-200 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                    className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-soft)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
                   >
                     <FiPlus size={12} /> Add Service
                   </button>
@@ -479,7 +479,7 @@ function Step3_Summary({
                             )
                           }
                           autoComplete="off"
-                          className="flex-1 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all"
+                          className="flex-1 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary-border)] focus:ring-2 focus:ring-[var(--color-primary-soft)] transition-all"
                         />
                         <input
                           type="text"
@@ -495,7 +495,7 @@ function Step3_Summary({
                             )
                           }
                           autoComplete="off"
-                          className="w-24 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 text-center transition-all"
+                          className="w-24 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary-border)] focus:ring-2 focus:ring-[var(--color-primary-soft)] text-center transition-all"
                         />
                         <input
                           type="text"
@@ -511,7 +511,7 @@ function Step3_Summary({
                             )
                           }
                           autoComplete="off"
-                          className="w-16 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 text-center transition-all"
+                          className="w-16 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary-border)] focus:ring-2 focus:ring-[var(--color-primary-soft)] text-center transition-all"
                         />
                         <span className="text-sm font-bold text-gray-600 min-w-[60px] text-right">
                           ₹
@@ -620,38 +620,38 @@ function Step3_Summary({
 
         {/* Rules Panel */}
         {showRules && (
-          <div className="mb-5 p-5 bg-amber-50 rounded-xl border border-amber-200 animate-in slide-in-from-top-2 duration-300">
-            <h4 className="font-bold text-amber-900 text-sm mb-3 flex items-center gap-2">
+          <div className="mb-5 p-5 bg-[var(--color-primary-tint)] rounded-xl border border-[var(--color-primary-border)] animate-in slide-in-from-top-2 duration-300">
+            <h4 className="font-bold text-[var(--color-primary-text)] text-sm mb-3 flex items-center gap-2">
               <FiBookOpen size={15} /> Terms & Rules
             </h4>
             <ul className="space-y-2">
-              <li className="text-sm text-amber-800 flex gap-2">
-                <span className="text-amber-500 font-bold">1.</span>
+              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
+                <span className="text-[var(--color-primary-tint)]0 font-bold">1.</span>
                 <span>The party must arrange the cooking area on time.</span>
               </li>
-              <li className="text-sm text-amber-800 flex gap-2">
-                <span className="text-amber-500 font-bold">2.</span>
+              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
+                <span className="text-[var(--color-primary-tint)]0 font-bold">2.</span>
                 <span>
                   The party must confirm the menu and dish count 10 days before
                   the event.
                 </span>
               </li>
-              <li className="text-sm text-amber-800 flex gap-2">
-                <span className="text-amber-500 font-bold">3.</span>
+              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
+                <span className="text-[var(--color-primary-tint)]0 font-bold">3.</span>
                 <span>
                   The party must arrange water supply for utensils and waste
                   disposal.
                 </span>
               </li>
-              <li className="text-sm text-amber-800 flex gap-2">
-                <span className="text-amber-500 font-bold">4.</span>
+              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
+                <span className="text-[var(--color-primary-tint)]0 font-bold">4.</span>
                 <span>
                   The party must arrange tables for counters and other pandal
                   service equipment.
                 </span>
               </li>
-              <li className="text-sm text-amber-800 flex gap-2">
-                <span className="text-amber-500 font-bold">5.</span>
+              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
+                <span className="text-[var(--color-primary-tint)]0 font-bold">5.</span>
                 <span>
                   The party must pay 30% advance payment after placing the
                   order.
@@ -706,7 +706,7 @@ function Step3_Summary({
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-10 py-3.5 font-bold text-lg text-white bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-xl shadow-[var(--color-primary)]/30 transition-all active:scale-[0.98] flex items-center gap-2"
+            className="px-10 py-3.5 font-bold text-lg text-white bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 rounded-xl shadow-xl shadow-[var(--color-primary)]/30 transition-all active:scale-[0.98] flex items-center gap-2"
           >
             <FiSend size={18} /> Review & Generate PDF
           </button>

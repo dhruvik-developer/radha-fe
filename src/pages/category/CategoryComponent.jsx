@@ -31,8 +31,8 @@ function CategoryComponent({
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiFolder className="text-[var(--color-primary)]" size={22} />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <FiFolder className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Categories</h2>
@@ -49,19 +49,19 @@ function CategoryComponent({
         <div className="flex flex-wrap gap-2 w-full md:w-auto mt-2 md:mt-0">
           <button
             onClick={() => setShowAddCategory(true)}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
+            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
           >
             + Add Category
           </button>
           <button
             onClick={() => setShowAddIngredient(true)}
-            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[#f4effc] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
+            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
           >
             + Add Ingredient
           </button>
           <button
             onClick={() => setShowAddItem(true)}
-            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[#f4effc] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
+            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
           >
             + Add Item
           </button>

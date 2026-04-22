@@ -39,8 +39,8 @@ function AllOrderComponent({
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6 w-full">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiClipboard className="text-[var(--color-primary)]" size={22} />
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+            <FiClipboard className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">All Orders</h2>
@@ -108,12 +108,12 @@ function AllOrderComponent({
       {loading ? (
         <Loader message="Loading Orders..." />
       ) : allOrder.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-          <p className="text-lg font-semibold text-gray-500">
+        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+          <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
             No Orders Available
           </p>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
             Orders will appear here once created
           </p>
         </div>
@@ -122,10 +122,10 @@ function AllOrderComponent({
           {allOrder.map((order) => (
             <div
               key={order.id}
-              className="flex flex-col h-full rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg bg-[#faf8fd] border border-[#e8e0f3]"
+              className="flex flex-col h-full rounded-xl overflow-hidden transition-all duration-200 hover:shadow-lg bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]"
             >
               {/* Card Header */}
-              <div className="flex items-center justify-between px-5 py-4 bg-[#f4effc] border-b border-[#ede7f6]">
+              <div className="flex items-center justify-between px-5 py-4 bg-[var(--color-primary-soft)] border-b border-[var(--color-primary-border)]">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm">
                     {order.name?.charAt(0)?.toUpperCase() || "?"}
@@ -143,7 +143,7 @@ function AllOrderComponent({
                 </div>
                 <div className="flex items-center gap-2">
                   <span
-                    className="text-xs font-medium px-3 py-1.5 rounded-full bg-white text-[var(--color-primary)] border border-[#ede7f6] max-w-[200px] truncate"
+                    className="text-xs font-medium px-3 py-1.5 rounded-full bg-white text-[var(--color-primary)] border border-[var(--color-primary-border)] max-w-[200px] truncate"
                     title={
                       order.sessions?.length > 0
                         ? Array.from(
@@ -165,20 +165,20 @@ function AllOrderComponent({
               {/* Card Body */}
               <div className="flex-1 px-5 py-4 flex flex-col gap-3">
                 {/* Phone */}
-                <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[#ede7f6] w-max">
-                  <FiPhone size={14} className="text-[var(--color-primary)]" />
+                <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[var(--color-primary-border)] w-max">
+                  <FiPhone size={14} className="text-[var(--color-primary-text)]" />
                   <span className="font-medium">{order.mobile_no || "—"}</span>
                 </div>
 
                 {/* Order Summary — clickable */}
                 <div
-                  className="flex flex-col gap-2 bg-indigo-50/40 border border-[#ede7f6] rounded-lg px-4 py-3 cursor-pointer hover:bg-[#f4effc] hover:border-[var(--color-primary)] transition-all duration-150 group"
+                  className="flex flex-col gap-2 bg-[var(--color-primary-tint)]/40 border border-[var(--color-primary-border)] rounded-lg px-4 py-3 cursor-pointer hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary)] transition-all duration-150 group"
                   onClick={() => handleViewOrderDetails(order.id)}
                   title="View Detailed Order"
                 >
                   <div className="flex items-center justify-between text-sm text-gray-700">
                     <div className="flex items-center gap-2">
-                      <FiClipboard size={14} className="text-[var(--color-primary)]" />
+                      <FiClipboard size={14} className="text-[var(--color-primary-text)]" />
                       <span className="font-semibold text-gray-800">
                         Total Sessions: {order.sessions?.length || 1}
                       </span>
@@ -217,23 +217,23 @@ function AllOrderComponent({
               </div>
 
               {/* Card Footer - Actions */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 px-5 py-3 border-t border-[#ede7f6]">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 px-5 py-3 border-t border-[var(--color-primary-border)]">
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleCompleteOrder(order.id)}
                 >
                   <FiCheckCircle size={14} />
                   Complete
                 </button>
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleShareOrder(order.id)}
                 >
                   <FiShare2 size={14} />
                   Share
                 </button>
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-purple-50 hover:bg-purple-100 text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => handleDownloadOrderPDF(order.id)}
                 >
                   <FiClipboard size={14} />

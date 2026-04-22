@@ -9,7 +9,21 @@ import {
   FiUser,
   FiMessageCircle,
   FiImage,
+  FiDroplet,
 } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+
+const DEFAULT_COLOR_CODE = "#845CBD";
+
+const normalizeHexColor = (value) => {
+  if (typeof value !== "string") return DEFAULT_COLOR_CODE;
+
+  const trimmed = value.trim().toUpperCase();
+  if (/^#[0-9A-F]{6}$/.test(trimmed)) return trimmed;
+  if (/^[0-9A-F]{6}$/.test(trimmed)) return `#${trimmed}`;
+
+  return DEFAULT_COLOR_CODE;
+};
 
 function SettingsComponent({
   formData,
@@ -19,15 +33,20 @@ function SettingsComponent({
   isEditing,
   handleEdit,
   handleCancel,
+  extractedColors,
 }) {
+  const normalizedColorCode = normalizeHexColor(formData.color_code);
+  const shouldUseDarkText =
+    parseInt(normalizedColorCode.replace("#", ""), 16) > 0xffffff / 1.5;
+
   return (
-    <div className="min-h-[calc(100vh-60px)] bg-gradient-to-br from-gray-50 via-purple-50/30 to-gray-50 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-[calc(100vh-60px)] bg-gradient-to-br from-gray-50 via-[var(--color-primary-soft)]/30 to-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* ====== Page Header ====== */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#f4effc]">
-              <FiUser className="text-[var(--color-primary)]" size={22} />
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
+              <FiUser className="text-[var(--color-primary-text)]" size={22} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-800">
@@ -43,7 +62,7 @@ function SettingsComponent({
             <button
               type="button"
               onClick={handleEdit}
-              className="flex items-center gap-2 px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-[#f4effc] hover:bg-[#e8ddf5] rounded-xl transition-all duration-200 border border-[var(--color-primary)]/20 cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-soft)] hover:brightness-95 rounded-xl transition-all duration-200 border border-[var(--color-primary)]/20 cursor-pointer"
             >
               <FiEdit3 size={16} />
               <span>Edit Profile</span>
@@ -62,7 +81,7 @@ function SettingsComponent({
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className={`flex items-center gap-2 px-5 py-2.5 font-semibold text-white bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 px-5 py-2.5 font-semibold text-white bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all duration-200 cursor-pointer ${
                   loading ? "opacity-70 cursor-not-allowed" : ""
                 }`}
               >
@@ -78,9 +97,9 @@ function SettingsComponent({
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             {/* Editing Mode Banner */}
             {isEditing && (
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-200 px-6 py-3 flex items-center gap-2">
-                <FiEdit3 className="text-amber-600" size={14} />
-                <span className="text-sm font-medium text-amber-700">
+              <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)] px-6 py-3 flex items-center gap-2">
+                <FiEdit3 className="text-[var(--color-primary-text)]" size={14} />
+                <span className="text-sm font-medium text-[var(--color-primary-text)]">
                   You are editing your business profile
                 </span>
               </div>
@@ -90,7 +109,7 @@ function SettingsComponent({
             <div className="p-6 space-y-6">
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <FiImage size={12} className="text-[var(--color-primary)]" />
+                  <FiImage size={12} className="text-[var(--color-primary-text)]" />
                   Business Logo
                 </label>
                 {isEditing ? (
@@ -111,7 +130,7 @@ function SettingsComponent({
                       name="logoFile"
                       accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
                       onChange={handleInputChange}
-                      className="w-full p-2.5 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] text-sm text-gray-700 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-[#f4effc] file:text-[var(--color-primary)] file:font-medium"
+                      className="w-full p-2.5 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] text-sm text-gray-700 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-[var(--color-primary-soft)] file:text-[var(--color-primary)] file:font-medium"
                     />
                   </div>
                 ) : (
@@ -140,7 +159,7 @@ function SettingsComponent({
                 {/* Cater's Name */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiUser size={12} className="text-[var(--color-primary)]" />
+                    <FiUser size={12} className="text-[var(--color-primary-text)]" />
                     Business Name
                     <span className="text-red-400">*</span>
                   </label>
@@ -153,7 +172,7 @@ function SettingsComponent({
                       placeholder="e.g. Shreeji Catering Services"
                       required
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -167,7 +186,7 @@ function SettingsComponent({
                 {/* FSSAI Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiShield size={12} className="text-[var(--color-primary)]" />
+                    <FiShield size={12} className="text-[var(--color-primary-text)]" />
                     FSSAI Number
                     <span className="text-red-400">*</span>
                   </label>
@@ -180,7 +199,7 @@ function SettingsComponent({
                       placeholder="e.g. 10021021000123"
                       required
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -196,10 +215,136 @@ function SettingsComponent({
             {/* Divider */}
             <div className="mx-6 border-t border-gray-100"></div>
 
+            {/* ---- Brand Identity Section ---- */}
+            <div className="p-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
+                  <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
+                    Brand Identity
+                  </h3>
+                </div>
+                {isEditing && (
+                  <span className="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full uppercase tracking-tighter">
+                    Logo Color Analysis
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Brand Color Input & Preview */}
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <FiDroplet size={12} className="text-[var(--color-primary-tint)]0" />
+                      Brand Color Code
+                    </label>
+                    <div className="relative group">
+                      <input
+                        type="text"
+                        name="color_code"
+                        value={isEditing ? formData.color_code || "" : normalizedColorCode}
+                        onChange={handleInputChange}
+                        disabled={!isEditing}
+                        placeholder="#000000"
+                        className={`w-full p-3 border-2 ${
+                          isEditing
+                            ? "border-[var(--color-primary-border)] focus:border-[var(--color-primary-tint)]0 focus:ring-4 focus:ring-[var(--color-primary-tint)]0/10 cursor-text"
+                            : "border-transparent bg-gray-100 cursor-default"
+                        } rounded-xl bg-white transition-all text-gray-800 font-mono font-bold tracking-widest`}
+                      />
+                      {isEditing && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <input
+                            type="color"
+                            name="color_code"
+                            value={normalizedColorCode}
+                            onChange={handleInputChange}
+                            className="w-8 h-8 rounded-lg border-2 border-white shadow-sm cursor-pointer overflow-hidden p-0"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Large Preview Bar */}
+                  <motion.div
+                    initial={false}
+                    animate={{ backgroundColor: normalizedColorCode }}
+                    className="h-16 w-full rounded-2xl shadow-inner-lg flex items-center justify-center relative overflow-hidden group border border-gray-100"
+                  >
+                    <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                    <span
+                      className="font-mono font-bold text-lg tracking-widest transition-all drop-shadow-md"
+                      style={{
+                        color: shouldUseDarkText ? "#1f2937" : "#ffffff",
+                      }}
+                    >
+                      {normalizedColorCode}
+                    </span>
+                  </motion.div>
+                </div>
+
+                {/* Quick Theme Colors (Extracted) */}
+                {isEditing && (
+                  <div className="space-y-4">
+                    <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Quick Theme Colors
+                    </label>
+                    
+                    {extractedColors && extractedColors.length > 0 ? (
+                      <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
+                        <AnimatePresence mode="popLayout">
+                          {extractedColors.map((color, idx) => (
+                            <motion.button
+                              key={`${color}-${idx}`}
+                              type="button"
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0.8, opacity: 0 }}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() =>
+                                handleInputChange({
+                                  target: { name: "color_code", value: color },
+                                })
+                              }
+                              title={color}
+                              className={`h-11 w-full rounded-xl border-4 ${
+                                normalizedColorCode.toLowerCase() ===
+                                normalizeHexColor(color).toLowerCase()
+                                  ? "border-[var(--color-primary-tint)]0 shadow-md scale-110"
+                                  : "border-white shadow-sm"
+                              } transition-transform cursor-pointer`}
+                              style={{ backgroundColor: color }}
+                            />
+                          ))}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <div className="h-24 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-100 rounded-2xl bg-gray-50/50 text-gray-400">
+                        <FiImage size={24} className="mb-2 opacity-20" />
+                        <p className="text-[10px] font-medium uppercase tracking-widest opacity-60 text-center px-4">
+                          {formData.logo ? "Analysing logo colors..." : "Upload logo to see theme colors"}
+                        </p>
+                      </div>
+                    )}
+
+                    <p className="text-[10px] text-gray-400 italic">
+                      Tip: Click a color to select it.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="mx-6 border-t border-gray-100"></div>
+
             {/* ---- Contact Information Section ---- */}
             <div className="p-6 space-y-6">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-emerald-500"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Contact Information
                 </h3>
@@ -209,7 +354,7 @@ function SettingsComponent({
                 {/* Phone Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiPhone size={12} className="text-emerald-500" />
+                    <FiPhone size={12} className="text-[var(--color-primary-tint)]0" />
                     Phone Number
                   </label>
                   {isEditing ? (
@@ -220,7 +365,7 @@ function SettingsComponent({
                       onChange={handleInputChange}
                       placeholder="Primary contact number"
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -234,7 +379,7 @@ function SettingsComponent({
                 {/* WhatsApp Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiMessageCircle size={12} className="text-emerald-500" />
+                    <FiMessageCircle size={12} className="text-[var(--color-primary-tint)]0" />
                     WhatsApp Number
                   </label>
                   {isEditing ? (
@@ -245,7 +390,7 @@ function SettingsComponent({
                       onChange={handleInputChange}
                       placeholder="WhatsApp contact number"
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -264,7 +409,7 @@ function SettingsComponent({
             {/* ---- Address Section ---- */}
             <div className="p-6 space-y-6">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-amber-500"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Address
                 </h3>
@@ -272,7 +417,7 @@ function SettingsComponent({
 
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <FiMapPin size={12} className="text-amber-500" />
+                  <FiMapPin size={12} className="text-[var(--color-primary-tint)]0" />
                   Godown / Office Address
                   <span className="text-red-400">*</span>
                 </label>
@@ -285,7 +430,7 @@ function SettingsComponent({
                     required
                     rows={3}
                     autoComplete="off"
-                    className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium resize-none"
+                    className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium resize-none"
                   />
                 ) : (
                   <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[80px] flex items-start">

@@ -140,7 +140,7 @@ function Step2_MenuSelection({
         <button
           type="button"
           onClick={onBack}
-          className="mt-4 px-6 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg font-semibold hover:bg-purple-50 transition-colors"
+          className="mt-4 px-6 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg font-semibold hover:bg-[var(--color-primary-tint)] transition-colors"
         >
           <FiArrowLeft className="inline mr-2" /> Go Back
         </button>
@@ -313,7 +313,7 @@ function Step2_MenuSelection({
                       onClick={() => toggleDish(dish)}
                       className={`relative p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 group min-h-[90px] flex flex-col justify-center ${
                         selected
-                          ? "border-[var(--color-primary)] bg-[#f4effc] shadow-md shadow-[var(--color-primary)]/10"
+                          ? "border-[var(--color-primary)] bg-[var(--color-primary-soft)] shadow-md shadow-[var(--color-primary)]/10"
                           : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
                       }`}
                     >
@@ -368,7 +368,7 @@ function Step2_MenuSelection({
           <button
             type="button"
             onClick={onNext}
-            className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2"
+            className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2"
           >
             Continue to Summary <FiArrowRight size={18} />
           </button>

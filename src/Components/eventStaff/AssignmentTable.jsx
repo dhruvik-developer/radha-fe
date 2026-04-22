@@ -46,7 +46,7 @@ function AssignmentTable({
                     <span className="font-semibold text-gray-800">
                       {assignment.event_name || "N/A"}
                     </span>
-                    <span className="text-xs text-[var(--color-primary)] bg-[#f4effc] px-2 py-0.5 rounded-full w-fit font-medium">
+                    <span className="text-xs text-[var(--color-primary)] bg-[var(--color-primary-soft)] px-2 py-0.5 rounded-full w-fit font-medium">
                       {assignment.role_at_event || "General"}
                     </span>
                   </div>
@@ -81,7 +81,7 @@ function AssignmentTable({
                     </div>
                     <div className="flex justify-between text-xs mt-0.5">
                       <span className="text-gray-400">Paid:</span>
-                      <span className="text-green-600 font-medium">
+                      <span className="text-[var(--color-primary)] font-medium">
                         ₹{assignment.paid_amount}
                       </span>
                     </div>
@@ -91,7 +91,7 @@ function AssignmentTable({
                   {(() => {
                     let badgeColor = "bg-gray-100 text-gray-600";
                     if (assignment.payment_status === "Paid")
-                      badgeColor = "bg-green-100 text-green-700";
+                      badgeColor = "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]";
                     if (assignment.payment_status === "Partial")
                       badgeColor = "bg-yellow-100 text-yellow-700";
                     if (assignment.payment_status === "Pending")
@@ -118,7 +118,7 @@ function AssignmentTable({
                     <button
                       onClick={() => onAssignmentEdit(assignment)}
                       title="Edit Assignment"
-                      className="p-1.5 rounded-md text-gray-500 hover:text-[var(--color-primary)] hover:bg-[#f4effc] transition-colors cursor-pointer"
+                      className="p-1.5 rounded-md text-gray-500 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors cursor-pointer"
                     >
                       <FiEdit2 size={18} />
                     </button>
@@ -137,7 +137,7 @@ function AssignmentTable({
             <tr>
               <td colSpan="7" className="text-center text-gray-500 py-4">
                 <div className="flex flex-col justify-center items-center gap-2 text-yellow-500 py-6">
-                  <IoIosWarning size={40} />
+                  <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
                   <p className="text-center text-gray-600 text-lg font-semibold">
                     No Assignments Found!
                   </p>

@@ -11,11 +11,11 @@ function PdfShareOutsourcedComponent({
   businessProfile,
 }) {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen p-4 font-sans text-gray-800 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+    <div className="flex flex-col justify-center items-center min-h-screen p-4 font-sans text-gray-800 bg-gradient-to-br from-[var(--color-primary-tint)] via-[var(--color-primary-tint)] to-[var(--color-primary-tint)]">
       {/* Action Bar (Top) */}
       <div className="flex justify-end gap-3 mb-6 w-full max-w-3xl xl:w-[50%] no-print-button">
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-[var(--color-primary-soft)] transition-all cursor-pointer group font-semibold text-sm"
           onClick={() => navigate("/all-order")}
           title="Back to Orders"
         >
@@ -37,7 +37,7 @@ function PdfShareOutsourcedComponent({
         </button>
 
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-[var(--color-primary-text)] focus:ring-4 focus:ring-[var(--color-primary-soft)] transition-all cursor-pointer group font-semibold text-sm"
           onClick={downloadPDF}
           title="Download PDF"
         >
@@ -50,7 +50,7 @@ function PdfShareOutsourcedComponent({
 
       <div
         id="pdf-content"
-        className="relative bg-amber-50/30 backdrop-blur-sm shadow-[0_20px_50px_rgba(132,92,189,0.15)] rounded-2xl overflow-hidden w-full max-w-3xl border border-white/50 ring-1 ring-purple-100/50 xl:w-[50%]"
+        className="relative bg-[var(--color-primary-tint)]/30 backdrop-blur-sm shadow-[0_20px_50px_rgba(132,92,189,0.15)] rounded-2xl overflow-hidden w-full max-w-3xl border border-white/50 ring-1 ring-[var(--color-primary-soft)] xl:w-[50%]"
       >
         {/* Watermark */}
         <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
@@ -58,17 +58,17 @@ function PdfShareOutsourcedComponent({
         </div>
         {/* Decorative orbs */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-pink-500/5 to-transparent blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]0/5 to-transparent blur-3xl pointer-events-none" />
         {/* Top Bar */}
-        <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-purple-400 to-[var(--color-primary)] z-10" />
+        <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-soft)] to-[var(--color-primary)] z-10" />
 
         <div className="relative z-10 p-10">
           {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-purple-600 tracking-wide uppercase mb-2 drop-shadow-sm">
+            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)] tracking-wide uppercase mb-2 drop-shadow-sm">
               {businessProfile?.caters_name || "radha Sweet & Caterers"}
             </h2>
-            <div className="inline-flex items-center justify-center gap-3 bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-purple-100 shadow-sm mt-2">
+            <div className="inline-flex items-center justify-center gap-3 bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-[var(--color-primary-border)]/30 shadow-sm mt-2">
               <span className="text-sm font-bold text-[var(--color-primary)] tracking-widest uppercase">
                 Outsourced Items Supply
               </span>
@@ -90,7 +90,7 @@ function PdfShareOutsourcedComponent({
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Delivery Time</p>
-                  <p className="text-base font-semibold text-[var(--color-primary)] bg-purple-50 px-3 py-1 rounded-md inline-block">
+                  <p className="text-base font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] px-3 py-1 rounded-md inline-block">
                     {deliveryTime || "-"}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ function PdfShareOutsourcedComponent({
                 {vendorGroups.map((vg, vIdx) => (
                   <div key={vIdx} className="bg-white border rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden border-gray-100/80">
                     {/* Vendor Header */}
-                    <div className="px-6 py-3 bg-purple-50 border-b border-purple-100 flex items-center gap-2">
+                    <div className="px-6 py-3 bg-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/30 flex items-center gap-2">
                       <span className="text-sm font-bold text-[var(--color-primary)]">🏢 {vg.vendor_name || "Unassigned"}</span>
                     </div>
                     <ul className="divide-y divide-gray-50">
@@ -120,12 +120,12 @@ function PdfShareOutsourcedComponent({
                           className="flex justify-between items-center px-6 py-4 hover:bg-[var(--color-primary)]/[0.02] transition-colors group"
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-[var(--color-primary)]/70 font-bold text-xs">
+                            <div className="w-6 h-6 rounded-full bg-[var(--color-primary-tint)] flex items-center justify-center text-[var(--color-primary)]/70 font-bold text-xs">
                               {iIdx + 1}
                             </div>
                             <span className="text-base font-medium text-gray-800">{item.item_name}</span>
                           </div>
-                          <span className="text-base font-bold text-[var(--color-primary)] bg-purple-50/50 px-4 py-1.5 rounded-lg border border-purple-100/50">
+                          <span className="text-base font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)]/50 px-4 py-1.5 rounded-lg border border-[var(--color-primary-border)]/30/50">
                             {item.quantity ? `${item.quantity} ${item.unit || ""}`.trim() : "-"}
                           </span>
                         </li>

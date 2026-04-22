@@ -34,8 +34,8 @@ function StockController() {
 
       // Add pseudo-category for viewing all low stock
       const enhancedCategories = [
-        { id: "all_items", name: "📋 All Stock Items" },
-        { id: "low_stock", name: "⚠️ Low Stock Items (All)" },
+        { id: "all_items", name: "All Stock Items" },
+        { id: "low_stock", name: "Low Stock Items (All)" },
         ...fetchedCategory,
       ];
       setCategories(enhancedCategories);
@@ -85,7 +85,10 @@ function StockController() {
       const allStock = categories.reduce((acc, cat) => {
         if (cat.id === "low_stock" || cat.id === "all_items") return acc;
         const items = cat.stokeitem || cat.stoke_item || cat.items || [];
-        return [...acc, ...items.map((x) => ({ ...x, categoryName: cat.name }))];
+        return [
+          ...acc,
+          ...items.map((x) => ({ ...x, categoryName: cat.name })),
+        ];
       }, []);
       setItems(allStock);
     } else if (selectedCategory) {

@@ -96,8 +96,8 @@ function FixedStaffPaymentComponent({
       ) : (
         <>
           {/* Top Profile & Mega Summary Card */}
-          <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden">
-            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#a97dd6] px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="bg-white rounded-2xl shadow-lg border border-[var(--color-primary-border)] overflow-hidden">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-5">
                 <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center shadow-inner">
                   <FaUser size={28} className="text-white drop-shadow-md" />
@@ -114,7 +114,7 @@ function FixedStaffPaymentComponent({
                       {summaryData.role_name}
                     </span>
                     {summaryData.joining_date && (
-                      <span className="text-xs text-white bg-green-500/20 px-2 py-1 rounded-md font-medium border border-green-400/30 whitespace-nowrap">
+                      <span className="text-xs text-white bg-[var(--color-primary-tint)]0/20 px-2 py-1 rounded-md font-medium border border-green-400/30 whitespace-nowrap">
                         Joined: {summaryData.joining_date} ({Math.round(parseFloat(summaryData.months_passed || 0))} mo.)
                       </span>
                     )}
@@ -124,7 +124,7 @@ function FixedStaffPaymentComponent({
 
               {/* High-level Overall Action items */}
               <div className="flexflex-col text-right">
-                <p className="text-purple-100 text-xs font-bold uppercase tracking-wider mb-1">
+                <p className="text-[var(--color-primary-soft)] text-xs font-bold uppercase tracking-wider mb-1">
                   Overall Total Paid
                 </p>
                 <p className="text-3xl font-black text-white drop-shadow-md">
@@ -134,8 +134,8 @@ function FixedStaffPaymentComponent({
             </div>
 
             {/* Extended Stats Bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-gray-100 border-t border-purple-50">
-              <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-purple-50/30">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-gray-100 border-t border-[var(--color-primary-tint)]">
+              <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-[var(--color-primary-tint)]">
                 <div className="flex items-center gap-2 mb-1.5">
                   <FaMoneyCheckAlt className="text-[var(--color-primary)]/50 group-hover:text-[var(--color-primary)] transition-colors" />
 
@@ -148,17 +148,17 @@ function FixedStaffPaymentComponent({
                 </p>
               </div>
 
-              <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-green-50/50">
+              <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-[var(--color-primary-tint)]/50">
                 <div className="flex items-center gap-2 mb-1.5">
                   <FaWallet className="text-green-500/50 group-hover:text-green-500 transition-colors" />
                   <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                     Total Salary Paid
                   </span>
                 </div>
-                <p className="text-2xl font-black text-green-600">
+                <p className="text-2xl font-black text-[var(--color-primary)]">
                   ₹{fmt(summaryData.total_salary_paid)}
                 </p>
-                <p className="text-xs text-green-600/70 font-medium mt-1">
+                <p className="text-xs text-[var(--color-primary)]/70 font-medium mt-1">
                   {Math.round(parseFloat(summaryData.paid_months_equivalent || 0))} month(s) equivalent
                 </p>
               </div>
@@ -184,15 +184,15 @@ function FixedStaffPaymentComponent({
                   {Math.round(parseFloat(summaryData.pending_months || 0))} month(s) pending
                 </p>
                 {calculatedPendingSalary <= 0 && (
-                  <span className="text-xs text-green-600 font-bold flex items-center gap-1 mt-1">
+                  <span className="text-xs text-[var(--color-primary)] font-bold flex items-center gap-1 mt-1">
                     <FiCheckCircle size={12} /> All Clear
                   </span>
                 )}
               </div>
 
-              <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-orange-50/50">
+              <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-[var(--color-primary-tint)]">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <FaMoneyBillWave className="text-orange-400/50 group-hover:text-orange-500 transition-colors" />
+                  <FaMoneyBillWave className="text-[var(--color-primary-light)] group-hover:text-[var(--color-primary-tint)]0 transition-colors" />
                   <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                     Pending Withdrawals
                   </span>
@@ -200,7 +200,7 @@ function FixedStaffPaymentComponent({
                 <p
                   className={`text-2xl font-black ${
                     parseFloat(summaryData.total_pending_withdrawals) > 0
-                      ? "text-orange-500"
+                      ? "text-[var(--color-primary-tint)]0"
                       : "text-gray-400"
                   }`}
                 >
@@ -209,7 +209,7 @@ function FixedStaffPaymentComponent({
                 <div className="mt-2 w-full">
                   <button
                     onClick={onOpenWithdrawalModal}
-                    className="w-full text-[10px] uppercase font-bold text-orange-600 bg-orange-100 hover:bg-orange-200 py-1.5 rounded transition-colors"
+                    className="w-full text-[10px] uppercase font-bold text-[var(--color-primary)] bg-[var(--color-primary-soft)] hover:bg-[var(--color-primary-soft)] py-1.5 rounded transition-colors"
                   >
                     + Record Advance
                   </button>
@@ -221,10 +221,10 @@ function FixedStaffPaymentComponent({
           {/* Detailed Lists Grid */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             {/* Salary Payments Table Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl shadow-lg border border-[var(--color-primary-border)] overflow-hidden flex flex-col">
               <div className="bg-gray-50/80 px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 z-10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg text-[var(--color-primary)]">
+                  <div className="p-2 bg-[var(--color-primary-soft)] rounded-lg text-[var(--color-primary)]">
                     <FaRegListAlt size={16} />
                   </div>
                   <h2 className="font-bold text-gray-800 text-lg">
@@ -233,7 +233,7 @@ function FixedStaffPaymentComponent({
                 </div>
                 <button
                   onClick={onAddPayment}
-                  className="bg-[var(--color-primary)] hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer"
+                  className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer"
                 >
                   + Add Salary Payment
                 </button>
@@ -257,14 +257,14 @@ function FixedStaffPaymentComponent({
                       summaryData.salary_payments.map((sp) => (
                         <tr
                           key={sp.id}
-                          className="hover:bg-purple-50/20 transition-colors group"
+                          className="hover:bg-[var(--color-primary-tint)]/20 transition-colors group"
                         >
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-gray-800">
                                 {sp.start_date} <span className="text-gray-400 font-normal">to</span> {sp.end_date}
                               </span>
-                              <span className="text-[10px] bg-purple-50 text-[var(--color-primary)] px-2 py-0.5 rounded-full font-bold">
+                              <span className="text-[10px] bg-[var(--color-primary-tint)] text-[var(--color-primary)] px-2 py-0.5 rounded-full font-bold">
                                 {Math.round(parseFloat(sp.months_count || 0))} month{Math.round(parseFloat(sp.months_count || 0)) !== 1 ? "s" : ""}
                               </span>
                             </div>
@@ -274,11 +274,11 @@ function FixedStaffPaymentComponent({
                           </td>
                           <td className="px-6 py-4 text-sm">
                             <div className="flex flex-col">
-                              <span className="font-bold text-green-600">
+                              <span className="font-bold text-[var(--color-primary)]">
                                 ₹{fmt(sp.paid_amount)}
                               </span>
                               {parseFloat(sp.total_amount) - parseFloat(sp.paid_amount) - parseFloat(sp.remaining_amount) > 0.01 && (
-                                <span className="text-[10px] text-orange-500 font-bold mt-1 whitespace-nowrap">
+                                <span className="text-[10px] text-[var(--color-primary-tint)]0 font-bold mt-1 whitespace-nowrap">
                                   Advance Settled: ₹{fmt(parseFloat(sp.total_amount) - parseFloat(sp.paid_amount) - parseFloat(sp.remaining_amount))}
                                 </span>
                               )}
@@ -299,9 +299,9 @@ function FixedStaffPaymentComponent({
                             <span
                               className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
                                 sp.payment_status === "Paid"
-                                  ? "bg-green-100 text-green-700"
+                                  ? "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]"
                                   : sp.payment_status === "Partial"
-                                    ? "bg-amber-100 text-amber-700"
+                                    ? "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]"
                                     : "bg-red-100 text-red-600"
                               }`}
                             >
@@ -311,7 +311,7 @@ function FixedStaffPaymentComponent({
                           <td className="px-6 py-4 text-center">
                             <button
                               onClick={() => onEditPayment(sp)}
-                              className="text-xs font-bold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                              className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                             >
                               Edit
                             </button>
@@ -334,9 +334,9 @@ function FixedStaffPaymentComponent({
             </div>
 
             {/* Event Assignments Table Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl shadow-lg border border-[var(--color-primary-border)] overflow-hidden flex flex-col">
               <div className="bg-gray-50/80 px-6 py-4 border-b border-gray-100 flex items-center gap-3 sticky top-0 z-10">
-                <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
+                <div className="p-2 bg-[var(--color-primary-soft)] rounded-lg text-[var(--color-primary)]">
                   <FaMoneyBillWave size={16} />
                 </div>
                 <h2 className="font-bold text-gray-800 text-lg">
@@ -361,7 +361,7 @@ function FixedStaffPaymentComponent({
                       summaryData.event_payments.map((ev) => (
                         <tr
                           key={ev.id}
-                          className="hover:bg-blue-50/20 transition-colors group"
+                          className="hover:bg-[var(--color-primary-tint)]/20 transition-colors group"
                         >
                           <td className="px-6 py-4">
                             <div className="flex flex-col">
@@ -376,7 +376,7 @@ function FixedStaffPaymentComponent({
                           <td className="px-6 py-4 text-sm font-bold text-gray-800">
                             ₹{fmt(ev.total_amount)}
                           </td>
-                          <td className="px-6 py-4 text-sm font-bold text-green-600">
+                          <td className="px-6 py-4 text-sm font-bold text-[var(--color-primary)]">
                             ₹{fmt(ev.paid_amount)}
                           </td>
                           <td className="px-6 py-4 text-sm font-bold">
@@ -394,12 +394,12 @@ function FixedStaffPaymentComponent({
                             {parseFloat(ev.remaining_amount) > 0 ? (
                               <button
                                 onClick={() => handlePayWrapper(ev)}
-                                className="bg-[var(--color-primary)] hover:bg-purple-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-sm transition-colors cursor-pointer w-full max-w-[100px]"
+                                className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-sm transition-colors cursor-pointer w-full max-w-[100px]"
                               >
                                 Pay Event
                               </button>
                             ) : (
-                              <span className="text-[11px] font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-md flex items-center justify-center gap-1 w-full max-w-[100px] mx-auto">
+                              <span className="text-[11px] font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] px-3 py-1.5 rounded-md flex items-center justify-center gap-1 w-full max-w-[100px] mx-auto">
                                 <FaCheckCircle size={10} /> Cleared
                               </span>
                             )}

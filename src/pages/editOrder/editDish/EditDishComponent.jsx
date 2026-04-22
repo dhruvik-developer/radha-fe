@@ -117,7 +117,7 @@ function EditDishComponent({
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
       {/* Header Bar */}
-      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-4 flex items-center justify-between">
         <div>
           <h2 className="text-white text-lg font-bold tracking-wide">
             {isSessionMode ? "Edit Session Details" : "Edit Booking Details"}
@@ -228,7 +228,7 @@ function EditDishComponent({
               <button
                 type="button"
                 onClick={handleAddSchedule}
-                className="text-xs font-bold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors border border-purple-200 cursor-pointer"
+                className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors border border-[var(--color-primary-border)]/50 cursor-pointer"
               >
                 <FiPlus size={13} /> Add Date
               </button>
@@ -253,7 +253,7 @@ function EditDishComponent({
                 className="rounded-xl border border-gray-200 overflow-hidden bg-white shadow-sm"
               >
                 {/* Day Header */}
-                <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f7f3fc] to-white border-b border-gray-100">
+                <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[var(--color-primary-soft)] to-white border-b border-gray-100">
                   <div className="flex items-center gap-3">
                     <span className="w-9 h-9 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-black text-xs shadow">
                       D{dIdx + 1}
@@ -264,15 +264,15 @@ function EditDishComponent({
                       dateFormat="dd/MM/yyyy"
                       selected={day.event_date}
                       onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 px-3 py-1.5 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 font-semibold text-gray-700 text-sm bg-white"
+                      className="w-36 px-3 py-1.5 border border-[var(--color-primary-border)]/50 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 font-semibold text-gray-700 text-sm bg-white"
                     />
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="text-right bg-green-50 px-3 py-1.5 rounded-lg border border-green-200">
-                      <span className="text-[9px] text-green-600 font-bold uppercase tracking-wider block leading-none">
+                    <div className="text-right bg-[var(--color-primary-tint)] px-3 py-1.5 rounded-lg border border-green-200">
+                      <span className="text-[9px] text-[var(--color-primary)] font-bold uppercase tracking-wider block leading-none">
                         Day Total
                       </span>
-                      <span className="text-base font-black text-green-700">
+                      <span className="text-base font-black text-[var(--color-primary-text)]">
                         ₹
                         {Number(day.dayTotalAmount || 0).toLocaleString(
                           "en-IN",
@@ -374,7 +374,7 @@ function EditDishComponent({
                                 e.target.value
                               )
                             }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-bold bg-purple-50/50 focus:outline-none focus:border-[var(--color-primary)] transition-all text-center ${errors[`platePrice_${dIdx}_${sIdx}`] ? "border-red-500" : "border-purple-200"}`}
+                            className={`w-full px-3 py-2 border rounded-lg text-sm font-bold bg-[var(--color-primary-tint)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-all text-center ${errors[`platePrice_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[var(--color-primary-border)]/50"}`}
                           />
                           {errors[`platePrice_${dIdx}_${sIdx}`] && (
                             <p className="text-red-500 text-[10px] mt-1 font-medium leading-tight text-center">
@@ -448,7 +448,7 @@ function EditDishComponent({
                               onClick={() =>
                                 openDishModal(dIdx, sIdx, slot.dishes)
                               }
-                              className="text-[11px] font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                              className="text-[11px] font-bold text-white bg-[var(--color-primary)] hover:brightness-95 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                             >
                               Select
                             </button>
@@ -469,7 +469,7 @@ function EditDishComponent({
                                   return (
                                     <span
                                       key={dish.dishId}
-                                      className={`text-[11px] font-medium px-2 py-0.5 rounded-md truncate max-w-[150px] ${isNewZeroPrice ? "text-red-600 bg-red-50 border border-red-200" : "text-[var(--color-primary)] bg-[#f4effc] border border-purple-100"}`}
+                                      className={`text-[11px] font-medium px-2 py-0.5 rounded-md truncate max-w-[150px] ${isNewZeroPrice ? "text-red-600 bg-red-50 border border-red-200" : "text-[var(--color-primary)] bg-[var(--color-primary-soft)] border border-[var(--color-primary-border)]/30"}`}
                                     >
                                       {dish.dishName}
                                     </span>
@@ -499,14 +499,14 @@ function EditDishComponent({
                         {/* Extras */}
                         <div className="bg-white rounded-lg border border-gray-100 p-3">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="font-bold text-orange-600 text-xs flex items-center gap-1">
+                            <span className="font-bold text-[var(--color-primary)] text-xs flex items-center gap-1">
                               <FiStar size={12} /> Extras (
                               {slot.extraServices.length})
                             </span>
                             <button
                               type="button"
                               onClick={() => handleSlotAddExtra(dIdx, sIdx)}
-                              className="text-[11px] font-bold text-white bg-orange-500 hover:bg-orange-600 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                              className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)]0 hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                             >
                               + Add
                             </button>
@@ -531,7 +531,7 @@ function EditDishComponent({
                                         e.target.value
                                       )
                                     }
-                                    className="flex-1 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-orange-300"
+                                    className="flex-1 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)]"
                                   />
                                   <input
                                     type="text"
@@ -546,7 +546,7 @@ function EditDishComponent({
                                         e.target.value
                                       )
                                     }
-                                    className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-orange-300 text-center font-bold"
+                                    className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)] text-center font-bold"
                                   />
                                   <input
                                     type="text"
@@ -561,7 +561,7 @@ function EditDishComponent({
                                         e.target.value
                                       )
                                     }
-                                    className="w-12 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-orange-300 text-center"
+                                    className="w-12 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)] text-center"
                                   />
                                   <span className="text-[11px] font-black text-gray-600 min-w-[40px] text-right">
                                     ₹
@@ -591,14 +591,14 @@ function EditDishComponent({
                       {/* Row 3: Waiter Services */}
                       <div className="bg-white rounded-lg border border-gray-100 p-3 mt-3">
                         <div className="flex justify-between items-center mb-2">
-                          <span className="font-bold text-indigo-600 text-xs flex items-center gap-1">
+                          <span className="font-bold text-[var(--color-primary)] text-xs flex items-center gap-1">
                             <FiUsers size={12} /> Waiter Service (
                             {slot.waiterServices?.length || 0})
                           </span>
                           <button
                             type="button"
                             onClick={() => handleSlotAddWaiter(dIdx, sIdx)}
-                            className="text-[11px] font-bold text-white bg-indigo-500 hover:bg-indigo-600 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                            className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)]0 hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                           >
                             + Add Waiter
                           </button>
@@ -621,7 +621,7 @@ function EditDishComponent({
                                       e.target.value
                                     )
                                   }
-                                  className="flex-1 min-w-[120px] text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-300"
+                                  className="flex-1 min-w-[120px] text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)]"
                                 >
                                   <option value="">Select type</option>
                                   {isLoadingWaiterTypes && (
@@ -651,7 +651,7 @@ function EditDishComponent({
                                       e.target.value
                                     )
                                   }
-                                  className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-300 text-center"
+                                  className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)] text-center"
                                 />
                                 <input
                                   type="text"
@@ -666,7 +666,7 @@ function EditDishComponent({
                                       e.target.value
                                     )
                                   }
-                                  className="flex-[2] min-w-[100px] text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-300"
+                                  className="flex-[2] min-w-[100px] text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)]"
                                 />
                                 <span className="text-[11px] font-black text-gray-600 min-w-[50px] text-right">
                                   ₹
@@ -744,7 +744,7 @@ function EditDishComponent({
             </label>
             <button
               type="submit"
-              className="w-full py-3.5 font-bold text-sm bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5c339e] text-white rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 font-bold text-sm bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 text-white rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
             >
               <FiSave size={16} />
               Review & Generate PDF
@@ -758,7 +758,7 @@ function EditDishComponent({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-[#f8f5fc] to-white">
+            <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
               <div>
                 <h3 className="text-base font-bold text-gray-800">
                   Select Dishes
@@ -845,7 +845,7 @@ function EditDishComponent({
                                     isSelected
                                       ? isNewZeroPrice
                                         ? "border-red-300 bg-red-50 font-semibold text-red-600"
-                                        : "border-[var(--color-primary)] bg-[#f4effc] font-semibold text-[var(--color-primary)]"
+                                        : "border-[var(--color-primary)] bg-[var(--color-primary-soft)] font-semibold text-[var(--color-primary)]"
                                       : isZeroPrice
                                         ? "border-red-200 bg-red-50/30 hover:border-red-300 text-red-500"
                                         : "border-gray-200 hover:border-gray-300 text-gray-700"
@@ -894,7 +894,7 @@ function EditDishComponent({
                 <button
                   type="button"
                   onClick={saveDishModal}
-                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:bg-[#7350a8] cursor-pointer shadow-sm"
+                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:brightness-95 cursor-pointer shadow-sm"
                 >
                   Save
                 </button>

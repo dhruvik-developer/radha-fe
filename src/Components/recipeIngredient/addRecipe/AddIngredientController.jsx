@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import AddIngredientComponent from "./AddIngredientComponent";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useBranchItems } from "../../../hooks/useBranchItems";
+import { useCategories } from "../../../hooks/useCategories";
 import { useIngredientItems } from "../../../hooks/useIngredientItems";
 import { useCreateRecipeMutation } from "../../../hooks/useRecipeMutations";
 
@@ -17,7 +17,15 @@ function AddIngredientController() {
 
   const predefinedItem = location.state?.predefinedItem;
   const createRecipeMutation = useCreateRecipeMutation();
-  const { data: items = [] } = useBranchItems();
+  const { data: categories = [] } = useCategories();
+  const items = useMemo(() => {
+    return categories.flatMap((cat) => 
+      (cat.items || []).map(item => ({
+        ...item,
+        categoryName: cat.name
+      }))
+    );
+  }, [categories]);
   const { data: ingredientItems = [] } = useIngredientItems();
 
   const predefinedItemId = useMemo(() => {

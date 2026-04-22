@@ -149,7 +149,7 @@ const AddGroundCategory = ({ isOpen, onClose, onSuccess, editData = null }) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 text-sm font-medium text-white bg-[var(--color-primary)] border border-transparent rounded-lg hover:bg-[#724eb0] transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-5 py-2 text-sm font-medium text-white bg-[var(--color-primary)] border border-transparent rounded-lg hover:brightness-95 transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {loading ? "Saving..." : isEditMode ? "Update Category" : "Save Category"}
             </button>

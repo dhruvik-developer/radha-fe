@@ -221,7 +221,7 @@ function FixedStaffSalaryModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-fade-in-up">
-        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#a97dd6] px-6 py-4 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-4 flex justify-between items-center">
           <h2 className="text-xl font-bold text-white">
             {mode === "add" ? "Add" : "Edit"} Salary Payment
           </h2>
@@ -304,14 +304,14 @@ function FixedStaffSalaryModal({
           </div>
 
           {/* Automated Financial Breakdown UI */}
-          <div className="bg-purple-50/50 p-4 rounded-xl border border-purple-100 flex flex-col gap-2">
+          <div className="bg-[var(--color-primary-tint)]/50 p-4 rounded-xl border border-[var(--color-primary-border)]/30 flex flex-col gap-2">
             <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-600 font-medium">Gross Salary ({formData.months_count || 0} months):</span>
                 <span className="font-bold text-gray-800">₹{calcData.gross_amount.toFixed(2)}</span>
             </div>
             
             {calcData.withdrawal_deduction > 0 && (
-                <div className="flex justify-between items-center text-sm text-red-500 pb-2 border-b border-purple-100/50">
+                <div className="flex justify-between items-center text-sm text-red-500 pb-2 border-b border-[var(--color-primary-border)]/30/50">
                     <span className="font-medium">Withdrawal Deduction (Pending: ₹{summaryData?.total_pending_withdrawals}):</span>
                     <span className="font-bold">- ₹{calcData.withdrawal_deduction.toFixed(2)}</span>
                 </div>
@@ -351,7 +351,7 @@ function FixedStaffSalaryModal({
             <button
               type="submit"
               disabled={loading}
-              className={`px-5 py-2 text-sm font-bold text-white bg-[var(--color-primary)] hover:bg-purple-700 rounded-lg transition-colors shadow-sm cursor-pointer ${
+              className={`px-5 py-2 text-sm font-bold text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-text)] rounded-lg transition-colors shadow-sm cursor-pointer ${
                 loading ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >

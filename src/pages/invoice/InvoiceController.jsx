@@ -103,7 +103,7 @@ function InvoiceController() {
   const getStatusColor = (status) => {
     switch (status) {
       case "PAID":
-        return "bg-green-200 text-green-700";
+        return "bg-green-200 text-[var(--color-primary-text)]";
       case "UNPAID":
         return "bg-red-200 text-red-700";
       default:

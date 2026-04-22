@@ -120,7 +120,7 @@ export default function WaiterTypeManagerModal({
             <button
               type="button"
               onClick={handleCreateRow}
-              className="inline-flex items-center gap-1 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-white hover:bg-[#6a3faf]"
+              className="inline-flex items-center gap-1 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-white hover:brightness-95"
             >
               <FiPlus size={14} /> New Type
             </button>
@@ -157,7 +157,7 @@ export default function WaiterTypeManagerModal({
                 <div className="col-span-1 flex items-center justify-end gap-1">
                   <button
                     type="button"
-                    className="rounded-md p-2 text-green-600 hover:bg-green-100"
+                    className="rounded-md p-2 text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]"
                     onClick={() => saveType(type)}
                     title="Save"
                   >

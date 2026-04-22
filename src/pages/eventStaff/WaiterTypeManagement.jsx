@@ -128,8 +128,8 @@ const WaiterTypeManagement = () => {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#f4effc] rounded-xl">
-            <FiUsers className="text-[var(--color-primary)]" size={24} />
+          <div className="p-3 bg-[var(--color-primary-soft)] rounded-xl">
+            <FiUsers className="text-[var(--color-primary-text)]" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Waiter Types</h2>
@@ -139,7 +139,7 @@ const WaiterTypeManagement = () => {
           </div>
         </div>
         <button
-          className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] hover:bg-[#7350a8] px-5 py-2.5 text-white font-semibold transition-all shadow-md shadow-[var(--color-primary)]/20 cursor-pointer"
+          className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] hover:brightness-95 px-5 py-2.5 text-white font-semibold transition-all shadow-md shadow-[var(--color-primary)]/20 cursor-pointer"
           onClick={() => setIsAddModalOpen(true)}
         >
           <FiPlus size={18} />
@@ -152,7 +152,7 @@ const WaiterTypeManagement = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-4 flex items-center justify-between text-white">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-4 flex items-center justify-between text-white">
               <h3 className="text-lg font-bold flex items-center gap-2">
                 <FiPlus size={18} /> Add New Waiter Type
               </h3>
@@ -236,7 +236,7 @@ const WaiterTypeManagement = () => {
                 Cancel
               </button>
               <button
-                className="rounded-xl bg-[var(--color-primary)] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#7350a8] shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] cursor-pointer"
+                className="rounded-xl bg-[var(--color-primary)] px-6 py-2.5 text-sm font-bold text-white hover:brightness-95 shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] cursor-pointer"
                 onClick={onAdd}
               >
                 Save Waiter Type
@@ -254,8 +254,8 @@ const WaiterTypeManagement = () => {
           </div>
         ) : waiterTypes.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-            <div className="p-4 bg-[#f4effc] rounded-full mb-4">
-              <FiUsers size={32} className="text-[var(--color-primary)]" />
+            <div className="p-4 bg-[var(--color-primary-soft)] rounded-full mb-4">
+              <FiUsers size={32} className="text-[var(--color-primary-text)]" />
             </div>
             <p className="text-lg font-semibold text-gray-600">No Waiter Types Found</p>
             <p className="text-sm mt-1">Add your first waiter type to start managing event staff.</p>
@@ -283,7 +283,7 @@ const WaiterTypeManagement = () => {
                   <tr key={type.id} className="hover:bg-gray-50/50 transition-colors group">
                     {editMode[type.id] ? (
                       /* EDIT MODE ROW */
-                      <td colSpan={5} className="px-4 py-3 bg-[#faf8fd]">
+                      <td colSpan={5} className="px-4 py-3 bg-[var(--color-primary-tint)]">
                         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
                           <div className="md:col-span-3">
                             <input
@@ -352,7 +352,7 @@ const WaiterTypeManagement = () => {
                           </div>
                           <div className="md:col-span-2 flex items-center justify-end gap-2">
                             <button
-                              className="flex-1 flex items-center justify-center gap-1 bg-[var(--color-primary)] text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-[#7350a8] transition-colors"
+                              className="flex-1 flex items-center justify-center gap-1 bg-[var(--color-primary)] text-white px-3 py-2 rounded-lg text-xs font-bold hover:brightness-95 transition-colors"
                               onClick={() => onUpdate(type)}
                             >
                               <FiCheckCircle size={14} /> Save
@@ -372,7 +372,7 @@ const WaiterTypeManagement = () => {
                       <>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-[#f4effc] flex items-center justify-center text-[var(--color-primary)] font-bold text-xs flex-shrink-0">
+                            <div className="w-8 h-8 rounded-full bg-[var(--color-primary-soft)] flex items-center justify-center text-[var(--color-primary)] font-bold text-xs flex-shrink-0">
                               {type.name.charAt(0).toUpperCase()}
                             </div>
                             <span className="font-semibold text-gray-800">{type.name}</span>
@@ -392,8 +392,8 @@ const WaiterTypeManagement = () => {
                         </td>
                         <td className="px-6 py-4">
                           {type.is_active ? (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Active
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--color-primary-tint)] text-[var(--color-primary)] border border-[var(--color-primary-border)]/30">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary-tint)]0" /> Active
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500 border border-gray-200">
@@ -404,7 +404,7 @@ const WaiterTypeManagement = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <button
-                              className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors cursor-pointer"
+                              className="p-2 bg-[var(--color-primary-tint)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary-text)] rounded-lg transition-colors cursor-pointer"
                               title="Edit"
                               onClick={() => setEditMode((prev) => ({ ...prev, [type.id]: true }))}
                             >

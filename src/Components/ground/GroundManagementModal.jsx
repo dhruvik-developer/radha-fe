@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { FiX, FiSearch, FiSave, FiBox, FiTag, FiChevronRight } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { getGroundCategories } from "../../api/GroundApis";
+import Loader from "../common/Loader";
 
 /**
  * GroundManagementModal
@@ -162,8 +163,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
         <div className="flex-1 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-primary)]"></div>
-              <span className="ml-3 text-sm text-gray-500">Loading categories...</span>
+              <Loader message="Loading categories..." fullScreen={false} compact />
             </div>
           ) : categories.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-gray-400">
@@ -196,7 +196,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                         }}
                         className={`w-full text-left px-4 py-3 border-b border-gray-100 last:border-0 transition-all duration-150 flex items-center gap-3 ${
                           isActive
-                            ? "bg-[#f4effc] border-l-3 border-l-[var(--color-primary)]"
+                            ? "bg-[var(--color-primary-soft)] border-l-3 border-l-[var(--color-primary)]"
                             : "hover:bg-gray-50 border-l-3 border-l-transparent"
                         }`}
                       >
@@ -207,7 +207,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className="text-[11px] text-gray-400">{qty} items</span>
                             {catSelectedCount > 0 && (
-                              <span className="text-[10px] font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] px-1.5 py-0.5 rounded">
                                 {catSelectedCount} selected
                               </span>
                             )}
@@ -257,7 +257,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                             key={item.id}
                             className={`flex items-center gap-3 p-3 rounded-xl border transition-all duration-150 ${
                               hasQuantity
-                                ? "border-[var(--color-primary)]/30 bg-[#f4effc]/30"
+                                ? "border-[var(--color-primary)]/30 bg-[var(--color-primary-soft)]/30"
                                 : "border-gray-100 hover:border-gray-200"
                             }`}
                           >
@@ -327,7 +327,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-5 py-2 bg-[var(--color-primary)] hover:bg-[#724eb0] text-white text-sm font-semibold rounded-lg shadow-sm transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[var(--color-primary)] hover:brightness-95 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors disabled:opacity-50"
             >
               <FiSave size={14} />
               {saving ? "Saving..." : "Save Ground Items"}
