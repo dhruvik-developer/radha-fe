@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import SettingsComponent from "./SettingsComponent";
+import { extractColorsFromImage } from "../../utils/colorUtils";
 import {
   getAllBusinessProfiles,
   createBusinessProfile,
@@ -40,7 +41,10 @@ function SettingsController() {
     godown_address: "",
     logo: "",
     logoFile: null,
+    color_code: "#13609b", // Default color
   });
+
+  const [extractedColors, setExtractedColors] = useState([]);
 
   // Keep a copy for cancel/revert
   const [originalData, setOriginalData] = useState({ ...formData });
@@ -69,12 +73,26 @@ function SettingsController() {
           godown_address: profile.godown_address || "",
           logo: profile.logo || "",
           logoFile: null,
+          color_code: profile.color_code || "#845cbd",
         };
         setFormData(profileData);
         setOriginalData(profileData);
+        
+        if (profile.logo) {
+          handleExtractColors(profile.logo);
+        }
       }
     } catch (error) {
       console.error("Failed to load business profile:", error);
+    }
+  };
+
+  const handleExtractColors = async (source) => {
+    try {
+      const colors = await extractColorsFromImage(source);
+      setExtractedColors(colors);
+    } catch (error) {
+      console.error("Failed to extract colors:", error);
     }
   };
 
@@ -94,6 +112,18 @@ function SettingsController() {
         ...prev,
         logoFile: selectedFile,
         logo: selectedFile ? URL.createObjectURL(selectedFile) : prev.logo,
+      }));
+
+      if (selectedFile) {
+        handleExtractColors(selectedFile);
+      }
+      return;
+    }
+
+    if (name === "color_code") {
+      setFormData((prev) => ({
+        ...prev,
+        color_code: value,
       }));
       return;
     }
@@ -155,6 +185,7 @@ function SettingsController() {
         fssai_number: formData.fssai_number,
         godown_address: formData.godown_address,
         logo: formData.logoFile || undefined,
+        color_code: formData.color_code,
       };
 
       let response;
@@ -207,6 +238,7 @@ function SettingsController() {
       isEditing={isEditing}
       handleEdit={handleEdit}
       handleCancel={handleCancel}
+      extractedColors={extractedColors}
     />
   );
 }

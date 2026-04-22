@@ -9,7 +9,21 @@ import {
   FiUser,
   FiMessageCircle,
   FiImage,
+  FiDroplet,
 } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+
+const DEFAULT_COLOR_CODE = "#845CBD";
+
+const normalizeHexColor = (value) => {
+  if (typeof value !== "string") return DEFAULT_COLOR_CODE;
+
+  const trimmed = value.trim().toUpperCase();
+  if (/^#[0-9A-F]{6}$/.test(trimmed)) return trimmed;
+  if (/^[0-9A-F]{6}$/.test(trimmed)) return `#${trimmed}`;
+
+  return DEFAULT_COLOR_CODE;
+};
 
 function SettingsComponent({
   formData,
@@ -19,7 +33,12 @@ function SettingsComponent({
   isEditing,
   handleEdit,
   handleCancel,
+  extractedColors,
 }) {
+  const normalizedColorCode = normalizeHexColor(formData.color_code);
+  const shouldUseDarkText =
+    parseInt(normalizedColorCode.replace("#", ""), 16) > 0xffffff / 1.5;
+
   return (
     <div className="min-h-[calc(100vh-60px)] bg-gradient-to-br from-gray-50 via-purple-50/30 to-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto space-y-6">
@@ -190,6 +209,132 @@ function SettingsComponent({
                     </div>
                   )}
                 </div>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="mx-6 border-t border-gray-100"></div>
+
+            {/* ---- Brand Identity Section ---- */}
+            <div className="p-6 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-5 rounded-full bg-indigo-500"></div>
+                  <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
+                    Brand Identity
+                  </h3>
+                </div>
+                {isEditing && (
+                  <span className="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full uppercase tracking-tighter">
+                    Logo Color Analysis
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Brand Color Input & Preview */}
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      <FiDroplet size={12} className="text-indigo-500" />
+                      Brand Color Code
+                    </label>
+                    <div className="relative group">
+                      <input
+                        type="text"
+                        name="color_code"
+                        value={isEditing ? formData.color_code || "" : normalizedColorCode}
+                        onChange={handleInputChange}
+                        disabled={!isEditing}
+                        placeholder="#000000"
+                        className={`w-full p-3 border-2 ${
+                          isEditing
+                            ? "border-purple-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 cursor-text"
+                            : "border-transparent bg-gray-100 cursor-default"
+                        } rounded-xl bg-white transition-all text-gray-800 font-mono font-bold tracking-widest`}
+                      />
+                      {isEditing && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <input
+                            type="color"
+                            name="color_code"
+                            value={normalizedColorCode}
+                            onChange={handleInputChange}
+                            className="w-8 h-8 rounded-lg border-2 border-white shadow-sm cursor-pointer overflow-hidden p-0"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Large Preview Bar */}
+                  <motion.div
+                    initial={false}
+                    animate={{ backgroundColor: normalizedColorCode }}
+                    className="h-16 w-full rounded-2xl shadow-inner-lg flex items-center justify-center relative overflow-hidden group border border-gray-100"
+                  >
+                    <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                    <span
+                      className="font-mono font-bold text-lg tracking-widest transition-all drop-shadow-md"
+                      style={{
+                        color: shouldUseDarkText ? "#1f2937" : "#ffffff",
+                      }}
+                    >
+                      {normalizedColorCode}
+                    </span>
+                  </motion.div>
+                </div>
+
+                {/* Quick Theme Colors (Extracted) */}
+                {isEditing && (
+                  <div className="space-y-4">
+                    <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                      Quick Theme Colors
+                    </label>
+                    
+                    {extractedColors && extractedColors.length > 0 ? (
+                      <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
+                        <AnimatePresence mode="popLayout">
+                          {extractedColors.map((color, idx) => (
+                            <motion.button
+                              key={`${color}-${idx}`}
+                              type="button"
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              exit={{ scale: 0.8, opacity: 0 }}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() =>
+                                handleInputChange({
+                                  target: { name: "color_code", value: color },
+                                })
+                              }
+                              title={color}
+                              className={`h-11 w-full rounded-xl border-4 ${
+                                normalizedColorCode.toLowerCase() ===
+                                normalizeHexColor(color).toLowerCase()
+                                  ? "border-indigo-500 shadow-md scale-110"
+                                  : "border-white shadow-sm"
+                              } transition-transform cursor-pointer`}
+                              style={{ backgroundColor: color }}
+                            />
+                          ))}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <div className="h-24 w-full flex flex-col items-center justify-center border-2 border-dashed border-gray-100 rounded-2xl bg-gray-50/50 text-gray-400">
+                        <FiImage size={24} className="mb-2 opacity-20" />
+                        <p className="text-[10px] font-medium uppercase tracking-widest opacity-60 text-center px-4">
+                          {formData.logo ? "Analysing logo colors..." : "Upload logo to see theme colors"}
+                        </p>
+                      </div>
+                    )}
+
+                    <p className="text-[10px] text-gray-400 italic">
+                      Tip: Click a color to select it.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
