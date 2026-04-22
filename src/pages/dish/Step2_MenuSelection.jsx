@@ -140,7 +140,7 @@ function Step2_MenuSelection({
         <button
           type="button"
           onClick={onBack}
-          className="mt-4 px-6 py-2 text-[#845cbd] border border-[#845cbd] rounded-lg font-semibold hover:bg-purple-50 transition-colors"
+          className="mt-4 px-6 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg font-semibold hover:bg-purple-50 transition-colors"
         >
           <FiArrowLeft className="inline mr-2" /> Go Back
         </button>
@@ -166,7 +166,7 @@ function Step2_MenuSelection({
                 }}
                 className={`relative px-5 py-3 text-sm font-semibold whitespace-nowrap rounded-t-xl transition-all duration-200 border border-b-0 ${
                   isActive
-                    ? "bg-white text-[#845cbd] border-gray-200 shadow-sm"
+                    ? "bg-white text-[var(--color-primary)] border-gray-200 shadow-sm"
                     : "bg-transparent text-gray-500 border-transparent hover:bg-white/60 hover:text-gray-700"
                 }`}
               >
@@ -176,13 +176,13 @@ function Step2_MenuSelection({
                     {tab.dateStr}
                   </span>
                   {dishCount > 0 && (
-                    <span className="ml-1 w-5 h-5 rounded-full bg-[#845cbd] text-white text-[10px] font-bold flex items-center justify-center">
+                    <span className="ml-1 w-5 h-5 rounded-full bg-[var(--color-primary)] text-white text-[10px] font-bold flex items-center justify-center">
                       {dishCount}
                     </span>
                   )}
                 </div>
                 {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#845cbd]" />
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-primary)]" />
                 )}
               </button>
             );
@@ -209,7 +209,7 @@ function Step2_MenuSelection({
                 placeholder="Search category..."
                 value={categorySearchQuery}
                 onChange={(e) => setCategorySearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] bg-white transition-all"
+                className="w-full pl-8 pr-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] bg-white transition-all"
               />
             </div>
           </div>
@@ -229,7 +229,7 @@ function Step2_MenuSelection({
                   }}
                   className={`w-full text-left px-4 py-3 text-sm font-medium border-l-4 transition-all duration-150 flex items-center justify-between group ${
                     isActive
-                      ? "bg-white border-[#845cbd] text-[#845cbd] shadow-sm"
+                      ? "bg-white border-[var(--color-primary)] text-[var(--color-primary)] shadow-sm"
                       : "border-transparent text-gray-600 hover:bg-white/70 hover:text-gray-800"
                   }`}
                 >
@@ -238,7 +238,7 @@ function Step2_MenuSelection({
                     <span
                       className={`ml-2 min-w-[20px] h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${
                         isActive
-                          ? "bg-[#845cbd] text-white"
+                          ? "bg-[var(--color-primary)] text-white"
                           : "bg-gray-200 text-gray-600"
                       }`}
                     >
@@ -265,7 +265,7 @@ function Step2_MenuSelection({
                 placeholder="Search dishes..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] bg-white transition-all"
+                className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] bg-white transition-all"
               />
             </div>
             <div className="flex items-center gap-4 ml-4">
@@ -273,7 +273,7 @@ function Step2_MenuSelection({
                 <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
                   This Event
                 </p>
-                <p className="text-sm font-bold text-[#845cbd]">
+                <p className="text-sm font-bold text-[var(--color-primary)]">
                   {currentDishes.length} dishes
                 </p>
               </div>
@@ -313,19 +313,19 @@ function Step2_MenuSelection({
                       onClick={() => toggleDish(dish)}
                       className={`relative p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 group min-h-[90px] flex flex-col justify-center ${
                         selected
-                          ? "border-[#845cbd] bg-[#f4effc] shadow-md shadow-[#845cbd]/10"
+                          ? "border-[var(--color-primary)] bg-[#f4effc] shadow-md shadow-[var(--color-primary)]/10"
                           : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
                       }`}
                     >
                       {/* Selection indicator */}
                       {selected && (
-                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#845cbd] text-white flex items-center justify-center shadow-sm">
+                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center shadow-sm">
                           <FiCheck size={13} strokeWidth={3} />
                         </div>
                       )}
 
                       <p
-                        className={`text-sm font-semibold leading-snug ${selected ? "text-[#845cbd]" : "text-gray-700 group-hover:text-gray-900"}`}
+                        className={`text-sm font-semibold leading-snug ${selected ? "text-[var(--color-primary)]" : "text-gray-700 group-hover:text-gray-900"}`}
                       >
                         {dish.name}
                       </p>
@@ -356,7 +356,7 @@ function Step2_MenuSelection({
                 key={idx}
                 className={`text-xs px-3 py-1.5 rounded-full font-semibold transition-colors ${
                   tab.dishes.length > 0
-                    ? "bg-[#845cbd]/10 text-[#845cbd]"
+                    ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
                     : "bg-gray-100 text-gray-400"
                 }`}
               >
@@ -368,7 +368,7 @@ function Step2_MenuSelection({
           <button
             type="button"
             onClick={onNext}
-            className="px-8 py-3 font-bold text-white bg-[#845cbd] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[#845cbd]/20 transition-all active:scale-[0.98] flex items-center gap-2"
+            className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2"
           >
             Continue to Summary <FiArrowRight size={18} />
           </button>

@@ -59,7 +59,7 @@ function FixedStaffPaymentComponent({
       inputAttributes: { min: 0, max: remainingStr, step: 0.01 },
       showCancelButton: true,
       confirmButtonText: "Submit Payment",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonColor: "#d33",
       inputValidator: (value) => {
         if (!value) return "You need to enter an amount!";
@@ -80,7 +80,7 @@ function FixedStaffPaymentComponent({
       {/* Back button */}
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm text-[#845cbd] font-semibold hover:underline cursor-pointer"
+        className="flex items-center gap-2 text-sm text-[var(--color-primary)] font-semibold hover:underline cursor-pointer"
       >
         <FaArrowLeft size={14} /> Back to Staff Master
       </button>
@@ -97,7 +97,7 @@ function FixedStaffPaymentComponent({
         <>
           {/* Top Profile & Mega Summary Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden">
-            <div className="bg-gradient-to-r from-[#845cbd] to-[#a97dd6] px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#a97dd6] px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-5">
                 <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center shadow-inner">
                   <FaUser size={28} className="text-white drop-shadow-md" />
@@ -137,7 +137,7 @@ function FixedStaffPaymentComponent({
             <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 divide-x divide-gray-100 border-t border-purple-50">
               <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-purple-50/30">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <FaMoneyCheckAlt className="text-[#845cbd]/50 group-hover:text-[#845cbd] transition-colors" />
+                  <FaMoneyCheckAlt className="text-[var(--color-primary)]/50 group-hover:text-[var(--color-primary)] transition-colors" />
 
                   <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                     Monthly Salary
@@ -224,7 +224,7 @@ function FixedStaffPaymentComponent({
             <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden flex flex-col">
               <div className="bg-gray-50/80 px-6 py-4 border-b border-gray-100 flex items-center justify-between sticky top-0 z-10">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg text-[#845cbd]">
+                  <div className="p-2 bg-purple-100 rounded-lg text-[var(--color-primary)]">
                     <FaRegListAlt size={16} />
                   </div>
                   <h2 className="font-bold text-gray-800 text-lg">
@@ -233,7 +233,7 @@ function FixedStaffPaymentComponent({
                 </div>
                 <button
                   onClick={onAddPayment}
-                  className="bg-[#845cbd] hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer"
+                  className="bg-[var(--color-primary)] hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer"
                 >
                   + Add Salary Payment
                 </button>
@@ -264,7 +264,7 @@ function FixedStaffPaymentComponent({
                               <span className="font-bold text-gray-800">
                                 {sp.start_date} <span className="text-gray-400 font-normal">to</span> {sp.end_date}
                               </span>
-                              <span className="text-[10px] bg-purple-50 text-[#845cbd] px-2 py-0.5 rounded-full font-bold">
+                              <span className="text-[10px] bg-purple-50 text-[var(--color-primary)] px-2 py-0.5 rounded-full font-bold">
                                 {Math.round(parseFloat(sp.months_count || 0))} month{Math.round(parseFloat(sp.months_count || 0)) !== 1 ? "s" : ""}
                               </span>
                             </div>
@@ -311,7 +311,7 @@ function FixedStaffPaymentComponent({
                           <td className="px-6 py-4 text-center">
                             <button
                               onClick={() => onEditPayment(sp)}
-                              className="text-xs font-bold text-[#845cbd] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                              className="text-xs font-bold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                             >
                               Edit
                             </button>
@@ -394,7 +394,7 @@ function FixedStaffPaymentComponent({
                             {parseFloat(ev.remaining_amount) > 0 ? (
                               <button
                                 onClick={() => handlePayWrapper(ev)}
-                                className="bg-[#845cbd] hover:bg-purple-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-sm transition-colors cursor-pointer w-full max-w-[100px]"
+                                className="bg-[var(--color-primary)] hover:bg-purple-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-md shadow-sm transition-colors cursor-pointer w-full max-w-[100px]"
                               >
                                 Pay Event
                               </button>

@@ -1,5 +1,5 @@
 export const THEME = {
-  primaryColor: [132, 92, 189],      // #845CBD - Banner
+  primaryColor: [132, 92, 189],      // var(--color-primary) - Banner
   sectionColor: [111, 71, 184],      // #6F47B8 - Sub headers
   headFill: [246, 240, 255],         // THEME.primarySoft
   altFill: [250, 247, 255],          // THEME.bodyAlt

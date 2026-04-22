@@ -102,7 +102,7 @@ function StockController() {
       inputPlaceholder: "Please Enter Category Name",
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",
@@ -152,7 +152,7 @@ function StockController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         popup: "custom-popup",
@@ -277,7 +277,7 @@ function StockController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         popup: "custom-popup",
@@ -344,7 +344,7 @@ function StockController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         popup: "custom-popup",

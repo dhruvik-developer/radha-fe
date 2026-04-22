@@ -117,7 +117,7 @@ function EditDishComponent({
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
       {/* Header Bar */}
-      <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-6 py-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-4 flex items-center justify-between">
         <div>
           <h2 className="text-white text-lg font-bold tracking-wide">
             {isSessionMode ? "Edit Session Details" : "Edit Booking Details"}
@@ -145,7 +145,7 @@ function EditDishComponent({
         {/* ── Customer Info Section ── */}
         <div>
           <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <span className="w-1 h-5 bg-[#845cbd] rounded-full"></span>
+            <span className="w-1 h-5 bg-[var(--color-primary)] rounded-full"></span>
             Customer Info
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -159,7 +159,7 @@ function EditDishComponent({
                 value={formData.name}
                 onChange={handleChange}
                 placeholder={errors.name || "Customer name"}
-                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none transition-all ${errors.name ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15"}`}
+                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none transition-all ${errors.name ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"}`}
               />
               {errors.name && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">{errors.name}</p>
@@ -181,7 +181,7 @@ function EditDishComponent({
                     .replace(/[^0-9]/g, "")
                     .slice(0, 10))
                 }
-                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none transition-all ${errors.mobile_no ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15"}`}
+                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none transition-all ${errors.mobile_no ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"}`}
               />
             </div>
             <div>
@@ -206,7 +206,7 @@ function EditDishComponent({
                 value={formData.reference || ""}
                 onChange={handleChange}
                 placeholder="Optional"
-                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#845cbd]/15 transition-all ${errors.reference ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[#845cbd]"}`}
+                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/15 transition-all ${errors.reference ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[var(--color-primary)]"}`}
               />
               {errors.reference && (
                 <p className="text-red-500 text-[10px] mt-1 font-medium">{errors.reference}</p>
@@ -221,14 +221,14 @@ function EditDishComponent({
         <div>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-              <span className="w-1 h-5 bg-[#845cbd] rounded-full"></span>
+              <span className="w-1 h-5 bg-[var(--color-primary)] rounded-full"></span>
               {isSessionMode ? "Session Configuration" : "Event Schedule"}
             </h3>
             {!isSessionMode && (
               <button
                 type="button"
                 onClick={handleAddSchedule}
-                className="text-xs font-bold text-[#845cbd] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors border border-purple-200 cursor-pointer"
+                className="text-xs font-bold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors border border-purple-200 cursor-pointer"
               >
                 <FiPlus size={13} /> Add Date
               </button>
@@ -255,7 +255,7 @@ function EditDishComponent({
                 {/* Day Header */}
                 <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#f7f3fc] to-white border-b border-gray-100">
                   <div className="flex items-center gap-3">
-                    <span className="w-9 h-9 rounded-lg bg-[#845cbd] text-white flex items-center justify-center font-black text-xs shadow">
+                    <span className="w-9 h-9 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-black text-xs shadow">
                       D{dIdx + 1}
                     </span>
                     <DatePicker
@@ -264,7 +264,7 @@ function EditDishComponent({
                       dateFormat="dd/MM/yyyy"
                       selected={day.event_date}
                       onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 px-3 py-1.5 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[#845cbd]/20 font-semibold text-gray-700 text-sm bg-white"
+                      className="w-36 px-3 py-1.5 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 font-semibold text-gray-700 text-sm bg-white"
                     />
                   </div>
                   <div className="flex items-center gap-3">
@@ -317,7 +317,7 @@ function EditDishComponent({
                                 e.target.value
                               )
                             }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-medium bg-white focus:outline-none focus:border-[#845cbd] transition-all cursor-pointer ${errors[`timeLabel_${dIdx}_${sIdx}`] ? "border-red-300" : "border-gray-200"}`}
+                            className={`w-full px-3 py-2 border rounded-lg text-sm font-medium bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all cursor-pointer ${errors[`timeLabel_${dIdx}_${sIdx}`] ? "border-red-300" : "border-gray-200"}`}
                           >
                             <option value="">Select...</option>
                             {timeOptions.map((t) => (
@@ -349,7 +349,7 @@ function EditDishComponent({
                                 e.target.value
                               )
                             }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-medium bg-white focus:outline-none focus:border-[#845cbd] transition-all text-center ${errors[`persons_${dIdx}_${sIdx}`] ? "border-red-300" : "border-gray-200"}`}
+                            className={`w-full px-3 py-2 border rounded-lg text-sm font-medium bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all text-center ${errors[`persons_${dIdx}_${sIdx}`] ? "border-red-300" : "border-gray-200"}`}
                           />
                           {errors[`persons_${dIdx}_${sIdx}`] && (
                             <p className="text-red-500 text-[10px] mt-1 font-medium leading-tight">
@@ -358,7 +358,7 @@ function EditDishComponent({
                           )}
                         </div>
                         <div className="w-32">
-                          <label className="block text-[10px] font-bold text-[#845cbd] mb-1 uppercase tracking-wider">
+                          <label className="block text-[10px] font-bold text-[var(--color-primary)] mb-1 uppercase tracking-wider">
                             <FiDollarSign className="inline mr-0.5" size={10} />{" "}
                             Per Plate ₹
                           </label>
@@ -374,7 +374,7 @@ function EditDishComponent({
                                 e.target.value
                               )
                             }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-bold bg-purple-50/50 focus:outline-none focus:border-[#845cbd] transition-all text-center ${errors[`platePrice_${dIdx}_${sIdx}`] ? "border-red-500" : "border-purple-200"}`}
+                            className={`w-full px-3 py-2 border rounded-lg text-sm font-bold bg-purple-50/50 focus:outline-none focus:border-[var(--color-primary)] transition-all text-center ${errors[`platePrice_${dIdx}_${sIdx}`] ? "border-red-500" : "border-purple-200"}`}
                           />
                           {errors[`platePrice_${dIdx}_${sIdx}`] && (
                             <p className="text-red-500 text-[10px] mt-1 font-medium leading-tight text-center">
@@ -387,7 +387,7 @@ function EditDishComponent({
                             <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">
                               Subtotal
                             </span>
-                            <span className="text-base font-black text-[#845cbd]">
+                            <span className="text-base font-black text-[var(--color-primary)]">
                               ₹
                               {Number(slot.subtotalAmount || 0).toLocaleString(
                                 "en-IN",
@@ -426,7 +426,7 @@ function EditDishComponent({
                               e.target.value
                             )
                           }
-                          className={`w-full pl-8 pr-3 py-2 border rounded-lg text-sm font-medium focus:outline-none transition-all bg-white focus:ring-2 ${errors[`event_address_${dIdx}_${sIdx}`] ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-[#845cbd] focus:ring-[#845cbd]/15"}`}
+                          className={`w-full pl-8 pr-3 py-2 border rounded-lg text-sm font-medium focus:outline-none transition-all bg-white focus:ring-2 ${errors[`event_address_${dIdx}_${sIdx}`] ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/15"}`}
                         />
                         {errors[`event_address_${dIdx}_${sIdx}`] && (
                           <p className="text-red-500 text-[10px] mt-1 font-medium ml-1">
@@ -440,7 +440,7 @@ function EditDishComponent({
                         {/* Dishes */}
                         <div className="bg-white rounded-lg border border-gray-100 p-3">
                           <div className="flex justify-between items-center mb-2">
-                            <span className="font-bold text-[#845cbd] text-xs flex items-center gap-1">
+                            <span className="font-bold text-[var(--color-primary)] text-xs flex items-center gap-1">
                               <FiGrid size={12} /> Dishes ({slot.dishes.length})
                             </span>
                             <button
@@ -448,7 +448,7 @@ function EditDishComponent({
                               onClick={() =>
                                 openDishModal(dIdx, sIdx, slot.dishes)
                               }
-                              className="text-[11px] font-bold text-white bg-[#845cbd] hover:bg-[#7350a8] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                              className="text-[11px] font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                             >
                               Select
                             </button>
@@ -469,7 +469,7 @@ function EditDishComponent({
                                   return (
                                     <span
                                       key={dish.dishId}
-                                      className={`text-[11px] font-medium px-2 py-0.5 rounded-md truncate max-w-[150px] ${isNewZeroPrice ? "text-red-600 bg-red-50 border border-red-200" : "text-[#845cbd] bg-[#f4effc] border border-purple-100"}`}
+                                      className={`text-[11px] font-medium px-2 py-0.5 rounded-md truncate max-w-[150px] ${isNewZeroPrice ? "text-red-600 bg-red-50 border border-red-200" : "text-[var(--color-primary)] bg-[#f4effc] border border-purple-100"}`}
                                     >
                                       {dish.dishName}
                                     </span>
@@ -720,7 +720,7 @@ function EditDishComponent({
             <textarea
               name="description"
               placeholder="Any special instructions for the event..."
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm font-medium bg-gray-50/50 focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15 min-h-[90px] transition-all resize-none"
+              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm font-medium bg-gray-50/50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15 min-h-[90px] transition-all resize-none"
               onChange={handleChange}
               value={formData.description}
             ></textarea>
@@ -730,7 +730,7 @@ function EditDishComponent({
               <input
                 type="checkbox"
                 name="rule"
-                className="w-4 h-4 accent-[#845cbd] cursor-pointer"
+                className="w-4 h-4 accent-[var(--color-primary)] cursor-pointer"
                 checked={formData.rule}
                 onChange={(e) =>
                   handleChange({
@@ -744,7 +744,7 @@ function EditDishComponent({
             </label>
             <button
               type="submit"
-              className="w-full py-3.5 font-bold text-sm bg-gradient-to-r from-[#845cbd] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5c339e] text-white rounded-xl shadow-lg shadow-[#845cbd]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 font-bold text-sm bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5c339e] text-white rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
             >
               <FiSave size={16} />
               Review & Generate PDF
@@ -806,7 +806,7 @@ function EditDishComponent({
                           onClick={() => toggleCategoryCollapse(category.id)}
                         >
                           <div className="flex items-center gap-2">
-                            <span className="w-6 h-6 rounded bg-[#845cbd] text-white flex items-center justify-center font-bold text-[11px]">
+                            <span className="w-6 h-6 rounded bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-[11px]">
                               {category.positions || "—"}
                             </span>
                             <span className="font-semibold text-gray-700 text-sm">
@@ -816,7 +816,7 @@ function EditDishComponent({
                               {items.length}
                             </span>
                             {selectedCount > 0 && (
-                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[#845cbd]/10 text-[#845cbd]">
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
                                 {selectedCount} ✓
                               </span>
                             )}
@@ -845,7 +845,7 @@ function EditDishComponent({
                                     isSelected
                                       ? isNewZeroPrice
                                         ? "border-red-300 bg-red-50 font-semibold text-red-600"
-                                        : "border-[#845cbd] bg-[#f4effc] font-semibold text-[#845cbd]"
+                                        : "border-[var(--color-primary)] bg-[#f4effc] font-semibold text-[var(--color-primary)]"
                                       : isZeroPrice
                                         ? "border-red-200 bg-red-50/30 hover:border-red-300 text-red-500"
                                         : "border-gray-200 hover:border-gray-300 text-gray-700"
@@ -859,7 +859,7 @@ function EditDishComponent({
                                       type="checkbox"
                                       checked={isSelected}
                                       readOnly
-                                      className={`w-3.5 h-3.5 pointer-events-none ${isNewZeroPrice && isSelected ? "accent-red-500" : "accent-[#845cbd]"}`}
+                                      className={`w-3.5 h-3.5 pointer-events-none ${isNewZeroPrice && isSelected ? "accent-red-500" : "accent-[var(--color-primary)]"}`}
                                     />
                                     <span className="truncate">
                                       {dish.name}
@@ -894,7 +894,7 @@ function EditDishComponent({
                 <button
                   type="button"
                   onClick={saveDishModal}
-                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[#845cbd] hover:bg-[#7350a8] cursor-pointer shadow-sm"
+                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:bg-[#7350a8] cursor-pointer shadow-sm"
                 >
                   Save
                 </button>

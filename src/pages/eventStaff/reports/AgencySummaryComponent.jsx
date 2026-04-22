@@ -11,7 +11,7 @@ function AgencySummaryComponent({ loading, summaryData }) {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiPieChart className="text-[#845cbd]" size={22} />
+            <FiPieChart className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
@@ -58,7 +58,7 @@ function AgencySummaryComponent({ loading, summaryData }) {
                         {row.staff_count || 0} Staff
                       </span>
                     </td>
-                    <td className="border border-gray-300 px-4 py-3 text-right font-black text-[#845cbd] text-lg">
+                    <td className="border border-gray-300 px-4 py-3 text-right font-black text-[var(--color-primary)] text-lg">
                       ₹{parseFloat(row.total_amount_payable || 0).toFixed(2)}
                     </td>
                   </tr>

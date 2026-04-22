@@ -315,18 +315,18 @@ function AllOrderController() {
 
             return `
               <div class="mb-4 bg-purple-50/30 p-4 rounded-xl border border-purple-100">
-                <div class="font-bold text-left mb-3 text-[#845cbd]">
+                <div class="font-bold text-left mb-3 text-[var(--color-primary)]">
                   <span>${displayLabel}</span>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-4">
                   <div class="text-left">
                     <label class="block text-xs font-semibold text-gray-500 mb-1">Per Dish Price (₹)</label> 
-                    <input id="per-dish-amount-${index}" class="swal2-input custom-stock-input m-0 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[#845cbd] transition-all font-bold" placeholder="Price" type="number" value="${session.per_dish_amount}">
+                    <input id="per-dish-amount-${index}" class="swal2-input custom-stock-input m-0 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all font-bold" placeholder="Price" type="number" value="${session.per_dish_amount}">
                   </div>
                   <div class="text-left">
                     <label class="block text-xs font-semibold text-gray-500 mb-1">Dish Count</label> 
-                    <input id="estimated-persons-${index}" class="swal2-input custom-stock-input m-0 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[#845cbd] transition-all font-bold" placeholder="Count" type="number" value="${session.estimated_persons}">
+                    <input id="estimated-persons-${index}" class="swal2-input custom-stock-input m-0 w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all font-bold" placeholder="Count" type="number" value="${session.estimated_persons}">
                   </div>
                 </div>
                 
@@ -385,7 +385,7 @@ function AllOrderController() {
               
               <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
                 <span class="font-bold text-gray-700">Total Amount</span>
-                <span id="total-amount" class="font-black text-[#845cbd] text-lg">₹${formatAmount(totalAmount)}</span>
+                <span id="total-amount" class="font-black text-[var(--color-primary)] text-lg">₹${formatAmount(totalAmount)}</span>
               </div>
             </div>
 
@@ -400,11 +400,11 @@ function AllOrderController() {
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="text-left">
                   <label class="block text-xs font-semibold text-gray-500 mb-1">Amount Paid at Completion (₹)</label> 
-                  <input id="completion-payment" class="swal2-input custom-stock-input w-full m-0 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[#845cbd] transition-all" placeholder="Enter Amount" type="number">
+                  <input id="completion-payment" class="swal2-input custom-stock-input w-full m-0 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all" placeholder="Enter Amount" type="number">
                 </div>
                 <div class="text-left">
                   <label class="block text-xs font-semibold text-gray-500 mb-1">Payment Mode</label> 
-                  <select id="payment-mode" class="swal2-input custom-stock-input w-full m-0 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[#845cbd] transition-all">
+                  <select id="payment-mode" class="swal2-input custom-stock-input w-full m-0 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all">
                     <option value="CASH">Cash</option>
                     <option value="ONLINE">Online</option>
                     <option value="CHEQUE">Cheque</option>
@@ -415,13 +415,13 @@ function AllOrderController() {
               
               <div class="text-left">
                 <label class="block text-xs font-semibold text-gray-500 mb-1">Note / Reference</label> 
-                <input id="payment-note" class="swal2-input custom-stock-input w-full m-0 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[#845cbd] transition-all" placeholder="Optional notes" type="text">
+                <input id="payment-note" class="swal2-input custom-stock-input w-full m-0 px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all" placeholder="Optional notes" type="text">
               </div>
             </div>
             
-            <div class="mt-4 p-4 bg-[#845cbd]/10 rounded-xl border border-[#845cbd]/20 flex justify-between items-center">
-              <span class="font-bold text-[#845cbd] text-sm">Total Remaining Amount</span>
-              <span id="final-remaining-amount" class="text-2xl font-black text-[#845cbd]">₹${formatAmount(remainingAmount)}</span>
+            <div class="mt-4 p-4 bg-[var(--color-primary)]/10 rounded-xl border border-[var(--color-primary)]/20 flex justify-between items-center">
+              <span class="font-bold text-[var(--color-primary)] text-sm">Total Remaining Amount</span>
+              <span id="final-remaining-amount" class="text-2xl font-black text-[var(--color-primary)]">₹${formatAmount(remainingAmount)}</span>
             </div>
           </div>
         `,
@@ -429,7 +429,7 @@ function AllOrderController() {
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: "Submit",
-        confirmButtonColor: "#845cbd",
+        confirmButtonColor: "var(--color-primary)",
         cancelButtonText: "Cancel",
         customClass: {
           popup: "custom-popup",

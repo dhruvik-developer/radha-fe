@@ -27,7 +27,7 @@ function SettingsComponent({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-[#f4effc]">
-              <FiUser className="text-[#845cbd]" size={22} />
+              <FiUser className="text-[var(--color-primary)]" size={22} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-800">
@@ -43,7 +43,7 @@ function SettingsComponent({
             <button
               type="button"
               onClick={handleEdit}
-              className="flex items-center gap-2 px-5 py-2.5 font-semibold text-[#845cbd] bg-[#f4effc] hover:bg-[#e8ddf5] rounded-xl transition-all duration-200 border border-[#845cbd]/20 cursor-pointer"
+              className="flex items-center gap-2 px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-[#f4effc] hover:bg-[#e8ddf5] rounded-xl transition-all duration-200 border border-[var(--color-primary)]/20 cursor-pointer"
             >
               <FiEdit3 size={16} />
               <span>Edit Profile</span>
@@ -62,7 +62,7 @@ function SettingsComponent({
                 type="button"
                 onClick={handleSubmit}
                 disabled={loading}
-                className={`flex items-center gap-2 px-5 py-2.5 font-semibold text-white bg-gradient-to-r from-[#845cbd] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-lg shadow-[#845cbd]/20 transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 px-5 py-2.5 font-semibold text-white bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all duration-200 cursor-pointer ${
                   loading ? "opacity-70 cursor-not-allowed" : ""
                 }`}
               >
@@ -90,7 +90,7 @@ function SettingsComponent({
             <div className="p-6 space-y-6">
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <FiImage size={12} className="text-[#845cbd]" />
+                  <FiImage size={12} className="text-[var(--color-primary)]" />
                   Business Logo
                 </label>
                 {isEditing ? (
@@ -111,7 +111,7 @@ function SettingsComponent({
                       name="logoFile"
                       accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
                       onChange={handleInputChange}
-                      className="w-full p-2.5 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] text-sm text-gray-700 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-[#f4effc] file:text-[#845cbd] file:font-medium"
+                      className="w-full p-2.5 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] text-sm text-gray-700 file:mr-3 file:px-3 file:py-1.5 file:rounded-md file:border-0 file:bg-[#f4effc] file:text-[var(--color-primary)] file:font-medium"
                     />
                   </div>
                 ) : (
@@ -130,7 +130,7 @@ function SettingsComponent({
               </div>
 
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-[#845cbd]"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary)]"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Business Details
                 </h3>
@@ -140,7 +140,7 @@ function SettingsComponent({
                 {/* Cater's Name */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiUser size={12} className="text-[#845cbd]" />
+                    <FiUser size={12} className="text-[var(--color-primary)]" />
                     Business Name
                     <span className="text-red-400">*</span>
                   </label>
@@ -153,7 +153,7 @@ function SettingsComponent({
                       placeholder="e.g. Shreeji Catering Services"
                       required
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -167,7 +167,7 @@ function SettingsComponent({
                 {/* FSSAI Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiShield size={12} className="text-[#845cbd]" />
+                    <FiShield size={12} className="text-[var(--color-primary)]" />
                     FSSAI Number
                     <span className="text-red-400">*</span>
                   </label>
@@ -180,7 +180,7 @@ function SettingsComponent({
                       placeholder="e.g. 10021021000123"
                       required
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -220,7 +220,7 @@ function SettingsComponent({
                       onChange={handleInputChange}
                       placeholder="Primary contact number"
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -245,7 +245,7 @@ function SettingsComponent({
                       onChange={handleInputChange}
                       placeholder="WhatsApp contact number"
                       autoComplete="off"
-                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 transition-all text-gray-800 font-medium"
+                      className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
                     <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
@@ -285,7 +285,7 @@ function SettingsComponent({
                     required
                     rows={3}
                     autoComplete="off"
-                    className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 transition-all text-gray-800 font-medium resize-none"
+                    className="w-full p-3 border-2 border-purple-200 rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium resize-none"
                   />
                 ) : (
                   <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[80px] flex items-start">

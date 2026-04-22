@@ -41,7 +41,7 @@ function AddEditStaffComponent({
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6">
+        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6">
           <div className="flex items-center gap-3">
             <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm">
               <FiUsers className="text-white" size={24} />
@@ -83,13 +83,13 @@ function AddEditStaffComponent({
 
             <div>
               <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2 border-b pb-2">
-                <span className="w-1.5 h-5 bg-[#845cbd] rounded-full" />
+                <span className="w-1.5 h-5 bg-[var(--color-primary)] rounded-full" />
                 Basic Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <FiUser className="text-[#845cbd]" /> Full Name{" "}
+                    <FiUser className="text-[var(--color-primary)]" /> Full Name{" "}
                     <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -98,7 +98,7 @@ function AddEditStaffComponent({
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g., John Doe"
-                    className={`w-full px-4 py-3 rounded-xl border ${errors.name ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                    className={`w-full px-4 py-3 rounded-xl border ${errors.name ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                   />
                   {errors.name ? (
                     <p className="text-red-500 text-xs font-medium pl-1">
@@ -109,7 +109,7 @@ function AddEditStaffComponent({
 
                 <div className="space-y-2">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <FiPhone className="text-[#845cbd]" /> Phone Number{" "}
+                    <FiPhone className="text-[var(--color-primary)]" /> Phone Number{" "}
                     <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -119,7 +119,7 @@ function AddEditStaffComponent({
                     onChange={handleChange}
                     placeholder="e.g., 9876543210"
                     maxLength="10"
-                    className={`w-full px-4 py-3 rounded-xl border ${errors.phone ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                    className={`w-full px-4 py-3 rounded-xl border ${errors.phone ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                   />
                   {errors.phone ? (
                     <p className="text-red-500 text-xs font-medium pl-1">
@@ -130,7 +130,7 @@ function AddEditStaffComponent({
 
                 <div className="space-y-2">
                   <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <span className="text-[#845cbd] font-bold">@</span> Role{" "}
+                    <span className="text-[var(--color-primary)] font-bold">@</span> Role{" "}
                     <span className="text-red-500">*</span>
                   </label>
                   <RoleDropdown
@@ -153,7 +153,7 @@ function AddEditStaffComponent({
                         value={formData.waiter_type_id || ""}
                         onChange={handleChange}
                         disabled={waiterTypesLoading}
-                        className={`appearance-none w-full px-4 py-3 rounded-xl border ${errors.waiter_type_id ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                        className={`appearance-none w-full px-4 py-3 rounded-xl border ${errors.waiter_type_id ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                       >
                         <option value="">Select waiter type</option>
                         {waiterTypes.map((wt) => (
@@ -187,7 +187,7 @@ function AddEditStaffComponent({
 
             <div>
               <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2 border-b pb-2">
-                <span className="w-1.5 h-5 bg-[#845cbd] rounded-full" />
+                <span className="w-1.5 h-5 bg-[var(--color-primary)] rounded-full" />
                 Login Access
               </h3>
               <div className="space-y-4">
@@ -209,7 +209,7 @@ function AddEditStaffComponent({
                       onChange={handleChange}
                       disabled={hasExistingLogin}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#845cbd]" />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary)]" />
                   </label>
                 </div>
 
@@ -232,7 +232,7 @@ function AddEditStaffComponent({
                         value={formData.login_username}
                         onChange={handleChange}
                         placeholder="e.g., ramesh_staff"
-                        className={`w-full px-4 py-3 rounded-xl border ${errors.login_username ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                        className={`w-full px-4 py-3 rounded-xl border ${errors.login_username ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                       />
                       {errors.login_username ? (
                         <p className="text-red-500 text-xs font-medium pl-1">
@@ -258,7 +258,7 @@ function AddEditStaffComponent({
                             ? "Leave blank to keep current password"
                             : "Minimum 4 characters"
                         }
-                        className={`w-full px-4 py-3 rounded-xl border ${errors.login_password ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                        className={`w-full px-4 py-3 rounded-xl border ${errors.login_password ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                       />
                       {errors.login_password ? (
                         <p className="text-red-500 text-xs font-medium pl-1">
@@ -277,7 +277,7 @@ function AddEditStaffComponent({
                         value={formData.login_email}
                         onChange={handleChange}
                         placeholder="e.g., ramesh@example.com"
-                        className={`w-full px-4 py-3 rounded-xl border ${errors.login_email ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                        className={`w-full px-4 py-3 rounded-xl border ${errors.login_email ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                       />
                       {errors.login_email ? (
                         <p className="text-red-500 text-xs font-medium pl-1">
@@ -294,7 +294,7 @@ function AddEditStaffComponent({
 
             <div>
               <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2 border-b pb-2">
-                <span className="w-1.5 h-5 bg-[#845cbd] rounded-full" />
+                <span className="w-1.5 h-5 bg-[var(--color-primary)] rounded-full" />
                 Employment & Financials
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -308,7 +308,7 @@ function AddEditStaffComponent({
                         key={type}
                         className={`flex-1 sm:flex-none relative flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 cursor-pointer transition-all ${
                           formData.staff_type === type
-                            ? "border-[#845cbd] bg-[#845cbd]/5 text-[#845cbd]"
+                            ? "border-[var(--color-primary)] bg-[var(--color-primary)]/5 text-[var(--color-primary)]"
                             : "border-gray-200 hover:border-gray-300 text-gray-600"
                         }`}
                       >
@@ -331,7 +331,7 @@ function AddEditStaffComponent({
                   <>
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        <BiMoney className="text-[#845cbd]" size={18} /> Fixed
+                        <BiMoney className="text-[var(--color-primary)]" size={18} /> Fixed
                         Salary (Monthly) <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -346,7 +346,7 @@ function AddEditStaffComponent({
                           placeholder="15000.00"
                           step="0.01"
                           min="0"
-                          className={`w-full pl-14 pr-4 py-3 rounded-xl border ${errors.fixed_salary ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                          className={`w-full pl-14 pr-4 py-3 rounded-xl border ${errors.fixed_salary ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                         />
                       </div>
                       {errors.fixed_salary ? (
@@ -365,7 +365,7 @@ function AddEditStaffComponent({
                         name="joining_date"
                         value={formData.joining_date || ""}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-xl border ${errors.joining_date ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                        className={`w-full px-4 py-3 rounded-xl border ${errors.joining_date ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                       />
                       {errors.joining_date ? (
                         <p className="text-red-500 text-xs font-medium pl-1">
@@ -380,7 +380,7 @@ function AddEditStaffComponent({
                 formData.staff_type === "Contract" ? (
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                      <BiMoney className="text-[#845cbd]" size={18} /> Paid Per
+                      <BiMoney className="text-[var(--color-primary)]" size={18} /> Paid Per
                       Person (Rate) <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -395,7 +395,7 @@ function AddEditStaffComponent({
                         placeholder="500.00"
                         step="0.01"
                         min="0"
-                        className={`w-full pl-14 pr-4 py-3 rounded-xl border ${errors.per_person_rate ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`}
+                        className={`w-full pl-14 pr-4 py-3 rounded-xl border ${errors.per_person_rate ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
                       />
                     </div>
                     {errors.per_person_rate ? (
@@ -421,7 +421,7 @@ function AddEditStaffComponent({
             <button
               type="submit"
               disabled={saving}
-              className="px-8 py-2.5 rounded-xl bg-[#845cbd] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+              className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
             >
               {saving ? (
                 <>

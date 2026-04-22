@@ -631,7 +631,7 @@ function DishContoller() {
           html: `<p class="text-sm mt-2 font-bold text-gray-800">The per plate price is below the minimum margin. Do you still want to place this order?</p>`,
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#845cbd",
+          confirmButtonColor: "var(--color-primary)",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, Proceed anyway",
         }).then((result) => {

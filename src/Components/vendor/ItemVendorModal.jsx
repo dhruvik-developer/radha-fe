@@ -138,7 +138,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50/30">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="w-8 h-8 border-4 border-[#845cbd] border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : entries.length === 0 ? (
             <div className="text-center py-10 text-gray-500">
@@ -170,7 +170,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                       >
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3 w-[40%]">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#845cbd]"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)]"></span>
                             <span className="font-medium text-gray-700 truncate" title={dishName}>
                               {dishName}
                             </span>
@@ -191,7 +191,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                                 />
                                 <div
                                   className={`block w-11 h-6 rounded-full shadow-inner transition-colors duration-300 ease-in-out ${
-                                    isVendorSupplied ? "bg-[#845cbd]" : "bg-gray-200"
+                                    isVendorSupplied ? "bg-[var(--color-primary)]" : "bg-gray-200"
                                   }`}
                                 ></div>
                                 <div
@@ -206,7 +206,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                               {isVendorSupplied ? (
                                 <div className="flex items-center gap-2 w-full">
                                   <select
-                                    className="flex-1 text-sm border-gray-300 rounded-lg shadow-sm focus:border-[#845cbd] focus:ring focus:ring-[#845cbd]/20"
+                                    className="flex-1 text-sm border-gray-300 rounded-lg shadow-sm focus:border-[var(--color-primary)] focus:ring focus:ring-[var(--color-primary)]/20"
                                     value={assignedVendorId || ""}
                                     onChange={(e) => handleAssignVendor(dishName, e.target.value)}
                                   >
@@ -218,7 +218,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                                     ))}
                                   </select>
                                   {assignedVendorId && (
-                                    <span className="text-[#845cbd]" title="Vendor Assigned">
+                                    <span className="text-[var(--color-primary)]" title="Vendor Assigned">
                                       <FiCheck size={18} strokeWidth={3} />
                                     </span>
                                   )}
@@ -242,7 +242,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                               min="0"
                               step="0.01"
                               placeholder="e.g. 15"
-                              className="w-24 text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 focus:border-[#845cbd] focus:ring focus:ring-[#845cbd]/20 outline-none"
+                              className="w-24 text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 focus:border-[var(--color-primary)] focus:ring focus:ring-[var(--color-primary)]/20 outline-none"
                               value={config.quantity || ""}
                               onChange={(e) => handleQtyChange(dishName, "quantity", e.target.value)}
                               onBlur={() => handleQtyBlur(dishName)}
@@ -250,7 +250,7 @@ const ItemVendorModal = ({ isOpen, onClose, session, eventId }) => {
                             <input
                               type="text"
                               placeholder="unit (kg, L...)"
-                              className="w-28 text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 focus:border-[#845cbd] focus:ring focus:ring-[#845cbd]/20 outline-none"
+                              className="w-28 text-sm border border-gray-200 rounded-lg px-2.5 py-1.5 focus:border-[var(--color-primary)] focus:ring focus:ring-[var(--color-primary)]/20 outline-none"
                               value={config.unit || ""}
                               onChange={(e) => handleQtyChange(dishName, "unit", e.target.value)}
                               onBlur={() => handleQtyBlur(dishName)}

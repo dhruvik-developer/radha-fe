@@ -89,7 +89,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiFolder className="text-white" size={20} />
             </div>
             <div>
@@ -118,7 +118,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
               placeholder="Please Enter Category Name"
               name="name"
               value={categoryName}
-              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all"
+              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
               onChange={(e) => setCategoryName(e.target.value)}
             />
           </div>
@@ -133,7 +133,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Category"}
             </button>
@@ -224,7 +224,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiTag className="text-white" size={20} />
             </div>
             <div>
@@ -254,7 +254,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
               placeholder="Please Enter Item Name"
               name="name"
               value={itemName}
-              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all"
+              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
               onChange={(e) => setItemName(e.target.value)}
             />
           </div>
@@ -327,7 +327,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Item"}
             </button>
@@ -437,7 +437,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiBookOpen className="text-white" size={20} />
             </div>
             <div>
@@ -474,7 +474,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
               onChange={(e) => setPersonCount(parseInt(e.target.value) || 0)}
               min="1"
               placeholder="Enter Person Count (e.g., 100)"
-              className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] bg-gray-50/50 transition-all"
+              className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] bg-gray-50/50 transition-all"
             />
           </div>
 
@@ -554,7 +554,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
                           )
                         }
                         placeholder="Qty"
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd]"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)]"
                       />
 
                       <input
@@ -564,7 +564,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
                           handleIngredientChange(index, "unit", e.target.value)
                         }
                         placeholder="Unit"
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd]"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)]"
                       />
 
                       {!isLastEmptyRow ? (
@@ -603,7 +603,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               onClick={handleSubmit}
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Ingredient"}
             </button>

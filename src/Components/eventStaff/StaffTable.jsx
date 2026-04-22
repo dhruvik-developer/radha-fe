@@ -49,7 +49,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                 </td>
                 <td className="px-6 py-4 border-y border-transparent group-hover:border-[#e2d5f8]">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#845cbd] to-purple-400 text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-purple-50 group-hover:ring-purple-100 transition-all flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary)] to-purple-400 text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-purple-50 group-hover:ring-purple-100 transition-all flex-shrink-0">
                       {staff.name ? staff.name.charAt(0).toUpperCase() : "?"}
                     </div>
                     <div className="flex flex-col">
@@ -64,7 +64,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                 </td>
                 <td className="px-6 py-4 border-y border-transparent group-hover:border-[#e2d5f8]">
                   <div className="flex flex-col gap-2 items-start">
-                    <span className="font-bold text-[#845cbd] text-sm break-words line-clamp-2">
+                    <span className="font-bold text-[var(--color-primary)] text-sm break-words line-clamp-2">
                       {staff.role_name || staff.role || "N/A"}
                     </span>
                     {staff.waiter_type_name ||
@@ -157,7 +157,7 @@ function StaffTable({ staffList, onStaffEdit, onStaffDelete, onStaffPaymentSumma
                       <button
                         onClick={() => onStaffEdit(staff)}
                         title="Edit Staff"
-                        className="p-2 rounded-lg text-gray-500 hover:text-[#845cbd] hover:bg-[#f4effc] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
+                        className="p-2 rounded-lg text-gray-500 hover:text-[var(--color-primary)] hover:bg-[#f4effc] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
                       >
                         <FiEdit2 size={16} />
                       </button>

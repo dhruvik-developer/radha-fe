@@ -54,7 +54,7 @@ function PdfQuotationComponent({
           {/* Action Bar (Top) */}
           <div className="flex justify-end gap-3 mb-6 w-full max-w-4xl no-print-button">
             <button
-              className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[#845cbd] hover:border-[#845cbd]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
+              className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
               onClick={() => navigate(-1)}
               title="Back"
             >
@@ -90,7 +90,7 @@ function PdfQuotationComponent({
             </button>
 
             <button
-              className="flex items-center gap-2 px-6 py-3 bg-[#845cbd] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
+              className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
               onClick={downloadPDF}
               title="Download PDF"
             >
@@ -124,16 +124,16 @@ function PdfQuotationComponent({
               />
             </div>
             {/* Decorative Background Elements */}
-            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[#845cbd]/10 to-transparent blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-pink-500/5 to-transparent blur-3xl pointer-events-none"></div>
             {/* Top Accent Bar */}
-            <div className="relative h-2 w-full bg-gradient-to-r from-[#845cbd] via-purple-400 to-[#845cbd] z-10"></div>
+            <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-purple-400 to-[var(--color-primary)] z-10"></div>
             <div className="relative z-10">
               {/* Header Section */}
               <div className="px-10 pt-10 pb-6 flex flex-row items-center justify-between border-b 0 border-gray-100/80">
                 {/* Company Info */}
                 <div className="flex flex-col items-start w-2/3">
-                  <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#845cbd] to-purple-600 tracking-wide uppercase mb-1 drop-shadow-sm">
+                  <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-purple-600 tracking-wide uppercase mb-1 drop-shadow-sm">
                     {businessProfile?.caters_name || "radha Sweet & Caterers"}
                   </h2>
                   <p className="text-sm text-gray-600 font-medium whitespace-nowrap">
@@ -179,7 +179,7 @@ function PdfQuotationComponent({
                     />
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-[#845cbd] font-bold tracking-widest uppercase mb-1">
+                    <p className="text-xs text-[var(--color-primary)] font-bold tracking-widest uppercase mb-1">
                       Quotation
                     </p>
                     <p className="text-sm font-bold text-gray-700 bg-purple-50/80 border border-purple-100 px-3 py-1.5 rounded-lg shadow-inner">
@@ -189,16 +189,16 @@ function PdfQuotationComponent({
                 </div>
               </div>
 
-              <div className="px-10 py-2 bg-[#845cbd]/5 text-center border-b border-gray-200">
-                <h2 className="text-xl font-bold text-[#845cbd] tracking-[0.2em] uppercase">
+              <div className="px-10 py-2 bg-[var(--color-primary)]/5 text-center border-b border-gray-200">
+                <h2 className="text-xl font-bold text-[var(--color-primary)] tracking-[0.2em] uppercase">
                   Order Selection
                 </h2>
               </div>
 
               {/* Order Details Section (Grid Layout) */}
               <div className="px-10 py-8">
-                <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-5 flex items-center gap-2">
-                  <span className="w-1.5 h-6 bg-[#845cbd] rounded-full inline-block"></span>
+                <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-5 flex items-center gap-2">
+                  <span className="w-1.5 h-6 bg-[var(--color-primary)] rounded-full inline-block"></span>
                   Customer & Event Details
                 </h3>
                 <div className="grid grid-cols-2 gap-x-12 gap-y-5 text-sm">
@@ -225,7 +225,7 @@ function PdfQuotationComponent({
                     <span className="text-gray-400 text-xs uppercase font-bold tracking-wider mb-1">
                       Estimated Persons
                     </span>
-                    <span className="font-extrabold text-[#845cbd] text-xl">
+                    <span className="font-extrabold text-[var(--color-primary)] text-xl">
                       {totalPersons}
                     </span>
                   </div>
@@ -252,8 +252,8 @@ function PdfQuotationComponent({
 
               {/* Schedule, Menu, and Extra Services mapped per Session */}
               <div className="px-10 py-8">
-                <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-5 flex items-center gap-2">
-                  <span className="w-1.5 h-6 bg-[#845cbd] rounded-full inline-block"></span>
+                <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-5 flex items-center gap-2">
+                  <span className="w-1.5 h-6 bg-[var(--color-primary)] rounded-full inline-block"></span>
                   Event Schedule & Menu Selection
                 </h3>
 
@@ -270,7 +270,7 @@ function PdfQuotationComponent({
                             <span className="text-sm font-extrabold text-gray-800 tracking-wide">
                               {session.event_date}
                             </span>
-                            <span className="text-xs bg-[#845cbd] text-white font-extrabold px-3 py-1 rounded-md tracking-wide">
+                            <span className="text-xs bg-[var(--color-primary)] text-white font-extrabold px-3 py-1 rounded-md tracking-wide">
                               {session.event_time}
                             </span>
                           </div>
@@ -288,7 +288,7 @@ function PdfQuotationComponent({
                         {session.event_address &&
                           session.event_address.trim() && (
                             <div className="px-5 py-2.5 bg-gray-50/80 border-b border-purple-50 flex items-start gap-2 text-sm">
-                              <span className="font-bold text-[#845cbd] uppercase tracking-wider text-xs shrink-0 mt-0.5">
+                              <span className="font-bold text-[var(--color-primary)] uppercase tracking-wider text-xs shrink-0 mt-0.5">
                                 Location:
                               </span>
                               <span className="font-medium text-gray-700 leading-tight capitalize">
@@ -309,7 +309,7 @@ function PdfQuotationComponent({
                                     key={catIdx}
                                     className="page-break-inside-avoid"
                                   >
-                                    <h4 className="text-xs font-bold text-[#845cbd] uppercase tracking-wider mb-3 border-b border-gray-100 pb-1">
+                                    <h4 className="text-xs font-bold text-[var(--color-primary)] uppercase tracking-wider mb-3 border-b border-gray-100 pb-1">
                                       {categoryName}
                                     </h4>
                                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6">
@@ -325,12 +325,12 @@ function PdfQuotationComponent({
                                             key={dIdx}
                                             className="flex items-center group"
                                           >
-                                            <span className="text-[#845cbd]/50 font-bold text-xs w-6 group-hover:text-[#845cbd] transition-colors">
+                                            <span className="text-[var(--color-primary)]/50 font-bold text-xs w-6 group-hover:text-[var(--color-primary)] transition-colors">
                                               {(dIdx + 1)
                                                 .toString()
                                                 .padStart(2, "0")}
                                             </span>
-                                            <span className="text-sm font-medium text-gray-700 capitalize group-hover:text-[#845cbd] transition-colors">
+                                            <span className="text-sm font-medium text-gray-700 capitalize group-hover:text-[var(--color-primary)] transition-colors">
                                               {dishName}
                                             </span>
                                           </li>
@@ -364,7 +364,7 @@ function PdfQuotationComponent({
                                       className="text-xs font-medium text-gray-700 bg-white border border-gray-200 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm"
                                     >
                                       <span>{service.service_name}</span>
-                                      <span className="text-[#845cbd] font-bold border-l border-gray-200 pl-2">
+                                      <span className="text-[var(--color-primary)] font-bold border-l border-gray-200 pl-2">
                                         ₹
                                         {Number(service.amount || 0).toFixed(2)}
                                       </span>
@@ -394,7 +394,7 @@ function PdfQuotationComponent({
                                     key={wsIdx}
                                     className="flex flex-wrap gap-2 items-center"
                                   >
-                                    <span className="text-xs font-semibold text-white bg-[#845cbd] px-3 py-1.5 rounded-lg shadow-sm">
+                                    <span className="text-xs font-semibold text-white bg-[var(--color-primary)] px-3 py-1.5 rounded-lg shadow-sm">
                                       {ws.type}
                                     </span>
                                     <span className="text-xs font-medium text-gray-700 bg-white border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm">
@@ -403,7 +403,7 @@ function PdfQuotationComponent({
                                     </span>
                                     <span className="text-xs font-medium text-gray-700 bg-white border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm">
                                       <span className="text-gray-500">Rate:</span>
-                                      <span className="font-bold text-[#845cbd]">₹{Number(ws.rate || 0).toFixed(2)}/head</span>
+                                      <span className="font-bold text-[var(--color-primary)]">₹{Number(ws.rate || 0).toFixed(2)}/head</span>
                                     </span>
                                     <span className="text-xs font-medium text-gray-700 bg-white border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm">
                                       <span className="text-gray-500">Total:</span>
@@ -464,7 +464,7 @@ function PdfQuotationComponent({
               )}
 
               {/* Footer / Branding */}
-              <div className="px-10 py-5 bg-gradient-to-r from-[#845cbd] to-purple-700 text-white text-center">
+              <div className="px-10 py-5 bg-gradient-to-r from-[var(--color-primary)] to-purple-700 text-white text-center">
                 <p className="text-xs font-bold tracking-[0.2em] text-white/90 uppercase">
                   Thank you for choosing{" "}
                   {businessProfile?.caters_name || "radha Sweet & Caterers"}

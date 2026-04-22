@@ -40,7 +40,7 @@ const Dropdown = ({
           } ${
             error
               ? "border-red-500 focus:ring-red-500"
-              : "border-gray-300 focus:ring-[#845cbd] focus:border-[#845cbd]"
+              : "border-gray-300 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
           }`}
           onClick={() => !disabled && setIsOpen(!isOpen)}
         >
@@ -83,7 +83,7 @@ const Dropdown = ({
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
-                  className="w-full py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#845cbd] focus:border-[#845cbd] text-sm"
+                  className="w-full py-1 px-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] text-sm"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   autoComplete="off"
                 />
@@ -95,7 +95,7 @@ const Dropdown = ({
                     key={option.id}
                     className={({ focus, active }) =>
                       `relative cursor-pointer select-none py-1.5 pl-8 pr-3 mx-1 my-0.5 rounded-md transition-colors text-sm ${
-                        focus || active ? "bg-[#f4effc] text-[#845cbd] font-medium" : "text-gray-700 hover:bg-[#f4effc] hover:text-[#845cbd]"
+                        focus || active ? "bg-[#f4effc] text-[var(--color-primary)] font-medium" : "text-gray-700 hover:bg-[#f4effc] hover:text-[var(--color-primary)]"
                       }`
                     }
                   value={option.id}
@@ -104,12 +104,12 @@ const Dropdown = ({
                   {({ selected }) => (
                     <>
                       <span
-                        className={`block truncate ${selected ? "font-bold text-[#845cbd]" : "font-medium"}`}
+                        className={`block truncate ${selected ? "font-bold text-[var(--color-primary)]" : "font-medium"}`}
                       >
                         {option.name}
                       </span>
                       {selected && (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-2.5 text-base text-[#845cbd] font-bold">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-2.5 text-base text-[var(--color-primary)] font-bold">
                           ✓
                         </span>
                       )}

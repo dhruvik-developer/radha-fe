@@ -35,7 +35,7 @@ export default function BorderSelector({ value, onChange }) {
               gap: "5px",
               padding: "6px 4px",
               borderRadius: "6px",
-              border: isSelected ? "2px solid #845cbd" : "1.5px solid #e5e7eb",
+              border: isSelected ? "2px solid var(--color-primary)" : "1.5px solid #e5e7eb",
               background: isSelected ? "#f5f0ff" : "#fff",
               cursor: "pointer",
               transition: "all 0.15s",
@@ -54,7 +54,7 @@ export default function BorderSelector({ value, onChange }) {
               style={{
                 fontSize: "9px",
                 fontWeight: 600,
-                color: isSelected ? "#845cbd" : "#6b7280",
+                color: isSelected ? "var(--color-primary)" : "#6b7280",
                 textTransform: "uppercase",
                 letterSpacing: "0.05em",
               }}

@@ -52,7 +52,7 @@ function PeopleTabs() {
               to={tab.path}
               className={`group flex flex-1 items-center gap-3 rounded-2xl border px-4 py-2.5 transition-all duration-200 ${
                 isActive
-                  ? "border-[#845cbd] bg-gradient-to-r from-[#845cbd] to-[#6f49a9] text-white shadow-lg shadow-[#845cbd]/15"
+                  ? "border-[var(--color-primary)] bg-gradient-to-r from-[var(--color-primary)] to-[#6f49a9] text-white shadow-lg shadow-[var(--color-primary)]/15"
                   : "border-transparent bg-transparent text-gray-600 hover:border-[#ede7f6] hover:bg-[#faf8fd]"
               }`}
             >
@@ -60,7 +60,7 @@ function PeopleTabs() {
                 className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl transition-colors ${
                   isActive
                     ? "bg-white/15 text-white"
-                    : "bg-[#f4effc] text-[#845cbd] group-hover:bg-white"
+                    : "bg-[#f4effc] text-[var(--color-primary)] group-hover:bg-white"
                 }`}
               >
                 <Icon size={18} />

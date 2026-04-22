@@ -87,7 +87,7 @@ function ExpenseController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       didOpen: () => {
         // Enforce number-only input on amount
@@ -156,7 +156,7 @@ function ExpenseController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Update",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       didOpen: () => {
         const amountInput = document.getElementById("expense-amount");
@@ -222,7 +222,7 @@ function ExpenseController() {
       inputPlaceholder: "Please Enter Category Name",
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",

@@ -39,7 +39,7 @@ function AddEditUserComponent({
               }
               name="username"
               value={form.username}
-              className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] 
+              className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
                                 ${errors.username ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
               onChange={onInputChange}
             />
@@ -52,7 +52,7 @@ function AddEditUserComponent({
               }
               name="email"
               value={form.email}
-              className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] 
+              className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
                                 ${errors.email ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
               onChange={onInputChange}
             />
@@ -82,7 +82,7 @@ function AddEditUserComponent({
             }
             name="password"
             value={form.password}
-            className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] 
+            className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
                             ${errors.password ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
             onChange={onInputChange}
           />
@@ -102,7 +102,7 @@ function AddEditUserComponent({
         <div className="flex items-center justify-center mt-2">
           <button
             type="submit"
-            className={`w-auto bg-[#845cbd] text-white rounded-md cursor-pointer ${isEdit ? "p-2" : "px-6 py-2"}`}
+            className={`w-auto bg-[var(--color-primary)] text-white rounded-md cursor-pointer ${isEdit ? "p-2" : "px-6 py-2"}`}
           >
             {isEdit ? "Update User" : "Save"}
           </button>

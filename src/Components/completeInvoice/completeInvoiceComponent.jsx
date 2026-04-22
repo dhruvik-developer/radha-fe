@@ -77,8 +77,8 @@ function CompleteInvoiceComponent({
         <>
           {/* Customer Details */}
           <div className="bg-purple-50/50 border border-purple-100 rounded-md mb-4 p-4">
-            <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-4 bg-[#845cbd] rounded-full inline-block"></span>
+            <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-[var(--color-primary)] rounded-full inline-block"></span>
               Billed To
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
@@ -251,8 +251,8 @@ function CompleteInvoiceComponent({
               <label className="block font-medium text-black-700">
                 Payment Date
               </label>
-              <div className="flex items-center gap-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]">
-                <FiCalendar className="text-[#845cbd]" size={20} />
+              <div className="flex items-center gap-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]">
+                <FiCalendar className="text-[var(--color-primary)]" size={20} />
 
                 <span className="font-semibold">
                   {currentDate.replace(/\//g, "-")}
@@ -266,7 +266,7 @@ function CompleteInvoiceComponent({
                 type="text"
                 name="pending_amount"
                 value={formatAmount(total_remain_amount)}
-                className={`w-full p-2 border border-gray-300 rounded-md font-semibold focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]`}
+                className={`w-full p-2 border border-gray-300 rounded-md font-semibold focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]`}
                 readOnly
               />
             </div>
@@ -293,7 +293,7 @@ function CompleteInvoiceComponent({
                 name="transaction_amount"
                 maxLength="10"
                 value={formData.transaction_amount}
-                className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]`}
+                className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]`}
                 onChange={handleChange}
                 onInput={(e) => {
                   e.target.value = e.target.value
@@ -311,7 +311,7 @@ function CompleteInvoiceComponent({
                 name="settlement_amount"
                 maxLength="10"
                 value={formData.settlement_amount}
-                className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]`}
+                className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]`}
                 onChange={handleChange}
                 onInput={(e) => {
                   e.target.value = e.target.value
@@ -326,7 +326,7 @@ function CompleteInvoiceComponent({
               <textarea
                 name="note"
                 placeholder="Enter Note"
-                className="w-full p-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+                className="w-full p-2 border border-gray-300 rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
                 value={formData.note}
                 onChange={handleChange}
               ></textarea>
@@ -342,7 +342,7 @@ function CompleteInvoiceComponent({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 font-medium bg-[#845cbd] text-white rounded-md cursor-pointer"
+                className="px-4 py-2 font-medium bg-[var(--color-primary)] text-white rounded-md cursor-pointer"
               >
                 Save
               </button>

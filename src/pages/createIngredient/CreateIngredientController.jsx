@@ -54,7 +54,7 @@ function CreateIngredientController() {
             `,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       didOpen: () => {
         const checkbox = document.getElementById("swal-is-common");
@@ -62,7 +62,7 @@ function CreateIngredientController() {
         const thumb = document.getElementById("swal-toggle-thumb");
         checkbox.addEventListener("change", () => {
           if (checkbox.checked) {
-            track.style.backgroundColor = "#845cbd";
+            track.style.backgroundColor = "var(--color-primary)";
             thumb.style.transform = "translateX(22px)";
           } else {
             track.style.backgroundColor = "#ccc";

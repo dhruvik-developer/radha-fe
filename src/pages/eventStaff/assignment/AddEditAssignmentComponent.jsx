@@ -110,7 +110,7 @@ function AddEditAssignmentComponent({
     <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6">
+        <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6">
           <div className="flex justify-between items-center sm:flex-row flex-col gap-4">
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm self-start">
@@ -195,12 +195,12 @@ function AddEditAssignmentComponent({
               onClick={currentStep === 2 ? goToStep1 : undefined}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 currentStep === 1
-                  ? "bg-white text-[#845cbd] shadow-lg"
+                  ? "bg-white text-[var(--color-primary)] shadow-lg"
                   : "bg-white/15 text-white/80 cursor-pointer hover:bg-white/25"
               }`}
             >
               <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${
-                currentStep === 1 ? "bg-[#845cbd] text-white" : "bg-white/20 text-white"
+                currentStep === 1 ? "bg-[var(--color-primary)] text-white" : "bg-white/20 text-white"
               }`}>
                 {currentStep > 1 ? <FiCheck size={12} /> : "1"}
               </span>
@@ -210,12 +210,12 @@ function AddEditAssignmentComponent({
             <div
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
                 currentStep === 2
-                  ? "bg-white text-[#845cbd] shadow-lg"
+                  ? "bg-white text-[var(--color-primary)] shadow-lg"
                   : "bg-white/15 text-white/50"
               }`}
             >
               <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${
-                currentStep === 2 ? "bg-[#845cbd] text-white" : "bg-white/20 text-white/60"
+                currentStep === 2 ? "bg-[var(--color-primary)] text-white" : "bg-white/20 text-white/60"
               }`}>2</span>
               Configure & Assign
             </div>
@@ -240,7 +240,7 @@ function AddEditAssignmentComponent({
                       onClick={() => handleCategoryFilterChange(isActive ? "" : category)}
                       className={`flex items-center gap-2 px-6 py-3 rounded-xl text-base font-bold transition-all border-2 cursor-pointer shadow-sm ${
                         isActive
-                          ? "bg-white border-[#845cbd] text-[#845cbd] ring-4 ring-[#845cbd]/10"
+                          ? "bg-white border-[var(--color-primary)] text-[var(--color-primary)] ring-4 ring-[var(--color-primary)]/10"
                           : "bg-white border-gray-100 text-gray-500 hover:border-gray-200"
                       }`}
                     >
@@ -260,7 +260,7 @@ function AddEditAssignmentComponent({
                 placeholder="Search staff by name..."
                 value={staffSearchQuery}
                 onChange={(e) => setStaffSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all"
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
               />
             </div>
 
@@ -275,7 +275,7 @@ function AddEditAssignmentComponent({
                       onClick={() => onToggleStaff(staff)}
                       className={`relative cursor-pointer p-4 rounded-2xl border-2 transition-all duration-200 group ${
                         selected
-                          ? "border-[#845cbd] bg-gradient-to-br from-[#f8f4ff] to-[#f0e8ff] shadow-md ring-1 ring-[#845cbd]/20"
+                          ? "border-[var(--color-primary)] bg-gradient-to-br from-[#f8f4ff] to-[#f0e8ff] shadow-md ring-1 ring-[var(--color-primary)]/20"
                           : "border-gray-100 bg-white hover:border-purple-200 hover:shadow-sm"
                       }`}
                     >
@@ -283,7 +283,7 @@ function AddEditAssignmentComponent({
                       <div
                         className={`absolute top-3 right-3 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                           selected
-                            ? "bg-[#845cbd] text-white shadow-sm"
+                            ? "bg-[var(--color-primary)] text-white shadow-sm"
                             : "border-2 border-gray-200 text-transparent group-hover:border-purple-300"
                         }`}
                       >
@@ -294,14 +294,14 @@ function AddEditAssignmentComponent({
                         <div
                           className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm transition-colors ${
                             selected
-                              ? "bg-[#845cbd] text-white shadow-md"
-                              : "bg-gray-100 text-gray-500 group-hover:bg-purple-50 group-hover:text-[#845cbd]"
+                              ? "bg-[var(--color-primary)] text-white shadow-md"
+                              : "bg-gray-100 text-gray-500 group-hover:bg-purple-50 group-hover:text-[var(--color-primary)]"
                           }`}
                         >
                           {staff.name?.charAt(0).toUpperCase() || "?"}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className={`font-bold text-sm truncate ${selected ? "text-[#845cbd]" : "text-gray-800"}`}>
+                          <p className={`font-bold text-sm truncate ${selected ? "text-[var(--color-primary)]" : "text-gray-800"}`}>
                             {staff.name}
                           </p>
                           <p className="text-[11px] text-gray-400 mt-0.5">
@@ -347,9 +347,9 @@ function AddEditAssignmentComponent({
                     return (
                       <div
                         key={entry.staffId}
-                        className="flex items-center gap-2 bg-[#f4effc] border border-[#845cbd]/20 text-[#845cbd] px-3 py-1.5 rounded-xl text-sm font-semibold"
+                        className="flex items-center gap-2 bg-[#f4effc] border border-[var(--color-primary)]/20 text-[var(--color-primary)] px-3 py-1.5 rounded-xl text-sm font-semibold"
                       >
-                        <span className="w-5 h-5 rounded-full bg-[#845cbd] text-white flex items-center justify-center text-[10px] font-black">
+                        <span className="w-5 h-5 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center text-[10px] font-black">
                           {staffObj?.name?.charAt(0).toUpperCase() || "?"}
                         </span>
                         {staffObj?.name || "Unknown"}
@@ -386,7 +386,7 @@ function AddEditAssignmentComponent({
                 type="button"
                 onClick={goToStep2}
                 disabled={selectedStaffEntries.length === 0}
-                className="px-6 py-2.5 rounded-xl bg-[#845cbd] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 Continue
                 <FiArrowRight size={16} />
@@ -422,7 +422,7 @@ function AddEditAssignmentComponent({
                   >
                     {/* Staff header */}
                     <div className="flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                      <div className="w-9 h-9 rounded-xl bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                      <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm shadow-sm">
                         {staffObj?.name?.charAt(0).toUpperCase() || "?"}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -438,7 +438,7 @@ function AddEditAssignmentComponent({
                           <span className="text-[10px] font-bold text-gray-400 uppercase block">
                             Amount
                           </span>
-                          <span className="text-sm font-black text-[#845cbd]">
+                          <span className="text-sm font-black text-[var(--color-primary)]">
                             ₹{entryTotal.toFixed(2)}
                           </span>
                         </div>
@@ -473,7 +473,7 @@ function AddEditAssignmentComponent({
                             onChange={(e) => onUpdateStaffEntry(entry.staffId, "total_days", e.target.value)}
                             min="0.5"
                             step="0.5"
-                            className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none text-sm font-semibold"
+                            className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none text-sm font-semibold"
                           />
                         </div>
 
@@ -490,7 +490,7 @@ function AddEditAssignmentComponent({
                                 onChange={(e) => onUpdateStaffEntry(entry.staffId, "per_day_rate", e.target.value)}
                                 min="0"
                                 step="0.01"
-                                className="w-full pl-7 pr-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none text-sm font-semibold"
+                                className="w-full pl-7 pr-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none text-sm font-semibold"
                               />
                             </div>
                           </div>
@@ -506,7 +506,7 @@ function AddEditAssignmentComponent({
                               value={entry.number_of_persons}
                               onChange={(e) => onUpdateStaffEntry(entry.staffId, "number_of_persons", e.target.value)}
                               min="1"
-                              className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none text-sm font-semibold"
+                              className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none text-sm font-semibold"
                             />
                           </div>
                         )}
@@ -523,7 +523,7 @@ function AddEditAssignmentComponent({
                               onChange={(e) => onUpdateStaffEntry(entry.staffId, "paid_amount", e.target.value)}
                               min="0"
                               step="0.01"
-                              className="w-full pl-7 pr-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none text-sm font-semibold"
+                              className="w-full pl-7 pr-3 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none text-sm font-semibold"
                             />
                           </div>
                         </div>
@@ -573,7 +573,7 @@ function AddEditAssignmentComponent({
               <button
                 type="submit"
                 disabled={saving || selectedStaffEntries.length === 0}
-                className="px-8 py-2.5 rounded-xl bg-[#845cbd] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
+                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
               >
                 {saving ? (
                   <>
@@ -610,7 +610,7 @@ function AddEditAssignmentComponent({
     return (
       <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-5 sm:px-8 sm:py-6 flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm">
                 <FiBriefcase className="text-white" size={24} />
@@ -630,12 +630,12 @@ function AddEditAssignmentComponent({
             <div className="space-y-8">
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2 border-b pb-2">
-                  <span className="w-1.5 h-5 bg-[#845cbd] rounded-full"></span> Assignment Details
+                  <span className="w-1.5 h-5 bg-[var(--color-primary)] rounded-full"></span> Assignment Details
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2 md:col-span-2">
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                      <FiClock className="text-[#845cbd]" /> Session Name
+                      <FiClock className="text-[var(--color-primary)]" /> Session Name
                     </label>
                     <input type="text" value={formData.sessionName || "Assigned Session"} disabled
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-100 text-gray-600 focus:outline-none cursor-not-allowed" />
@@ -643,11 +643,11 @@ function AddEditAssignmentComponent({
 
                   <div className="space-y-2 md:col-span-2">
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                      <span className="text-[#845cbd] font-bold">@</span> Role for this Event <span className="text-red-500">*</span>
+                      <span className="text-[var(--color-primary)] font-bold">@</span> Role for this Event <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <select name="role_at_event" value={formData.role_at_event} onChange={handleRoleChange}
-                        className="appearance-none w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none">
+                        className="appearance-none w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none">
                         <option value="">-- Select a Role --</option>
                         {rolesList?.map((r) => (<option key={r.id} value={r.id}>{r.name}</option>))}
                       </select>
@@ -661,11 +661,11 @@ function AddEditAssignmentComponent({
 
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                      <FiUser className="text-[#845cbd]" /> Select Staff <span className="text-red-500">*</span>
+                      <FiUser className="text-[var(--color-primary)]" /> Select Staff <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <select name="staff" value={formData.staff} onChange={handleStaffChange} disabled={!formData.role_at_event}
-                        className={`appearance-none w-full px-4 py-3 rounded-xl border ${errors.staff ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none disabled:opacity-60 disabled:cursor-not-allowed`}>
+                        className={`appearance-none w-full px-4 py-3 rounded-xl border ${errors.staff ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none disabled:opacity-60 disabled:cursor-not-allowed`}>
                         <option value="">{formData.role_at_event ? "-- Choose a Staff Member --" : "-- Select a Role First --"}</option>
                         {filteredStaffList.map((staff) => (
                           <option key={staff.id} value={staff.id}>
@@ -685,10 +685,10 @@ function AddEditAssignmentComponent({
                   {isBulkStaff && (
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        <FiUsers className="text-[#845cbd]" /> Number of Persons <span className="text-red-500">*</span>
+                        <FiUsers className="text-[var(--color-primary)]" /> Number of Persons <span className="text-red-500">*</span>
                       </label>
                       <input type="number" name="number_of_persons" value={formData.number_of_persons} onChange={handleChange}
-                        min="1" className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none" />
+                        min="1" className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none" />
                     </div>
                   )}
                 </div>
@@ -696,29 +696,29 @@ function AddEditAssignmentComponent({
 
               <div>
                 <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2 border-b pb-2">
-                  <span className="w-1.5 h-5 bg-[#845cbd] rounded-full"></span> Work Duration & Payout
+                  <span className="w-1.5 h-5 bg-[var(--color-primary)] rounded-full"></span> Work Duration & Payout
                 </h3>
                 <div className={`grid grid-cols-1 ${isFixedStaff ? "md:grid-cols-2" : "md:grid-cols-3"} gap-6`}>
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                      <FiClock className="text-[#845cbd]" /> Total Days <span className="text-red-500">*</span>
+                      <FiClock className="text-[var(--color-primary)]" /> Total Days <span className="text-red-500">*</span>
                     </label>
                     <input type="number" name="total_days" value={formData.total_days} onChange={handleChange}
                       placeholder="1.0" step="0.5" min="0.5"
-                      className={`w-full px-4 py-3 rounded-xl border ${errors.total_days ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`} />
+                      className={`w-full px-4 py-3 rounded-xl border ${errors.total_days ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`} />
                     {errors.total_days && <p className="text-red-500 text-[10px] font-medium pl-1">{errors.total_days}</p>}
                   </div>
 
                   {!isFixedStaff && (
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                        <BiMoney className="text-[#845cbd]" size={16} /> Per Day Rate <span className="text-red-500">*</span>
+                        <BiMoney className="text-[var(--color-primary)]" size={16} /> Per Day Rate <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>
                         <input type="number" name="per_day_rate" value={formData.per_day_rate} onChange={handleChange}
                           placeholder="500.00" step="0.01" min="0"
-                          className={`w-full pl-7 pr-3 py-3 rounded-xl border ${errors.per_day_rate ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`} />
+                          className={`w-full pl-7 pr-3 py-3 rounded-xl border ${errors.per_day_rate ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`} />
                       </div>
                       {errors.per_day_rate && <p className="text-red-500 text-[10px] font-medium pl-1">{errors.per_day_rate}</p>}
                     </div>
@@ -726,13 +726,13 @@ function AddEditAssignmentComponent({
 
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                      <BiMoney className="text-[#845cbd]" size={16} /> Amount Paid
+                      <BiMoney className="text-[var(--color-primary)]" size={16} /> Amount Paid
                     </label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>
                       <input type="number" name="paid_amount" value={formData.paid_amount} onChange={handleChange}
                         placeholder="0.00" step="0.01" min="0"
-                        className={`w-full pl-7 pr-3 py-3 rounded-xl border ${errors.paid_amount ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none`} />
+                        className={`w-full pl-7 pr-3 py-3 rounded-xl border ${errors.paid_amount ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`} />
                     </div>
                     {errors.paid_amount && <p className="text-red-500 text-[10px] font-medium pl-1">{errors.paid_amount}</p>}
                   </div>
@@ -746,7 +746,7 @@ function AddEditAssignmentComponent({
                 Cancel
               </button>
               <button type="submit" disabled={saving}
-                className="px-8 py-2.5 rounded-xl bg-[#845cbd] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
+                className="px-8 py-2.5 rounded-xl bg-[var(--color-primary)] text-white font-bold hover:bg-[#7350a8] hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
                 {saving ? (
                   <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> Saving...</>
                 ) : ("Update Assignment")}

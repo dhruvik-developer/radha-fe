@@ -89,7 +89,7 @@ function StaffDetailPage() {
       inputAttributes: { min: 0, max: remainingStr, step: 0.01 },
       showCancelButton: true,
       confirmButtonText: "Submit Payment",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonColor: "#d33",
       inputValidator: (value) => {
         if (!value) return "You need to enter an amount!";
@@ -142,7 +142,7 @@ function StaffDetailPage() {
       {/* Back button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm text-[#845cbd] font-semibold hover:underline cursor-pointer"
+        className="flex items-center gap-2 text-sm text-[var(--color-primary)] font-semibold hover:underline cursor-pointer"
       >
         <FaArrowLeft size={14} /> Back to Summary Report
       </button>
@@ -157,7 +157,7 @@ function StaffDetailPage() {
         <>
           {/* Staff Profile Card */}
           <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden">
-            <div className="bg-gradient-to-r from-[#845cbd] to-[#a97dd6] px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#a97dd6] px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
               <div className="flex items-center gap-5">
                 <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
                   <FaUser size={28} className="text-white" />
@@ -175,7 +175,7 @@ function StaffDetailPage() {
               {staffData.staff_type === "Fixed" && (
                 <button
                   onClick={() => navigate(`/fixed-staff-payments/${staffData.staff_id}`)}
-                  className="flex items-center gap-2 bg-white text-[#845cbd] hover:bg-purple-50 px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all active:scale-95 border border-transparent whitespace-nowrap"
+                  className="flex items-center gap-2 bg-white text-[var(--color-primary)] hover:bg-purple-50 px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all active:scale-95 border border-transparent whitespace-nowrap"
                 >
                   <FaMoneyBillWave size={18} />
                   Manage Salary Payments
@@ -189,7 +189,7 @@ function StaffDetailPage() {
                 <p className="text-xs text-gray-400 uppercase font-bold mb-1 tracking-wide">
                   Total Events
                 </p>
-                <p className="text-3xl font-black text-[#845cbd]">
+                <p className="text-3xl font-black text-[var(--color-primary)]">
                   {events.length}
                 </p>
               </div>
@@ -237,7 +237,7 @@ function StaffDetailPage() {
           {/* Event Assignments */}
           <div className="bg-white rounded-2xl shadow-lg border border-[#ede7f6] overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-              <FaMoneyBillWave className="text-[#845cbd]" size={18} />
+              <FaMoneyBillWave className="text-[var(--color-primary)]" size={18} />
               <h2 className="font-bold text-gray-800 text-lg">
                 Event Assignments & Payment History
               </h2>
@@ -268,7 +268,7 @@ function StaffDetailPage() {
                           <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium capitalize">
                             Role: {ev.role_name_at_event || "Staff"}
                           </span>
-                          <span className="bg-purple-50 text-[#845cbd] px-3 py-1 rounded-full text-xs font-medium">
+                          <span className="bg-purple-50 text-[var(--color-primary)] px-3 py-1 rounded-full text-xs font-medium">
                             {ev.total_days} Day(s) × {ev.number_of_persons}{" "}
                             Person(s)
                           </span>
@@ -279,7 +279,7 @@ function StaffDetailPage() {
                       <div className="flex flex-col sm:items-end gap-1 min-w-[160px]">
                         {staffData.staff_type === "Fixed" ? (
                           <div className="flex items-center justify-end h-full">
-                            <span className="text-xs font-bold text-[#845cbd] bg-purple-50 px-4 py-2 rounded-lg border border-purple-100 flex items-center gap-1.5 shadow-sm mt-3 sm:mt-0">
+                            <span className="text-xs font-bold text-[var(--color-primary)] bg-purple-50 px-4 py-2 rounded-lg border border-purple-100 flex items-center gap-1.5 shadow-sm mt-3 sm:mt-0">
                                Fixed Staff - Paid Monthly
                             </span>
                           </div>
@@ -316,7 +316,7 @@ function StaffDetailPage() {
                               {parseFloat(ev.remaining_amount) > 0 ? (
                                 <button
                                   onClick={() => handlePayClick(ev)}
-                                  className="bg-[#845cbd] hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer w-full"
+                                  className="bg-[var(--color-primary)] hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-colors cursor-pointer w-full"
                                 >
                                   Pay Amount
                                 </button>

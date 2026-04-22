@@ -118,7 +118,7 @@ function CategoryController() {
       inputPlaceholder: "Please Enter Category Name",
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",
@@ -166,7 +166,7 @@ function CategoryController() {
       inputPlaceholder: "Please Enter Category Name",
       showCancelButton: true,
       confirmButtonText: "Update",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",
@@ -240,7 +240,7 @@ function CategoryController() {
       inputPlaceholder: "Please Enter Position Of Category",
       showCancelButton: true,
       confirmButtonText: "Done",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",

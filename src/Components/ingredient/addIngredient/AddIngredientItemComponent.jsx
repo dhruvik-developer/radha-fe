@@ -30,7 +30,7 @@ function AddIngredientItemComponent({
             placeholder="Please Enter Item Name"
             name="name"
             value={itemName}
-            className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+            className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
             onChange={(e) => setItemName(e.target.value)}
           />
         </div>
@@ -53,7 +53,7 @@ function AddIngredientItemComponent({
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="w-auto bg-[#845cbd] text-white p-2 rounded-md cursor-pointer"
+            className="w-auto bg-[var(--color-primary)] text-white p-2 rounded-md cursor-pointer"
           >
             Add Item
           </button>

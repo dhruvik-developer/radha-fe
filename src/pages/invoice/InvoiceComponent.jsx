@@ -42,7 +42,7 @@ function InvoiceComponent({
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiFileText className="text-[#845cbd]" size={22} />
+            <FiFileText className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Invoice List</h2>
@@ -68,7 +68,7 @@ function InvoiceComponent({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoComplete="off"
-              className="pl-9 pr-8 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15 w-56 transition-all"
+              className="pl-9 pr-8 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15 w-56 transition-all"
             />
             {searchQuery && (
               <button
@@ -102,7 +102,7 @@ function InvoiceComponent({
               placeholderText="Select date range"
               maxDate={new Date()}
               isClearable
-              className="pl-9 pr-7 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15 w-[220px] transition-all cursor-pointer"
+              className="pl-9 pr-7 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15 w-[220px] transition-all cursor-pointer"
             />
           </div>
 
@@ -139,7 +139,7 @@ function InvoiceComponent({
               {/* Card Header */}
               <div className="flex items-center justify-between px-5 py-4 bg-[#f4effc] border-b border-[#ede7f6]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm">
+                  <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm">
                     {invo.name?.charAt(0)?.toUpperCase() || "?"}
                   </div>
                   <div>
@@ -174,7 +174,7 @@ function InvoiceComponent({
                   <div className="flex-1 px-5 py-4">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[#ede7f6]">
-                        <FiCreditCard size={14} className="text-[#845cbd]" />
+                        <FiCreditCard size={14} className="text-[var(--color-primary)]" />
                         <span className="font-medium">
                           {invo.payment_mode || "—"}
                         </span>
@@ -195,7 +195,7 @@ function InvoiceComponent({
                         </span>
                       </div>
                       <div className="flex items-center gap-2.5 text-sm text-gray-800 bg-white rounded-lg px-3 py-2.5 border border-[#ede7f6]">
-                        <FiDollarSign size={14} className="text-[#845cbd]" />
+                        <FiDollarSign size={14} className="text-[var(--color-primary)]" />
                         <span className="font-semibold text-gray-800">
                           Total: ₹ {Number(invo.total_amount || 0).toFixed(2)}
                         </span>
@@ -221,7 +221,7 @@ function InvoiceComponent({
               {/* Card Footer - Actions */}
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 px-5 py-3 border-t border-[#ede7f6]">
                 <button
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[#f4effc] hover:bg-[#e8ddf5] text-[#845cbd] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[#f4effc] hover:bg-[#e8ddf5] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                   onClick={() => navigate(`/invoice-order-pdf/${invo.id}`)}
                 >
                   <FiEye size={14} />

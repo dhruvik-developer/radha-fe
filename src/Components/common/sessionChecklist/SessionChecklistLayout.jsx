@@ -2,7 +2,7 @@
 import * as mapper from "../../../utils/orderMasterDataMapping";
 
 const THEME = {
-  primary: "#845CBD",
+  primary: "var(--color-primary)",
   primaryDark: "#6F47B8",
   primarySoft: "#F6F0FF",
   primaryBorder: "#E7D9FF",
@@ -206,7 +206,7 @@ function SessionChecklistLayout({
     >
       <div
         style={{
-          background: "linear-gradient(135deg, #845CBD 0%, #6F47B8 100%)",
+          background: "linear-gradient(135deg, var(--color-primary) 0%, #6F47B8 100%)",
           color: "#fff",
           padding: "14px 20px",
         }}

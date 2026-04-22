@@ -101,7 +101,7 @@ const WaiterTypeManagement = () => {
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
-        cancelButtonColor: "#845cbd",
+        cancelButtonColor: "var(--color-primary)",
         confirmButtonText: "Yes, delete it",
         customClass: {
           popup: "rounded-xl",
@@ -129,7 +129,7 @@ const WaiterTypeManagement = () => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-[#f4effc] rounded-xl">
-            <FiUsers className="text-[#845cbd]" size={24} />
+            <FiUsers className="text-[var(--color-primary)]" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Waiter Types</h2>
@@ -139,7 +139,7 @@ const WaiterTypeManagement = () => {
           </div>
         </div>
         <button
-          className="flex items-center gap-2 rounded-xl bg-[#845cbd] hover:bg-[#7350a8] px-5 py-2.5 text-white font-semibold transition-all shadow-md shadow-[#845cbd]/20 cursor-pointer"
+          className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] hover:bg-[#7350a8] px-5 py-2.5 text-white font-semibold transition-all shadow-md shadow-[var(--color-primary)]/20 cursor-pointer"
           onClick={() => setIsAddModalOpen(true)}
         >
           <FiPlus size={18} />
@@ -152,7 +152,7 @@ const WaiterTypeManagement = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 backdrop-blur-sm p-4">
           <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-6 py-4 flex items-center justify-between text-white">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-6 py-4 flex items-center justify-between text-white">
               <h3 className="text-lg font-bold flex items-center gap-2">
                 <FiPlus size={18} /> Add New Waiter Type
               </h3>
@@ -173,7 +173,7 @@ const WaiterTypeManagement = () => {
                 <input
                   value={newType.name}
                   onChange={(e) => setNewType((p) => ({ ...p, name: e.target.value }))}
-                  className="w-full rounded-xl border-gray-300 border focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 p-3 transition-all text-sm font-medium"
+                  className="w-full rounded-xl border-gray-300 border focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 p-3 transition-all text-sm font-medium"
                   placeholder="e.g. Captain, Server, Bartender"
                 />
               </div>
@@ -185,7 +185,7 @@ const WaiterTypeManagement = () => {
                 <input
                   value={newType.description}
                   onChange={(e) => setNewType((p) => ({ ...p, description: e.target.value }))}
-                  className="w-full rounded-xl border-gray-300 border focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 p-3 transition-all text-sm"
+                  className="w-full rounded-xl border-gray-300 border focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 p-3 transition-all text-sm"
                   placeholder="Brief description of responsibilities (optional)"
                 />
               </div>
@@ -202,7 +202,7 @@ const WaiterTypeManagement = () => {
                     type="number"
                     value={newType.per_person_rate}
                     onChange={(e) => setNewType((p) => ({ ...p, per_person_rate: e.target.value }))}
-                    className="w-full rounded-xl border-gray-300 border focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 p-3 pl-9 transition-all text-sm font-bold text-gray-700"
+                    className="w-full rounded-xl border-gray-300 border focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 p-3 pl-9 transition-all text-sm font-bold text-gray-700"
                     placeholder="e.g. 500"
                   />
                 </div>
@@ -215,7 +215,7 @@ const WaiterTypeManagement = () => {
                       type="checkbox"
                       checked={newType.is_active}
                       onChange={(e) => setNewType((p) => ({ ...p, is_active: e.target.checked }))}
-                      className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-gray-300 checked:border-[#845cbd] checked:bg-[#845cbd] transition-all"
+                      className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-gray-300 checked:border-[var(--color-primary)] checked:bg-[var(--color-primary)] transition-all"
                     />
                     <FiCheckCircle className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" size={14} />
                   </div>
@@ -236,7 +236,7 @@ const WaiterTypeManagement = () => {
                 Cancel
               </button>
               <button
-                className="rounded-xl bg-[#845cbd] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#7350a8] shadow-md shadow-[#845cbd]/20 transition-all active:scale-[0.98] cursor-pointer"
+                className="rounded-xl bg-[var(--color-primary)] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#7350a8] shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] cursor-pointer"
                 onClick={onAdd}
               >
                 Save Waiter Type
@@ -255,12 +255,12 @@ const WaiterTypeManagement = () => {
         ) : waiterTypes.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-gray-400">
             <div className="p-4 bg-[#f4effc] rounded-full mb-4">
-              <FiUsers size={32} className="text-[#845cbd]" />
+              <FiUsers size={32} className="text-[var(--color-primary)]" />
             </div>
             <p className="text-lg font-semibold text-gray-600">No Waiter Types Found</p>
             <p className="text-sm mt-1">Add your first waiter type to start managing event staff.</p>
             <button
-              className="mt-6 text-[#845cbd] font-semibold text-sm hover:underline cursor-pointer"
+              className="mt-6 text-[var(--color-primary)] font-semibold text-sm hover:underline cursor-pointer"
               onClick={() => setIsAddModalOpen(true)}
             >
               + Add Waiter Type Now
@@ -288,7 +288,7 @@ const WaiterTypeManagement = () => {
                           <div className="md:col-span-3">
                             <input
                               type="text"
-                              className="w-full p-2.5 border-2 border-[#845cbd]/30 rounded-lg text-sm font-semibold focus:outline-none focus:border-[#845cbd]"
+                              className="w-full p-2.5 border-2 border-[var(--color-primary)]/30 rounded-lg text-sm font-semibold focus:outline-none focus:border-[var(--color-primary)]"
                               placeholder="Name"
                               value={type.name}
                               onChange={(e) =>
@@ -303,7 +303,7 @@ const WaiterTypeManagement = () => {
                           <div className="md:col-span-4">
                             <input
                               type="text"
-                              className="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#845cbd]"
+                              className="w-full p-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[var(--color-primary)]"
                               placeholder="Description"
                               value={type.description || ""}
                               onChange={(e) =>
@@ -320,7 +320,7 @@ const WaiterTypeManagement = () => {
                               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-sm">₹</span>
                               <input
                                 type="number"
-                                className="w-full p-2.5 pl-7 border border-gray-300 rounded-lg text-sm font-bold text-gray-700 focus:outline-none focus:border-[#845cbd]"
+                                className="w-full p-2.5 pl-7 border border-gray-300 rounded-lg text-sm font-bold text-gray-700 focus:outline-none focus:border-[var(--color-primary)]"
                                 placeholder="Rate"
                                 value={type.per_person_rate}
                                 onChange={(e) =>
@@ -347,12 +347,12 @@ const WaiterTypeManagement = () => {
                                   )
                                 }
                               />
-                              <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#845cbd] relative"></div>
+                              <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[var(--color-primary)] relative"></div>
                             </label>
                           </div>
                           <div className="md:col-span-2 flex items-center justify-end gap-2">
                             <button
-                              className="flex-1 flex items-center justify-center gap-1 bg-[#845cbd] text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-[#7350a8] transition-colors"
+                              className="flex-1 flex items-center justify-center gap-1 bg-[var(--color-primary)] text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-[#7350a8] transition-colors"
                               onClick={() => onUpdate(type)}
                             >
                               <FiCheckCircle size={14} /> Save
@@ -372,7 +372,7 @@ const WaiterTypeManagement = () => {
                       <>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-[#f4effc] flex items-center justify-center text-[#845cbd] font-bold text-xs flex-shrink-0">
+                            <div className="w-8 h-8 rounded-full bg-[#f4effc] flex items-center justify-center text-[var(--color-primary)] font-bold text-xs flex-shrink-0">
                               {type.name.charAt(0).toUpperCase()}
                             </div>
                             <span className="font-semibold text-gray-800">{type.name}</span>

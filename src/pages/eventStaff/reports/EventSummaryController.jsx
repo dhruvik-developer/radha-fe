@@ -96,7 +96,7 @@ function EventSummaryController() {
       },
       showCancelButton: true,
       confirmButtonText: "Submit Payment",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonColor: "#d33",
       inputValidator: (value) => {
         if (!value) return "You need to enter an amount!";

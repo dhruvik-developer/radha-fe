@@ -19,19 +19,19 @@ const menuItems = [
   {
     name: "Create Dish",
     path: "/dish",
-    icon: <HugeiconsIcon icon={Dish01Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={Dish01Icon} size={24} color="var(--color-primary)" />,
     requiredPermission: "dishes.view",
   },
   {
     name: "Category",
     path: "/category",
-    icon: <HugeiconsIcon icon={MenuRestaurantIcon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={MenuRestaurantIcon} size={24} color="var(--color-primary)" />,
     requiredPermission: "categories.view",
   },
   {
     name: "Order Management",
     path: "/order-management",
-    icon: <HugeiconsIcon icon={Note03Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={Note03Icon} size={24} color="var(--color-primary)" />,
     requiredPermission: [
       "quotations.view",
       "event_bookings.view",
@@ -42,14 +42,14 @@ const menuItems = [
   {
     name: "Stock",
     path: "/stock",
-    icon: <HugeiconsIcon icon={StickyNote02Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={StickyNote02Icon} size={24} color="var(--color-primary)" />,
     requiredPermission: "stock.view",
   },
   {
     name: "Payment History",
     path: "/payment-history",
     icon: (
-      <HugeiconsIcon icon={TransactionHistoryIcon} size={24} color="#845cbd" />
+      <HugeiconsIcon icon={TransactionHistoryIcon} size={24} color="var(--color-primary)" />
     ),
     requiredPermission: "payments.view",
   },
@@ -57,26 +57,26 @@ const menuItems = [
     name: "Expense",
     path: "/expense",
     icon: (
-      <HugeiconsIcon icon={MoneyReceiveSquareIcon} size={24} color="#845cbd" />
+      <HugeiconsIcon icon={MoneyReceiveSquareIcon} size={24} color="var(--color-primary)" />
     ),
     requiredPermission: "expenses.view",
   },
   {
     name: "Create Ingredient",
     path: "/create-recipe-ingredient",
-    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary)" />,
     requiredPermission: "ingredients.view",
   },
   {
     name: "People",
     path: "/people",
-    icon: <FiUsers size={24} color="#845cbd" />,
+    icon: <FiUsers size={24} color="var(--color-primary)" />,
     requiredPermission: ["vendors.view", "eventstaff.view"],
   },
   {
     name: "Ground Checklist",
     path: "/ground-checklist",
-    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary)" />,
     requiredPermission: "ground.view",
   },
 ];
@@ -239,7 +239,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               </p>
               <Link
                 to="/settings"
-                className="text-xs font-semibold text-[#845cbd] hover:underline"
+                className="text-xs font-semibold text-[var(--color-primary)] hover:underline"
                 onClick={handleItemClick}
               >
                 Go to Settings
@@ -259,7 +259,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <div
                   className={`group flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
                     parentActive
-                        ? "bg-[#845cbd] text-white shadow-lg shadow-[#845cbd]/20" 
+                        ? "bg-[var(--color-primary)] text-white shadow-lg shadow-[var(--color-primary)]/20" 
                         : "hover:bg-gray-100 text-gray-600"
                   }`}
                 >

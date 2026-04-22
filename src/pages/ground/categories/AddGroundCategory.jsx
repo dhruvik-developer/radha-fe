@@ -100,7 +100,7 @@ const AddGroundCategory = ({ isOpen, onClose, onSuccess, editData = null }) => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. Hygiene Items"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                 required
               />
             </div>
@@ -115,7 +115,7 @@ const AddGroundCategory = ({ isOpen, onClose, onSuccess, editData = null }) => {
                 onChange={handleChange}
                 placeholder="Optional description"
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all resize-none"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all resize-none"
               />
             </div>
 
@@ -126,7 +126,7 @@ const AddGroundCategory = ({ isOpen, onClose, onSuccess, editData = null }) => {
                 name="is_active"
                 checked={formData.is_active}
                 onChange={handleChange}
-                className="w-4 h-4 text-[#845cbd] border-gray-300 rounded focus:ring-[#845cbd] cursor-pointer"
+                className="w-4 h-4 text-[var(--color-primary)] border-gray-300 rounded focus:ring-[var(--color-primary)] cursor-pointer"
               />
               <label
                 htmlFor="is_active"
@@ -149,7 +149,7 @@ const AddGroundCategory = ({ isOpen, onClose, onSuccess, editData = null }) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 text-sm font-medium text-white bg-[#845cbd] border border-transparent rounded-lg hover:bg-[#724eb0] transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-5 py-2 text-sm font-medium text-white bg-[var(--color-primary)] border border-transparent rounded-lg hover:bg-[#724eb0] transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {loading ? "Saving..." : isEditMode ? "Update Category" : "Save Category"}
             </button>

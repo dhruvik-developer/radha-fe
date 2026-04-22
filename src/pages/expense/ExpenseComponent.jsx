@@ -22,7 +22,7 @@ function ExpenseComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiDollarSign className="text-[#845cbd]" size={22} />
+            <FiDollarSign className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Expenses</h2>
@@ -34,14 +34,14 @@ function ExpenseComponent({
         </div>
         <div className="flex gap-2">
           <button
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+            className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
             onClick={handleAddExpense}
           >
             <FiPlus size={15} />
             Add Expense
           </button>
           <button
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-[#f4effc] text-[#845cbd] text-sm font-medium rounded-lg border border-[#845cbd] cursor-pointer transition-colors duration-200"
+            className="flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-[#f4effc] text-[var(--color-primary)] text-sm font-medium rounded-lg border border-[var(--color-primary)] cursor-pointer transition-colors duration-200"
             onClick={handleAddCategory}
           >
             <FiTag size={15} />
@@ -53,7 +53,7 @@ function ExpenseComponent({
       {/* Total Expense Card */}
       <div className="p-5 bg-[#f4effc] rounded-xl mb-5 border border-[#ede7f6]">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-[#845cbd] flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)] flex items-center justify-center">
             <FiDollarSign size={22} className="text-white" />
           </div>
           <div>
@@ -70,8 +70,8 @@ function ExpenseComponent({
         <button
           className={`px-4 py-1.5 rounded-full font-medium text-sm cursor-pointer transition-all duration-200 ${
             filterCategory === ""
-              ? "bg-[#845cbd] text-white shadow-sm"
-              : "bg-[#f4effc] text-[#845cbd] hover:bg-[#e8ddf5]"
+              ? "bg-[var(--color-primary)] text-white shadow-sm"
+              : "bg-[#f4effc] text-[var(--color-primary)] hover:bg-[#e8ddf5]"
           }`}
           onClick={() => setFilterCategory("")}
         >
@@ -82,8 +82,8 @@ function ExpenseComponent({
             <button
               className={`px-4 py-1.5 rounded-full font-medium text-sm cursor-pointer transition-all duration-200 ${
                 filterCategory == cat.id
-                  ? "bg-[#845cbd] text-white shadow-sm"
-                  : "bg-[#f4effc] text-[#845cbd] hover:bg-[#e8ddf5]"
+                  ? "bg-[var(--color-primary)] text-white shadow-sm"
+                  : "bg-[#f4effc] text-[var(--color-primary)] hover:bg-[#e8ddf5]"
               }`}
               onClick={() => setFilterCategory(cat.id)}
             >
@@ -117,25 +117,25 @@ function ExpenseComponent({
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-[#f4effc]">
-                <th className="p-3 text-left text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                   #
                 </th>
-                <th className="p-3 text-left text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                   Title
                 </th>
-                <th className="p-3 text-left text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                   Category
                 </th>
-                <th className="p-3 text-left text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                   Description
                 </th>
-                <th className="p-3 text-left text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                   Amount
                 </th>
-                <th className="p-3 text-left text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-left text-sm font-semibold text-[var(--color-primary)]">
                   Payment Mode
                 </th>
-                <th className="p-3 text-center text-sm font-semibold text-[#845cbd]">
+                <th className="p-3 text-center text-sm font-semibold text-[var(--color-primary)]">
                   Actions
                 </th>
               </tr>
@@ -166,7 +166,7 @@ function ExpenseComponent({
                           ? "bg-green-50 text-green-600"
                           : expense.payment_mode === "ONLINE"
                             ? "bg-blue-50 text-blue-600"
-                            : "bg-[#f4effc] text-[#845cbd]"
+                            : "bg-[#f4effc] text-[var(--color-primary)]"
                       }`}
                     >
                       {expense.payment_mode}
@@ -176,7 +176,7 @@ function ExpenseComponent({
                     <div className="flex flex-wrap items-center justify-center gap-1.5">
                       <button
                         onClick={() => handleEditExpense(expense)}
-                        className="p-2 rounded-lg text-gray-400 hover:text-[#845cbd] hover:bg-[#f4effc] transition-colors duration-200 cursor-pointer"
+                        className="p-2 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[#f4effc] transition-colors duration-200 cursor-pointer"
                         title="Edit Expense"
                       >
                         <FiEdit2 size={15} />

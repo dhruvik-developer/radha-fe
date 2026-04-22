@@ -145,7 +145,7 @@ function QuotationController() {
         html:
           `<div style="margin-bottom: 20px; padding: 12px; background: #fdfae8; border: 1px solid #fce88a; border-radius: 8px; text-align: center;">
                         <span style="font-size: 14px; color: #8a6d3b; font-weight: 600;">Total Order Amount</span><br/>
-                        <span style="font-size: 22px; color: #845cbd; font-weight: 800;">₹ ${formatAmount(totalOrderAmount)}</span>
+                        <span style="font-size: 22px; color: var(--color-primary); font-weight: 800;">₹ ${formatAmount(totalOrderAmount)}</span>
                     </div>` +
           '<label class="custom-stock-label">Payment Mode</label>' +
           '<select id="payment-type" class="swal2-input custom-stock-input">' +
@@ -160,7 +160,7 @@ function QuotationController() {
         focusConfirm: false,
         showCancelButton: true,
         confirmButtonText: "Confirm",
-        confirmButtonColor: "#845cbd",
+        confirmButtonColor: "var(--color-primary)",
         cancelButtonText: "Cancel",
         customClass: {
           popup: "custom-popup",
@@ -277,7 +277,7 @@ function QuotationController() {
   //             html: paymentDropdownHTML,
   //             showCancelButton: true,
   //             confirmButtonText: "Confirm",
-  //             confirmButtonColor: "#845cbd",
+  //             confirmButtonColor: "var(--color-primary)",
   //             cancelButtonText: "Cancel",
   //             didOpen: () => {
   //                 const dropdownToggle = document.getElementById("dropdown-toggle");

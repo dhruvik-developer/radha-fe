@@ -25,7 +25,7 @@ function AddRoleModal({
         type="submit"
         form="add-role-form"
         disabled={isSaving}
-        className="flex items-center gap-2 rounded-xl bg-[#845cbd] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#7350a8] disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 font-bold text-white transition-colors hover:bg-[#7350a8] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSaving ? (
           <>
@@ -64,7 +64,7 @@ function AddRoleModal({
             className={`w-full rounded-xl border px-4 py-3 outline-none transition-all ${
               errors.name
                 ? "border-red-500 bg-red-50"
-                : "border-gray-200 bg-gray-50 focus:border-[#845cbd] focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20"
+                : "border-gray-200 bg-gray-50 focus:border-[var(--color-primary)] focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20"
             }`}
           />
           {errors.name ? (
@@ -87,7 +87,7 @@ function AddRoleModal({
             className={`w-full rounded-xl border px-4 py-3 outline-none transition-all resize-none ${
               errors.description
                 ? "border-red-500 bg-red-50"
-                : "border-gray-200 bg-gray-50 focus:border-[#845cbd] focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20"
+                : "border-gray-200 bg-gray-50 focus:border-[var(--color-primary)] focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20"
             }`}
           />
           {errors.description ? (

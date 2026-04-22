@@ -49,7 +49,7 @@ function ShareOutsourcedComponent({
 
         <p className="pb-1 font-bold">Delivery Address</p>
         <div
-          className={`flex items-center justify-between mb-4 p-2 border rounded-md ${selectedAddress === "event" ? "border-[#845cbd]" : "border-gray-300"}`}
+          className={`flex items-center justify-between mb-4 p-2 border rounded-md ${selectedAddress === "event" ? "border-[var(--color-primary)]" : "border-gray-300"}`}
         >
           <div>
             <p className="font-bold">Event Address</p>
@@ -65,7 +65,7 @@ function ShareOutsourcedComponent({
         </div>
 
         <div
-          className={`flex items-center justify-between p-2 border rounded-md ${selectedAddress === "office" ? "border-[#845cbd]" : "border-gray-300"}`}
+          className={`flex items-center justify-between p-2 border rounded-md ${selectedAddress === "office" ? "border-[var(--color-primary)]" : "border-gray-300"}`}
         >
           <div>
             <p className="font-bold">Godown / Office Address</p>
@@ -82,7 +82,7 @@ function ShareOutsourcedComponent({
 
         <div className="my-2 flex items-center justify-end">
           <button
-            className="p-2 bg-[#845CBD] text-white font-medium rounded-md cursor-pointer"
+            className="p-2 bg-[var(--color-primary)] text-white font-medium rounded-md cursor-pointer"
             onClick={() => setShowCustomAddressInput(!showCustomAddressInput)}
           >
             {showCustomAddressInput ? "Cancel" : "Add Address"}
@@ -98,14 +98,14 @@ function ShareOutsourcedComponent({
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <div className={`p-2 border rounded-md ${selectedAddress === "custom" ? "border-[#845cbd]" : "border-gray-300"}`}>
+              <div className={`p-2 border rounded-md ${selectedAddress === "custom" ? "border-[var(--color-primary)]" : "border-gray-300"}`}>
                 <label className="block font-medium">New Address</label>
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex flex-col flex-grow">
                     <Input
                       type="text"
                       placeholder="Enter new address"
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] mt-1"
+                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] mt-1"
                       value={customAddress}
                       onChange={(e) => setCustomAddress(e.target.value)}
                     />
@@ -133,7 +133,7 @@ function ShareOutsourcedComponent({
           minDate={new Date()}
           dateFormat="dd/MM/yyyy"
           onChange={(date) => setSelectedDate(date)}
-          className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+          className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
         />
       </div>
 
@@ -144,7 +144,7 @@ function ShareOutsourcedComponent({
           labelClass="pb-1 font-bold"
           type="text"
           placeholder="Please Enter Delivery Time"
-          className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+          className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
           value={deliveryTime}
           onChange={(e) => setDeliveryTime(e.target.value)}
         />
@@ -164,7 +164,7 @@ function ShareOutsourcedComponent({
                 <div
                   key={iIdx}
                   className={`p-3 border rounded-md mb-3 transition-all ${
-                    isChecked ? "border-[#845cbd] bg-purple-50" : "border-gray-300"
+                    isChecked ? "border-[var(--color-primary)] bg-purple-50" : "border-gray-300"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -178,7 +178,7 @@ function ShareOutsourcedComponent({
                     </div>
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-[#845CBD] cursor-pointer ml-3 flex-shrink-0"
+                      className="w-4 h-4 accent-[var(--color-primary)] cursor-pointer ml-3 flex-shrink-0"
                       checked={isChecked}
                       onChange={() => handleCheckboxChange(vIdx, iIdx, item.item_name, vg.vendor_name)}
                     />
@@ -194,7 +194,7 @@ function ShareOutsourcedComponent({
       <div className="flex items-center justify-center">
         <button
           type="button"
-          className="p-2 bg-[#845CBD] text-white font-medium rounded-md cursor-pointer"
+          className="p-2 bg-[var(--color-primary)] text-white font-medium rounded-md cursor-pointer"
           onClick={handleSubmit}
         >
           Generate Share PDF

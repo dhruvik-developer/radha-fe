@@ -78,7 +78,7 @@ function ViewItemRecipeController({
                 </div>
             `,
       showCancelButton: true,
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       confirmButtonText: "Save Changes",
       focusConfirm: false,
       preConfirm: () => {

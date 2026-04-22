@@ -66,7 +66,7 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
                       {vendor.vendor_categories.map((vc) => (
                         <span
                           key={vc.id}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f4effc] text-[#845cbd] border border-[#e2d5f8] shadow-sm"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#f4effc] text-[var(--color-primary)] border border-[#e2d5f8] shadow-sm"
                         >
                           <span>{vc.category_name}</span>
                           {vc.price != null && (
@@ -99,7 +99,7 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
                       <button
                         onClick={() => onVendorEdit(vendor)}
                         title="Edit Vendor"
-                        className="p-2 rounded-lg text-gray-500 hover:text-[#845cbd] hover:bg-[#f4effc] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
+                        className="p-2 rounded-lg text-gray-500 hover:text-[var(--color-primary)] hover:bg-[#f4effc] transition-all cursor-pointer shadow-sm border border-transparent hover:border-purple-100"
                       >
                         <FiEdit2 size={16} />
                       </button>

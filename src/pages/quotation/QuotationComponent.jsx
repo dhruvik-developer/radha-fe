@@ -40,7 +40,7 @@ function QuotationComponent({
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiFileText className="text-[#845cbd]" size={22} />
+            <FiFileText className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Quotation List</h2>
@@ -66,7 +66,7 @@ function QuotationComponent({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoComplete="off"
-              className="pl-9 pr-8 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15 w-56 transition-all"
+              className="pl-9 pr-8 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15 w-56 transition-all"
             />
             {searchQuery && (
               <button
@@ -100,7 +100,7 @@ function QuotationComponent({
               placeholderText="Select date range"
               minDate={new Date()}
               isClearable
-              className="pl-9 pr-7 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/15 w-[220px] transition-all cursor-pointer"
+              className="pl-9 pr-7 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-gray-50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15 w-[220px] transition-all cursor-pointer"
             />
           </div>
         </div>
@@ -128,7 +128,7 @@ function QuotationComponent({
                 {/* Card Header - Light purple */}
                 <div className="flex items-center justify-between px-5 py-4 bg-[#f4effc] border-b border-[#ede7f6]">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm">
+                    <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm">
                       {quote.name?.charAt(0)?.toUpperCase() || "?"}
                     </div>
                     <div>
@@ -145,7 +145,7 @@ function QuotationComponent({
 
                   <div className="flex items-center gap-2">
                     <span
-                      className="text-xs font-medium px-3 py-1.5 rounded-full bg-white text-[#845cbd] border border-[#ede7f6] max-w-[200px] truncate"
+                      className="text-xs font-medium px-3 py-1.5 rounded-full bg-white text-[var(--color-primary)] border border-[#ede7f6] max-w-[200px] truncate"
                       title={
                         quote.sessions?.length > 0
                           ? Array.from(
@@ -163,7 +163,7 @@ function QuotationComponent({
                     </span>
                     <button
                       onClick={() => handleEditOrder(quote.id)}
-                      className="p-2 rounded-lg text-gray-400 hover:text-[#845cbd] hover:bg-white transition-colors duration-200 cursor-pointer"
+                      className="p-2 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-white transition-colors duration-200 cursor-pointer"
                       title="Edit Quotation"
                     >
                       <FiEdit2 size={15} />
@@ -176,7 +176,7 @@ function QuotationComponent({
                   <div className="flex flex-col gap-3">
                     {/* Phone */}
                     <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[#ede7f6] w-max">
-                      <FiPhone size={14} className="text-[#845cbd]" />
+                      <FiPhone size={14} className="text-[var(--color-primary)]" />
                       <span className="font-medium">
                         {quote.mobile_no || "—"}
                       </span>
@@ -201,7 +201,7 @@ function QuotationComponent({
                       );
                       return (
                         <div
-                          className="flex flex-col gap-2 bg-indigo-50/40 border border-[#ede7f6] rounded-lg px-4 py-3 cursor-pointer hover:bg-[#f4effc] hover:border-[#845cbd] transition-all duration-150 group"
+                          className="flex flex-col gap-2 bg-indigo-50/40 border border-[#ede7f6] rounded-lg px-4 py-3 cursor-pointer hover:bg-[#f4effc] hover:border-[var(--color-primary)] transition-all duration-150 group"
                           onClick={() =>
                             setSessionsModal({
                               name: quote.name,
@@ -214,13 +214,13 @@ function QuotationComponent({
                             <div className="flex items-center gap-2">
                               <FiFileText
                                 size={14}
-                                className="text-[#845cbd]"
+                                className="text-[var(--color-primary)]"
                               />
                               <span className="font-semibold text-gray-800">
                                 Total Sessions: {allSessions.length}
                               </span>
                             </div>
-                            <div className="flex items-center gap-1 text-sm text-[#845cbd] font-semibold">
+                            <div className="flex items-center gap-1 text-sm text-[var(--color-primary)] font-semibold">
                               View Details
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -251,7 +251,7 @@ function QuotationComponent({
                 {/* Card Footer - Actions */}
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 px-5 py-3 border-t border-[#ede7f6]">
                   <button
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[#f4effc] hover:bg-[#e8ddf5] text-[#845cbd] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-[#f4effc] hover:bg-[#e8ddf5] text-[var(--color-primary)] text-sm font-semibold rounded-lg cursor-pointer transition-colors duration-200"
                     onClick={() => handleViewQuotation(quote.id)}
                   >
                     <FiEye size={14} />
@@ -316,7 +316,7 @@ function QuotationComponent({
                   className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 bg-indigo-50/40 border border-[#ede7f6] rounded-lg px-4 py-3"
                 >
                   <div className="flex items-center gap-2 text-sm text-gray-700">
-                    <FiClock size={14} className="text-[#845cbd]" />
+                    <FiClock size={14} className="text-[var(--color-primary)]" />
                     <span className="font-medium text-sm break-all">
                       <span className="text-gray-400 mr-1">
                         {session.event_date}
@@ -325,7 +325,7 @@ function QuotationComponent({
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-700">
-                    <FiUsers size={14} className="text-[#845cbd]" />
+                    <FiUsers size={14} className="text-[var(--color-primary)]" />
                     <span className="font-medium text-sm">
                       <strong>{session.estimated_persons || "—"}</strong>{" "}
                       persons
@@ -340,7 +340,7 @@ function QuotationComponent({
               <button
                 type="button"
                 onClick={() => setSessionsModal(null)}
-                className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[#845cbd] hover:bg-[#7350a8] cursor-pointer shadow-sm"
+                className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:bg-[#7350a8] cursor-pointer shadow-sm"
               >
                 Close
               </button>

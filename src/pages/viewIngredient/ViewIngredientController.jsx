@@ -287,7 +287,7 @@ function ViewIngredientController() {
                                ${options}
                            </select>`,
           icon: "question",
-          confirmButtonColor: "#845cbd",
+          confirmButtonColor: "var(--color-primary)",
           confirmButtonText: "Share",
           showCancelButton: true,
           preConfirm: () => {

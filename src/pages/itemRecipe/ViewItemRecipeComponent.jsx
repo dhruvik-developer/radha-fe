@@ -80,7 +80,7 @@ function ViewItemRecipeComponent({
           >
             <FiArrowLeft size={18} />
           </button>
-          <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
             <FiEdit2 className="text-white" size={20} />
           </div>
           <div>
@@ -117,7 +117,7 @@ function ViewItemRecipeComponent({
             onChange={(e) => setEditPersonCount(parseInt(e.target.value) || 0)}
             min="1"
             placeholder="Enter Person Count (e.g., 100)"
-            className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] bg-gray-50/50 transition-all"
+            className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] bg-gray-50/50 transition-all"
           />
         </div>
 
@@ -175,9 +175,9 @@ function ViewItemRecipeComponent({
                       onEditIngredientChange(index, "quantity", e.target.value)
                     }
                     placeholder="e.g. 100g"
-                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] transition-all ${
+                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[#845cbd] font-bold"
+                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -188,9 +188,9 @@ function ViewItemRecipeComponent({
                       onEditIngredientChange(index, "unit", e.target.value)
                     }
                     placeholder="Unit"
-                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] transition-all ${
+                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[#845cbd] font-bold"
+                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -228,7 +228,7 @@ function ViewItemRecipeComponent({
           <button
             onClick={onSaveEdit}
             disabled={saving}
-            className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <FiSave size={16} />
             {saving ? "Saving..." : "Save Changes"}
@@ -248,7 +248,7 @@ function ViewItemRecipeComponent({
       <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-xl bg-[#f4effc] shadow-sm">
-            <FiBookOpen className="text-[#845cbd]" size={24} />
+            <FiBookOpen className="text-[var(--color-primary)]" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800 capitalize leading-tight pr-4">
@@ -285,7 +285,7 @@ function ViewItemRecipeComponent({
             )}
             <button
               onClick={handleEditCosts}
-              className="p-1.5 ml-1 rounded-md bg-white text-gray-400 hover:bg-[#845cbd] hover:text-white transition-colors cursor-pointer shadow-sm border border-gray-200"
+              className="p-1.5 ml-1 rounded-md bg-white text-gray-400 hover:bg-[var(--color-primary)] hover:text-white transition-colors cursor-pointer shadow-sm border border-gray-200"
               title="Edit Item Costs"
             >
               <FiEdit2 size={14} />
@@ -331,7 +331,7 @@ function ViewItemRecipeComponent({
           </div>
           <button
             onClick={handleEditCosts}
-            className="px-3 py-1.5 rounded-lg bg-gray-50 text-gray-600 border border-gray-200 hover:bg-[#845cbd] hover:text-white transition-colors text-xs font-bold flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg bg-gray-50 text-gray-600 border border-gray-200 hover:bg-[var(--color-primary)] hover:text-white transition-colors text-xs font-bold flex items-center gap-1.5"
           >
             <FiEdit2 size={12} /> Edit Costs
           </button>
@@ -356,7 +356,7 @@ function ViewItemRecipeComponent({
               </div>
               <button
                 onClick={onStartEdit}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f4effc] text-[#845cbd] hover:bg-[#845cbd] hover:text-white border border-[#e8e0f3] rounded-lg font-bold transition-all cursor-pointer shadow-sm text-sm ml-auto"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#f4effc] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white border border-[#e8e0f3] rounded-lg font-bold transition-all cursor-pointer shadow-sm text-sm ml-auto"
                 title="Edit Recipe Ingredients"
               >
                 <FiEdit2 size={14} />
@@ -418,7 +418,7 @@ function ViewItemRecipeComponent({
             </p>
             <button
               onClick={onStartAdd}
-              className="px-5 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-all duration-200 text-sm font-medium shadow-md flex items-center gap-2"
+              className="px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-all duration-200 text-sm font-medium shadow-md flex items-center gap-2"
             >
               <FiPlus size={16} />
               Add Recipe Ingredient
@@ -445,7 +445,7 @@ function ViewItemRecipeComponent({
           >
             <FiArrowLeft size={18} />
           </button>
-          <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+          <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
             <FiPlus className="text-white" size={20} />
           </div>
           <div>
@@ -482,7 +482,7 @@ function ViewItemRecipeComponent({
             onChange={(e) => setAddPersonCount(parseInt(e.target.value) || 0)}
             min="1"
             placeholder="Enter Person Count (e.g., 100)"
-            className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] bg-gray-50/50 transition-all"
+            className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] bg-gray-50/50 transition-all"
           />
         </div>
 
@@ -539,9 +539,9 @@ function ViewItemRecipeComponent({
                       onAddIngredientChange(index, "quantity", e.target.value)
                     }
                     placeholder="e.g. 100g"
-                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] transition-all ${
+                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[#845cbd] font-bold"
+                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -552,9 +552,9 @@ function ViewItemRecipeComponent({
                       onAddIngredientChange(index, "unit", e.target.value)
                     }
                     placeholder="Unit"
-                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] transition-all ${
+                    className={`w-full px-3 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] transition-all ${
                       isFilledRow
-                        ? "border-gray-200 bg-purple-50/30 text-[#845cbd] font-bold"
+                        ? "border-gray-200 bg-purple-50/30 text-[var(--color-primary)] font-bold"
                         : "border-dashed border-gray-300 bg-gray-50/50 text-gray-400"
                     }`}
                   />
@@ -593,7 +593,7 @@ function ViewItemRecipeComponent({
           <button
             onClick={onSaveAdd}
             disabled={addSaving}
-            className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <FiSave size={16} />
             {addSaving ? "Saving..." : "Save Ingredient"}

@@ -30,7 +30,7 @@ function PermissionsComponent({
                                 onClick={() => onTypeChange(type)}
                                 className={`flex-1 py-2 text-xs font-bold capitalize rounded-lg transition-all ${
                                     selectedType === type 
-                                    ? 'bg-[#845cbd] text-white shadow-md' 
+                                    ? 'bg-[var(--color-primary)] text-white shadow-md' 
                                     : 'text-gray-500 hover:bg-gray-50'
                                 }`}
                             >
@@ -54,17 +54,17 @@ function PermissionsComponent({
                             onClick={() => onSelectSubject(sub.id)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                                 selectedId === sub.id
-                                ? 'bg-[#f4effc] border-[#845cbd]/20 border'
+                                ? 'bg-[#f4effc] border-[var(--color-primary)]/20 border'
                                 : 'hover:bg-gray-50 border-transparent border'
                             }`}
                         >
                             <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                                selectedId === sub.id ? 'bg-[#845cbd] text-white' : 'bg-gray-100 text-gray-500'
+                                selectedId === sub.id ? 'bg-[var(--color-primary)] text-white' : 'bg-gray-100 text-gray-500'
                             }`}>
                                 <FiUser size={18} />
                             </div>
                             <div className="text-left overflow-hidden">
-                                <p className={`text-sm font-bold truncate ${selectedId === sub.id ? 'text-[#845cbd]' : 'text-gray-700'}`}>
+                                <p className={`text-sm font-bold truncate ${selectedId === sub.id ? 'text-[var(--color-primary)]' : 'text-gray-700'}`}>
                                     {sub.name || sub.username || "Unnamed"}
                                 </p>
                                 {sub.phone && <p className="text-[10px] text-gray-400 truncate">{sub.phone}</p>}
@@ -93,7 +93,7 @@ function PermissionsComponent({
                             <button
                                 onClick={onSave}
                                 disabled={isSaving || loading}
-                                className="px-6 py-2.5 bg-[#845cbd] text-white font-bold rounded-xl shadow-lg shadow-[#845cbd]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 flex items-center gap-2"
+                                className="px-6 py-2.5 bg-[var(--color-primary)] text-white font-bold rounded-xl shadow-lg shadow-[var(--color-primary)]/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 flex items-center gap-2"
                             >
                                 {isSaving ? (
                                     <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -110,13 +110,13 @@ function PermissionsComponent({
                             ) : (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {modules.map((mod) => (
-                                        <div key={mod.name} className="border border-gray-100 rounded-2xl overflow-hidden hover:border-[#845cbd]/30 transition-all">
+                                        <div key={mod.name} className="border border-gray-100 rounded-2xl overflow-hidden hover:border-[var(--color-primary)]/30 transition-all">
                                             <button
                                                 onClick={() => setExpandedModule(expandedModule === mod.name ? null : mod.name)}
                                                 className="w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-50 transition-colors"
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center text-[#845cbd] shadow-sm border border-gray-50">
+                                                    <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center text-[var(--color-primary)] shadow-sm border border-gray-50">
                                                         <FiLock size={16} />
                                                     </div>
                                                     <span className="font-bold text-sm text-gray-700">{mod.name}</span>
@@ -131,7 +131,7 @@ function PermissionsComponent({
                                                             key={perm.code}
                                                             className={`flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer ${
                                                                 currentPermissions.includes(perm.code)
-                                                                ? 'bg-[#f4effc] border-[#845cbd]/20 text-[#845cbd]'
+                                                                ? 'bg-[#f4effc] border-[var(--color-primary)]/20 text-[var(--color-primary)]'
                                                                 : 'bg-white border-gray-50 text-gray-600 hover:bg-gray-50'
                                                             }`}
                                                         >
@@ -143,7 +143,7 @@ function PermissionsComponent({
                                                                 type="checkbox"
                                                                 checked={currentPermissions.includes(perm.code)}
                                                                 onChange={() => togglePermission(perm.code)}
-                                                                className="h-4 w-4 rounded border-gray-300 text-[#845cbd] focus:ring-[#845cbd]"
+                                                                className="h-4 w-4 rounded border-gray-300 text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
                                                             />
                                                         </label>
                                                     ))}
