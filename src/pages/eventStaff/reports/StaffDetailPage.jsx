@@ -237,7 +237,7 @@ function StaffDetailPage() {
           {/* Event Assignments */}
           <div className="bg-white rounded-2xl shadow-lg border border-[var(--color-primary-border)] overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
-              <FaMoneyBillWave className="text-[var(--color-primary)]" size={18} />
+              <FaMoneyBillWave className="text-[var(--color-primary-text)]" size={18} />
               <h2 className="font-bold text-gray-800 text-lg">
                 Event Assignments & Payment History
               </h2>

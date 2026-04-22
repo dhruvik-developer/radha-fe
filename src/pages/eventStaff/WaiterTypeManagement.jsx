@@ -129,7 +129,7 @@ const WaiterTypeManagement = () => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-[var(--color-primary-soft)] rounded-xl">
-            <FiUsers className="text-[var(--color-primary)]" size={24} />
+            <FiUsers className="text-[var(--color-primary-text)]" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Waiter Types</h2>
@@ -255,7 +255,7 @@ const WaiterTypeManagement = () => {
         ) : waiterTypes.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-gray-400">
             <div className="p-4 bg-[var(--color-primary-soft)] rounded-full mb-4">
-              <FiUsers size={32} className="text-[var(--color-primary)]" />
+              <FiUsers size={32} className="text-[var(--color-primary-text)]" />
             </div>
             <p className="text-lg font-semibold text-gray-600">No Waiter Types Found</p>
             <p className="text-sm mt-1">Add your first waiter type to start managing event staff.</p>

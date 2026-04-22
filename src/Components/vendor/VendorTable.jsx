@@ -120,18 +120,16 @@ function VendorTable({ vendors, onVendorEdit, onVendorDelete }) {
           ) : (
             <tr>
               <td colSpan="7" className="text-center py-12">
-                <div className="flex flex-col justify-center items-center gap-3">
-                  <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mb-2">
-                    <IoIosWarning size={40} className="text-amber-500" />
+                  <div className="flex flex-col justify-center items-center gap-3 py-10 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30 mx-6">
+                    <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-2" />
+                    <p className="text-xl font-bold text-[var(--color-primary-text)]">
+                      No Vendors Available
+                    </p>
+                    <p className="text-sm text-[var(--color-primary-text)]/60 font-medium max-w-sm text-center">
+                      Use the "Add Vendor" button to register new vendors and they
+                      will appear here.
+                    </p>
                   </div>
-                  <p className="text-xl font-bold text-gray-800">
-                    No Vendors Available
-                  </p>
-                  <p className="text-sm text-gray-500 font-medium max-w-sm">
-                    Use the "Add Vendor" button to register new vendors and they
-                    will appear here.
-                  </p>
-                </div>
               </td>
             </tr>
           )}

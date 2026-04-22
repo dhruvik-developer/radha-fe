@@ -20,11 +20,11 @@ function PaymentHistoryComponent({ paymentData, loading }) {
         <Loader message="Loading Payment Histories..." />
       ) : !paymentData ? (
         <div className="flex justify-center items-center gap-2 text-yellow-500">
-          <IoIosWarning size={30} />
+          <IoIosWarning size={30} className="text-[var(--color-primary-light)]" />
           <p className="text-center text-red-500 text-xl font-semibold py-4">
             No Payment History Available!
           </p>
-          <IoIosWarning size={30} />
+          <IoIosWarning size={30} className="text-[var(--color-primary-light)]" />
         </div>
       ) : (
         <div className="space-y-4">

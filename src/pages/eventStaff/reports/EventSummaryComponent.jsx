@@ -24,7 +24,7 @@ function EventSummaryComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiFileText className="text-[var(--color-primary)]" size={22} />
+            <FiFileText className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Summary Report</h2>
@@ -72,7 +72,7 @@ function EventSummaryComponent({
         <Loader message="Loading report data..." />
       ) : !summaryData || summaryData.length === 0 ? (
         <div className="flex flex-col justify-center items-center gap-2 text-yellow-500 py-16">
-          <IoIosWarning size={48} />
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)]" />
           <p className="text-center text-gray-600 text-lg font-semibold">
             No Report Data Available!
           </p>
@@ -151,7 +151,7 @@ function EventSummaryComponent({
                   )}
                   <td className="px-4 py-4 text-center">
                     <FiChevronRight
-                      className="mx-auto text-gray-400 group-hover:text-[var(--color-primary)] transition-colors"
+                      className="mx-auto text-gray-400 group-hover:text-[var(--color-primary-text)] transition-colors"
                       size={18}
                     />
                   </td>

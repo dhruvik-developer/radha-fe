@@ -166,7 +166,7 @@ function CalendarComponent({ orders, loading, navigate }) {
       <div className="bg-white rounded-xl shadow-lg px-6 py-4 mb-4 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiCalendar className="text-[var(--color-primary)]" size={22} />
+            <FiCalendar className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
@@ -352,7 +352,7 @@ function CalendarComponent({ orders, loading, navigate }) {
             <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between flex-shrink-0 bg-[var(--color-primary-soft)]">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl bg-white">
-                  <FiCalendar className="text-[var(--color-primary)]" size={20} />
+                  <FiCalendar className="text-[var(--color-primary-text)]" size={20} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-800">
@@ -435,13 +435,13 @@ function CalendarComponent({ orders, loading, navigate }) {
                       <div className="flex items-center gap-4 text-xs text-gray-500">
                         {order.mobile_no && (
                           <span className="flex items-center gap-1">
-                            <FiPhone size={11} className="text-[var(--color-primary)]" />
+                            <FiPhone size={11} className="text-[var(--color-primary-text)]" />
                             {order.mobile_no}
                           </span>
                         )}
                         {(totalPersons > 0 || fallbackPersons) && (
                           <span className="flex items-center gap-1">
-                            <FiUsers size={11} className="text-[var(--color-primary)]" />
+                            <FiUsers size={11} className="text-[var(--color-primary-text)]" />
                             {totalPersons > 0
                               ? totalPersons
                               : fallbackPersons}{" "}
@@ -469,7 +469,7 @@ function CalendarComponent({ orders, loading, navigate }) {
                                 <span className="flex items-center gap-1 text-gray-500">
                                   <FiUsers
                                     size={11}
-                                    className="text-[var(--color-primary)] flex-shrink-0"
+                                    className="text-[var(--color-primary-text)] flex-shrink-0"
                                   />
                                   {session.estimated_persons} persons
                                 </span>
@@ -491,7 +491,7 @@ function CalendarComponent({ orders, loading, navigate }) {
                             <span className="flex items-center gap-1">
                               <FiClock
                                 size={11}
-                                className="text-[var(--color-primary)]"
+                                className="text-[var(--color-primary-text)]"
                               />
                               {order.event_time}
                             </span>

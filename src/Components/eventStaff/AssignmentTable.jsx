@@ -137,7 +137,7 @@ function AssignmentTable({
             <tr>
               <td colSpan="7" className="text-center text-gray-500 py-4">
                 <div className="flex flex-col justify-center items-center gap-2 text-yellow-500 py-6">
-                  <IoIosWarning size={40} />
+                  <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
                   <p className="text-center text-gray-600 text-lg font-semibold">
                     No Assignments Found!
                   </p>

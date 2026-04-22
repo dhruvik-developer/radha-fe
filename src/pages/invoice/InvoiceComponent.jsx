@@ -42,7 +42,7 @@ function InvoiceComponent({
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiFileText className="text-[var(--color-primary)]" size={22} />
+            <FiFileText className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Invoice List</h2>
@@ -120,12 +120,12 @@ function InvoiceComponent({
       {loading ? (
         <Loader message="Loading Invoices..." />
       ) : !invoice || invoice.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-          <p className="text-lg font-semibold text-gray-500">
+        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+          <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
             No invoices found for the selected date range.
           </p>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
             Try adjusting your date filters or search parameters.
           </p>
         </div>
@@ -174,7 +174,7 @@ function InvoiceComponent({
                   <div className="flex-1 px-5 py-4">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[var(--color-primary-border)]">
-                        <FiCreditCard size={14} className="text-[var(--color-primary)]" />
+                        <FiCreditCard size={14} className="text-[var(--color-primary-text)]" />
                         <span className="font-medium">
                           {invo.payment_mode || "—"}
                         </span>
@@ -195,7 +195,7 @@ function InvoiceComponent({
                         </span>
                       </div>
                       <div className="flex items-center gap-2.5 text-sm text-gray-800 bg-white rounded-lg px-3 py-2.5 border border-[var(--color-primary-border)]">
-                        <FiDollarSign size={14} className="text-[var(--color-primary)]" />
+                        <FiDollarSign size={14} className="text-[var(--color-primary-text)]" />
                         <span className="font-semibold text-gray-800">
                           Total: ₹ {Number(invo.total_amount || 0).toFixed(2)}
                         </span>

@@ -15,12 +15,12 @@ const IngredientTable = ({
 
   if (categories.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-        <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-        <p className="text-lg font-semibold text-gray-500">
+      <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+        <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+        <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
           No Ingredients Available
         </p>
-        <p className="text-sm text-gray-400 mt-1">
+        <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
           Add an ingredient category to get started
         </p>
       </div>
@@ -103,7 +103,7 @@ const IngredientTable = ({
         <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-              <FiGrid className="text-[var(--color-primary)]" />
+              <FiGrid className="text-[var(--color-primary-text)]" />
               {activeCategory?.name}
             </h3>
             <p className="text-sm text-gray-500 mt-1 font-medium">
@@ -148,7 +148,7 @@ const IngredientTable = ({
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2">
                     <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0">
-                      <FiTag className="text-[var(--color-primary)]" size={14} />
+                      <FiTag className="text-[var(--color-primary-text)]" size={14} />
                     </div>
                     <span className="text-[14px] font-bold text-gray-800 truncate group-hover:text-[var(--color-primary)] transition-colors">
                       {sub.name}
@@ -168,9 +168,9 @@ const IngredientTable = ({
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full text-gray-400 gap-3 py-10">
-              <IoIosWarning size={40} className="text-yellow-400" />
-              <p className="text-base font-medium text-gray-500">
+            <div className="flex flex-col items-center justify-center h-full gap-3 py-10">
+              <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
+              <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
                 {searchQuery
                   ? "No ingredients match your search."
                   : "No ingredients found in this category."}

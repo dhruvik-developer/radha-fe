@@ -248,7 +248,7 @@ function ViewItemRecipeComponent({
       <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center gap-4">
           <div className="p-3 rounded-xl bg-[var(--color-primary-soft)] shadow-sm">
-            <FiBookOpen className="text-[var(--color-primary)]" size={24} />
+            <FiBookOpen className="text-[var(--color-primary-text)]" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800 capitalize leading-tight pr-4">
@@ -407,14 +407,14 @@ function ViewItemRecipeComponent({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
-            <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-            <p className="text-lg font-bold text-gray-700 mb-2">
+          <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+            <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+            <p className="text-lg font-bold text-[var(--color-primary-text)] mb-2">
               No Recipe Found
             </p>
-            <p className="text-sm text-gray-500 max-w-sm text-center mb-5">
+            <p className="text-sm text-[var(--color-primary-text)]/60 max-w-sm text-center mb-5 font-medium">
               There are no recipe ingredients mapped to{" "}
-              <span className="font-bold text-gray-700">{itemName}</span> yet.
+              <span className="font-bold text-[var(--color-primary-text)]">{itemName}</span> yet.
             </p>
             <button
               onClick={onStartAdd}

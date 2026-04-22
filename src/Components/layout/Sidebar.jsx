@@ -19,19 +19,19 @@ const menuItems = [
   {
     name: "Create Dish",
     path: "/dish",
-    icon: <HugeiconsIcon icon={Dish01Icon} size={24} color="var(--color-primary)" />,
+    icon: <HugeiconsIcon icon={Dish01Icon} size={24} color="var(--color-primary-text)" />,
     requiredPermission: "dishes.view",
   },
   {
     name: "Category",
     path: "/category",
-    icon: <HugeiconsIcon icon={MenuRestaurantIcon} size={24} color="var(--color-primary)" />,
+    icon: <HugeiconsIcon icon={MenuRestaurantIcon} size={24} color="var(--color-primary-text)" />,
     requiredPermission: "categories.view",
   },
   {
     name: "Order Management",
     path: "/order-management",
-    icon: <HugeiconsIcon icon={Note03Icon} size={24} color="var(--color-primary)" />,
+    icon: <HugeiconsIcon icon={Note03Icon} size={24} color="var(--color-primary-text)" />,
     requiredPermission: [
       "quotations.view",
       "event_bookings.view",
@@ -42,14 +42,14 @@ const menuItems = [
   {
     name: "Stock",
     path: "/stock",
-    icon: <HugeiconsIcon icon={StickyNote02Icon} size={24} color="var(--color-primary)" />,
+    icon: <HugeiconsIcon icon={StickyNote02Icon} size={24} color="var(--color-primary-text)" />,
     requiredPermission: "stock.view",
   },
   {
     name: "Payment History",
     path: "/payment-history",
     icon: (
-      <HugeiconsIcon icon={TransactionHistoryIcon} size={24} color="var(--color-primary)" />
+      <HugeiconsIcon icon={TransactionHistoryIcon} size={24} color="var(--color-primary-text)" />
     ),
     requiredPermission: "payments.view",
   },
@@ -57,26 +57,26 @@ const menuItems = [
     name: "Expense",
     path: "/expense",
     icon: (
-      <HugeiconsIcon icon={MoneyReceiveSquareIcon} size={24} color="var(--color-primary)" />
+      <HugeiconsIcon icon={MoneyReceiveSquareIcon} size={24} color="var(--color-primary-text)" />
     ),
     requiredPermission: "expenses.view",
   },
   {
     name: "Create Ingredient",
     path: "/create-recipe-ingredient",
-    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary)" />,
+    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary-text)" />,
     requiredPermission: "ingredients.view",
   },
   {
     name: "People",
     path: "/people",
-    icon: <FiUsers size={24} color="var(--color-primary)" />,
+    icon: <FiUsers size={24} color="var(--color-primary-text)" />,
     requiredPermission: ["vendors.view", "eventstaff.view"],
   },
   {
     name: "Ground Checklist",
     path: "/ground-checklist",
-    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary)" />,
+    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary-text)" />,
     requiredPermission: "ground.view",
   },
 ];

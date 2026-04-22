@@ -252,7 +252,7 @@ function CompleteInvoiceComponent({
                 Payment Date
               </label>
               <div className="flex items-center gap-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]">
-                <FiCalendar className="text-[var(--color-primary)]" size={20} />
+                <FiCalendar className="text-[var(--color-primary-text)]" size={20} />
 
                 <span className="font-semibold">
                   {currentDate.replace(/\//g, "-")}

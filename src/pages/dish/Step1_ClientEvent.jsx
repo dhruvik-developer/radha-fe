@@ -40,7 +40,7 @@ function Step1_ClientEvent({
       <div>
         <div className="flex items-center gap-3 mb-5">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiUser className="text-[var(--color-primary)]" size={20} />
+            <FiUser className="text-[var(--color-primary-text)]" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -180,7 +180,7 @@ function Step1_ClientEvent({
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 pl-3">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center">
-                          <FiClock size={15} className="text-[var(--color-primary)]" />
+                          <FiClock size={15} className="text-[var(--color-primary-text)]" />
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
                           Slot {sIdx + 1}

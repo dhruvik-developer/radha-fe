@@ -331,7 +331,7 @@ function AddEditStaffComponent({
                   <>
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        <BiMoney className="text-[var(--color-primary)]" size={18} /> Fixed
+                        <BiMoney className="text-[var(--color-primary-text)]" size={18} /> Fixed
                         Salary (Monthly) <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -380,7 +380,7 @@ function AddEditStaffComponent({
                 formData.staff_type === "Contract" ? (
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                      <BiMoney className="text-[var(--color-primary)]" size={18} /> Paid Per
+                      <BiMoney className="text-[var(--color-primary-text)]" size={18} /> Paid Per
                       Person (Rate) <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">

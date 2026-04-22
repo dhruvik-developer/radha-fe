@@ -712,7 +712,7 @@ function AddEditAssignmentComponent({
                   {!isFixedStaff && (
                     <div className="space-y-2">
                       <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                        <BiMoney className="text-[var(--color-primary)]" size={16} /> Per Day Rate <span className="text-red-500">*</span>
+                        <BiMoney className="text-[var(--color-primary-text)]" size={16} /> Per Day Rate <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>
@@ -726,7 +726,7 @@ function AddEditAssignmentComponent({
 
                   <div className="space-y-2">
                     <label className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                      <BiMoney className="text-[var(--color-primary)]" size={16} /> Amount Paid
+                      <BiMoney className="text-[var(--color-primary-text)]" size={16} /> Amount Paid
                     </label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-bold">₹</span>

@@ -56,7 +56,7 @@ function StockComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiPackage className="text-[var(--color-primary)]" size={22} />
+            <FiPackage className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Stocks</h2>
@@ -169,12 +169,12 @@ function StockComponent({
 
           {/* Items Grid */}
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-              <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-              <p className="text-lg font-semibold text-gray-500">
+            <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+              <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+              <p className="text-lg font-bold text-[var(--color-primary-text)]">
                 No Items Available
               </p>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium">
                 Add items to track your stock
               </p>
             </div>
@@ -210,7 +210,7 @@ function StockComponent({
                             <FiBox
                               size={18}
                               className={
-                                isLowStock ? "text-red-500" : "text-[var(--color-primary)]"
+                                isLowStock ? "text-red-500" : "text-[var(--color-primary-text)]"
                               }
                             />
                           </div>
@@ -224,7 +224,7 @@ function StockComponent({
                               </p>
                             )}
                             <p
-                              className={`text-sm font-semibold ${isLowStock ? "text-red-500" : "text-[var(--color-primary)]"}`}
+                              className={`text-sm font-semibold ${isLowStock ? "text-red-500" : "text-[var(--color-primary-text)]"}`}
                             >
                               {item.quantity}{" "}
                               {unitLabels[item.type] || item.type}
@@ -301,7 +301,7 @@ function StockComponent({
                     <div className="px-5 pb-4">
                       <div className="flex gap-2">
                         <button
-                          className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--color-primary-soft)] hover:brightness-95 text-[var(--color-primary)] rounded-xl cursor-pointer transition-all duration-200 text-sm font-semibold active:scale-[0.97]"
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[var(--color-primary-soft)] hover:brightness-95 text-[var(--color-primary-text)] rounded-xl cursor-pointer transition-all duration-200 text-sm font-semibold active:scale-[0.97]"
                           title="Increase Stock"
                           onClick={() => handleIncreaseItem(item)}
                         >

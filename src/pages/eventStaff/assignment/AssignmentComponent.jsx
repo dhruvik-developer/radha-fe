@@ -16,7 +16,7 @@ function AssignmentComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiBriefcase className="text-[var(--color-primary)]" size={22} />
+            <FiBriefcase className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">

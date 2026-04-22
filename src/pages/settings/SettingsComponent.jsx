@@ -46,7 +46,7 @@ function SettingsComponent({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-              <FiUser className="text-[var(--color-primary)]" size={22} />
+              <FiUser className="text-[var(--color-primary-text)]" size={22} />
             </div>
             <div>
               <h2 className="text-xl font-bold text-gray-800">
@@ -109,7 +109,7 @@ function SettingsComponent({
             <div className="p-6 space-y-6">
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <FiImage size={12} className="text-[var(--color-primary)]" />
+                  <FiImage size={12} className="text-[var(--color-primary-text)]" />
                   Business Logo
                 </label>
                 {isEditing ? (
@@ -159,7 +159,7 @@ function SettingsComponent({
                 {/* Cater's Name */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiUser size={12} className="text-[var(--color-primary)]" />
+                    <FiUser size={12} className="text-[var(--color-primary-text)]" />
                     Business Name
                     <span className="text-red-400">*</span>
                   </label>
@@ -186,7 +186,7 @@ function SettingsComponent({
                 {/* FSSAI Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiShield size={12} className="text-[var(--color-primary)]" />
+                    <FiShield size={12} className="text-[var(--color-primary-text)]" />
                     FSSAI Number
                     <span className="text-red-400">*</span>
                   </label>

@@ -20,7 +20,7 @@ function AddCategoryComponent({
 
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-          <FiFolder className="text-[var(--color-primary)]" size={22} />
+          <FiFolder className="text-[var(--color-primary-text)]" size={22} />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">Create Category</h2>

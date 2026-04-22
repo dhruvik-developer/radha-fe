@@ -65,7 +65,7 @@ function Step3_Summary({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiClipboard className="text-[var(--color-primary)]" size={20} />
+            <FiClipboard className="text-[var(--color-primary-text)]" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -154,7 +154,7 @@ function Step3_Summary({
               {/* ---- Info Row: Persons + Per Plate Price ---- */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                  <FiUsers className="text-[var(--color-primary)]" size={18} />
+                  <FiUsers className="text-[var(--color-primary-text)]" size={18} />
                   <div>
                     <p className="text-[10px] text-gray-400 uppercase font-bold">
                       Persons

@@ -38,7 +38,7 @@ function EditItemComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiList className="text-[var(--color-primary)]" size={22} />
+            <FiList className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Items</h2>
@@ -170,12 +170,12 @@ function EditItemComponent({
                                 })}
                               </div>
                             ) : (
-                              <div className="flex items-center justify-center gap-2 py-6 text-gray-400">
+                              <div className="flex items-center justify-center gap-2 py-6 text-[var(--color-primary-text)] bg-[var(--color-primary-tint)]/50 rounded-xl">
                                 <IoIosWarning
                                   size={20}
-                                  className="text-yellow-400"
+                                  className="text-[var(--color-primary-light)]"
                                 />
-                                <span className="text-sm font-medium">
+                                <span className="text-sm font-bold">
                                   No items available in this category
                                 </span>
                               </div>
@@ -208,12 +208,12 @@ function EditItemComponent({
               </div>
             </>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-              <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-              <p className="text-lg font-semibold text-gray-500">
+            <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+              <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+              <p className="text-lg font-bold text-[var(--color-primary-text)]">
                 No Items Available
               </p>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium">
                 Please add an item to get started
               </p>
             </div>

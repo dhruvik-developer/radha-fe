@@ -794,7 +794,7 @@ const Header = ({ toggleSidebar }) => {
               <div className="px-4 py-3 bg-[var(--color-primary-soft)] border-b border-gray-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FiClipboard size={14} className="text-[var(--color-primary)]" />
+                    <FiClipboard size={14} className="text-[var(--color-primary-text)]" />
                     <span className="text-sm font-semibold text-gray-700">
                       Upcoming Orders
                     </span>

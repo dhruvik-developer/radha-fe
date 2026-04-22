@@ -22,7 +22,7 @@ function ExpenseComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiDollarSign className="text-[var(--color-primary)]" size={22} />
+            <FiDollarSign className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Expenses</h2>
@@ -103,12 +103,12 @@ function ExpenseComponent({
       {loading ? (
         <Loader message="Loading Expenses..." />
       ) : expenses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-          <p className="text-lg font-semibold text-gray-500">
+        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+          <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
             No Expenses Available
           </p>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
             Add your first expense to get started
           </p>
         </div>

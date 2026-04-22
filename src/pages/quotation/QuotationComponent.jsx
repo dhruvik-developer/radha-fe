@@ -40,7 +40,7 @@ function QuotationComponent({
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiFileText className="text-[var(--color-primary)]" size={22} />
+            <FiFileText className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Quotation List</h2>
@@ -109,12 +109,12 @@ function QuotationComponent({
       {loading ? (
         <Loader message="Loading Quotations..." />
       ) : !quotation || quotation.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-          <p className="text-lg font-semibold text-gray-500">
+        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+          <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
             No quotations found for the selected date range.
           </p>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
             Try adjusting your date filters or search parameters.
           </p>
         </div>
@@ -145,7 +145,7 @@ function QuotationComponent({
 
                   <div className="flex items-center gap-2">
                     <span
-                      className="text-xs font-medium px-3 py-1.5 rounded-full bg-white text-[var(--color-primary)] border border-[var(--color-primary-border)] max-w-[200px] truncate"
+                      className="text-xs font-medium px-3 py-1.5 rounded-full bg-white text-[var(--color-primary-text)] border border-[var(--color-primary-border)] max-w-[200px] truncate"
                       title={
                         quote.sessions?.length > 0
                           ? Array.from(
@@ -176,7 +176,7 @@ function QuotationComponent({
                   <div className="flex flex-col gap-3">
                     {/* Phone */}
                     <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[var(--color-primary-border)] w-max">
-                      <FiPhone size={14} className="text-[var(--color-primary)]" />
+                      <FiPhone size={14} className="text-[var(--color-primary-text)]" />
                       <span className="font-medium">
                         {quote.mobile_no || "—"}
                       </span>
@@ -214,7 +214,7 @@ function QuotationComponent({
                             <div className="flex items-center gap-2">
                               <FiFileText
                                 size={14}
-                                className="text-[var(--color-primary)]"
+                                className="text-[var(--color-primary-text)]"
                               />
                               <span className="font-semibold text-gray-800">
                                 Total Sessions: {allSessions.length}
@@ -316,7 +316,7 @@ function QuotationComponent({
                   className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 bg-indigo-50/40 border border-[var(--color-primary-border)] rounded-lg px-4 py-3"
                 >
                   <div className="flex items-center gap-2 text-sm text-gray-700">
-                    <FiClock size={14} className="text-[var(--color-primary)]" />
+                    <FiClock size={14} className="text-[var(--color-primary-text)]" />
                     <span className="font-medium text-sm break-all">
                       <span className="text-gray-400 mr-1">
                         {session.event_date}
@@ -325,7 +325,7 @@ function QuotationComponent({
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-700">
-                    <FiUsers size={14} className="text-[var(--color-primary)]" />
+                    <FiUsers size={14} className="text-[var(--color-primary-text)]" />
                     <span className="font-medium text-sm">
                       <strong>{session.estimated_persons || "—"}</strong>{" "}
                       persons

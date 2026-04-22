@@ -61,11 +61,11 @@ function UsersTable({ users, onUserEdit, onUserDelete }) {
             <tr>
               <td colSpan="7" className="text-center text-gray-500 py-4">
                 <div className="flex justify-center items-center gap-2 text-yellow-500">
-                  <IoIosWarning size={30} />
+                  <IoIosWarning size={30} className="text-[var(--color-primary-light)]" />
                   <p className="text-center text-red-500 text-xl font-semibold py-4">
                     No Users Available!
                   </p>
-                  <IoIosWarning size={30} />
+                  <IoIosWarning size={30} className="text-[var(--color-primary-light)]" />
                 </div>
               </td>
             </tr>

@@ -40,7 +40,7 @@ function AllOrderComponent({
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6 w-full">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiClipboard className="text-[var(--color-primary)]" size={22} />
+            <FiClipboard className="text-[var(--color-primary-text)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">All Orders</h2>
@@ -108,12 +108,12 @@ function AllOrderComponent({
       {loading ? (
         <Loader message="Loading Orders..." />
       ) : allOrder.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <IoIosWarning size={48} className="text-yellow-400 mb-3" />
-          <p className="text-lg font-semibold text-gray-500">
+        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
+          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
+          <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
             No Orders Available
           </p>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
             Orders will appear here once created
           </p>
         </div>
@@ -166,7 +166,7 @@ function AllOrderComponent({
               <div className="flex-1 px-5 py-4 flex flex-col gap-3">
                 {/* Phone */}
                 <div className="flex items-center gap-2.5 text-sm text-gray-600 bg-white rounded-lg px-3 py-2.5 border border-[var(--color-primary-border)] w-max">
-                  <FiPhone size={14} className="text-[var(--color-primary)]" />
+                  <FiPhone size={14} className="text-[var(--color-primary-text)]" />
                   <span className="font-medium">{order.mobile_no || "—"}</span>
                 </div>
 
@@ -178,7 +178,7 @@ function AllOrderComponent({
                 >
                   <div className="flex items-center justify-between text-sm text-gray-700">
                     <div className="flex items-center gap-2">
-                      <FiClipboard size={14} className="text-[var(--color-primary)]" />
+                      <FiClipboard size={14} className="text-[var(--color-primary-text)]" />
                       <span className="font-semibold text-gray-800">
                         Total Sessions: {order.sessions?.length || 1}
                       </span>
