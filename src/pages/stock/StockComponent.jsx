@@ -56,7 +56,7 @@ function StockComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiPackage className="text-[#845cbd]" size={22} />
+            <FiPackage className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Stocks</h2>
@@ -96,14 +96,14 @@ function StockComponent({
             )}
             <div className="flex gap-2">
               <button
-                className="px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+                className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
                 onClick={handleAddCategory}
               >
                 Add Category
               </button>
               {selectedCategory !== "low_stock" && selectedCategory !== "all_items" && (
                 <button
-                  className="px-4 py-2.5 bg-white hover:bg-[#f4effc] text-[#845cbd] text-sm font-medium rounded-lg border border-[#845cbd] cursor-pointer transition-colors duration-200"
+                  className="px-4 py-2.5 bg-white hover:bg-[#f4effc] text-[var(--color-primary)] text-sm font-medium rounded-lg border border-[var(--color-primary)] cursor-pointer transition-colors duration-200"
                   onClick={handleAddItem}
                 >
                   Add Item
@@ -114,7 +114,7 @@ function StockComponent({
 
           {/* Stats Summary Cards */}
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-gradient-to-br from-[#845cbd] to-[#6a3faf] text-white rounded-xl p-4 shadow-md shadow-[#845cbd]/10">
+            <div className="bg-gradient-to-br from-[var(--color-primary)] to-[#6a3faf] text-white rounded-xl p-4 shadow-md shadow-[var(--color-primary)]/10">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">
@@ -210,7 +210,7 @@ function StockComponent({
                             <FiBox
                               size={18}
                               className={
-                                isLowStock ? "text-red-500" : "text-[#845cbd]"
+                                isLowStock ? "text-red-500" : "text-[var(--color-primary)]"
                               }
                             />
                           </div>
@@ -224,7 +224,7 @@ function StockComponent({
                               </p>
                             )}
                             <p
-                              className={`text-sm font-semibold ${isLowStock ? "text-red-500" : "text-[#845cbd]"}`}
+                              className={`text-sm font-semibold ${isLowStock ? "text-red-500" : "text-[var(--color-primary)]"}`}
                             >
                               {item.quantity}{" "}
                               {unitLabels[item.type] || item.type}
@@ -301,7 +301,7 @@ function StockComponent({
                     <div className="px-5 pb-4">
                       <div className="flex gap-2">
                         <button
-                          className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#f4effc] hover:bg-[#e8ddf5] text-[#845cbd] rounded-xl cursor-pointer transition-all duration-200 text-sm font-semibold active:scale-[0.97]"
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#f4effc] hover:bg-[#e8ddf5] text-[var(--color-primary)] rounded-xl cursor-pointer transition-all duration-200 text-sm font-semibold active:scale-[0.97]"
                           title="Increase Stock"
                           onClick={() => handleIncreaseItem(item)}
                         >

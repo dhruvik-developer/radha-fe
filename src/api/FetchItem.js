@@ -33,7 +33,9 @@ export const createItem = async (data) => {
     return response;
   } catch (error) {
     console.error("Create Item API Error:", error);
-    const errorMsg = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+    const errorMsg = error.response?.data
+      ? JSON.stringify(error.response.data)
+      : error.message;
     toast.error(`Error creating item: ${errorMsg}`);
     return null;
   }
@@ -49,7 +51,9 @@ export const updateItem = async (id, data) => {
     return response;
   } catch (error) {
     console.error("Update Item API Error:", error);
-    const errorMsg = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+    const errorMsg = error.response?.data
+      ? JSON.stringify(error.response.data)
+      : error.message;
     toast.error(`Error updating item: ${errorMsg}`);
     return null;
   }
@@ -65,7 +69,9 @@ export const patchItem = async (id, data) => {
     return response;
   } catch (error) {
     console.error("Patch Item API Error:", error);
-    const errorMsg = error.response?.data ? JSON.stringify(error.response.data) : error.message;
+    const errorMsg = error.response?.data
+      ? JSON.stringify(error.response.data)
+      : error.message;
     toast.error(`Error updating item: ${errorMsg}`);
     return null;
   }

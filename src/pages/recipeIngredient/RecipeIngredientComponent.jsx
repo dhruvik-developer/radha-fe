@@ -38,7 +38,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiBookOpen className="text-[#845cbd]" size={22} />
+            <FiBookOpen className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
@@ -52,7 +52,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
         </div>
         <button
           onClick={() => navigate("/create-ingredient")}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200"
         >
           <FiPlus size={15} />
           Add Ingredient
@@ -86,7 +86,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                     onClick={() => toggleExpand(rec.id)}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm">
+                      <div className="w-9 h-9 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm">
                         {rec.item?.name?.charAt(0)?.toUpperCase() || "?"}
                       </div>
                       <h3 className="text-base font-semibold text-gray-800">
@@ -100,11 +100,11 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                           {rec.person_count}
                         </span>
                       )}
-                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-white text-[#845cbd] border border-[#ede7f6]">
+                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-white text-[var(--color-primary)] border border-[#ede7f6]">
                         {ingredientEntries.length} items
                       </span>
                       <button
-                        className="p-2 rounded-lg text-gray-400 hover:text-[#845cbd] hover:bg-white transition-colors duration-200 cursor-pointer"
+                        className="p-2 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-white transition-colors duration-200 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/edit-ingredient/${rec.id}`, {
@@ -116,7 +116,7 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                         <FiEdit2 size={15} />
                       </button>
                       {expanded === rec.id ? (
-                        <FiChevronUp size={18} className="text-[#845cbd]" />
+                        <FiChevronUp size={18} className="text-[var(--color-primary)]" />
                       ) : (
                         <FiChevronDown size={18} className="text-gray-400" />
                       )}
@@ -141,12 +141,12 @@ function RecipeIngredientComponent({ loading, navigate, recipe }) {
                               key={index}
                               className="flex items-center gap-2 text-sm text-gray-600 bg-white rounded-lg px-3 py-2 border border-[#ede7f6]"
                             >
-                              <span className="w-5 h-5 rounded bg-[#f4effc] text-[#845cbd] text-xs font-bold flex items-center justify-center flex-shrink-0">
+                              <span className="w-5 h-5 rounded bg-[#f4effc] text-[var(--color-primary)] text-xs font-bold flex items-center justify-center flex-shrink-0">
                                 {index + 1}
                               </span>
                               <span className="font-medium flex-1">{name}</span>
                               {qty && (
-                                <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-[#f4effc] text-[#845cbd] border border-[#ede7f6]">
+                                <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-[#f4effc] text-[var(--color-primary)] border border-[#ede7f6]">
                                   {qty}
                                 </span>
                               )}

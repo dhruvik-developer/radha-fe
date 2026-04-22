@@ -13,7 +13,7 @@ function PdfAllOrderComponent({
   const navigate = useNavigate();
 
   const THEME = {
-    primary: "#845CBD",
+    primary: "var(--color-primary)",
     primaryDark: "#6F47B8",
     primaryBorder: "#E7D9FF",
     primaryText: "#5B34A8",

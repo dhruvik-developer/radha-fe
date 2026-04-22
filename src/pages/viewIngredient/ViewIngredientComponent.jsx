@@ -234,7 +234,7 @@ function ViewIngredientComponent({
                   </div>
 
                   {/* Session banner */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-[#845CBD] text-white px-4 sm:px-6 py-4 rounded-2xl shadow-md">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-[var(--color-primary)] text-white px-4 sm:px-6 py-4 rounded-2xl shadow-md">
                     <div className="flex items-center gap-3 w-full sm:w-auto">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -398,7 +398,7 @@ function ViewIngredientComponent({
                       {/* Per-item share button */}
                       <button
                         type="button"
-                        className="mt-2 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-[#845CBD] border border-[#845CBD] hover:bg-[#845CBD] hover:text-white cursor-pointer"
+                        className="mt-2 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white cursor-pointer"
                         onClick={() => handleShareOutsourced(oi)}
                         title={`Share ${oi.item_name} with ${oi.vendor?.name || 'vendor'}`}
                       >
@@ -502,7 +502,7 @@ function ViewIngredientComponent({
                   <div className="flex gap-2">
                     <button
                       type="button"
-                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${allItemsAssigned ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed" : "text-[#845CBD] border border-[#845CBD] hover:bg-[#845CBD] hover:text-white cursor-pointer"}`}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${allItemsAssigned ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed" : "text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white cursor-pointer"}`}
                       onClick={() =>
                         !allItemsAssigned &&
                         handleShareIngredients(
@@ -534,7 +534,7 @@ function ViewIngredientComponent({
                     </button>
                     <button
                       type="button"
-                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${anyItemAssigned ? "text-[#845CBD] border border-[#845CBD] hover:bg-[#845CBD] hover:text-white cursor-pointer" : "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"}`}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${anyItemAssigned ? "text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white cursor-pointer" : "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"}`}
                       onClick={() =>
                         anyItemAssigned &&
                         handleShareIngredients(
@@ -768,7 +768,7 @@ function ViewIngredientComponent({
                                     : {
                                         backgroundColor: "#f5f3ff",
                                         borderColor: "#c4b5fd",
-                                        color: "#845CBD",
+                                        color: "var(--color-primary)",
                                       }
                                 }
                               >
@@ -821,7 +821,7 @@ function ViewIngredientComponent({
 
                               {/* Vendor badge */}
                               {hasNonGodownVendor && (
-                                <div className="flex items-center gap-1.5 font-semibold text-[#845CBD] bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-full">
+                                <div className="flex items-center gap-1.5 font-semibold text-[var(--color-primary)] bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-full">
                                   <span>🛒</span>
                                   <span>Vendor: {Math.max(0, remaining)} {requiredUnit || item.quantity_type || ""}</span>
                                 </div>

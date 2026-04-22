@@ -15,7 +15,7 @@ function PdfShareOutsourcedComponent({
       {/* Action Bar (Top) */}
       <div className="flex justify-end gap-3 mb-6 w-full max-w-3xl xl:w-[50%] no-print-button">
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[#845cbd] hover:border-[#845cbd]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
           onClick={() => navigate("/all-order")}
           title="Back to Orders"
         >
@@ -37,7 +37,7 @@ function PdfShareOutsourcedComponent({
         </button>
 
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-[#845cbd] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
           onClick={downloadPDF}
           title="Download PDF"
         >
@@ -57,19 +57,19 @@ function PdfShareOutsourcedComponent({
           <img src="/logo1.png" alt="Watermark" className="w-[80%] max-w-[500px] h-auto object-contain" />
         </div>
         {/* Decorative orbs */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[#845cbd]/10 to-transparent blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-pink-500/5 to-transparent blur-3xl pointer-events-none" />
         {/* Top Bar */}
-        <div className="relative h-2 w-full bg-gradient-to-r from-[#845cbd] via-purple-400 to-[#845cbd] z-10" />
+        <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-purple-400 to-[var(--color-primary)] z-10" />
 
         <div className="relative z-10 p-10">
           {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#845cbd] to-purple-600 tracking-wide uppercase mb-2 drop-shadow-sm">
+            <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-purple-600 tracking-wide uppercase mb-2 drop-shadow-sm">
               {businessProfile?.caters_name || "radha Sweet & Caterers"}
             </h2>
             <div className="inline-flex items-center justify-center gap-3 bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-purple-100 shadow-sm mt-2">
-              <span className="text-sm font-bold text-[#845cbd] tracking-widest uppercase">
+              <span className="text-sm font-bold text-[var(--color-primary)] tracking-widest uppercase">
                 Outsourced Items Supply
               </span>
             </div>
@@ -77,7 +77,7 @@ function PdfShareOutsourcedComponent({
 
           {/* Delivery Details */}
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1.5 h-full bg-[#845cbd]" />
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-[var(--color-primary)]" />
             <div className="grid grid-cols-1 gap-4">
               <div>
                 <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Delivery Address</p>
@@ -90,7 +90,7 @@ function PdfShareOutsourcedComponent({
                 </div>
                 <div>
                   <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Delivery Time</p>
-                  <p className="text-base font-semibold text-[#845cbd] bg-purple-50 px-3 py-1 rounded-md inline-block">
+                  <p className="text-base font-semibold text-[var(--color-primary)] bg-purple-50 px-3 py-1 rounded-md inline-block">
                     {deliveryTime || "-"}
                   </p>
                 </div>
@@ -100,8 +100,8 @@ function PdfShareOutsourcedComponent({
 
           {/* Items Grouped by Vendor */}
           <div className="mb-6">
-            <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-[#845cbd] rounded-full inline-block" />
+            <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-4 flex items-center gap-2">
+              <span className="w-1.5 h-6 bg-[var(--color-primary)] rounded-full inline-block" />
               Outsourced Items
             </h3>
 
@@ -111,21 +111,21 @@ function PdfShareOutsourcedComponent({
                   <div key={vIdx} className="bg-white border rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden border-gray-100/80">
                     {/* Vendor Header */}
                     <div className="px-6 py-3 bg-purple-50 border-b border-purple-100 flex items-center gap-2">
-                      <span className="text-sm font-bold text-[#845cbd]">🏢 {vg.vendor_name || "Unassigned"}</span>
+                      <span className="text-sm font-bold text-[var(--color-primary)]">🏢 {vg.vendor_name || "Unassigned"}</span>
                     </div>
                     <ul className="divide-y divide-gray-50">
                       {vg.items.map((item, iIdx) => (
                         <li
                           key={iIdx}
-                          className="flex justify-between items-center px-6 py-4 hover:bg-[#845cbd]/[0.02] transition-colors group"
+                          className="flex justify-between items-center px-6 py-4 hover:bg-[var(--color-primary)]/[0.02] transition-colors group"
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-[#845cbd]/70 font-bold text-xs">
+                            <div className="w-6 h-6 rounded-full bg-purple-50 flex items-center justify-center text-[var(--color-primary)]/70 font-bold text-xs">
                               {iIdx + 1}
                             </div>
                             <span className="text-base font-medium text-gray-800">{item.item_name}</span>
                           </div>
-                          <span className="text-base font-bold text-[#845cbd] bg-purple-50/50 px-4 py-1.5 rounded-lg border border-purple-100/50">
+                          <span className="text-base font-bold text-[var(--color-primary)] bg-purple-50/50 px-4 py-1.5 rounded-lg border border-purple-100/50">
                             {item.quantity ? `${item.quantity} ${item.unit || ""}`.trim() : "-"}
                           </span>
                         </li>

@@ -25,7 +25,7 @@ function RuleComponent({
       {/* To display in PDF */}
       {ruleData !== "addrule" && (
         <div className={`${is_rule === false ? "hidden" : "block"}`}>
-          <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-3">
+          <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-3">
             Terms & Conditions
           </h3>
           <div className="bg-white p-4 rounded-md border border-gray-100 shadow-sm">
@@ -72,7 +72,7 @@ function RuleComponent({
                     <div className="w-full">
                       <Input
                         type="text"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
                         value={rule}
                         onChange={(e) => handleChange(index, e.target.value)}
                         placeholder="Add new rule"
@@ -107,7 +107,7 @@ function RuleComponent({
           <div className="mt-4 text-center">
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-[#845cbd] text-white rounded-md cursor-pointer"
+              className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-md cursor-pointer"
             >
               Save Rules
             </button>

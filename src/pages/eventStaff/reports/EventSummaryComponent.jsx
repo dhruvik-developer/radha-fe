@@ -24,7 +24,7 @@ function EventSummaryComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiFileText className="text-[#845cbd]" size={22} />
+            <FiFileText className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Summary Report</h2>
@@ -47,7 +47,7 @@ function EventSummaryComponent({
               id="staffType"
               value={staffType}
               onChange={onStaffTypeChange}
-              className="appearance-none bg-gray-50 border border-gray-200 text-gray-700 py-2.5 pl-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] cursor-pointer"
+              className="appearance-none bg-gray-50 border border-gray-200 text-gray-700 py-2.5 pl-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] cursor-pointer"
             >
               <option value="All">All Staff</option>
               <option value="Fixed">Fixed (My Staff)</option>
@@ -81,7 +81,7 @@ function EventSummaryComponent({
         <div className="overflow-x-auto">
           <table className="min-w-[700px] w-full border-collapse">
             <thead>
-              <tr className="bg-[#f4effc] text-[#845cbd]">
+              <tr className="bg-[#f4effc] text-[var(--color-primary)]">
                 <th className="px-4 py-3 text-left font-bold text-sm rounded-tl-lg">
                   Staff Name
                 </th>
@@ -110,7 +110,7 @@ function EventSummaryComponent({
                 >
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
                         {row.staff_name?.charAt(0)?.toUpperCase() || "?"}
                       </div>
                       <span className="font-bold text-gray-800 capitalize">
@@ -123,7 +123,7 @@ function EventSummaryComponent({
                       {row.staff_type}
                     </span>
                   </td>
-                  <td className="px-4 py-4 text-center font-bold text-[#845cbd] text-lg">
+                  <td className="px-4 py-4 text-center font-bold text-[var(--color-primary)] text-lg">
                     {row.events?.length || 0}
                   </td>
                   {row.staff_type === "Fixed" ? (
@@ -151,7 +151,7 @@ function EventSummaryComponent({
                   )}
                   <td className="px-4 py-4 text-center">
                     <FiChevronRight
-                      className="mx-auto text-gray-400 group-hover:text-[#845cbd] transition-colors"
+                      className="mx-auto text-gray-400 group-hover:text-[var(--color-primary)] transition-colors"
                       size={18}
                     />
                   </td>

@@ -38,13 +38,13 @@ function EditItemComponent({
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiList className="text-[#845cbd]" size={22} />
+            <FiList className="text-[var(--color-primary)]" size={22} />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Items</h2>
             <p className="text-sm text-gray-400">
               {totalSelected > 0 ? (
-                <span className="text-[#845cbd] font-medium">
+                <span className="text-[var(--color-primary)] font-medium">
                   {totalSelected} item{totalSelected !== 1 ? "s" : ""} selected
                 </span>
               ) : (
@@ -55,7 +55,7 @@ function EditItemComponent({
         </div>
         <button
           onClick={() => navigate("/create-item")}
-          className="flex items-center gap-1.5 px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
+          className="flex items-center gap-1.5 px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
         >
           <FiPlus size={15} />
           Add Item
@@ -87,13 +87,13 @@ function EditItemComponent({
                           onClick={() => toggleCollapse(category.id)}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-lg bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                            <div className="w-9 h-9 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm shadow-sm">
                               {category.positions || "—"}
                             </div>
                             <span className="font-semibold text-gray-800 text-base">
                               {category.name}
                             </span>
-                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#ede7f6] text-[#845cbd]">
+                            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-[#ede7f6] text-[var(--color-primary)]">
                               {category.items?.length || 0} items
                             </span>
                             {selectedCount > 0 && (
@@ -142,14 +142,14 @@ function EditItemComponent({
                                       }
                                       className={`flex items-center gap-3 px-3.5 py-2.5 rounded-lg cursor-pointer transition-all duration-200 border ${
                                         isSelected
-                                          ? "bg-[#f4effc] border-[#845cbd] shadow-sm"
+                                          ? "bg-[#f4effc] border-[var(--color-primary)] shadow-sm"
                                           : "bg-white border-gray-100 hover:bg-gray-50 hover:border-gray-200"
                                       }`}
                                     >
                                       <div
                                         className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                                           isSelected
-                                            ? "bg-[#845cbd] border-[#845cbd]"
+                                            ? "bg-[var(--color-primary)] border-[var(--color-primary)]"
                                             : "border-gray-300"
                                         }`}
                                       >
@@ -161,7 +161,7 @@ function EditItemComponent({
                                         )}
                                       </div>
                                       <span
-                                        className={`text-sm ${isSelected ? "text-[#845cbd] font-medium" : "text-gray-600"}`}
+                                        className={`text-sm ${isSelected ? "text-[var(--color-primary)] font-medium" : "text-gray-600"}`}
                                       >
                                         {item.name}
                                       </span>
@@ -199,7 +199,7 @@ function EditItemComponent({
                 </button>
                 <button
                   type="button"
-                  className="flex items-center gap-1.5 px-6 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
+                  className="flex items-center gap-1.5 px-6 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white text-sm font-medium rounded-lg cursor-pointer transition-colors duration-200 shadow-sm"
                   onClick={generatePDF}
                 >
                   <FiCheck size={15} />

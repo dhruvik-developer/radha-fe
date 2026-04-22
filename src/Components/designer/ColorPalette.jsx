@@ -205,7 +205,7 @@ export default function ColorPalette({
                   padding: "5px 2px",
                   borderRadius: "8px",
                   border: isActive
-                    ? "2px solid #845cbd"
+                    ? "2px solid var(--color-primary)"
                     : "1.5px solid #e5e7eb",
                   background: isActive ? "#f5f0ff" : "#fff",
                   cursor: "pointer",
@@ -234,7 +234,7 @@ export default function ColorPalette({
                   style={{
                     fontSize: "8px",
                     fontWeight: 600,
-                    color: isActive ? "#845cbd" : "#9ca3af",
+                    color: isActive ? "var(--color-primary)" : "#9ca3af",
                   }}
                 >
                   {t.label}
@@ -274,7 +274,7 @@ export default function ColorPalette({
                 borderRadius: "6px",
                 border:
                   sw.hex === bgColor
-                    ? "2px solid #845cbd"
+                    ? "2px solid var(--color-primary)"
                     : "1.5px solid #d1d5db",
                 background: sw.hex,
                 cursor: "pointer",

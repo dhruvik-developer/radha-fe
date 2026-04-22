@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ShareOutsourcedComponent from "./ShareOutsourcedComponent";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { getAllBusinessProfiles } from "../../apis/BusinessProfile";
-import { getSingleOrder, updateEventBooking } from "../../apis/FetchAllOrder";
+import { getAllBusinessProfiles } from "../../api/BusinessProfile";
+import { getSingleOrder, updateEventBooking } from "../../api/FetchAllOrder";
 
 function ShareOutsourcedController() {
   const location = useLocation();
@@ -218,7 +218,7 @@ function ShareOutsourcedController() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="w-8 h-8 border-4 border-[#845cbd] border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }

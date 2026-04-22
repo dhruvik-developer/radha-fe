@@ -5,7 +5,7 @@ import { Rules } from "../rules";
 import * as mapper from "../../../utils/orderMasterDataMapping";
 
 const THEME = {
-  primary: "#845CBD",
+  primary: "var(--color-primary)",
   primaryDark: "#6F47B8",
   primarySoft: "#F6F0FF",
   primaryTint: "#FBF8FF",
@@ -117,7 +117,7 @@ const OrderMasterReport = ({ order, businessProfile }) => {
       {/* Document Header */}
       <div
         style={{
-          background: "linear-gradient(135deg, #845CBD 0%, #6F47B8 100%)",
+          background: "linear-gradient(135deg, var(--color-primary) 0%, #6F47B8 100%)",
           color: "#fff",
           padding: "16px 24px",
           display: "flex",
@@ -237,7 +237,7 @@ const OrderMasterReport = ({ order, businessProfile }) => {
             >
               <div
                 style={{
-                  background: "linear-gradient(135deg, #845CBD 0%, #6F47B8 100%)",
+                  background: "linear-gradient(135deg, var(--color-primary) 0%, #6F47B8 100%)",
                   color: "#fff",
                   fontWeight: "bold",
                   fontSize: "12px",
@@ -600,7 +600,7 @@ const OrderMasterReport = ({ order, businessProfile }) => {
       {/* Document Footer */}
       <div
         style={{
-          background: "linear-gradient(135deg, #6F47B8 0%, #845CBD 100%)",
+          background: "linear-gradient(135deg, #6F47B8 0%, var(--color-primary) 100%)",
           color: "#fff",
           textAlign: "center",
           padding: "10px",

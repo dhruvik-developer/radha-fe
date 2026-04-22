@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { addVendor, updateVendor } from "../../../apis/PostVendor";
-import { getIngredientCategories, getVendor } from "../../../api/vendors";
+import { useIngredientCategories } from "../../../hooks/useIngredientCategories";
 import {
-  getApiErrorMessage,
-  getCollectionResponse,
-  getEntityResponse,
-} from "../../../utils/apiResponse";
+  useCreateVendorMutation,
+  useUpdateVendorMutation,
+} from "../../../hooks/useVendorMutations";
+import { useVendorById } from "../../../hooks/useVendors";
+import { getApiErrorMessage } from "../../../utils/apiResponse";
 import AddEditVendorComponent from "./AddEditVendorComponent";
 
 function AddEditVendorController() {
@@ -30,8 +30,14 @@ function AddEditVendorController() {
     login_email: "",
   });
   const [vendorCategories, setVendorCategories] = useState([]);
-  const [availableCategories, setAvailableCategories] = useState([]);
   const [errors, setErrors] = useState({});
+  const createVendorMutation = useCreateVendorMutation();
+  const updateVendorMutation = useUpdateVendorMutation();
+  const { data: availableCategories = [] } = useIngredientCategories();
+  const { data: fetchedVendorData, isLoading: isVendorLoading } = useVendorById(
+    id,
+    { enabled: mode === "edit" && !state?.vendorData }
+  );
 
   const populateVendorForm = (vendorData) => {
     const existingLogin =
@@ -47,7 +53,7 @@ function AddEditVendorController() {
       is_active:
         vendorData?.is_active !== undefined ? vendorData.is_active : true,
       login_enabled: existingLogin,
-      login_username: vendorData?.linked_username || "",
+      login_username: vendorData?.login_username || vendorData?.linked_username || "",
       login_password: "",
       login_email: vendorData?.login_email || vendorData?.email || "",
     });
@@ -59,62 +65,31 @@ function AddEditVendorController() {
   };
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await getIngredientCategories();
-        setAvailableCategories(getCollectionResponse(response));
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        toast.error(
-          getApiErrorMessage(error, "Failed to fetch ingredient categories")
-        );
-      }
-    };
+    if (mode !== "edit") {
+      setLoading(false);
+      return;
+    }
 
-    fetchCategories();
-  }, []);
+    if (state?.vendorData) {
+      populateVendorForm(state.vendorData);
+      setLoading(false);
+      return;
+    }
 
-  useEffect(() => {
-    let isMounted = true;
+    if (isVendorLoading) {
+      setLoading(true);
+      return;
+    }
 
-    const fetchVendorDetails = async () => {
-      if (mode !== "edit") {
-        setLoading(false);
-        return;
-      }
+    if (!fetchedVendorData) {
+      toast.error("Failed to load vendor details");
+      navigate(-1);
+      return;
+    }
 
-      try {
-        if (state?.vendorData) {
-          populateVendorForm(state.vendorData);
-          return;
-        }
-
-        const response = await getVendor(id);
-        const vendorData = getEntityResponse(response);
-
-        if (!vendorData) {
-          throw new Error("Vendor details not found");
-        }
-
-        if (isMounted) {
-          populateVendorForm(vendorData);
-        }
-      } catch (error) {
-        toast.error(getApiErrorMessage(error, "Failed to load vendor details"));
-        navigate(-1);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchVendorDetails();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [id, mode, navigate, state]);
+    populateVendorForm(fetchedVendorData);
+    setLoading(false);
+  }, [fetchedVendorData, isVendorLoading, mode, navigate, state]);
 
   const onInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -265,8 +240,8 @@ function AddEditVendorController() {
 
       const response =
         mode === "edit"
-          ? await updateVendor(id, payload)
-          : await addVendor(payload);
+          ? await updateVendorMutation.mutateAsync({ id, data: payload })
+          : await createVendorMutation.mutateAsync(payload);
 
       if (response) {
         navigate("/people/vendor");

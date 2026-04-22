@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { FiX, FiSearch, FiSave, FiBox, FiTag, FiChevronRight } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { getGroundCategories } from "../../apis/GroundApis";
+import { getGroundCategories } from "../../api/GroundApis";
 
 /**
  * GroundManagementModal
@@ -144,7 +144,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
             <p className="text-xs text-gray-500 mt-0.5">
               {sessionName ? `Session: ${sessionName}` : "Select items and set quantities"}
               {selectedCount > 0 && (
-                <span className="ml-2 text-[#845cbd] font-semibold">
+                <span className="ml-2 text-[var(--color-primary)] font-semibold">
                   • {selectedCount} item{selectedCount !== 1 ? "s" : ""} selected
                 </span>
               )}
@@ -162,7 +162,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
         <div className="flex-1 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-64">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#845cbd]"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--color-primary)]"></div>
               <span className="ml-3 text-sm text-gray-500">Loading categories...</span>
             </div>
           ) : categories.length === 0 ? (
@@ -196,12 +196,12 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                         }}
                         className={`w-full text-left px-4 py-3 border-b border-gray-100 last:border-0 transition-all duration-150 flex items-center gap-3 ${
                           isActive
-                            ? "bg-[#f4effc] border-l-3 border-l-[#845cbd]"
+                            ? "bg-[#f4effc] border-l-3 border-l-[var(--color-primary)]"
                             : "hover:bg-gray-50 border-l-3 border-l-transparent"
                         }`}
                       >
                         <div className="flex-1 min-w-0">
-                          <p className={`font-semibold text-sm truncate ${isActive ? "text-[#845cbd]" : "text-gray-800"}`}>
+                          <p className={`font-semibold text-sm truncate ${isActive ? "text-[var(--color-primary)]" : "text-gray-800"}`}>
                             {cat.name}
                           </p>
                           <div className="flex items-center gap-2 mt-0.5">
@@ -213,7 +213,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                             )}
                           </div>
                         </div>
-                        <FiChevronRight size={14} className={isActive ? "text-[#845cbd]" : "text-gray-300"} />
+                        <FiChevronRight size={14} className={isActive ? "text-[var(--color-primary)]" : "text-gray-300"} />
                       </button>
                     );
                   })}
@@ -239,7 +239,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search..."
-                      className="pl-8 pr-3 py-1.5 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#845cbd]/50 w-40"
+                      className="pl-8 pr-3 py-1.5 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 w-40"
                     />
                   </div>
                 </div>
@@ -257,18 +257,18 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                             key={item.id}
                             className={`flex items-center gap-3 p-3 rounded-xl border transition-all duration-150 ${
                               hasQuantity
-                                ? "border-[#845cbd]/30 bg-[#f4effc]/30"
+                                ? "border-[var(--color-primary)]/30 bg-[#f4effc]/30"
                                 : "border-gray-100 hover:border-gray-200"
                             }`}
                           >
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                              hasQuantity ? "bg-[#845cbd]/10" : "bg-gray-100"
+                              hasQuantity ? "bg-[var(--color-primary)]/10" : "bg-gray-100"
                             }`}>
-                              <FiTag size={13} className={hasQuantity ? "text-[#845cbd]" : "text-gray-400"} />
+                              <FiTag size={13} className={hasQuantity ? "text-[var(--color-primary)]" : "text-gray-400"} />
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className={`text-sm font-semibold truncate ${
-                                hasQuantity ? "text-[#845cbd]" : "text-gray-800"
+                                hasQuantity ? "text-[var(--color-primary)]" : "text-gray-800"
                               }`}>
                                 {item.name}
                               </p>
@@ -284,9 +284,9 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
                                 value={currentQty}
                                 onChange={(e) => handleQuantityChange(item.id, e.target.value)}
                                 placeholder="0"
-                                className={`w-20 text-center px-2 py-1.5 border rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#845cbd]/50 transition-all ${
+                                className={`w-20 text-center px-2 py-1.5 border rounded-lg text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 transition-all ${
                                   hasQuantity
-                                    ? "border-[#845cbd]/30 bg-white text-[#845cbd]"
+                                    ? "border-[var(--color-primary)]/30 bg-white text-[var(--color-primary)]"
                                     : "border-gray-200 text-gray-600"
                                 }`}
                               />
@@ -327,7 +327,7 @@ const GroundManagementModal = ({ isOpen, onClose, onSave, existingData, sessionN
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-5 py-2 bg-[#845cbd] hover:bg-[#724eb0] text-white text-sm font-semibold rounded-lg shadow-sm transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-5 py-2 bg-[var(--color-primary)] hover:bg-[#724eb0] text-white text-sm font-semibold rounded-lg shadow-sm transition-colors disabled:opacity-50"
             >
               <FiSave size={14} />
               {saving ? "Saving..." : "Save Ground Items"}

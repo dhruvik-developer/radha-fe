@@ -64,7 +64,7 @@ function ShareIngredientComponent({
 
             <p className="pb-1 font-bold">Delivery Address</p>
             <div
-              className={`flex items-center justify-between mb-4 p-2 border rounded-md ${selectedAddress === "event" ? "border-[#845cbd]" : "border-gray-300"}`}
+              className={`flex items-center justify-between mb-4 p-2 border rounded-md ${selectedAddress === "event" ? "border-[var(--color-primary)]" : "border-gray-300"}`}
             >
               <div className="event-address-div">
                 <p className="font-bold">Event Address</p>
@@ -80,7 +80,7 @@ function ShareIngredientComponent({
             </div>
 
             <div
-              className={`flex items-center justify-between p-2 border rounded-md ${selectedAddress === "office" ? "border-[#845cbd]" : "border-gray-300"} `}
+              className={`flex items-center justify-between p-2 border rounded-md ${selectedAddress === "office" ? "border-[var(--color-primary)]" : "border-gray-300"} `}
             >
               <div className="office-address-div">
                 <p className="font-bold">Godown / Office Address</p>
@@ -100,7 +100,7 @@ function ShareIngredientComponent({
 
             <div className="my-2 flex items-center justify-end">
               <button
-                className="p-2 bg-[#845CBD] text-white font-medium rounded-md cursor-pointer"
+                className="p-2 bg-[var(--color-primary)] text-white font-medium rounded-md cursor-pointer"
                 onClick={() =>
                   setShowCustomAddressInput(!showCustomAddressInput)
                 }
@@ -120,7 +120,7 @@ function ShareIngredientComponent({
                   className="overflow-hidden"
                 >
                   <div
-                    className={` p-2 border rounded-md ${selectedAddress === "custom" ? "border-[#845cbd]" : "border-gray-300"}`}
+                    className={` p-2 border rounded-md ${selectedAddress === "custom" ? "border-[var(--color-primary)]" : "border-gray-300"}`}
                   >
                     <label className="block text-black-700 font-medium">
                       New Address
@@ -130,7 +130,7 @@ function ShareIngredientComponent({
                         <Input
                           type="text"
                           placeholder="Enter new address"
-                          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] mt-1"
+                          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] mt-1"
                           value={customAddress}
                           onChange={(e) => setCustomAddress(e.target.value)}
                         />
@@ -158,7 +158,7 @@ function ShareIngredientComponent({
               minDate={new Date()}
               dateFormat="dd/MM/yyyy"
               onChange={(date) => setSelectedDate(date)}
-              className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
             />
           </div>
 
@@ -169,7 +169,7 @@ function ShareIngredientComponent({
               labelClass="pb-1 font-bold"
               type="text"
               placeholder={"Please Enter Delivery Time"}
-              className={`w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]`}
+              className={`w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]`}
               value={deliveryTime}
               onChange={(e) => setDeliveryTime(e.target.value)}
             />
@@ -203,8 +203,8 @@ function ShareIngredientComponent({
                       onClick={() => setSelectedVendor(vendor)}
                       className={`cursor-pointer p-3 border-2 rounded-lg transition-all ${
                         isSelected
-                          ? "border-[#845CBD] bg-purple-50 shadow-md"
-                          : "border-gray-200 hover:border-[#845CBD] hover:bg-purple-50"
+                          ? "border-[var(--color-primary)] bg-purple-50 shadow-md"
+                          : "border-gray-200 hover:border-[var(--color-primary)] hover:bg-purple-50"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -226,7 +226,7 @@ function ShareIngredientComponent({
                         {isSelected && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-[#845CBD] flex-shrink-0 mt-0.5"
+                            className="h-5 w-5 text-[var(--color-primary)] flex-shrink-0 mt-0.5"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                           >
@@ -248,7 +248,7 @@ function ShareIngredientComponent({
                 labelClass="text-sm text-gray-500 pb-1"
                 type="text"
                 placeholder="Type vendor name..."
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
                 value={vendorName}
                 onChange={(e) => setVendorName(e.target.value)}
               />
@@ -259,7 +259,7 @@ function ShareIngredientComponent({
               labelClass=""
               type="text"
               placeholder="Please Enter Vendor Name"
-              className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+              className="w-full p-2 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
               value={vendorName}
               onChange={(e) => setVendorName(e.target.value)}
             />
@@ -290,7 +290,7 @@ function ShareIngredientComponent({
                     isGodownSource && isFromGodown
                       ? "border-green-200 bg-green-50"
                       : isChecked
-                        ? "border-[#845cbd] bg-purple-50"
+                        ? "border-[var(--color-primary)] bg-purple-50"
                         : "border-gray-300"
                   }`}
                 >
@@ -316,8 +316,8 @@ function ShareIngredientComponent({
                         onClick={() => handleSourceChange(itemKey, "vendor")}
                         className={`px-3 py-1 text-xs font-semibold rounded-full border transition-all ${
                           !isGodownSource
-                            ? "bg-[#845CBD] text-white border-[#845CBD]"
-                            : "bg-white text-gray-500 border-gray-300 hover:border-[#845CBD] hover:text-[#845CBD]"
+                            ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                            : "bg-white text-gray-500 border-gray-300 hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
                         }`}
                       >
                         🛒 Vendor
@@ -373,7 +373,7 @@ function ShareIngredientComponent({
                                 </span>
                               )}
                               {isVendorAssigned && (
-                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#845CBD] bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--color-primary)] bg-purple-50 border border-purple-200 px-2 py-0.5 rounded-full">
                                   🛒 Vendor: {vendorCoverage} {unit}
                                 </span>
                               )}
@@ -387,7 +387,7 @@ function ShareIngredientComponent({
                       })()}
                       {item.vendor && (
                         <p
-                          className={`text-xs mt-0.5 font-bold ${item.vendor.id === "godown" ? "text-green-600" : "text-[#845CBD]"}`}
+                          className={`text-xs mt-0.5 font-bold ${item.vendor.id === "godown" ? "text-green-600" : "text-[var(--color-primary)]"}`}
                         >
                           {item.vendor.id === "godown"
                             ? "🏭 From Godown"
@@ -397,7 +397,7 @@ function ShareIngredientComponent({
                     </div>
                     <input
                       type="checkbox"
-                      className="w-4 h-4 accent-[#845CBD] cursor-pointer ml-3 flex-shrink-0"
+                      className="w-4 h-4 accent-[var(--color-primary)] cursor-pointer ml-3 flex-shrink-0"
                       checked={isChecked}
                       onChange={() =>
                         handleCheckboxChange(
@@ -420,7 +420,7 @@ function ShareIngredientComponent({
       <div className="flex items-center justify-center">
         <button
           type="button"
-          className="p-2 bg-[#845CBD] text-white font-medium rounded-md cursor-pointer"
+          className="p-2 bg-[var(--color-primary)] text-white font-medium rounded-md cursor-pointer"
           onClick={handleSubmit}
         >
           {mode === "assign" ? "Assign Vendor" : "Generate Share PDF"}

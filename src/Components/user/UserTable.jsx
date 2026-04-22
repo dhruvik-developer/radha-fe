@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaTrash } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
-import BaseImage from "../common/BaseImage";
 
 function UsersTable({ users, onUserEdit, onUserDelete }) {
   return (
@@ -39,13 +38,13 @@ function UsersTable({ users, onUserEdit, onUserDelete }) {
                 {/* Main Action */}
                 <td className="border border-gray-300 px-4 py-2 text-center min-w-[160px]">
                   <div className="flex flex-wrap items-center justify-center gap-2">
-                    <BaseImage
-                      src="/edit.png"
-                      alt="icon"
-                      className="w-5 cursor-pointer"
+                    <button
                       title="Edit Password"
+                      className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-purple-100 transition-colors"
                       onClick={() => onUserEdit(user.id)}
-                    />
+                    >
+                      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    </button>
 
                     <button
                       onClick={() => onUserDelete(user.id)}

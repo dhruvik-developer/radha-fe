@@ -46,7 +46,7 @@ function AddEditVendorComponent({
 
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2.5 rounded-xl bg-[#f4effc]">
-          <FiTruck className="text-[#845cbd]" size={22} />
+          <FiTruck className="text-[var(--color-primary)]" size={22} />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">
@@ -66,7 +66,7 @@ function AddEditVendorComponent({
             placeholder="Enter vendor name"
             name="name"
             value={form.name}
-            className={`w-full p-2.5 border ${errors.name ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all`}
+            className={`w-full p-2.5 border ${errors.name ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
             onChange={onInputChange}
           />
           {errors.name ? (
@@ -81,7 +81,7 @@ function AddEditVendorComponent({
             placeholder="Enter mobile number"
             name="mobile_no"
             value={form.mobile_no}
-            className={`w-full p-2.5 border ${errors.mobile_no ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all`}
+            className={`w-full p-2.5 border ${errors.mobile_no ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
             onChange={onInputChange}
           />
           {errors.mobile_no ? (
@@ -97,7 +97,7 @@ function AddEditVendorComponent({
             onChange={onInputChange}
             placeholder="Enter vendor address"
             rows={3}
-            className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all resize-none mt-1"
+            className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all resize-none mt-1"
           />
         </div>
 
@@ -119,7 +119,7 @@ function AddEditVendorComponent({
                 disabled={hasExistingLogin}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#845cbd]/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#845cbd]" />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[var(--color-primary)]/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary)]" />
               <span className="ml-2 text-sm text-gray-600">
                 {form.login_enabled ? "Enabled" : "Disabled"}
               </span>
@@ -142,7 +142,7 @@ function AddEditVendorComponent({
                   placeholder="Enter login username"
                   name="login_username"
                   value={form.login_username}
-                  className={`w-full p-2.5 border ${errors.login_username ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all`}
+                  className={`w-full p-2.5 border ${errors.login_username ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
                 />
                 {errors.login_username ? (
@@ -163,7 +163,7 @@ function AddEditVendorComponent({
                   }
                   name="login_password"
                   value={form.login_password}
-                  className={`w-full p-2.5 border ${errors.login_password ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all`}
+                  className={`w-full p-2.5 border ${errors.login_password ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
                 />
                 {errors.login_password ? (
@@ -180,7 +180,7 @@ function AddEditVendorComponent({
                   placeholder="vendor@example.com"
                   name="login_email"
                   value={form.login_email}
-                  className={`w-full p-2.5 border ${errors.login_email ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all`}
+                  className={`w-full p-2.5 border ${errors.login_email ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
                 />
                 {errors.login_email ? (
@@ -207,7 +207,7 @@ function AddEditVendorComponent({
               onChange={onInputChange}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[#845cbd]/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#845cbd]" />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-[var(--color-primary)]/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--color-primary)]" />
             <span className="ml-2 text-sm text-gray-600">
               {form.is_active ? "Active" : "Inactive"}
             </span>
@@ -226,7 +226,7 @@ function AddEditVendorComponent({
               <button
                 type="button"
                 onClick={handleAddCategoryRow}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[#845cbd] bg-[#f4effc] rounded-lg hover:bg-[#e8ddf5] transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-[var(--color-primary)] bg-[#f4effc] rounded-lg hover:bg-[#e8ddf5] transition-colors cursor-pointer"
               >
                 <FiPlus size={14} /> Add Category
               </button>
@@ -252,7 +252,7 @@ function AddEditVendorComponent({
                     onChange={(e) =>
                       handleCategoryChange(index, e.target.value)
                     }
-                    className="flex-1 p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all bg-white"
+                    className="flex-1 p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all bg-white"
                   >
                     <option value="">Select Category</option>
                     {availableCategories.map((category) => (
@@ -289,7 +289,7 @@ function AddEditVendorComponent({
         <div className="flex items-center justify-center pt-3">
           <button
             type="submit"
-            className="px-8 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[#845cbd]/20 transition-all active:scale-[0.98]"
+            className="px-8 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
           >
             {isEdit ? "Update Vendor" : "Save Vendor"}
           </button>

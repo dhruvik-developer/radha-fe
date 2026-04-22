@@ -31,7 +31,7 @@ function LoginComponent({
                 Username
               </label>
               <div
-                className={`flex items-center border rounded-md focus-within:border-[#845cbd] p-3 bg-gray-50 
+                className={`flex items-center border rounded-md focus-within:border-[var(--color-primary)] p-3 bg-gray-50 
                                                                         ${errors.username ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
               >
                 <input
@@ -55,7 +55,7 @@ function LoginComponent({
                 Password
               </label>
               <div
-                className={`flex items-center border rounded-md focus-within:border-[#845cbd] p-3 bg-gray-50 
+                className={`flex items-center border rounded-md focus-within:border-[var(--color-primary)] p-3 bg-gray-50 
                                                                         ${errors.password ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
               >
                 <input
@@ -82,7 +82,7 @@ function LoginComponent({
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#845cbd] text-white py-3 rounded-md font-semibold hover:bg-[#8a58d1] transition duration-300 outline-none cursor-pointer"
+              className="w-full bg-[var(--color-primary)] text-white py-3 rounded-md font-semibold hover:bg-[#8a58d1] transition duration-300 outline-none cursor-pointer"
             >
               Sign In
             </button>

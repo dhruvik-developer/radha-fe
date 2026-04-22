@@ -65,7 +65,7 @@ function Step3_Summary({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiClipboard className="text-[#845cbd]" size={20} />
+            <FiClipboard className="text-[var(--color-primary)]" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -128,7 +128,7 @@ function Step3_Summary({
             className="border-2 border-purple-100 rounded-xl overflow-hidden shadow-sm"
           >
             {/* Event Card Header */}
-            <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-5 py-3.5 flex items-center justify-between text-white">
+            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-5 py-3.5 flex items-center justify-between text-white">
               <div className="flex items-center gap-4">
                 <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center font-bold text-sm backdrop-blur-sm">
                   {cardIdx + 1}
@@ -154,7 +154,7 @@ function Step3_Summary({
               {/* ---- Info Row: Persons + Per Plate Price ---- */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                  <FiUsers className="text-[#845cbd]" size={18} />
+                  <FiUsers className="text-[var(--color-primary)]" size={18} />
                   <div>
                     <p className="text-[10px] text-gray-400 uppercase font-bold">
                       Persons
@@ -181,7 +181,7 @@ function Step3_Summary({
                       )
                     }
                     autoComplete="off"
-                    className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:border-[#845cbd] focus:ring-2 focus:ring-[#845cbd]/20 transition-all font-semibold text-lg ${
+                    className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all font-semibold text-lg ${
                       errors[`platePrice_${event.dIdx}_${event.sIdx}`]
                         ? "border-red-500"
                         : "border-purple-200"
@@ -210,10 +210,10 @@ function Step3_Summary({
                       )
                     }
                     autoComplete="off"
-                    className={`w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-[#845cbd] transition-all ${
+                    className={`w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-[var(--color-primary)] transition-all ${
                       errors[`event_address_${event.dIdx}_${event.sIdx}`]
                         ? "border-red-500 focus:ring-red-200"
-                        : "border-gray-300 focus:ring-[#845cbd]/20"
+                        : "border-gray-300 focus:ring-[var(--color-primary)]/20"
                     }`}
                   />
                   {errors[`event_address_${event.dIdx}_${event.sIdx}`] && (
@@ -255,7 +255,7 @@ function Step3_Summary({
                               className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
                                 isZeroPrice
                                   ? "bg-red-100 text-red-500"
-                                  : "bg-[#845cbd]/10 text-[#845cbd]"
+                                  : "bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
                               }`}
                             >
                               <FiFileText size={10} />
@@ -552,7 +552,7 @@ function Step3_Summary({
           <textarea
             name="description"
             placeholder="Notes for the entire event..."
-            className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] min-h-[100px] transition-all"
+            className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] min-h-[100px] transition-all"
             onChange={handleChange}
             value={formData.description}
           />
@@ -562,7 +562,7 @@ function Step3_Summary({
             <input
               type="checkbox"
               name="rule"
-              className="w-5 h-5 accent-[#845cbd] cursor-pointer"
+              className="w-5 h-5 accent-[var(--color-primary)] cursor-pointer"
               checked={formData.rule}
               onChange={(e) =>
                 handleChange({
@@ -596,7 +596,7 @@ function Step3_Summary({
             }}
             className={`px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2 transition-all border ${
               showRules
-                ? "bg-[#845cbd] text-white border-[#845cbd] shadow-lg shadow-[#845cbd]/20"
+                ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-lg shadow-[var(--color-primary)]/20"
                 : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
             }`}
           >
@@ -610,7 +610,7 @@ function Step3_Summary({
             }}
             className={`px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2 transition-all border ${
               showSuggestions
-                ? "bg-[#845cbd] text-white border-[#845cbd] shadow-lg shadow-[#845cbd]/20"
+                ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-lg shadow-[var(--color-primary)]/20"
                 : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
             }`}
           >
@@ -706,7 +706,7 @@ function Step3_Summary({
           <button
             type="button"
             onClick={handleSubmit}
-            className="px-10 py-3.5 font-bold text-lg text-white bg-gradient-to-r from-[#845cbd] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-xl shadow-[#845cbd]/30 transition-all active:scale-[0.98] flex items-center gap-2"
+            className="px-10 py-3.5 font-bold text-lg text-white bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] hover:from-[#7350a8] hover:to-[#5e33a0] rounded-xl shadow-xl shadow-[var(--color-primary)]/30 transition-all active:scale-[0.98] flex items-center gap-2"
           >
             <FiSend size={18} /> Review & Generate PDF
           </button>

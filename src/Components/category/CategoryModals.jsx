@@ -14,11 +14,14 @@ import { FaTimes } from "react-icons/fa";
 import Input from "../common/formInputs/Input";
 import Dropdown from "../common/formDropDown/DropDown";
 import toast from "react-hot-toast";
-import { createCategory, createItem } from "../../apis/PostCategory";
-import { getCategory } from "../../apis/FetchCategory";
-import { getItem } from "../../apis/FetchItem";
-import { getIngredientItems } from "../../apis/FetchIngredient";
-import { addRecipe } from "../../apis/PostRecipe";
+import {
+  useCreateCategoryMutation,
+  useCreateMenuItemMutation,
+} from "../../hooks/useCategoryMutations";
+import { useCreateRecipeMutation } from "../../hooks/useRecipeMutations";
+import { useCategories } from "../../hooks/useCategories";
+import { useBranchItems } from "../../hooks/useBranchItems";
+import { useIngredientItems } from "../../hooks/useIngredientItems";
 
 // ==================== MODAL WRAPPER ====================
 const ModalWrapper = ({ isOpen, onClose, children }) => {
@@ -50,6 +53,7 @@ const ModalWrapper = ({ isOpen, onClose, children }) => {
 export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
   const [categoryName, setCategoryName] = useState("");
   const [saving, setSaving] = useState(false);
+  const createCategoryMutation = useCreateCategoryMutation();
 
   useEffect(() => {
     if (isOpen) setCategoryName("");
@@ -71,7 +75,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
       .join(" ");
 
     setSaving(true);
-    const response = await createCategory(formattedName);
+    const response = await createCategoryMutation.mutateAsync(formattedName);
     setSaving(false);
     if (response) {
       onSuccess?.();
@@ -85,7 +89,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiFolder className="text-white" size={20} />
             </div>
             <div>
@@ -114,7 +118,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
               placeholder="Please Enter Category Name"
               name="name"
               value={categoryName}
-              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all"
+              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
               onChange={(e) => setCategoryName(e.target.value)}
             />
           </div>
@@ -129,7 +133,7 @@ export const AddCategoryModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Category"}
             </button>
@@ -146,8 +150,9 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
   const [category, setCategory] = useState("");
   const [baseCost, setBaseCost] = useState("");
   const [selectionRate, setSelectionRate] = useState("");
-  const [categories, setCategories] = useState([]);
   const [saving, setSaving] = useState(false);
+  const createItemMutation = useCreateMenuItemMutation();
+  const { data: categories = [] } = useCategories({}, { enabled: isOpen });
 
   useEffect(() => {
     if (isOpen) {
@@ -155,17 +160,8 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
       setCategory(initialCategory || "");
       setBaseCost("");
       setSelectionRate("");
-      const fetchCategories = async () => {
-        try {
-          const response = await getCategory();
-          if (response.data.status) setCategories(response.data.data);
-        } catch (error) {
-          console.error("API Error:", error);
-        }
-      };
-      fetchCategories();
     }
-  }, [isOpen]);
+  }, [initialCategory, isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -209,12 +205,12 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
     }
 
     setSaving(true);
-    const response = await createItem(
-      formattedName,
+    const response = await createItemMutation.mutateAsync({
+      itemName: formattedName,
       category,
-      Number(baseCost) || 0,
-      Number(selectionRate) || 0
-    );
+      base_cost: Number(baseCost) || 0,
+      selection_rate: Number(selectionRate) || 0,
+    });
     setSaving(false);
     if (response) {
       onSuccess?.();
@@ -228,7 +224,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiTag className="text-white" size={20} />
             </div>
             <div>
@@ -258,7 +254,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
               placeholder="Please Enter Item Name"
               name="name"
               value={itemName}
-              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all"
+              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
               onChange={(e) => setItemName(e.target.value)}
             />
           </div>
@@ -331,7 +327,7 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Item"}
             </button>
@@ -344,50 +340,24 @@ export const AddItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) =>
 
 // ==================== ADD INGREDIENT (RECIPE) MODAL ====================
 export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
-  const [items, setItems] = useState([]);
-  const [ingredientItems, setIngredientItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [personCount, setPersonCount] = useState(100);
   const [ingredients, setIngredients] = useState([
     { ingredient: null, quantity: "", unit: "g" },
   ]);
   const [saving, setSaving] = useState(false);
+  const createRecipeMutation = useCreateRecipeMutation();
+  const { data: items = [] } = useBranchItems({}, { enabled: isOpen });
+  const { data: ingredientItems = [] } = useIngredientItems(
+    {},
+    { enabled: isOpen }
+  );
 
   useEffect(() => {
     if (isOpen) {
       setSelectedItem(null);
       setPersonCount(100);
       setIngredients([{ ingredient: null, quantity: "", unit: "g" }]);
-
-      const fetchData = async () => {
-        try {
-          const [itemsResponse, ingredientsResponse] = await Promise.all([
-            getItem(),
-            getIngredientItems(),
-          ]);
-
-          const itemsData =
-            Array.isArray(itemsResponse?.data)
-              ? itemsResponse.data
-              : Array.isArray(itemsResponse?.data?.data)
-              ? itemsResponse.data.data
-              : [];
-
-          const ingredientData =
-            Array.isArray(ingredientsResponse?.data)
-              ? ingredientsResponse.data
-              : Array.isArray(ingredientsResponse?.data?.data)
-              ? ingredientsResponse.data.data
-              : [];
-
-          setItems(itemsData);
-          setIngredientItems(ingredientData);
-        } catch (error) {
-          console.error("API Error:", error);
-        }
-      };
-
-      fetchData();
     }
   }, [isOpen]);
 
@@ -434,7 +404,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
 
     try {
       const calls = validIngredients.map((ing) =>
-        addRecipe({
+        createRecipeMutation.mutateAsync({
           item: selectedItem,
           ingredient: ing.ingredient,
           quantity: ing.quantity,
@@ -467,7 +437,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[#f4effc] to-white">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#845cbd] shadow-sm">
+            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
               <FiBookOpen className="text-white" size={20} />
             </div>
             <div>
@@ -504,7 +474,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
               onChange={(e) => setPersonCount(parseInt(e.target.value) || 0)}
               min="1"
               placeholder="Enter Person Count (e.g., 100)"
-              className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd] bg-gray-50/50 transition-all"
+              className="w-full sm:w-48 px-4 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)] bg-gray-50/50 transition-all"
             />
           </div>
 
@@ -584,7 +554,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
                           )
                         }
                         placeholder="Qty"
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd]"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)]"
                       />
 
                       <input
@@ -594,7 +564,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
                           handleIngredientChange(index, "unit", e.target.value)
                         }
                         placeholder="Unit"
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/40 focus:border-[#845cbd]"
+                        className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 focus:border-[var(--color-primary)]"
                       />
 
                       {!isLastEmptyRow ? (
@@ -633,7 +603,7 @@ export const AddIngredientModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               onClick={handleSubmit}
               disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#845cbd] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:bg-[#7350a8] transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {saving ? "Saving..." : "Save Ingredient"}
             </button>

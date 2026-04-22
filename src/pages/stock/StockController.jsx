@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import StockComponent from "./StockComponent";
-import { getStockCategory } from "../../apis/FetchStockCategory";
+import { getStockCategory } from "../../api/FetchStockCategory";
 import {
   addStockCategory,
   addStockItem,
   decreaseStockItem,
   increaseStockItem,
-} from "../../apis/PostStock";
+} from "../../api/PostStock";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
@@ -102,7 +102,7 @@ function StockController() {
       inputPlaceholder: "Please Enter Category Name",
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",
@@ -121,6 +121,7 @@ function StockController() {
       const response = await addStockCategory(name);
       if (response) {
         fetchStockCategories();
+        window.dispatchEvent(new Event("stockDataChanged"));
         Swal.close();
       }
     }
@@ -151,7 +152,7 @@ function StockController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         popup: "custom-popup",
@@ -230,6 +231,7 @@ function StockController() {
       const response = await addStockItem(formValues);
       if (response) {
         fetchStockCategories();
+        window.dispatchEvent(new Event("stockDataChanged"));
       }
     }
   };
@@ -241,7 +243,10 @@ function StockController() {
       apiEndpoint: "/stoke-categories",
       name: "stock category",
       successMessage: "Category deleted successfully!",
-      onSuccess: fetchStockCategories,
+      onSuccess: () => {
+        fetchStockCategories();
+        window.dispatchEvent(new Event("stockDataChanged"));
+      },
     });
   };
 
@@ -252,7 +257,10 @@ function StockController() {
       apiEndpoint: "/stoke-items",
       name: "stock item",
       successMessage: "Item deleted successfully!",
-      onSuccess: fetchStockCategories,
+      onSuccess: () => {
+        fetchStockCategories();
+        window.dispatchEvent(new Event("stockDataChanged"));
+      },
     });
   };
 
@@ -269,7 +277,7 @@ function StockController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         popup: "custom-popup",
@@ -318,6 +326,7 @@ function StockController() {
       const response = await increaseStockItem(formValues);
       if (response) {
         fetchStockCategories();
+        window.dispatchEvent(new Event("stockDataChanged"));
       }
     }
   };
@@ -335,7 +344,7 @@ function StockController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         popup: "custom-popup",
@@ -384,6 +393,7 @@ function StockController() {
       const response = await decreaseStockItem(formValues);
       if (response) {
         fetchStockCategories();
+        window.dispatchEvent(new Event("stockDataChanged"));
       }
     }
   };

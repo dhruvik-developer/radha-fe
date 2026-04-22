@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AddIngredientComponent from "./AddIngredientComponent";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
-import { getItem } from "../../../apis/FetchItem";
-import { getIngredientItems } from "../../../apis/FetchIngredient";
-import { addRecipe } from "../../../apis/PostRecipe";
+import { useBranchItems } from "../../../hooks/useBranchItems";
+import { useIngredientItems } from "../../../hooks/useIngredientItems";
+import { useCreateRecipeMutation } from "../../../hooks/useRecipeMutations";
 
 function AddIngredientController() {
-  const [items, setItems] = useState([]);
-  const [ingredientItems, setIngredientItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [ingredients, setIngredients] = useState([
     { ingredient: null, quantity: "", unit: "g" },
@@ -18,47 +16,21 @@ function AddIngredientController() {
   const location = useLocation();
 
   const predefinedItem = location.state?.predefinedItem;
+  const createRecipeMutation = useCreateRecipeMutation();
+  const { data: items = [] } = useBranchItems();
+  const { data: ingredientItems = [] } = useIngredientItems();
+
+  const predefinedItemId = useMemo(() => {
+    if (!predefinedItem) return null;
+    const match = items.find((i) => i.name?.trim() === predefinedItem.trim());
+    return match?.id || null;
+  }, [items, predefinedItem]);
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const [itemsResponse, ingredientItemsResponse] = await Promise.all([
-          getItem(),
-          getIngredientItems(),
-        ]);
-
-        const itemsData =
-          Array.isArray(itemsResponse?.data)
-            ? itemsResponse.data
-            : Array.isArray(itemsResponse?.data?.data)
-            ? itemsResponse.data.data
-            : [];
-
-        const ingredientItemsData =
-          Array.isArray(ingredientItemsResponse?.data)
-            ? ingredientItemsResponse.data
-            : Array.isArray(ingredientItemsResponse?.data?.data)
-            ? ingredientItemsResponse.data.data
-            : [];
-
-        setItems(itemsData);
-        setIngredientItems(ingredientItemsData);
-
-        if (predefinedItem) {
-          const match = itemsData.find(
-            (i) => i.name?.trim() === predefinedItem.trim()
-          );
-          if (match) {
-            setSelectedItem(match.id);
-          }
-        }
-      } catch (error) {
-        toast.error("Error fetching items");
-        console.error("API Error:", error);
-      }
-    };
-    fetchItems();
-  }, [predefinedItem]);
+    if (predefinedItemId) {
+      setSelectedItem(predefinedItemId);
+    }
+  }, [predefinedItemId]);
 
   const handleIngredientChange = (index, field, value) => {
     setIngredients((prev) => {
@@ -104,7 +76,7 @@ function AddIngredientController() {
     try {
       await Promise.all(
         validIngredients.map((ing) =>
-          addRecipe({
+          createRecipeMutation.mutateAsync({
             item: selectedItem,
             ingredient: ing.ingredient,
             quantity: ing.quantity,

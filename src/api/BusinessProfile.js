@@ -1,9 +1,23 @@
 import toast from "react-hot-toast";
 import ApiInstance from "../services/ApiInstance";
 
+const toMultipartFormData = (payload = {}) => {
+  const formData = new FormData();
+
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    formData.append(key, value);
+  });
+
+  return formData;
+};
+
 export const createBusinessProfile = async (payload) => {
   try {
-    const response = await ApiInstance.post("/business-profiles/", payload);
+    const response = await ApiInstance.post(
+      "/business-profiles/",
+      toMultipartFormData(payload)
+    );
     return response.data;
   } catch (error) {
     toast.error("Error creating business profile");
@@ -15,7 +29,7 @@ export const updateBusinessProfile = async (id, payload) => {
   try {
     const response = await ApiInstance.put(
       `/business-profiles/${id}/`,
-      payload
+      toMultipartFormData(payload)
     );
     return response.data;
   } catch (error) {

@@ -1,6 +1,7 @@
 const TOKEN_STORAGE_KEY = "accessToken";
 const USERNAME_STORAGE_KEY = "username";
 const USER_TYPE_STORAGE_KEY = "userType";
+const PERMISSIONS_STORAGE_KEY = "permissions";
 export const USER_ROLE_ADMIN = "admin";
 
 let accessToken =
@@ -18,6 +19,16 @@ const tokenService = {
     typeof window !== "undefined"
       ? window.localStorage.getItem(USER_TYPE_STORAGE_KEY)
       : null,
+  getPermissions: () => {
+    if (typeof window === "undefined") return [];
+    const permissions = window.localStorage.getItem(PERMISSIONS_STORAGE_KEY);
+    try {
+      return permissions ? JSON.parse(permissions) : [];
+    } catch (e) {
+      console.error("Error parsing permissions from localStorage", e);
+      return [];
+    }
+  },
   setToken: (token) => {
     accessToken = token;
 
@@ -50,6 +61,19 @@ const tokenService = {
 
     window.localStorage.removeItem(USER_TYPE_STORAGE_KEY);
   },
+  setPermissions: (permissions) => {
+    if (typeof window === "undefined") return;
+
+    if (permissions && Array.isArray(permissions)) {
+      window.localStorage.setItem(
+        PERMISSIONS_STORAGE_KEY,
+        JSON.stringify(permissions)
+      );
+      return;
+    }
+
+    window.localStorage.removeItem(PERMISSIONS_STORAGE_KEY);
+  },
   clearAuth: () => {
     accessToken = null;
 
@@ -58,6 +82,7 @@ const tokenService = {
     window.localStorage.removeItem(TOKEN_STORAGE_KEY);
     window.localStorage.removeItem(USERNAME_STORAGE_KEY);
     window.localStorage.removeItem(USER_TYPE_STORAGE_KEY);
+    window.localStorage.removeItem(PERMISSIONS_STORAGE_KEY);
   },
 };
 

@@ -2,16 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import DishComponent from "./DishComponent";
-import { getCategory } from "../../apis/FetchCategory";
-import { getWaiterTypes } from "../../apis/EventStaffApis";
-import { createEventBooking } from "../../apis/PostEventBooking";
+import { getWaiterTypes } from "../../api/EventStaffApis";
+import { createEventBooking } from "../../api/PostEventBooking";
+import { useCategories } from "../../hooks/useCategories";
 
 function DishContoller() {
   const navigate = useNavigate();
-  const [dishesList, setDishesList] = useState([]);
   const [waiterTypes, setWaiterTypes] = useState([]);
-  const [isDishesLoading, setIsDishesLoading] = useState(false);
   const [isLoadingWaiterTypes, setIsLoadingWaiterTypes] = useState(false);
+  const { data: dishesList = [], isLoading: isDishesLoading } = useCategories();
   const getTomorrow = () => {
     const date = new Date();
     date.setDate(date.getDate() + 1);
@@ -48,7 +47,6 @@ function DishContoller() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    fetchDishes();
     fetchWaiterTypes();
   }, []);
 
@@ -66,20 +64,6 @@ function DishContoller() {
       console.error("Error fetching waiter types:", error);
     } finally {
       setIsLoadingWaiterTypes(false);
-    }
-  };
-
-  const fetchDishes = async () => {
-    setIsDishesLoading(true);
-    try {
-      const response = await getCategory();
-      if (response?.data?.data) {
-        setDishesList(response.data.data);
-      }
-    } catch (error) {
-      console.error("Error fetching dishes:", error);
-    } finally {
-      setIsDishesLoading(false);
     }
   };
 
@@ -647,7 +631,7 @@ function DishContoller() {
           html: `<p class="text-sm mt-2 font-bold text-gray-800">The per plate price is below the minimum margin. Do you still want to place this order?</p>`,
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#845cbd",
+          confirmButtonColor: "var(--color-primary)",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, Proceed anyway",
         }).then((result) => {

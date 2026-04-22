@@ -2,90 +2,91 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Dish01Icon,
-  Invoice02Icon,
   MenuRestaurantIcon,
   MoneyReceiveSquareIcon,
   Note03Icon,
-  NoteEditIcon,
   StickyNote02Icon,
   TaskAdd01Icon,
   TransactionHistoryIcon,
 } from "@hugeicons/core-free-icons";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import BaseImage from "../common/BaseImage";
-import { FiUsers, FiFileText } from "react-icons/fi";
+import { FiUsers } from "react-icons/fi";
+import usePermissions from "../../hooks/usePermissions";
+import { getAllBusinessProfiles } from "../../api/BusinessProfile";
 
 const menuItems = [
   {
     name: "Create Dish",
     path: "/dish",
-    icon: <HugeiconsIcon icon={Dish01Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={Dish01Icon} size={24} color="var(--color-primary)" />,
+    requiredPermission: "dishes.view",
   },
   {
     name: "Category",
     path: "/category",
-    icon: <HugeiconsIcon icon={MenuRestaurantIcon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={MenuRestaurantIcon} size={24} color="var(--color-primary)" />,
+    requiredPermission: "categories.view",
   },
   {
-    name: "Quotation",
-    path: "/quotation",
-    icon: <HugeiconsIcon icon={NoteEditIcon} size={24} color="#845cbd" />,
-  },
-  {
-    name: "All Order",
-    path: "/all-order",
-    icon: <HugeiconsIcon icon={Note03Icon} size={24} color="#845cbd" />,
-  },
-  {
-    name: "Invoice",
-    path: "/invoice",
-    icon: <HugeiconsIcon icon={Invoice02Icon} size={24} color="#845cbd" />,
+    name: "Order Management",
+    path: "/order-management",
+    icon: <HugeiconsIcon icon={Note03Icon} size={24} color="var(--color-primary)" />,
+    requiredPermission: [
+      "quotations.view",
+      "event_bookings.view",
+      "invoices.view",
+      "event_summary.view",
+    ],
   },
   {
     name: "Stock",
     path: "/stock",
-    icon: <HugeiconsIcon icon={StickyNote02Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={StickyNote02Icon} size={24} color="var(--color-primary)" />,
+    requiredPermission: "stock.view",
   },
   {
     name: "Payment History",
     path: "/payment-history",
     icon: (
-      <HugeiconsIcon icon={TransactionHistoryIcon} size={24} color="#845cbd" />
+      <HugeiconsIcon icon={TransactionHistoryIcon} size={24} color="var(--color-primary)" />
     ),
+    requiredPermission: "payments.view",
   },
   {
     name: "Expense",
     path: "/expense",
     icon: (
-      <HugeiconsIcon icon={MoneyReceiveSquareIcon} size={24} color="#845cbd" />
+      <HugeiconsIcon icon={MoneyReceiveSquareIcon} size={24} color="var(--color-primary)" />
     ),
+    requiredPermission: "expenses.view",
   },
   {
     name: "Create Ingredient",
     path: "/create-recipe-ingredient",
-    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary)" />,
+    requiredPermission: "ingredients.view",
   },
   {
     name: "People",
     path: "/people",
-    icon: <FiUsers size={24} color="#845cbd" />,
-  },
-  {
-    name: "Event Summary",
-    path: "/event-summary",
-    icon: <FiFileText size={24} color="#845cbd" />,
+    icon: <FiUsers size={24} color="var(--color-primary)" />,
+    requiredPermission: ["vendors.view", "eventstaff.view"],
   },
   {
     name: "Ground Checklist",
     path: "/ground-checklist",
-    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="#845cbd" />,
+    icon: <HugeiconsIcon icon={TaskAdd01Icon} size={24} color="var(--color-primary)" />,
+    requiredPermission: "ground.view",
   },
 ];
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const sidebarRef = useRef(null);
   const location = useLocation();
+  const { hasPermission } = usePermissions();
+  const [businessLogo, setBusinessLogo] = useState("");
+  const [isLogoLoading, setIsLogoLoading] = useState(true);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -98,6 +99,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [setSidebarOpen]);
+
+  useEffect(() => {
+    const fetchBusinessLogo = async () => {
+      try {
+        const response = await getAllBusinessProfiles();
+        const profileList = Array.isArray(response?.data)
+          ? response.data
+          : response?.data
+            ? [response.data]
+            : [];
+
+        if (profileList.length > 0) {
+          setBusinessLogo(profileList[0]?.logo || "");
+        } else {
+          setBusinessLogo("");
+        }
+      } catch (error) {
+        console.error("Failed to load business logo:", error);
+        setBusinessLogo("");
+      } finally {
+        setIsLogoLoading(false);
+      }
+    };
+
+    fetchBusinessLogo();
+  }, []);
 
   // Open sidebar when mouse is within 15px of the left edge
   useEffect(() => {
@@ -127,9 +154,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       "/create-ingredient",
       "/edit-ingredient",
     ],
-    "/quotation": ["/quotation", "/quotation-pdf/"],
-    "/all-order": [
+    "/order-management": [
+      "/order-management",
+      "/quotation",
       "/all-order",
+      "/invoice",
+      "/order-management/quotation",
+      "/order-management/all-order",
+      "/order-management/invoice",
+      "/order-management/event-summary",
+      "/quotation-pdf/",
       "/order-pdf/",
       "/share-order-pdf",
       "/view-ingredient",
@@ -138,8 +172,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       "/share-full-ingredient-pdf",
       "/share-outsourced",
       "/share-outsourced-pdf",
+      "/invoice-order-pdf/",
+      "/invoice-bill-pdf/",
+      "/complete-invoice",
+      "/event-summary",
     ],
-    "/invoice": ["/invoice", "/invoice-order-pdf/", "/complete-invoice"],
     "/user": ["/user", "/add-rule"],
     "/people": [
       "/people",
@@ -157,7 +194,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       "/create-recipe-ingredient",
       "/add-ingredient-item",
     ],
-    "/event-summary": ["/event-summary"],
     "/ground-checklist": ["/ground-checklist", "/ground-categories", "/ground-items"],
   };
 
@@ -186,27 +222,54 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-5 flex justify-center">
-          <BaseImage src="/logo1.png" alt="Logo" className="h-20" />
+        <div className="p-5 flex flex-col items-center gap-2">
+          {isLogoLoading ? (
+            <div className="h-20 w-40 rounded-lg bg-gray-100 animate-pulse" />
+          ) : businessLogo ? (
+            <img
+              src={businessLogo}
+              alt="Business Logo"
+              className="h-20 max-w-[180px] object-contain"
+              onError={() => setBusinessLogo("")}
+            />
+          ) : (
+            <>
+              <p className="text-[11px] text-center text-gray-500 leading-4">
+                Set your business profile logo in Settings tab.
+              </p>
+              <Link
+                to="/settings"
+                className="text-xs font-semibold text-[var(--color-primary)] hover:underline"
+                onClick={handleItemClick}
+              >
+                Go to Settings
+              </Link>
+            </>
+          )}
         </div>
         <ul className="space-y-4 text-black p-4">
           {menuItems.map((item, index) => {
+            if (item.requiredPermission && !hasPermission(item.requiredPermission)) {
+              return null;
+            }
+            const parentActive = isMenuItemActive(item.path);
+
             return (
               <li key={index} className="space-y-1">
                 <div
                   className={`group flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
-                    isMenuItemActive(item.path) 
-                        ? "bg-[#845cbd] text-white shadow-lg shadow-[#845cbd]/20" 
+                    parentActive
+                        ? "bg-[var(--color-primary)] text-white shadow-lg shadow-[var(--color-primary)]/20" 
                         : "hover:bg-gray-100 text-gray-600"
                   }`}
                 >
-                  <Link 
+                  <Link
                     to={item.path}
                     className="flex items-center space-x-4 flex-1"
                     onClick={handleItemClick}
                   >
                     <div className={`p-2 rounded-xl transition-colors bg-white  ${
-                      isMenuItemActive(item.path) ? "" : "shadow-sm"
+                      parentActive ? "" : "shadow-sm"
                     }`}>
                       {item.icon}
                     </div>

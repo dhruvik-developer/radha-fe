@@ -52,7 +52,7 @@ const IngredientTable = ({
                 onClick={() => setActiveCategoryId(category.id)}
                 className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? "bg-gradient-to-r from-purple-50 to-white border-[#845cbd] shadow-md ring-1 ring-[#845cbd]/20"
+                    ? "bg-gradient-to-r from-purple-50 to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
                     : "bg-white border-gray-200 hover:border-purple-300 hover:shadow-sm"
                 }`}
               >
@@ -60,7 +60,7 @@ const IngredientTable = ({
                   <div
                     className={`w-10 h-10 flex-shrink-0 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm transition-colors ${
                       isActive
-                        ? "bg-[#845cbd] text-white"
+                        ? "bg-[var(--color-primary)] text-white"
                         : "bg-gray-100 text-gray-500"
                     }`}
                   >
@@ -68,7 +68,7 @@ const IngredientTable = ({
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span
-                      className={`font-bold text-[15px] truncate ${isActive ? "text-[#845cbd]" : "text-gray-800"}`}
+                      className={`font-bold text-[15px] truncate ${isActive ? "text-[var(--color-primary)]" : "text-gray-800"}`}
                       title={category.name}
                     >
                       {category.name}
@@ -103,7 +103,7 @@ const IngredientTable = ({
         <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-              <FiGrid className="text-[#845cbd]" />
+              <FiGrid className="text-[var(--color-primary)]" />
               {activeCategory?.name}
             </h3>
             <p className="text-sm text-gray-500 mt-1 font-medium">
@@ -132,7 +132,7 @@ const IngredientTable = ({
               placeholder="Search ingredients..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd]/50 focus:border-[#845cbd] w-full sm:w-64 transition-all"
+              className="bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 focus:border-[var(--color-primary)] w-full sm:w-64 transition-all"
             />
           </div>
         </div>
@@ -148,9 +148,9 @@ const IngredientTable = ({
                 >
                   <div className="flex items-center gap-3 min-w-0 pr-2">
                     <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0">
-                      <FiTag className="text-[#845cbd]" size={14} />
+                      <FiTag className="text-[var(--color-primary)]" size={14} />
                     </div>
-                    <span className="text-[14px] font-bold text-gray-800 truncate group-hover:text-[#845cbd] transition-colors">
+                    <span className="text-[14px] font-bold text-gray-800 truncate group-hover:text-[var(--color-primary)] transition-colors">
                       {sub.name}
                     </span>
                   </div>

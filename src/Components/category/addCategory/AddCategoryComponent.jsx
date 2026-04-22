@@ -20,7 +20,7 @@ function AddCategoryComponent({
 
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2.5 rounded-xl bg-[#f4effc]">
-          <FiFolder className="text-[#845cbd]" size={22} />
+          <FiFolder className="text-[var(--color-primary)]" size={22} />
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">Create Category</h2>
@@ -39,7 +39,7 @@ function AddCategoryComponent({
             placeholder="Please Enter Category Name"
             name="name"
             value={categoryName}
-            className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all"
+            className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
             onChange={(e) => setCategoryName(e.target.value)}
           />
         </div>
@@ -48,7 +48,7 @@ function AddCategoryComponent({
         <div className="flex items-center justify-center pt-3">
           <button
             type="submit"
-            className="px-8 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[#845cbd]/20 transition-all active:scale-[0.98]"
+            className="px-8 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
           >
             Save Category
           </button>

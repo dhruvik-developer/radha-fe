@@ -170,14 +170,14 @@ export default function DishTagModal({
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 print:hidden sm:flex">
           <h2 className="text-xl font-bold tracking-tight text-gray-800">
             Customize Dish Tags –{" "}
-            <span className="text-[#845cbd]">
+            <span className="text-[var(--color-primary)]">
               {session.event_time || "Session"}
             </span>
           </h2>
           <div className="flex items-center gap-3">
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 px-4 py-2 bg-[#845cbd] text-white rounded-lg hover:bg-purple-700 transition"
+              className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-purple-700 transition"
             >
               <span className="font-semibold text-sm">
                 Print Tags ({allDishes.length})
@@ -278,7 +278,7 @@ export default function DishTagModal({
                     {["left", "center", "right"].map((align) => (
                       <button
                         key={align}
-                        className={`flex-1 py-2 text-xs font-medium capitalize ${settings.textAlign === align ? "bg-[#845cbd] text-white" : "text-gray-600 hover:bg-gray-50"}`}
+                        className={`flex-1 py-2 text-xs font-medium capitalize ${settings.textAlign === align ? "bg-[var(--color-primary)] text-white" : "text-gray-600 hover:bg-gray-50"}`}
                         onClick={() =>
                           setSettings((s) => ({ ...s, textAlign: align }))
                         }
@@ -335,7 +335,7 @@ export default function DishTagModal({
                     value={settings.borderWidth}
                     onChange={handleChange}
                     className="flex-1"
-                    style={{ accentColor: "#845cbd" }}
+                    style={{ accentColor: "var(--color-primary)" }}
                   />
                   <span className="text-xs text-gray-500 w-8">
                     {settings.borderWidth}px
@@ -368,7 +368,7 @@ export default function DishTagModal({
                     name="showCaterer"
                     checked={settings.showCaterer}
                     onChange={handleChange}
-                    className="rounded text-[#845cbd] focus:ring-[#845cbd]"
+                    className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
                   />
                   <span className="text-sm text-gray-700">
                     Show Caterer Name
@@ -394,13 +394,13 @@ export default function DishTagModal({
             <div className="sticky top-0 z-10 flex items-center justify-center gap-2 py-3 bg-gray-200/90 backdrop-blur-sm border-b border-gray-300">
               <button
                 onClick={() => setViewMode("layout")}
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition ${viewMode === "layout" ? "bg-[#845cbd] text-white shadow-md" : "bg-white text-gray-600 border border-gray-300"}`}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition ${viewMode === "layout" ? "bg-[var(--color-primary)] text-white shadow-md" : "bg-white text-gray-600 border border-gray-300"}`}
               >
                 <FiLayout size={13} /> Layout Editor
               </button>
               <button
                 onClick={() => setViewMode("preview")}
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition ${viewMode === "preview" ? "bg-[#845cbd] text-white shadow-md" : "bg-white text-gray-600 border border-gray-300"}`}
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition ${viewMode === "preview" ? "bg-[var(--color-primary)] text-white shadow-md" : "bg-white text-gray-600 border border-gray-300"}`}
               >
                 <FiGrid size={13} /> Preview ({allDishes.length})
               </button>
@@ -519,7 +519,7 @@ export default function DishTagModal({
           </button>
           <button
             onClick={handlePrint}
-            className="px-6 py-2 bg-[#845cbd] text-white font-bold rounded-lg"
+            className="px-6 py-2 bg-[var(--color-primary)] text-white font-bold rounded-lg"
           >
             Print Tags
           </button>

@@ -90,7 +90,7 @@ function PdfBillComponent({
           {/* Action Bar (Top) */}
           <div className="flex justify-end gap-3 mb-6 w-full max-w-4xl no-print-button">
             <button
-              className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[#845cbd] hover:border-[#845cbd]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
+              className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 border border-gray-200 rounded-xl shadow-md hover:bg-gray-50 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/30 focus:ring-4 focus:ring-purple-100 transition-all cursor-pointer group font-semibold text-sm"
               onClick={() => navigate(-1)}
               title="Back"
             >
@@ -126,7 +126,7 @@ function PdfBillComponent({
             </button>
 
             <button
-              className="flex items-center gap-2 px-6 py-3 bg-[#845cbd] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
+              className="flex items-center gap-2 px-6 py-3 bg-[var(--color-primary)] text-white rounded-xl shadow-md hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all cursor-pointer group font-semibold text-sm"
               onClick={downloadPDF}
               title="Download PDF"
             >
@@ -159,16 +159,16 @@ function PdfBillComponent({
               />
             </div>
             {/* Decorative Background Elements */}
-            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[#845cbd]/10 to-transparent blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-pink-500/5 to-transparent blur-3xl pointer-events-none"></div>
             {/* Top Accent Bar */}
-            <div className="relative h-2 w-full bg-gradient-to-r from-[#845cbd] via-purple-400 to-[#845cbd] z-10"></div>
+            <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-purple-400 to-[var(--color-primary)] z-10"></div>
             <div className="relative z-10">
               {/* Header Section */}
               <div className="px-10 pt-10 pb-6 flex flex-row items-center justify-between border-b 0 border-gray-100/80">
                 {/* Company Info */}
                 <div className="flex flex-col items-start w-2/3">
-                  <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#845cbd] to-purple-600 tracking-wide uppercase mb-1 drop-shadow-sm">
+                  <h2 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-purple-600 tracking-wide uppercase mb-1 drop-shadow-sm">
                     {businessProfile?.caters_name || "radha Sweet & Caterers"}
                   </h2>
                   <p className="text-sm text-gray-600 font-medium whitespace-nowrap">
@@ -216,8 +216,8 @@ function PdfBillComponent({
                 </div>
               </div>
 
-              <div className="px-10 py-2 bg-[#845cbd]/5 text-center border-b border-gray-200">
-                <h2 className="text-xl font-bold text-[#845cbd] tracking-[0.2em] uppercase">
+              <div className="px-10 py-2 bg-[var(--color-primary)]/5 text-center border-b border-gray-200">
+                <h2 className="text-xl font-bold text-[var(--color-primary)] tracking-[0.2em] uppercase">
                   Invoice / Bill
                 </h2>
               </div>
@@ -226,8 +226,8 @@ function PdfBillComponent({
               <div className="px-10 py-6">
                 <div className="flex justify-between items-end mb-4">
                   <div>
-                    <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-2 flex items-center gap-2">
-                      <span className="w-1.5 h-6 bg-[#845cbd] rounded-full inline-block"></span>
+                    <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <span className="w-1.5 h-6 bg-[var(--color-primary)] rounded-full inline-block"></span>
                       Billed To
                     </h3>
                     <div className="text-gray-800">
@@ -236,7 +236,7 @@ function PdfBillComponent({
                       </p>
                       <p className="text-sm text-gray-600 mt-1 flex items-center gap-2">
                         <svg
-                          className="w-4 h-4 text-[#845cbd]/70"
+                          className="w-4 h-4 text-[var(--color-primary)]/70"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -293,7 +293,7 @@ function PdfBillComponent({
                       >
                         <div className="grid grid-cols-12 text-sm font-medium text-gray-800 items-center">
                           <div className="col-span-5 p-4 text-left flex flex-col gap-1">
-                            <span className="text-xs text-[#845cbd] font-bold uppercase tracking-wide">
+                            <span className="text-xs text-[var(--color-primary)] font-bold uppercase tracking-wide">
                               {session.event_time
                                 ? session.event_time
                                 : `Session ${index + 1}`}
@@ -311,7 +311,7 @@ function PdfBillComponent({
                             </span>
                             {session?.estimated_persons || 0}
                           </div>
-                          <div className="col-span-4 p-4 text-right font-bold text-[#845cbd]">
+                          <div className="col-span-4 p-4 text-right font-bold text-[var(--color-primary)]">
                             ₹ {formatAmount(sessionDishTotal)}
                           </div>
                         </div>
@@ -332,7 +332,7 @@ function PdfBillComponent({
                                         key={cat}
                                         className="mb-1.5 last:mb-0"
                                       >
-                                        <span className="text-[10px] font-bold text-[#845cbd] uppercase tracking-widest">
+                                        <span className="text-[10px] font-bold text-[var(--color-primary)] uppercase tracking-widest">
                                           {cat}:
                                         </span>
                                         <span className="text-xs text-gray-600 ml-2 font-medium">
@@ -358,7 +358,7 @@ function PdfBillComponent({
                   {hasExtraService && (
                     <>
                       {/* Extra Services Header */}
-                      <div className="bg-purple-50/50 border-b border-purple-100 p-3 text-xs font-bold text-[#845cbd] uppercase tracking-wider text-center">
+                      <div className="bg-purple-50/50 border-b border-purple-100 p-3 text-xs font-bold text-[var(--color-primary)] uppercase tracking-wider text-center">
                         Extra Charges (Extra Services)
                       </div>
 
@@ -493,7 +493,7 @@ function PdfBillComponent({
                   <div className="col-span-8 p-4 pl-6">
                     Total Amount (Gross Total)
                   </div>
-                  <div className="col-span-4 p-4 pr-6 text-right text-[#845cbd] text-lg">
+                  <div className="col-span-4 p-4 pr-6 text-right text-[var(--color-primary)] text-lg">
                     ₹ {formatAmount(totalAmount)}
                   </div>
                 </div>
@@ -503,8 +503,8 @@ function PdfBillComponent({
               {pdfInvoice?.transactions &&
                 pdfInvoice.transactions.length > 0 && (
                   <div className="px-10 pb-6">
-                    <h3 className="text-sm font-bold text-[#845cbd] uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <span className="w-1.5 h-6 bg-[#845cbd] rounded-full inline-block"></span>
+                    <h3 className="text-sm font-bold text-[var(--color-primary)] uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <span className="w-1.5 h-6 bg-[var(--color-primary)] rounded-full inline-block"></span>
                       Payment History
                     </h3>
                     <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
@@ -524,7 +524,7 @@ function PdfBillComponent({
                               {txn.transaction_date}
                             </div>
                             <div className="p-3 flex flex-col gap-0.5">
-                              <span className="text-xs font-bold text-[#845cbd]">
+                              <span className="text-xs font-bold text-[var(--color-primary)]">
                                 {txn.transaction_type}
                               </span>
                               <span className="text-xs text-gray-500">
@@ -578,7 +578,7 @@ function PdfBillComponent({
 
                     <div className="flex justify-between items-center text-gray-800 pt-2 border-t border-gray-100">
                       <span className="font-bold">Total Amount:</span>
-                      <span className="font-bold text-[#845cbd]">
+                      <span className="font-bold text-[var(--color-primary)]">
                         ₹ {formatAmount(totalAmount)}
                       </span>
                     </div>
@@ -600,7 +600,7 @@ function PdfBillComponent({
                     )}
                   </div>
                   {/* Net Payable / Balance */}
-                  <div className="bg-[#845cbd] p-4 text-white flex justify-between items-center rounded-b-xl">
+                  <div className="bg-[var(--color-primary)] p-4 text-white flex justify-between items-center rounded-b-xl">
                     <span className="font-bold text-sm tracking-wider uppercase">
                       Pending Amount
                     </span>

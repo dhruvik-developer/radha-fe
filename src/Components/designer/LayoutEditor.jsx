@@ -88,7 +88,7 @@ export default function LayoutEditor({
     left: "0",
     fontSize: "8px",
     fontWeight: 700,
-    color: "#845cbd",
+    color: "var(--color-primary)",
     background: "rgba(255,255,255,0.9)",
     padding: "0 3px",
     borderRadius: "2px",
@@ -141,7 +141,7 @@ export default function LayoutEditor({
               textAlign: settings.textAlign,
               margin: 0,
             }}
-            whileHover={{ boxShadow: "0 0 0 2px #845cbd" }}
+            whileHover={{ boxShadow: "0 0 0 2px var(--color-primary)" }}
             whileTap={{ cursor: "grabbing" }}
           >
             <span style={labelStyle}>Session</span>
@@ -167,7 +167,7 @@ export default function LayoutEditor({
             wordBreak: "break-word",
             textAlign: settings.textAlign,
           }}
-          whileHover={{ boxShadow: "0 0 0 2px #845cbd" }}
+          whileHover={{ boxShadow: "0 0 0 2px var(--color-primary)" }}
           whileTap={{ cursor: "grabbing" }}
         >
           <span style={labelStyle}>Dish Name</span>
@@ -192,7 +192,7 @@ export default function LayoutEditor({
               textAlign: settings.textAlign,
               margin: 0,
             }}
-            whileHover={{ boxShadow: "0 0 0 2px #845cbd" }}
+            whileHover={{ boxShadow: "0 0 0 2px var(--color-primary)" }}
             whileTap={{ cursor: "grabbing" }}
           >
             <span style={labelStyle}>Caterer</span>
@@ -215,7 +215,7 @@ export default function LayoutEditor({
               top: 0,
               left: 0,
             }}
-            whileHover={{ boxShadow: "0 0 0 2px #845cbd" }}
+            whileHover={{ boxShadow: "0 0 0 2px var(--color-primary)" }}
             whileTap={{ cursor: "grabbing" }}
           >
             <span style={labelStyle}>Logo</span>

@@ -72,7 +72,7 @@ function ViewOrderDetailsComponent({
         <p className="text-xl font-medium text-gray-600">Order not found</p>
         <button
           onClick={handleBack}
-          className="mt-4 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#845cbd] hover:bg-[#724eb0] rounded-lg shadow-md transition-all duration-200"
+          className="mt-4 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] hover:bg-[#724eb0] rounded-lg shadow-md transition-all duration-200"
         >
           <FiArrowLeft size={16} /> Go Back
         </button>
@@ -119,7 +119,7 @@ function ViewOrderDetailsComponent({
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <button
             onClick={handleBack}
-            className="flex-shrink-0 p-2.5 rounded-xl bg-gray-100/80 hover:bg-white text-gray-600 hover:text-[#845cbd] border border-gray-200 shadow-sm transition-all cursor-pointer group"
+            className="flex-shrink-0 p-2.5 rounded-xl bg-gray-100/80 hover:bg-white text-gray-600 hover:text-[var(--color-primary)] border border-gray-200 shadow-sm transition-all cursor-pointer group"
           >
             <FiArrowLeft
               size={20}
@@ -151,7 +151,7 @@ function ViewOrderDetailsComponent({
 
           <button
             onClick={() => handleEditOrder(id)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-[#845cbd] hover:from-indigo-600 hover:to-[#724eb0] rounded-xl shadow-md transition-all duration-200 cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-[var(--color-primary)] hover:from-indigo-600 hover:to-[#724eb0] rounded-xl shadow-md transition-all duration-200 cursor-pointer"
             title="Edit entire order (all sessions)"
           >
             <FiEdit2 size={16} /> Edit Complete Order
@@ -161,12 +161,12 @@ function ViewOrderDetailsComponent({
 
       {/* Customer Details Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 mb-8 overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-2 h-full bg-[#845cbd]"></div>
+        <div className="absolute top-0 left-0 w-2 h-full bg-[var(--color-primary)]"></div>
         <div className="px-6 py-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Name & Ref */}
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[#845cbd] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <FiUsers /> Customer
               </span>
               <span className="text-lg font-bold text-gray-800">
@@ -181,7 +181,7 @@ function ViewOrderDetailsComponent({
 
             {/* Phone */}
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[#845cbd] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <FiPhone /> Mobile No
               </span>
               <span className="text-base font-semibold text-gray-700">
@@ -191,7 +191,7 @@ function ViewOrderDetailsComponent({
 
             {/* Total Dates */}
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[#845cbd] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <FiCalendar /> Event Dates
               </span>
               <span className="text-base font-medium text-gray-700">
@@ -201,7 +201,7 @@ function ViewOrderDetailsComponent({
 
             {/* Totals Summary */}
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[#845cbd] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <FiDollarSign /> Advance Paid
               </span>
               <span className="text-2xl font-black text-gray-800">
@@ -213,7 +213,7 @@ function ViewOrderDetailsComponent({
           {/* Address Line (if present) */}
           {event_address && (
             <div className="mt-5 pt-4 border-t border-gray-100 flex flex-col">
-              <span className="text-xs font-semibold text-[#845cbd] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                 <FiMapPin /> Event Address
               </span>
               <span className="text-base font-medium text-gray-700 max-w-3xl">
@@ -260,7 +260,7 @@ function ViewOrderDetailsComponent({
               {/* Session Header */}
               <div className="bg-gradient-to-r from-[#f4effc] to-white border-b border-gray-100 px-5 py-3 flex justify-between items-center text-gray-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-white">
+                  <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-white">
                     S{index + 1}
                   </div>
                   <div>
@@ -275,7 +275,7 @@ function ViewOrderDetailsComponent({
 
                 <div className="flex items-center gap-2">
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-500 bg-white border border-gray-200 hover:text-[#845cbd] hover:border-[#845cbd] hover:bg-indigo-50 rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-500 bg-white border border-gray-200 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-indigo-50 rounded-lg transition-colors cursor-pointer"
                     onClick={() => handleEditSession(id, index)}
                     title={`Edit ${session.event_time || `Session ${index + 1}`}`}
                   >
@@ -283,7 +283,7 @@ function ViewOrderDetailsComponent({
                     <span className="hidden sm:inline">Edit</span>
                   </button>
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#845cbd] bg-indigo-50 border border-indigo-100 hover:bg-[#845cbd] hover:text-white rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[var(--color-primary)] bg-indigo-50 border border-indigo-100 hover:bg-[var(--color-primary)] hover:text-white rounded-lg transition-colors cursor-pointer"
                     onClick={() =>
                       handleAssignStaff(id, session.id, session.event_time)
                     }
@@ -475,7 +475,7 @@ function ViewOrderDetailsComponent({
                             className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-indigo-100 bg-indigo-50 hover:bg-indigo-100 hover:border-indigo-200 cursor-pointer" : "border-gray-100 bg-gray-50"}`}
                           >
                             <div className="flex items-center justify-between gap-4">
-                              <span className="font-bold text-[#845cbd]">
+                              <span className="font-bold text-[var(--color-primary)]">
                                 {staff.name}
                               </span>
                               <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded text-gray-600 border border-gray-200">

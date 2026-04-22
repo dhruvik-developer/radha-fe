@@ -15,7 +15,7 @@ export const addUser = async (payload) => {
 
 export const updateUserPassword = async (id, data) => {
   try {
-    const response = await ApiInstance.post(`/change-password/${id}/`, data);
+    const response = await ApiInstance.post(`/user/change-password/${id}/`, data);
     ensureSuccessfulResponse(response, "Failed to change password");
     return response.data;
   } catch (error) {

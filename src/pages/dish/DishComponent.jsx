@@ -61,7 +61,7 @@ function DishComponent({
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
       {/* ============ STEPPER HEADER ============ */}
-      <div className="bg-gradient-to-r from-[#845cbd] to-[#6a3faf] px-4 sm:px-6 py-4 sm:py-5 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide">
+      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[#6a3faf] px-4 sm:px-6 py-4 sm:py-5 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide">
         <div className="flex items-center justify-between max-w-2xl mx-auto min-w-[320px]">
           {STEPS.map((step, index) => {
             const StepIcon = step.icon;
@@ -81,7 +81,7 @@ function DishComponent({
                       isCompleted
                         ? "bg-green-400 text-white shadow-lg shadow-green-400/30 cursor-pointer hover:bg-green-500"
                         : isActive
-                          ? "bg-white text-[#845cbd] shadow-lg shadow-white/30 scale-110"
+                          ? "bg-white text-[var(--color-primary)] shadow-lg shadow-white/30 scale-110"
                           : "bg-white/20 text-white/60"
                     }`}
                   >

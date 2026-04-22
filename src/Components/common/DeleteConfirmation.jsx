@@ -1,6 +1,14 @@
 import Swal from "sweetalert2";
 import { toast } from "react-hot-toast";
-import ApiInstance from "../../services/ApiInstance";
+import { executeConfirmationRequest } from "../../api/requestActions";
+import { queryClient } from "../../lib/queryClient";
+
+const QUERY_KEY_BY_ENDPOINT = {
+  "/categories": ["categories"],
+  "/items": ["categories"],
+  "/vendors": ["vendors"],
+  "/recipes": ["recipes"],
+};
 
 const DeleteConfirmation = async ({
   id,
@@ -10,6 +18,7 @@ const DeleteConfirmation = async ({
   onSuccess,
   method = "DELETE",
   payload = {},
+  executeRequest,
 }) => {
   const result = await Swal.fire({
     title: `Are you sure you want to delete this ${name}?`,
@@ -23,16 +32,21 @@ const DeleteConfirmation = async ({
 
   if (result.isConfirmed) {
     try {
-      let response;
+      const finalResponse = executeRequest
+        ? await executeRequest({ apiEndpoint, id, method, payload })
+        : await executeConfirmationRequest({
+            apiEndpoint,
+            id,
+            method,
+            payload,
+          });
 
-      if (method === "DELETE") {
-        response = await ApiInstance.delete(`${apiEndpoint}/${id}/`);
-      } else if (method === "POST") {
-        response = await ApiInstance.post(`${apiEndpoint}/${id}/`, payload);
-      }
-
-      if (response.data.status) {
+      if (finalResponse.data.status) {
         toast.success(successMessage);
+        const queryKey = QUERY_KEY_BY_ENDPOINT[apiEndpoint];
+        if (queryKey) {
+          queryClient.invalidateQueries({ queryKey });
+        }
         if (onSuccess) onSuccess();
       } else {
         toast.error(`Failed to delete ${name}`);

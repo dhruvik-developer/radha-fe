@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import ExpenseComponent from "./ExpenseComponent";
-import { getExpenses, getExpenseCategories } from "../../apis/FetchExpense";
+import { getExpenses, getExpenseCategories } from "../../api/FetchExpense";
 import {
   createExpense,
   updateExpense,
   createExpenseCategory,
   deleteExpense,
-} from "../../apis/PostExpense";
+} from "../../api/PostExpense";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
@@ -87,7 +87,7 @@ function ExpenseController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       didOpen: () => {
         // Enforce number-only input on amount
@@ -156,7 +156,7 @@ function ExpenseController() {
       focusConfirm: false,
       showCancelButton: true,
       confirmButtonText: "Update",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       didOpen: () => {
         const amountInput = document.getElementById("expense-amount");
@@ -222,7 +222,7 @@ function ExpenseController() {
       inputPlaceholder: "Please Enter Category Name",
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       customClass: {
         inputLabel: "custom-stock-input-label",

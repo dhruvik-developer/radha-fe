@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import {
   getAllAssignments,
   updateAssignment,
-} from "../../../apis/EventStaffApis";
+} from "../../../api/EventStaffApis";
 import EventSummaryComponent from "./EventSummaryComponent";
 
 function EventSummaryController() {
@@ -96,7 +96,7 @@ function EventSummaryController() {
       },
       showCancelButton: true,
       confirmButtonText: "Submit Payment",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonColor: "#d33",
       inputValidator: (value) => {
         if (!value) return "You need to enter an amount!";

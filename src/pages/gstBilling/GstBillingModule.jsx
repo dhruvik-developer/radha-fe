@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import useDropdownControl from "../../hooks/useDropdownControl";
 import Swal from "sweetalert2";
 import { exportToPDF } from "../../utils/pdfExport";
@@ -17,9 +17,14 @@ import {
   FiX,
   FiChevronDown
 } from "react-icons/fi";
-import { getItem, createItem, updateItem, deleteItem } from "../../apis/FetchItem";
 import Dropdown from "../../Components/common/formDropDown/DropDown";
 import toast from "react-hot-toast";
+import { useBranchItems } from "../../hooks/useBranchItems";
+import {
+  useCreateBranchItemMutation,
+  useDeleteBranchItemMutation,
+  useUpdateBranchItemMutation,
+} from "../../hooks/useBranchItemMutations";
 import {
   getBranchBills,
   getInvoiceSetup,
@@ -34,7 +39,7 @@ import {
   deletePartyInformation,
   getGlobalConfig,
   updateGlobalConfig,
-} from "../../apis/GstBillingApis";
+} from "../../api/GstBillingApis";
 
 const DEFAULT_SETTINGS = {
   defaultHsn: "996331",
@@ -372,6 +377,9 @@ const GstBillingModule = () => {
   const [historyLoading, setHistoryLoading] = useState(false);
 
   const [settingsLoading, setSettingsLoading] = useState(true);
+  const createBranchItemMutation = useCreateBranchItemMutation();
+  const updateBranchItemMutation = useUpdateBranchItemMutation();
+  const deleteBranchItemMutation = useDeleteBranchItemMutation();
 
   // Initialize with empty defaults — API data will populate
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
@@ -390,26 +398,15 @@ const GstBillingModule = () => {
     containerRef: partyDropdownRef,
   } = useDropdownControl();
   const [partySearchQuery, setPartySearchQuery] = useState("");
-  const [itemsManagementList, setItemsManagementList] = useState([]);
   const [itemsManagementBranch, setItemsManagementBranch] = useState("all");
-
-  useEffect(() => {
-    if (view === "settings") {
-      const fetchManagementItems = async () => {
-        try {
-          const params = itemsManagementBranch === "all" ? {} : { branch: itemsManagementBranch };
-          const response = await getItem(params);
-          const list = response?.data?.results || response?.data?.data || (Array.isArray(response?.data) ? response.data : []);
-          if (Array.isArray(list)) {
-            setItemsManagementList(list);
-          }
-        } catch (err) {
-          console.error("Failed initial items management fetch", err);
-        }
-      };
-      fetchManagementItems();
-    }
-  }, [view, itemsManagementBranch]);
+  const itemsManagementParams = useMemo(
+    () => (itemsManagementBranch === "all" ? {} : { branch: itemsManagementBranch }),
+    [itemsManagementBranch]
+  );
+  const {
+    data: itemsManagementList = [],
+    refetch: refetchItemsManagementList,
+  } = useBranchItems(itemsManagementParams, { enabled: view === "settings" });
 
   useEffect(() => {
     if (view !== "history") {
@@ -464,33 +461,21 @@ const GstBillingModule = () => {
   ).padStart(3, "0")}`;
 
   // Items for the selected branch
-  const [branchItems, setBranchItems] = useState([]);
-
-  useEffect(() => {
-    const fetchItemsForBranch = async () => {
-      if (!branchId) {
-        setBranchItems([]);
-        return;
-      }
-      try {
-        const response = await getItem({ branch: branchId });
-        const list = response?.data?.results || response?.data?.data || (Array.isArray(response?.data) ? response.data : []);
-        if (Array.isArray(list)) {
-          setBranchItems(list.map(itm => ({
-            id: itm.id || itm.pk,
-            name: itm.name,
-            rate: parseFloat(itm.rate) || 0
-          })));
-        } else {
-          setBranchItems([]);
-        }
-      } catch (err) {
-        console.error("Failed to fetch branch items", err);
-        setBranchItems([]);
-      }
-    };
-    fetchItemsForBranch();
-  }, [branchId]);
+  const {
+    data: branchItemsRaw = [],
+    refetch: refetchBranchItems,
+  } = useBranchItems(branchId ? { branch: branchId } : {}, {
+    enabled: Boolean(branchId),
+  });
+  const branchItems = useMemo(
+    () =>
+      branchItemsRaw.map((itm) => ({
+        id: itm.id || itm.pk,
+        name: itm.name,
+        rate: parseFloat(itm.rate) || 0,
+      })),
+    [branchItemsRaw]
+  );
 
   useEffect(() => {
     const fetchApiSettings = async () => {
@@ -1048,19 +1033,6 @@ const GstBillingModule = () => {
       }
     };
 
-    const fetchAllItemsManagement = async () => {
-      try {
-        const params = itemsManagementBranch === "all" ? {} : { branch: itemsManagementBranch };
-        const response = await getItem(params);
-        const list = response?.data?.results || response?.data?.data || (Array.isArray(response?.data) ? response.data : []);
-        if (Array.isArray(list)) {
-          setItemsManagementList(list);
-        }
-      } catch (err) {
-        console.error("Failed to fetch items for management", err);
-      }
-    };
-
     const handleEditItemClick = (item) => {
       setItemModalInfo({
         isOpen: true,
@@ -1096,18 +1068,15 @@ const GstBillingModule = () => {
 
       try {
         if (isNew) {
-          await createItem(payload);
+          await createBranchItemMutation.mutateAsync(payload);
         } else {
-          await updateItem(data.id, payload);
+          await updateBranchItemMutation.mutateAsync({ id: data.id, data: payload });
         }
-
-        await fetchAllItemsManagement();
+        await refetchItemsManagementList();
         // Also refresh the form items if the branch matches
         const bId = data.branch;
         if (String(bId) === String(branchId)) {
-          const response = await getItem({ branch: branchId });
-          const list = response?.data?.results || response?.data?.data || (Array.isArray(response?.data) ? response.data : []);
-          setBranchItems(list.map(itm => ({ id: itm.id || itm.pk, name: itm.name, rate: parseFloat(itm.rate) || 0 })));
+          await refetchBranchItems();
         }
 
         setItemModalInfo({ isOpen: false, isNew: false, data: null });
@@ -1128,14 +1097,12 @@ const GstBillingModule = () => {
 
       if (result.isConfirmed) {
         try {
-          await deleteItem(item.id || item.pk);
-          await fetchAllItemsManagement();
+          await deleteBranchItemMutation.mutateAsync(item.id || item.pk);
+          await refetchItemsManagementList();
           // Refresh form items if branch matches
           const bId = item.branch?.id || item.branch;
           if (String(bId) === String(branchId)) {
-            const response = await getItem({ branch: branchId });
-            const list = response?.data?.results || response?.data?.data || (Array.isArray(response?.data) ? response.data : []);
-            setBranchItems(list.map(itm => ({ id: itm.id || itm.pk, name: itm.name, rate: parseFloat(itm.rate) || 0 })));
+            await refetchBranchItems();
           }
         } catch (err) {
           console.error("Failed to delete item", err);

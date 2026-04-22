@@ -1,29 +1,37 @@
 import { Link, useLocation } from "react-router-dom";
-import { FiBriefcase, FiTruck, FiUsers } from "react-icons/fi";
+import { FiBriefcase, FiLock, FiTruck, FiUsers } from "react-icons/fi";
+import usePermissions from "../../hooks/usePermissions";
 
 const tabs = [
   {
     label: "Event Staff",
-    description: "Manage staff profiles, roles, and staffing rates.",
     icon: FiUsers,
     path: "/people/event-staff",
+    requiredPermission: "eventstaff.view",
   },
   {
     label: "Vendor",
-    description: "Track suppliers and category-wise vendor pricing.",
     icon: FiTruck,
     path: "/people/vendor",
+    requiredPermission: "vendors.view",
   },
   {
     label: "Waiter Types",
-    description: "Define waiter categories and per-person pricing.",
     icon: FiBriefcase,
     path: "/people/waiter-types",
+    requiredPermission: "eventstaff.view", // Waiters are part of eventstaff
+  },
+  {
+    label: "Permissions",
+    icon: FiLock,
+    path: "/people/permissions",
+    requiredPermission: "*", // Only superuser/admin can manage permissions
   },
 ];
 
 function PeopleTabs() {
   const location = useLocation();
+  const { hasPermission } = usePermissions();
 
   return (
     <div className="rounded-2xl border border-[#ede7f6] bg-white p-2 shadow-sm">
@@ -32,6 +40,9 @@ function PeopleTabs() {
         aria-label="People module sections"
       >
         {tabs.map((tab) => {
+          if (tab.requiredPermission && !hasPermission(tab.requiredPermission)) {
+            return null;
+          }
           const isActive = location.pathname.startsWith(tab.path);
           const Icon = tab.icon;
 
@@ -39,30 +50,23 @@ function PeopleTabs() {
             <Link
               key={tab.path}
               to={tab.path}
-              className={`group flex flex-1 items-start gap-3 rounded-2xl border px-4 py-3 transition-all duration-200 ${
+              className={`group flex flex-1 items-center gap-3 rounded-2xl border px-4 py-2.5 transition-all duration-200 ${
                 isActive
-                  ? "border-[#845cbd] bg-gradient-to-r from-[#845cbd] to-[#6f49a9] text-white shadow-lg shadow-[#845cbd]/15"
+                  ? "border-[var(--color-primary)] bg-gradient-to-r from-[var(--color-primary)] to-[#6f49a9] text-white shadow-lg shadow-[var(--color-primary)]/15"
                   : "border-transparent bg-transparent text-gray-600 hover:border-[#ede7f6] hover:bg-[#faf8fd]"
               }`}
             >
               <div
-                className={`mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-colors ${
+                className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl transition-colors ${
                   isActive
                     ? "bg-white/15 text-white"
-                    : "bg-[#f4effc] text-[#845cbd] group-hover:bg-white"
+                    : "bg-[#f4effc] text-[var(--color-primary)] group-hover:bg-white"
                 }`}
               >
-                <Icon size={20} />
+                <Icon size={18} />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-semibold sm:text-base">{tab.label}</p>
-                <p
-                  className={`mt-1 text-xs leading-5 sm:text-sm ${
-                    isActive ? "text-white/75" : "text-gray-400"
-                  }`}
-                >
-                  {tab.description}
-                </p>
               </div>
             </Link>
           );

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FiX } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { createGroundItem, updateGroundItem } from "../../../apis/GroundApis";
+import { createGroundItem, updateGroundItem } from "../../../api/GroundApis";
 
 // eslint-disable-next-line react/prop-types
 const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData = null }) => {
@@ -106,7 +106,7 @@ const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData =
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. Gas Cylinder"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                 required
               />
             </div>
@@ -120,7 +120,7 @@ const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData =
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all bg-white"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white"
                   required
                 >
                   <option value="" disabled>Select Category</option>
@@ -142,7 +142,7 @@ const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData =
                   value={formData.unit}
                   onChange={handleChange}
                   placeholder="e.g. Nos, Kg, Set"
-                  className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all"
+                  className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                   required
                 />
               </div>
@@ -158,7 +158,7 @@ const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData =
                 onChange={handleChange}
                 placeholder="Optional description"
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all resize-none"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all resize-none"
               />
             </div>
 
@@ -169,7 +169,7 @@ const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData =
                 name="is_active"
                 checked={formData.is_active}
                 onChange={handleChange}
-                className="w-4 h-4 text-[#845cbd] border-gray-300 rounded focus:ring-[#845cbd] cursor-pointer"
+                className="w-4 h-4 text-[var(--color-primary)] border-gray-300 rounded focus:ring-[var(--color-primary)] cursor-pointer"
               />
               <label
                 htmlFor="item_is_active"
@@ -191,7 +191,7 @@ const AddGroundItem = ({ isOpen, onClose, onSuccess, categories = [], editData =
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 text-sm font-medium text-white bg-[#845cbd] border border-transparent rounded-lg hover:bg-[#724eb0] transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-5 py-2 text-sm font-medium text-white bg-[var(--color-primary)] border border-transparent rounded-lg hover:bg-[#724eb0] transition-colors shadow-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {loading ? "Saving..." : isEditMode ? "Update Item" : "Save Item"}
             </button>

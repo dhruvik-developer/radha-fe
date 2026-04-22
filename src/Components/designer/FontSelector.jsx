@@ -173,7 +173,7 @@ export default function FontSelector({ value, onChange }) {
                   fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
-                  color: "#845cbd",
+                  color: "var(--color-primary)",
                   background: "#f9f5ff",
                   borderTop: "1px solid #f3e8ff",
                 }}
@@ -201,7 +201,7 @@ export default function FontSelector({ value, onChange }) {
                       padding: "8px 12px",
                       border: "none",
                       background: isSelected ? "#f5f0ff" : "transparent",
-                      color: isSelected ? "#845cbd" : "#1f2937",
+                      color: isSelected ? "var(--color-primary)" : "#1f2937",
                       fontSize: "14px",
                       fontFamily: cssVal,
                       cursor: "pointer",
@@ -218,7 +218,7 @@ export default function FontSelector({ value, onChange }) {
                       <span
                         style={{
                           float: "right",
-                          color: "#845cbd",
+                          color: "var(--color-primary)",
                           fontSize: "12px",
                         }}
                       >

@@ -3,7 +3,10 @@ import EditIngredientComponent from "./EditIngredientComponent";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import DeleteConfirmation from "../../common/DeleteConfirmation";
-import { updateRecipe } from "../../../apis/PutRecipe";
+import {
+  useUpdateRecipeMutation,
+} from "../../../hooks/useRecipeMutations";
+import useConfirmationMutation from "../../../hooks/useConfirmationMutation";
 
 function EditIngredientController() {
   const { id } = useParams();
@@ -37,6 +40,10 @@ function EditIngredientController() {
   const [personCount, setPersonCount] = useState(
     location.state?.person_count || 100
   );
+  const updateRecipeMutation = useUpdateRecipeMutation();
+  const deleteRecipeMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["recipes"]],
+  });
 
   // Handle ingredient field change with auto-add new row
   const handleIngredientChange = (index, field, value) => {
@@ -76,6 +83,7 @@ function EditIngredientController() {
       name: "item",
       successMessage: "Item deleted successfully!",
       onSuccess: () => navigate(-1),
+      executeRequest: deleteRecipeMutation.mutateAsync,
     });
   };
 
@@ -95,7 +103,11 @@ function EditIngredientController() {
       return;
     }
 
-    const response = await updateRecipe(id, ingredientsObj, personCount);
+    const response = await updateRecipeMutation.mutateAsync({
+      id,
+      recipeData: ingredientsObj,
+      personCount,
+    });
     if (response) {
       navigate(-1);
     }

@@ -1,51 +1,38 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
-import { getIngredientCategories } from "../../apis/FetchIngredient";
 import Swal from "sweetalert2";
-import { addIngredientCategory } from "../../apis/PostIngredient";
 import { useNavigate } from "react-router-dom";
 import CreateIngredientComponent from "./CreateIngredientComponent";
+import { useIngredientCategories } from "../../hooks/useIngredientCategories";
+import { useCreateIngredientCategoryMutation } from "../../hooks/useVendorMutations";
+import useConfirmationMutation from "../../hooks/useConfirmationMutation";
 
 function CreateIngredientController() {
   const [items, setItems] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const isFetched = useRef(false);
   const navigate = useNavigate();
+  const {
+    data: rawCategories = [],
+    isLoading: loading,
+    refetch: refetchIngredientCategories,
+  } = useIngredientCategories();
+  const createIngredientCategoryMutation = useCreateIngredientCategoryMutation();
+  const deleteIngredientItemMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["ingredient-categories"], ["ingredient-items"]],
+  });
+  const deleteIngredientCategoryMutation = useConfirmationMutation({
+    invalidateQueryKeys: [["ingredient-categories"], ["ingredient-items"]],
+  });
 
-  const fetchIngredientItems = async () => {
-    try {
-      const categoriesResponse = await getIngredientCategories();
-
-      const data = categoriesResponse?.data;
-      const categoriesData = Array.isArray(data)
-        ? data
-        : Array.isArray(data?.data)
-        ? data.data
-        : [];
-
-      setCategories(
-        categoriesData.map((category) => ({
-          ...category,
-          items: category.items || [],
-        }))
-      );
-    } catch (error) {
-      toast.error("Error fetching categories");
-      console.error("API Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!isFetched.current) {
-      fetchIngredientItems();
-      isFetched.current = true;
-    }
-  }, []);
+  const categories = useMemo(
+    () =>
+      rawCategories.map((category) => ({
+        ...category,
+        items: category.items || [],
+      })),
+    [rawCategories]
+  );
 
   // Handle Add Ingredient
   const handleAddCategory = async () => {
@@ -67,7 +54,7 @@ function CreateIngredientController() {
             `,
       showCancelButton: true,
       confirmButtonText: "Submit",
-      confirmButtonColor: "#845cbd",
+      confirmButtonColor: "var(--color-primary)",
       cancelButtonText: "Cancel",
       didOpen: () => {
         const checkbox = document.getElementById("swal-is-common");
@@ -75,7 +62,7 @@ function CreateIngredientController() {
         const thumb = document.getElementById("swal-toggle-thumb");
         checkbox.addEventListener("change", () => {
           if (checkbox.checked) {
-            track.style.backgroundColor = "#845cbd";
+            track.style.backgroundColor = "var(--color-primary)";
             thumb.style.transform = "translateX(22px)";
           } else {
             track.style.backgroundColor = "#ccc";
@@ -113,12 +100,12 @@ function CreateIngredientController() {
         return;
       }
 
-      const response = await addIngredientCategory(
-        formattedName,
-        formValues.isCommon
-      );
+      const response = await createIngredientCategoryMutation.mutateAsync({
+        name: formattedName,
+        isCommon: formValues.isCommon,
+      });
       if (response) {
-        fetchIngredientItems();
+        refetchIngredientCategories();
         Swal.close();
       }
     }
@@ -131,7 +118,8 @@ function CreateIngredientController() {
       apiEndpoint: "/ingredients-items",
       name: "ingredient item",
       successMessage: "Ingredient item deleted successfully!",
-      onSuccess: fetchIngredientItems,
+      onSuccess: refetchIngredientCategories,
+      executeRequest: deleteIngredientItemMutation.mutateAsync,
     });
   };
 
@@ -142,7 +130,8 @@ function CreateIngredientController() {
       apiEndpoint: "/ingredients-categories",
       name: "ingredient category",
       successMessage: "Ingredient category deleted successfully!",
-      onSuccess: fetchIngredientItems,
+      onSuccess: refetchIngredientCategories,
+      executeRequest: deleteIngredientCategoryMutation.mutateAsync,
     });
   };
 
@@ -155,7 +144,7 @@ function CreateIngredientController() {
       onIngredientDelete={handleDeleteIngredient}
       loading={loading}
       navigate={navigate}
-      onRefresh={fetchIngredientItems}
+      onRefresh={refetchIngredientCategories}
     />
   );
 }

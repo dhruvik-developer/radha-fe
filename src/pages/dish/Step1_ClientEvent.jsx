@@ -40,7 +40,7 @@ function Step1_ClientEvent({
       <div>
         <div className="flex items-center gap-3 mb-5">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <FiUser className="text-[#845cbd]" size={20} />
+            <FiUser className="text-[var(--color-primary)]" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-800">
@@ -59,7 +59,7 @@ function Step1_ClientEvent({
             placeholder={errors.name ? errors.name : "Enter client name"}
             name="name"
             value={formData.name}
-            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all ${errors.name ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
+            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all ${errors.name ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
             onChange={handleChange}
             error={errors.name}
           />
@@ -70,7 +70,7 @@ function Step1_ClientEvent({
             name="mobile_no"
             maxLength="10"
             value={formData.mobile_no}
-            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all ${errors.mobile_no ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
+            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all ${errors.mobile_no ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
             onChange={handleChange}
           />
           <div>
@@ -80,7 +80,7 @@ function Step1_ClientEvent({
             <DatePicker
               selected={formData.date}
               dateFormat="dd/MM/yyyy"
-              className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 bg-gray-50 focus:border-[#845cbd] transition-all"
+              className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 bg-gray-50 focus:border-[var(--color-primary)] transition-all"
               disabled
             />
           </div>
@@ -90,7 +90,7 @@ function Step1_ClientEvent({
             placeholder="Reference Name"
             name="reference"
             value={formData.reference}
-            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 focus:border-[#845cbd] transition-all ${errors.reference ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
+            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all ${errors.reference ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
             onChange={handleChange}
             error={errors.reference}
           />
@@ -138,7 +138,7 @@ function Step1_ClientEvent({
               {/* Day Header */}
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#845cbd] text-white flex items-center justify-center font-bold text-sm shadow-md">
+                  <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm shadow-md">
                     {dIdx + 1}
                   </div>
                   <div className="flex items-center gap-2">
@@ -149,7 +149,7 @@ function Step1_ClientEvent({
                       dateFormat="dd/MM/yyyy"
                       selected={day.event_date}
                       onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 p-2 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 font-semibold text-gray-700 bg-white"
+                      className="w-36 p-2 border border-purple-200 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-semibold text-gray-700 bg-white"
                     />
                   </div>
                 </div>
@@ -172,17 +172,17 @@ function Step1_ClientEvent({
                 {day.timeSlots.map((slot, sIdx) => (
                   <div
                     key={sIdx}
-                    className="p-4 bg-gradient-to-r from-[#f8f5fc] to-white border-2 border-[#845cbd]/20 rounded-xl shadow-md relative overflow-hidden"
+                    className="p-4 bg-gradient-to-r from-[#f8f5fc] to-white border-2 border-[var(--color-primary)]/20 rounded-xl shadow-md relative overflow-hidden"
                   >
                     {/* Highlighted left accent bar */}
-                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[#845cbd] to-[#6a3faf] rounded-l-xl" />
+                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[var(--color-primary)] to-[#6a3faf] rounded-l-xl" />
 
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 pl-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-[#845cbd]/10 flex items-center justify-center">
-                          <FiClock size={15} className="text-[#845cbd]" />
+                        <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center">
+                          <FiClock size={15} className="text-[var(--color-primary)]" />
                         </div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-[#845cbd]">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
                           Slot {sIdx + 1}
                         </span>
                       </div>
@@ -202,7 +202,7 @@ function Step1_ClientEvent({
                                 e.target.value
                               )
                             }
-                            className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 font-medium transition-all ${errors[`timeLabel_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[#845cbd]/25 focus:border-[#845cbd]"}`}
+                            className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-medium transition-all ${errors[`timeLabel_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[var(--color-primary)]/25 focus:border-[var(--color-primary)]"}`}
                           >
                             <option value="">Select Timing...</option>
                             {timeOptions.map((t) => {
@@ -249,7 +249,7 @@ function Step1_ClientEvent({
                                 e.target.value
                               )
                             }
-                            className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#845cbd]/30 font-medium transition-all ${errors[`persons_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[#845cbd]/25 focus:border-[#845cbd]"}`}
+                            className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-medium transition-all ${errors[`persons_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[var(--color-primary)]/25 focus:border-[var(--color-primary)]"}`}
                           />
                           {errors[`persons_${dIdx}_${sIdx}`] && (
                             <p className="text-red-500 text-[10px] mt-1 font-medium">
@@ -291,14 +291,14 @@ function Step1_ClientEvent({
         <button
           type="button"
           onClick={handleAddSchedule}
-          className="px-5 py-2.5 font-semibold text-[#845cbd] bg-purple-50 hover:bg-purple-100 rounded-xl flex items-center gap-2 transition-colors border border-purple-200 text-sm"
+          className="px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-purple-50 hover:bg-purple-100 rounded-xl flex items-center gap-2 transition-colors border border-purple-200 text-sm"
         >
           <FiPlus size={16} /> Add Event Date
         </button>
         <button
           type="button"
           onClick={onNext}
-          className="px-8 py-3 font-bold text-white bg-[#845cbd] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[#845cbd]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
+          className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:bg-[#7350a8] rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
         >
           Continue to Menu Selection <FiArrowRight size={18} />
         </button>

@@ -38,7 +38,7 @@ function EditIngredientComponent({
           onChange={(e) => setPersonCount(parseInt(e.target.value) || 0)}
           min="1"
           placeholder="Enter Person Count (e.g., 100)"
-          className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+          className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
         />
       </div>
 
@@ -50,7 +50,7 @@ function EditIngredientComponent({
             type="text"
             value={recipe.item.name}
             readOnly
-            className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+            className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
           />
           <button
             className="p-[10px] mt-[5px] border border-gray-300 text-red-500 text-xl rounded-md cursor-pointer"
@@ -92,7 +92,7 @@ function EditIngredientComponent({
                     handleIngredientChange(index, "name", e.target.value)
                   }
                   placeholder="Please Enter ingredient"
-                  className={`flex-1 p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] ${isLastEmptyRow ? "" : ""}`}
+                  className={`flex-1 p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] ${isLastEmptyRow ? "" : ""}`}
                 />
                 <input
                   type="text"
@@ -101,7 +101,7 @@ function EditIngredientComponent({
                     handleIngredientChange(index, "quantity", e.target.value)
                   }
                   placeholder="Qty (e.g. 100g)"
-                  className={`w-[120px] p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd] ${isFilledRow ? "bg-gray-50 text-[#845cbd] font-semibold" : ""}`}
+                  className={`w-[120px] p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] ${isFilledRow ? "bg-gray-50 text-[var(--color-primary)] font-semibold" : ""}`}
                 />
                 {/* Show delete button only for filled rows, not the last empty row */}
                 {!isLastEmptyRow ? (
@@ -124,7 +124,7 @@ function EditIngredientComponent({
       <div className="flex justify-center mt-4">
         <button
           onClick={handleSubmit}
-          className="bg-[#845cbd] text-white px-4 py-2 rounded-md font-semibold cursor-pointer"
+          className="bg-[var(--color-primary)] text-white px-4 py-2 rounded-md font-semibold cursor-pointer"
         >
           Submit
         </button>

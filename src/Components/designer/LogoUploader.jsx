@@ -40,7 +40,7 @@ const LOGO_COLORS = [
   {
     id: "purple",
     label: "Purple",
-    hex: "#845cbd",
+    hex: "var(--color-primary)",
     filter:
       "invert(38%) sepia(27%) saturate(1316%) hue-rotate(227deg) brightness(91%) contrast(89%)",
   },
@@ -149,7 +149,7 @@ export default function LogoUploader({ logo, onChange }) {
             transition: "border-color 0.15s",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#845cbd";
+            e.currentTarget.style.borderColor = "var(--color-primary)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = "#d1d5db";
@@ -231,7 +231,7 @@ export default function LogoUploader({ logo, onChange }) {
                   style={{
                     fontSize: "10px",
                     fontWeight: 600,
-                    color: "#845cbd",
+                    color: "var(--color-primary)",
                     cursor: "pointer",
                     textDecoration: "underline",
                   }}
@@ -314,7 +314,7 @@ export default function LogoUploader({ logo, onChange }) {
                 onChange={(e) =>
                   onChange({ ...logo, size: Number(e.target.value) })
                 }
-                style={{ flex: 1, accentColor: "#845cbd" }}
+                style={{ flex: 1, accentColor: "var(--color-primary)" }}
               />
               <button
                 type="button"
@@ -379,7 +379,7 @@ export default function LogoUploader({ logo, onChange }) {
                 onChange={(e) =>
                   onChange({ ...logo, opacity: Number(e.target.value) })
                 }
-                style={{ flex: 1, accentColor: "#845cbd" }}
+                style={{ flex: 1, accentColor: "var(--color-primary)" }}
               />
               <span
                 style={{
@@ -423,13 +423,13 @@ export default function LogoUploader({ logo, onChange }) {
                       height: "28px",
                       borderRadius: "6px",
                       border: isActive
-                        ? "2px solid #845cbd"
+                        ? "2px solid var(--color-primary)"
                         : "1.5px solid #d1d5db",
                       background:
                         c.hex ||
                         "conic-gradient(red, yellow, lime, aqua, blue, magenta, red)",
                       cursor: "pointer",
-                      outline: isActive ? "2px solid #845cbd" : "none",
+                      outline: isActive ? "2px solid var(--color-primary)" : "none",
                       outlineOffset: "1px",
                       transition: "all 0.1s",
                     }}

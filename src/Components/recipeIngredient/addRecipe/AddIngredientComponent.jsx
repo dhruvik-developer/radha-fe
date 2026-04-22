@@ -35,7 +35,7 @@ function AddIngredientComponent({
           </label>
           <input
             type="number"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
             placeholder="Enter Person Count (e.g., 100)"
             value={personCount}
             onChange={(e) => setPersonCount(parseInt(e.target.value) || 0)}
@@ -96,7 +96,7 @@ function AddIngredientComponent({
                     <input
                       type="number"
                       min="0"
-                      className="w-[90px] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+                      className="w-[90px] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
                       placeholder="Qty"
                       value={ingredient.quantity}
                       onChange={(e) =>
@@ -106,7 +106,7 @@ function AddIngredientComponent({
 
                     <input
                       type="text"
-                      className="w-[80px] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#845cbd] focus:border-[#845cbd]"
+                      className="w-[80px] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
                       placeholder="Unit"
                       value={ingredient.unit}
                       onChange={(e) =>
@@ -136,7 +136,7 @@ function AddIngredientComponent({
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="w-auto bg-[#845cbd] text-white p-2 rounded-md cursor-pointer"
+            className="w-auto bg-[var(--color-primary)] text-white p-2 rounded-md cursor-pointer"
           >
             Save Ingredient
           </button>

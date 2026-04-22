@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiFilter } from "react-icons/fi";
 import toast from "react-hot-toast";
 import Loader from "../../../Components/common/Loader";
-import { getGroundItems, getGroundCategories } from "../../../apis/GroundApis";
+import { getGroundItems, getGroundCategories } from "../../../api/GroundApis";
 import AddGroundItem from "./AddGroundItem";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { StickyNote02Icon } from "@hugeicons/core-free-icons";
@@ -77,7 +77,7 @@ const GroundItemMaster = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-[#f4effc]">
-            <HugeiconsIcon icon={StickyNote02Icon} size={22} color="#845cbd" className="text-[#845cbd]" />
+            <HugeiconsIcon icon={StickyNote02Icon} size={22} color="var(--color-primary)" className="text-[var(--color-primary)]" />
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Ground Items</h2>
@@ -89,7 +89,7 @@ const GroundItemMaster = () => {
         <div className="flex flex-wrap gap-2 w-full md:w-auto mt-2 md:mt-0">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2.5 bg-[#845cbd] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+            className="px-4 py-2.5 bg-[var(--color-primary)] hover:bg-[#7350a8] text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
           >
             + Add Item
           </button>
@@ -106,7 +106,7 @@ const GroundItemMaster = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               autoComplete="off"
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
             />
           </div>
 
@@ -115,7 +115,7 @@ const GroundItemMaster = () => {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#845cbd] focus:border-transparent transition-all bg-white"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white"
             >
               <option value="">All Categories</option>
               {categories.map((cat) => (
@@ -162,7 +162,7 @@ const GroundItemMaster = () => {
                     <td className="px-6 py-4 font-bold text-gray-900">
                       {item.name}
                     </td>
-                    <td className="px-6 py-4 font-medium text-[#845cbd]">
+                    <td className="px-6 py-4 font-medium text-[var(--color-primary)]">
                       {item.category_name || "—"}
                     </td>
                     <td className="px-6 py-4 text-gray-700">

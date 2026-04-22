@@ -1,32 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { getIngredientCategories } from "../../../apis/FetchIngredient";
 import AddIngredientItemComponent from "./AddIngredientItemComponent";
-import { addIngredientItem } from "../../../apis/PostIngredient";
+import { useIngredientCategories } from "../../../hooks/useIngredientCategories";
+import { useCreateIngredientItemMutation } from "../../../hooks/useVendorMutations";
 
 function AddIngredientItemController() {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
-  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchIngredientCategories = async () => {
-      try {
-        const response = await getIngredientCategories();
-        if (response.data.status) {
-          setCategories(response.data.data);
-        } else {
-          toast.error("Failed to fetch categories");
-        }
-      } catch (error) {
-        toast.error("Error fetching categories");
-        console.error("API Error:", error);
-      }
-    };
-    fetchIngredientCategories();
-  }, []);
+  const { data: categories = [] } = useIngredientCategories();
+  const createIngredientItemMutation = useCreateIngredientItemMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,7 +47,10 @@ function AddIngredientItemController() {
       return;
     }
 
-    const response = await addIngredientItem(formattedName, category);
+    const response = await createIngredientItemMutation.mutateAsync({
+      itemName: formattedName,
+      category,
+    });
     if (response) {
       navigate("/create-recipe-ingredient");
     }

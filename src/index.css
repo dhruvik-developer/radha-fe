@@ -17,6 +17,7 @@
 }
 
 :root {
+  --color-primary: #845cbd;
   --pdf-unicode-font-stack: "Noto Sans Gujarati PDF", "Noto Sans Devanagari PDF",
     sans-serif;
 }
@@ -58,7 +59,7 @@ body {
 }
 
 .custom-stock-swal-input:focus {
-  border-color: #845cbd !important;
+  border-color: var(--color-primary) !important;
 }
 
 .custom-stock-label {
@@ -93,7 +94,7 @@ select.custom-stock-input {
 }
 
 .custom-stock-input:focus {
-  border-color: #845cbd !important;
+  border-color: var(--color-primary) !important;
 }
 
 /* 2. ******* Print Preview page ******* */
@@ -182,7 +183,7 @@ select.custom-stock-input {
 
 /* Header */
 .react-datepicker__header {
-  background-color: #845cbd !important;
+  background-color: var(--color-primary) !important;
   border-top-left-radius: 0.6rem !important;
 }
 
@@ -230,7 +231,7 @@ select.custom-stock-input {
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range {
   border-radius: 50% !important;
-  background-color: #845cbd !important;
+  background-color: var(--color-primary) !important;
   color: #fff !important;
 }
 
@@ -239,7 +240,7 @@ select.custom-stock-input {
 .react-datepicker__quarter-text--keyboard-selected,
 .react-datepicker__year-text--keyboard-selected {
   border-radius: 50% !important;
-  background-color: #845cbd !important;
+  background-color: var(--color-primary) !important;
   color: #fff !important;
 }
 
@@ -271,7 +272,7 @@ select.custom-stock-input {
     
 .react-datepicker__header {
         text-align: center;
-        background-color: #845cbd !important;
+        background-color: var(--color-primary) !important;
         border-bottom: 1px solid #aeaeae;
         border-top-left-radius: 0.3rem;
         color: #fff !important;
@@ -288,7 +289,7 @@ select.custom-stock-input {
 .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, 
 .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
 	border-radius: 50% !important;
-	background-color: #845cbd !important;
+	background-color: var(--color-primary) !important;
 } */
 
 /* .datepicker-container {

@@ -33,7 +33,7 @@ function RoleDropdown({
           disabled={disabled}
           className={`appearance-none w-full px-4 py-3 rounded-xl border ${
             error ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"
-          } focus:bg-white focus:ring-2 focus:ring-[#845cbd]/20 focus:border-[#845cbd] transition-all outline-none disabled:cursor-not-allowed disabled:opacity-60`}
+          } focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none disabled:cursor-not-allowed disabled:opacity-60`}
         >
           <option value="" disabled>
             {hasRoles ? "-- Select a Role --" : "No roles found"}

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import { postLogin } from "../../apis/AuthApis";
+import { postLogin } from "../../api/AuthApis";
 import toast from "react-hot-toast";
 import LoginComponent from "./LoginComponent";
 import { USER_ROLE_ADMIN } from "../../services/tokenService";
@@ -46,20 +46,17 @@ function LoginController() {
     setLoading(true);
     try {
       const response = await postLogin(credentials);
-      const access = response?.data?.data?.tokens?.access;
-      const username = response?.data?.data?.username;
-      const userType = response?.data?.data?.user_type;
+      const loginData = response?.data?.data;
+      const access = loginData?.tokens?.access;
+      const username = loginData?.username;
+      const userType = loginData?.user_type;
+      const permissions = loginData?.permissions || [];
 
       if (!access || !username || !userType) {
         throw new Error("Invalid login response");
       }
 
-      if (userType !== USER_ROLE_ADMIN) {
-        logout();
-        throw new Error("Only admin users are allowed to log in.");
-      }
-
-      login(access, username, userType);
+      login(access, username, userType, permissions);
       toast.success(response?.data?.message || "Login successfully");
       navigate("/dish");
     } catch (error) {
