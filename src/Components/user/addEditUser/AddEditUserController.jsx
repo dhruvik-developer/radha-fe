@@ -17,7 +17,7 @@ function AddEditUserController() {
     email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
+
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function AddEditUserController() {
     }
   }, [mode, state]);
 
-  const togglePassword = () => setShowPassword((prev) => !prev);
+
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
@@ -115,10 +115,7 @@ function AddEditUserController() {
       navigate={navigate}
       mode={mode}
       form={form}
-      showPassword={showPassword}
-      setShowPassword={setShowPassword}
-      errors={errors}
-      onShowPassword={togglePassword}
+
       onInputChange={onInputChange}
       onSubmit={handleSubmit}
     />

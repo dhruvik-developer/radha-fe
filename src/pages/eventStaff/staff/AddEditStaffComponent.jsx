@@ -4,6 +4,7 @@ import { BiMoney } from "react-icons/bi";
 import Loader from "../../../Components/common/Loader";
 import RoleDropdown from "../../../Components/eventStaff/RoleDropdown";
 import AddRoleModal from "../../../Components/eventStaff/AddRoleModal";
+import Input from "../../../Components/common/formInputs/Input";
 
 function AddEditStaffComponent({
   mode,
@@ -233,6 +234,7 @@ function AddEditStaffComponent({
                         onChange={handleChange}
                         placeholder="e.g., ramesh_staff"
                         className={`w-full px-4 py-3 rounded-xl border ${errors.login_username ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
+                        autoComplete="none"
                       />
                       {errors.login_username ? (
                         <p className="text-red-500 text-xs font-medium pl-1">
@@ -241,14 +243,16 @@ function AddEditStaffComponent({
                       ) : null}
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        Login Password
-                        {!hasExistingLogin ? (
-                          <span className="text-red-500">*</span>
-                        ) : null}
-                      </label>
-                      <input
+                      <Input
+                        label={
+                          <span className="flex items-center gap-2">
+                            Login Password
+                            {!hasExistingLogin && (
+                              <span className="text-red-500">*</span>
+                            )}
+                          </span>
+                        }
+                        labelClass="text-sm font-semibold text-gray-700 mb-2"
                         type="password"
                         name="login_password"
                         value={formData.login_password}
@@ -259,13 +263,9 @@ function AddEditStaffComponent({
                             : "Minimum 4 characters"
                         }
                         className={`w-full px-4 py-3 rounded-xl border ${errors.login_password ? "border-red-500 bg-red-50" : "border-gray-200 bg-gray-50"} focus:bg-white focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all outline-none`}
+                        error={errors.login_password}
+                        autoComplete="new-password"
                       />
-                      {errors.login_password ? (
-                        <p className="text-red-500 text-xs font-medium pl-1">
-                          {errors.login_password}
-                        </p>
-                      ) : null}
-                    </div>
 
                     <div className="space-y-2 md:col-span-2">
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">

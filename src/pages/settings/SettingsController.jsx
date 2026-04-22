@@ -28,6 +28,14 @@ const isAllowedLogoFile = (file) => {
   return ALLOWED_LOGO_EXTENSIONS.some((ext) => lowerName.endsWith(ext));
 };
 
+const hardReloadPage = () => {
+  if (typeof window === "undefined") return;
+
+  const nextUrl = new URL(window.location.href);
+  nextUrl.searchParams.set("_refresh", Date.now().toString());
+  window.location.replace(nextUrl.toString());
+};
+
 function SettingsController() {
   const [loading, setLoading] = useState(false);
   const [profileId, setProfileId] = useState(null);
@@ -218,7 +226,9 @@ function SettingsController() {
         toast.success(response.message || "Profile saved successfully!");
         setOriginalData(savedFormData);
         setIsEditing(false);
-        fetchProfile();
+        setTimeout(() => {
+          hardReloadPage();
+        }, 250);
       } else {
         toast.error("Profile save response invalid. Please retry.");
       }

@@ -9,6 +9,8 @@ function LoginComponent({
   loading,
   showPassword,
   errors,
+  businessLogo,
+  isLogoLoading,
   onShowPassword,
   handleInputChange,
   handleSubmit,
@@ -20,7 +22,17 @@ function LoginComponent({
       ) : (
         <div className="bg-white p-10 rounded-lg shadow-lg w-96 min-h-[500px] flex flex-col justify-center">
           <div className="flex justify-center mb-4">
-            <BaseImage src="/logo1.png" alt="Logo" className="h-20" />
+            {isLogoLoading ? (
+              <div className="h-20 w-40 rounded-lg bg-gray-100 animate-pulse" />
+            ) : businessLogo ? (
+              <BaseImage
+                src={businessLogo}
+                alt="Business Logo"
+                className="h-20 max-w-[180px] object-contain"
+              />
+            ) : (
+              <p className="text-sm font-medium text-gray-500">Set your logo</p>
+            )}
           </div>
           <h2 className="text-2xl font-semibold text-center mb-6">Sign In</h2>
 

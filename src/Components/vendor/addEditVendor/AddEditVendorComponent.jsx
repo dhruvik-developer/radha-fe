@@ -144,6 +144,7 @@ function AddEditVendorComponent({
                   value={form.login_username}
                   className={`w-full p-2.5 border ${errors.login_username ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
+                  autoComplete="none"
                 />
                 {errors.login_username ? (
                   <p className="text-xs text-red-500 mt-1">
@@ -165,12 +166,9 @@ function AddEditVendorComponent({
                   value={form.login_password}
                   className={`w-full p-2.5 border ${errors.login_password ? "border-red-400" : "border-gray-300"} rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all`}
                   onChange={onInputChange}
+                  error={errors.login_password}
+                  autoComplete="new-password"
                 />
-                {errors.login_password ? (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.login_password}
-                  </p>
-                ) : null}
               </div>
 
               <div className="md:col-span-2">

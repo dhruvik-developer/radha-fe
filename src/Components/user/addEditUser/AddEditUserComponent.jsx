@@ -9,8 +9,6 @@ function AddEditUserComponent({
   errors,
   onSubmit,
   onInputChange,
-  showPassword,
-  onShowPassword,
 }) {
   const isEdit = mode === "editUser";
   return (
@@ -42,6 +40,7 @@ function AddEditUserComponent({
               className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
                                 ${errors.username ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
               onChange={onInputChange}
+              autoComplete="none"
             />
 
             <Input
@@ -69,10 +68,10 @@ function AddEditUserComponent({
           </p>
         ) : null}
 
-        <div className="relative">
+        <div className="mb-4">
           <Input
             label={isEdit ? "New Password:" : "Password:"}
-            type={showPassword ? "text" : "password"}
+            type="password"
             placeholder={
               errors.password
                 ? errors.password
@@ -82,21 +81,12 @@ function AddEditUserComponent({
             }
             name="password"
             value={form.password}
-            className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
+            className={`w-full p-2 border rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
                             ${errors.password ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
             onChange={onInputChange}
+            error={errors.password}
+            autoComplete="new-password"
           />
-          {errors.password ? (
-            <p className="text-red-500">{errors.password}</p>
-          ) : null}
-
-          <button
-            type="button"
-            onClick={onShowPassword}
-            className="absolute top-8.5 right-3 text-xl text-gray-600 focus:outline-none"
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
         </div>
 
         <div className="flex items-center justify-center mt-2">
