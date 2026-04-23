@@ -106,7 +106,7 @@ function SettingsComponent({
             )}
 
             {/* ---- Business Details Section ---- */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-6 bg-[var(--color-primary-soft)]/10">
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                   <FiImage size={12} className="text-[var(--color-primary-text)]" />
@@ -118,10 +118,10 @@ function SettingsComponent({
                       <img
                         src={formData.logo}
                         alt="Business logo preview"
-                        className="h-16 w-16 rounded-lg border border-gray-200 object-cover"
+                        className="h-16 w-auto max-w-[200px] rounded-lg border border-gray-200 object-contain bg-white p-1 shadow-sm"
                       />
                     ) : (
-                      <div className="h-16 w-16 rounded-lg border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-xs text-gray-400">
+                      <div className="h-16 w-32 rounded-lg border border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-xs text-gray-400">
                         No logo
                       </div>
                     )}
@@ -134,12 +134,12 @@ function SettingsComponent({
                     />
                   </div>
                 ) : (
-                  <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 min-h-[80px] flex items-center">
+                  <div className="w-full p-3 bg-[var(--color-primary-soft)]/30 rounded-xl border border-[var(--color-primary-soft)]/50 min-h-[80px] flex items-center">
                     {formData.logo ? (
                       <img
                         src={formData.logo}
                         alt="Business logo"
-                        className="h-14 w-14 rounded-lg border border-gray-200 object-cover"
+                        className="h-14 w-auto max-w-[200px] rounded-lg border border-gray-200 object-contain bg-white p-1 shadow-sm"
                       />
                     ) : (
                       <span className="text-gray-300 italic">Not set</span>
@@ -175,7 +175,7 @@ function SettingsComponent({
                       className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
-                    <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
+                    <div className="w-full p-3 bg-[var(--color-primary-soft)]/30 rounded-xl border border-[var(--color-primary-soft)]/50 text-gray-800 font-medium min-h-[48px] flex items-center">
                       {formData.caters_name || (
                         <span className="text-gray-300 italic">Not set</span>
                       )}
@@ -202,7 +202,7 @@ function SettingsComponent({
                       className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
-                    <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
+                    <div className="w-full p-3 bg-[var(--color-primary-soft)]/30 rounded-xl border border-[var(--color-primary-soft)]/50 text-gray-800 font-medium min-h-[48px] flex items-center">
                       {formData.fssai_number || (
                         <span className="text-gray-300 italic">Not set</span>
                       )}
@@ -216,10 +216,10 @@ function SettingsComponent({
             <div className="mx-6 border-t border-gray-100"></div>
 
             {/* ---- Brand Identity Section ---- */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-6 bg-[var(--color-primary-soft)]/10">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
+                  <div className="w-1 h-5 rounded-full bg-[var(--color-primary)]"></div>
                   <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                     Brand Identity
                   </h3>
@@ -232,56 +232,52 @@ function SettingsComponent({
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Brand Color Input & Preview */}
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      <FiDroplet size={12} className="text-[var(--color-primary-tint)]0" />
-                      Brand Color Code
-                    </label>
-                    <div className="relative group">
-                      <input
-                        type="text"
-                        name="color_code"
-                        value={isEditing ? formData.color_code || "" : normalizedColorCode}
-                        onChange={handleInputChange}
-                        disabled={!isEditing}
-                        placeholder="#000000"
-                        className={`w-full p-3 border-2 ${
-                          isEditing
-                            ? "border-[var(--color-primary-border)] focus:border-[var(--color-primary-tint)]0 focus:ring-4 focus:ring-[var(--color-primary-tint)]0/10 cursor-text"
-                            : "border-transparent bg-gray-100 cursor-default"
-                        } rounded-xl bg-white transition-all text-gray-800 font-mono font-bold tracking-widest`}
-                      />
-                      {isEditing && (
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                          <input
-                            type="color"
-                            name="color_code"
-                            value={normalizedColorCode}
-                            onChange={handleInputChange}
-                            className="w-8 h-8 rounded-lg border-2 border-white shadow-sm cursor-pointer overflow-hidden p-0"
-                          />
-                        </div>
-                      )}
-                    </div>
+                {/* Column 1: Brand Color Code */}
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <FiDroplet size={12} className="text-[var(--color-primary)]" />
+                    Brand Color Code
+                  </label>
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      name="color_code"
+                      value={isEditing ? formData.color_code || "" : normalizedColorCode}
+                      onChange={handleInputChange}
+                      disabled={!isEditing}
+                      placeholder="#000000"
+                      className={`w-full p-3 border-2 ${
+                        isEditing
+                          ? "border-[var(--color-primary-border)] focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/10 cursor-text"
+                          : "border-transparent bg-[var(--color-primary-soft)]/30 cursor-default"
+                      } rounded-xl bg-white transition-all text-gray-800 font-mono font-bold tracking-widest`}
+                    />
+                    {isEditing && (
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <input
+                          type="color"
+                          name="color_code"
+                          value={normalizedColorCode}
+                          onChange={handleInputChange}
+                          className="w-8 h-8 rounded-lg border-2 border-white shadow-sm cursor-pointer overflow-hidden p-0"
+                        />
+                      </div>
+                    )}
                   </div>
+                </div>
 
-                  {/* Large Preview Bar */}
+                {/* Column 2: Color Preview */}
+                <div className="space-y-1.5">
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <FiDroplet size={12} className="text-[var(--color-primary)]" />
+                    Brand Color Preview
+                  </label>
                   <motion.div
                     initial={false}
                     animate={{ backgroundColor: normalizedColorCode }}
-                    className="h-16 w-full rounded-2xl shadow-inner-lg flex items-center justify-center relative overflow-hidden group border border-gray-100"
+                    className="h-[52px] w-full rounded-xl shadow-inner-lg relative overflow-hidden group border border-gray-100"
                   >
                     <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                    <span
-                      className="font-mono font-bold text-lg tracking-widest transition-all drop-shadow-md"
-                      style={{
-                        color: shouldUseDarkText ? "#1f2937" : "#ffffff",
-                      }}
-                    >
-                      {normalizedColorCode}
-                    </span>
                   </motion.div>
                 </div>
 
@@ -342,9 +338,9 @@ function SettingsComponent({
             <div className="mx-6 border-t border-gray-100"></div>
 
             {/* ---- Contact Information Section ---- */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-6 bg-[var(--color-primary-soft)]/10">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary)]"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Contact Information
                 </h3>
@@ -354,7 +350,7 @@ function SettingsComponent({
                 {/* Phone Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiPhone size={12} className="text-[var(--color-primary-tint)]0" />
+                    <FiPhone size={12} className="text-[var(--color-primary)]" />
                     Phone Number
                   </label>
                   {isEditing ? (
@@ -368,7 +364,7 @@ function SettingsComponent({
                       className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
-                    <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
+                    <div className="w-full p-3 bg-[var(--color-primary-soft)]/30 rounded-xl border border-[var(--color-primary-soft)]/50 text-gray-800 font-medium min-h-[48px] flex items-center">
                       {formData.phone_number || (
                         <span className="text-gray-300 italic">Not set</span>
                       )}
@@ -379,7 +375,7 @@ function SettingsComponent({
                 {/* WhatsApp Number */}
                 <div className="space-y-1.5">
                   <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    <FiMessageCircle size={12} className="text-[var(--color-primary-tint)]0" />
+                    <FiMessageCircle size={12} className="text-[var(--color-primary)]" />
                     WhatsApp Number
                   </label>
                   {isEditing ? (
@@ -393,7 +389,7 @@ function SettingsComponent({
                       className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium"
                     />
                   ) : (
-                    <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[48px] flex items-center">
+                    <div className="w-full p-3 bg-[var(--color-primary-soft)]/30 rounded-xl border border-[var(--color-primary-soft)]/50 text-gray-800 font-medium min-h-[48px] flex items-center">
                       {formData.whatsapp_number || (
                         <span className="text-gray-300 italic">Not set</span>
                       )}
@@ -407,9 +403,9 @@ function SettingsComponent({
             <div className="mx-6 border-t border-gray-100"></div>
 
             {/* ---- Address Section ---- */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-6 bg-[var(--color-primary-soft)]/10">
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1 h-5 rounded-full bg-[var(--color-primary-tint)]0"></div>
+                <div className="w-1 h-5 rounded-full bg-[var(--color-primary)]"></div>
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider">
                   Address
                 </h3>
@@ -417,7 +413,7 @@ function SettingsComponent({
 
               <div className="space-y-1.5">
                 <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  <FiMapPin size={12} className="text-[var(--color-primary-tint)]0" />
+                  <FiMapPin size={12} className="text-[var(--color-primary)]" />
                   Godown / Office Address
                   <span className="text-red-400">*</span>
                 </label>
@@ -433,7 +429,7 @@ function SettingsComponent({
                     className="w-full p-3 border-2 border-[var(--color-primary-border)] rounded-xl bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all text-gray-800 font-medium resize-none"
                   />
                 ) : (
-                  <div className="w-full p-3 bg-gray-50 rounded-xl border border-gray-100 text-gray-800 font-medium min-h-[80px] flex items-start">
+                  <div className="w-full p-3 bg-[var(--color-primary-soft)]/30 rounded-xl border border-[var(--color-primary-soft)]/50 text-gray-800 font-medium min-h-[80px] flex items-start">
                     {formData.godown_address || (
                       <span className="text-gray-300 italic">Not set</span>
                     )}

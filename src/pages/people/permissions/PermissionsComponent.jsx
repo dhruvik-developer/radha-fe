@@ -14,7 +14,15 @@ function PermissionsComponent({
     togglePermission,
     onSave
 }) {
-    const [expandedModule, setExpandedModule] = useState(null);
+    const [expandedModules, setExpandedModules] = useState([]);
+
+    const toggleModule = (moduleName) => {
+        setExpandedModules(prev => 
+            prev.includes(moduleName) 
+            ? prev.filter(name => name !== moduleName) 
+            : [...prev, moduleName]
+        );
+    };
 
     const subjects = users;
 
@@ -112,7 +120,7 @@ function PermissionsComponent({
                                     {modules.map((mod) => (
                                         <div key={mod.name} className="border border-gray-100 rounded-2xl overflow-hidden hover:border-[var(--color-primary)]/30 transition-all">
                                             <button
-                                                onClick={() => setExpandedModule(expandedModule === mod.name ? null : mod.name)}
+                                                onClick={() => toggleModule(mod.name)}
                                                 className="w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-50 transition-colors"
                                             >
                                                 <div className="flex items-center gap-3">
@@ -121,10 +129,19 @@ function PermissionsComponent({
                                                     </div>
                                                     <span className="font-bold text-sm text-gray-700">{mod.name}</span>
                                                 </div>
-                                                {expandedModule === mod.name ? <FiChevronDown size={18} className="text-gray-400" /> : <FiChevronRight size={18} className="text-gray-400" />}
+                                                <div className="flex items-center gap-3">
+                                                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full transition-all ${
+                                                        mod.permissions.filter(p => currentPermissions.includes(p.code)).length > 0
+                                                        ? 'bg-[var(--color-primary-soft)] text-[var(--color-primary)]'
+                                                        : 'bg-gray-100 text-gray-400'
+                                                    }`}>
+                                                        {mod.permissions.filter(p => currentPermissions.includes(p.code)).length}/{mod.permissions.length}
+                                                    </span>
+                                                    {expandedModules.includes(mod.name) ? <FiChevronDown size={18} className="text-gray-400" /> : <FiChevronRight size={18} className="text-gray-400" />}
+                                                </div>
                                             </button>
 
-                                            {(expandedModule === mod.name || true) && (
+                                            {expandedModules.includes(mod.name) && (
                                                 <div className="p-4 bg-white grid grid-cols-1 gap-2">
                                                     {mod.permissions.map((perm) => (
                                                         <label
