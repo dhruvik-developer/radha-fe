@@ -1,17 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import QuotationComponent from "./QuotationComponent";
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
-import { getQuotation, getSingleQuotation } from "../../api/FetchQuotation";
+import { getSingleQuotation } from "../../api/FetchQuotation";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { updateQuotation } from "../../api/PostQuotation";
 import { addPayment } from "../../api/PostAllOrder";
+import { useQuotations } from "../../hooks/useQuotations";
 
 function QuotationController() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [quotation, setQuotation] = useState([]);
+  const queryClient = useQueryClient();
+  const {
+    data: quotation = [],
+    isLoading: loading,
+    refetch: refetchQuotations,
+  } = useQuotations();
   const [searchQuery, setSearchQuery] = useState("");
   const [dateRange, setDateRange] = useState([null, null]);
 
@@ -35,26 +41,6 @@ function QuotationController() {
       setDateRange([null, null]);
     }
   };
-
-  const fetchQuotation = async () => {
-    try {
-      const response = await getQuotation();
-      if (response.data.status) {
-        setQuotation(response.data.data);
-      } else {
-        toast.error("Failed to fetch quotation");
-      }
-    } catch (error) {
-      toast.error("Error fetching quotation");
-      console.error("API Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchQuotation();
-  }, []);
 
   //Handle View Quotation
   const handleViewQuotation = (id) => {
@@ -226,7 +212,9 @@ function QuotationController() {
             };
 
             await addPayment(paymentPayload);
-            fetchQuotation();
+            refetchQuotations();
+            queryClient.invalidateQueries({ queryKey: ["orders"] });
+            queryClient.invalidateQueries({ queryKey: ["payment-history"] });
           }
         } catch (error) {
           toast.error("Failed to confirm quotation");
@@ -340,7 +328,7 @@ function QuotationController() {
       apiEndpoint: "/status-change-event-bookings",
       name: "quotation",
       successMessage: "Quotation deleted successfully!",
-      onSuccess: fetchQuotation,
+      onSuccess: refetchQuotations,
       method: "POST",
       payload: { status: "cancelled" },
     });

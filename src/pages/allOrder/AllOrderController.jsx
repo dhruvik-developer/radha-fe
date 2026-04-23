@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import AllOrderComponent from "./AllOrderComponent";
 
 // Parse date string in dd-mm-yyyy OR yyyy-mm-dd format
@@ -23,16 +24,21 @@ function parseDate(str) {
   return isNaN(d.getTime()) ? null : d;
 }
 import DeleteConfirmation from "../../Components/common/DeleteConfirmation";
-import { getAllOrder, getSingleOrder } from "../../api/FetchAllOrder";
+import { getSingleOrder } from "../../api/FetchAllOrder";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { addPayment, updateOrder } from "../../api/PostAllOrder";
 import Swal from "sweetalert2";
+import { useOrders } from "../../hooks/useOrders";
 
 function AllOrderController() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [loading, setLoading] = useState(true);
-  const [allOrder, setAllOrder] = useState([]);
+  const {
+    data: allOrder = [],
+    isLoading: loading,
+    refetch: refetchOrders,
+  } = useOrders();
 
   const [searchQuery, setSearchQuery] = useState("");
   
@@ -92,26 +98,6 @@ function AllOrderController() {
       setDateRange([null, null]);
     }
   };
-
-  const fetchAllOrder = async () => {
-    try {
-      const response = await getAllOrder();
-      if (response.data.status) {
-        setAllOrder(response.data.data);
-      } else {
-        toast.error("Failed to fetch orders");
-      }
-    } catch (error) {
-      toast.error("Error fetching orders");
-      console.error("API Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllOrder();
-  }, []);
 
   // Filter orders by search query and date range
   const filteredOrders = (() => {
@@ -606,7 +592,8 @@ function AllOrderController() {
           const paymentResponse = await addPayment(paymentPayload);
           if (paymentResponse) {
             toast.success("Order confirmed successfully!");
-            fetchAllOrder();
+            refetchOrders();
+            queryClient.invalidateQueries({ queryKey: ["payment-history"] });
             window.dispatchEvent(new Event("orderStatusChanged"));
           }
         } catch (error) {
@@ -628,7 +615,7 @@ function AllOrderController() {
       name: "order",
       successMessage: "Order deleted successfully!",
       onSuccess: () => {
-        fetchAllOrder();
+        refetchOrders();
         window.dispatchEvent(new Event("orderStatusChanged"));
       },
       method: "POST",

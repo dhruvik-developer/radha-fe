@@ -1,40 +1,15 @@
-import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StaffComponent from "./StaffComponent";
-import toast from "react-hot-toast";
-import { getAllStaff } from "../../../api/EventStaffApis";
+import { useStaff } from "../../../hooks/useStaff";
 import DeleteConfirmation from "../../../Components/common/DeleteConfirmation";
 
 function StaffController() {
   const navigate = useNavigate();
-  const hasFetched = useRef(false);
-  const [loading, setLoading] = useState(true);
-  const [staffList, setStaffList] = useState([]);
-
-  const fetchStaffList = async () => {
-    try {
-      const response = await getAllStaff();
-      if (response?.data) {
-        // Assuming data is returned directly or in response.data.data
-        const data = response.data.data || response.data;
-        setStaffList(data);
-      } else {
-        toast.error("Failed to fetch event staff");
-      }
-    } catch (error) {
-      toast.error("Error fetching event staff");
-      console.error("API Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!hasFetched.current) {
-      fetchStaffList();
-      hasFetched.current = true;
-    }
-  }, []);
+  const {
+    data: staffList = [],
+    isLoading: loading,
+    refetch: refetchStaff,
+  } = useStaff();
 
   // Handle Add
   const handleAddStaff = () => {
@@ -55,7 +30,7 @@ function StaffController() {
       apiEndpoint: "/staff",
       name: "event staff member",
       successMessage: "Staff deleted successfully!",
-      onSuccess: fetchStaffList,
+      onSuccess: refetchStaff,
     });
   };
 

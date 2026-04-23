@@ -66,7 +66,7 @@ const routeLabels = {
   radha: "radha",
   item: "Items",
   "create-item": "Create Item",
-  "edit-dish": "Edit Order",
+  "edit-dish": "Edit Dish",
   "edit-item": "Edit Item",
   "order-pdf": "Order PDF",
   "edit-order-pdf": "Edit Order PDF",
@@ -90,6 +90,7 @@ const routeLabels = {
   "view-order-details": "Order Details",
   "event-staff": "Event Staff",
   "waiter-types": "Waiter Types",
+  permissions: "Permissions",
   "add-staff": "Add Staff",
   "edit-staff": "Edit Staff",
   "event-assignments": "Event Assignments",
@@ -387,7 +388,13 @@ const Header = ({ toggleSidebar }) => {
       let visitedKeys = new Set([currentKey]);
 
       while (dynamicParentRoutes[currentKey]) {
-        const parentPath = dynamicParentRoutes[currentKey];
+        const rawParentPath = dynamicParentRoutes[currentKey];
+        // Ensure parent paths are always absolute so breadcrumb links don't
+        // resolve relative to the current URL (callers sometimes pass bare
+        // segments like "all-order" via customParents/state.from).
+        const parentPath = rawParentPath.startsWith("/")
+          ? rawParentPath
+          : `/${rawParentPath}`;
 
         // Keep parentKey accurate by ignoring any numeric IDs
         const parentSegments = parentPath
