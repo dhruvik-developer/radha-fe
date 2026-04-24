@@ -1,18 +1,79 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import {
+  Avatar,
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Collapse,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import {
   FiArrowLeft,
   FiFileText,
   FiPlus,
   FiX,
   FiUsers,
   FiMapPin,
-  FiClock,
   FiClipboard,
   FiBookOpen,
   FiSend,
 } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+
+function SectionHeader({ icon: Icon, title, subtitle }) {
+  return (
+    <Stack direction="row" spacing={1.5} alignItems="center">
+      <Avatar
+        variant="rounded"
+        sx={{
+          bgcolor: (t) => t.palette.primary.light + "33",
+          color: "primary.main",
+          width: 40,
+          height: 40,
+        }}
+      >
+        <Icon size={20} />
+      </Avatar>
+      <Box>
+        <Typography variant="h6" fontWeight={700} color="text.primary">
+          {title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {subtitle}
+        </Typography>
+      </Box>
+    </Stack>
+  );
+}
+
+function InfoTile({ label, value }) {
+  return (
+    <Box>
+      <Typography
+        variant="caption"
+        color="text.disabled"
+        sx={{ textTransform: "uppercase", fontWeight: 700, letterSpacing: 0.5 }}
+      >
+        {label}
+      </Typography>
+      <Typography variant="body1" fontWeight={700} color="text.primary">
+        {value || "—"}
+      </Typography>
+    </Box>
+  );
+}
 
 function Step3_Summary({
   formData,
@@ -33,8 +94,6 @@ function Step3_Summary({
   const [showRules, setShowRules] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-
-  // Flatten schedule into event cards
   const eventCards = [];
   formData.schedule.forEach((day, dIdx) => {
     const dateObj = new Date(day.event_date);
@@ -60,364 +119,553 @@ function Step3_Summary({
   });
 
   return (
-    <div className="space-y-6">
-      {/* ====== Page Header ====== */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiClipboard className="text-[var(--color-primary-text)]" size={20} />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold text-gray-800">
-              Event Summary & Services
-            </h2>
-            <p className="text-sm text-gray-400">
-              Review each event, set pricing, and add services
-            </p>
-          </div>
-        </div>
-        <div className="text-right bg-[var(--color-primary-tint)] px-5 py-2.5 rounded-xl border border-green-200">
-          <p className="text-[10px] text-[var(--color-primary-text)] uppercase font-bold tracking-wider mb-0.5">
-            Grand Total
-          </p>
-          <p className="text-2xl font-black text-[var(--color-primary)]">
-            ₹{Number(formData.grandTotalAmount || 0).toFixed(2)}
-          </p>
-        </div>
-      </div>
-
-      {/* ====== Client Info Summary Card ====== */}
-      <div className="bg-gradient-to-r from-gray-50 to-[var(--color-primary-tint)] rounded-xl p-4 border border-gray-200">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div>
-            <p className="text-gray-400 text-xs font-semibold uppercase mb-1">
-              Client
-            </p>
-            <p className="font-bold text-gray-800">{formData.name || "—"}</p>
-          </div>
-          <div>
-            <p className="text-gray-400 text-xs font-semibold uppercase mb-1">
-              Mobile
-            </p>
-            <p className="font-bold text-gray-800">
-              {formData.mobile_no || "—"}
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-400 text-xs font-semibold uppercase mb-1">
-              Reference
-            </p>
-            <p className="font-bold text-gray-800">
-              {formData.reference || "—"}
-            </p>
-          </div>
-          <div>
-            <p className="text-gray-400 text-xs font-semibold uppercase mb-1">
-              Total Events
-            </p>
-            <p className="font-bold text-gray-800">{eventCards.length}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ====== Event Cards ====== */}
-      <div className="space-y-5">
-        {eventCards.map((event, cardIdx) => (
-          <div
-            key={`${event.dIdx}-${event.sIdx}`}
-            className="border-2 border-[var(--color-primary-border)]/30 rounded-xl overflow-hidden shadow-sm"
+    <Stack spacing={3}>
+      {/* Page Header */}
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        alignItems={{ xs: "stretch", md: "center" }}
+        justifyContent="space-between"
+      >
+        <SectionHeader
+          icon={FiClipboard}
+          title="Event Summary & Services"
+          subtitle="Review each event, set pricing, and add services"
+        />
+        <Paper
+          elevation={0}
+          sx={{
+            px: 2.5,
+            py: 1.5,
+            borderRadius: 2,
+            border: 1,
+            borderColor: "success.light",
+            bgcolor: (t) => t.palette.success.light + "33",
+            textAlign: "right",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              textTransform: "uppercase",
+              letterSpacing: 1,
+              fontWeight: 700,
+              color: "success.dark",
+            }}
           >
-            {/* Event Card Header */}
-            <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-5 py-3.5 flex items-center justify-between text-white">
-              <div className="flex items-center gap-4">
-                <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center font-bold text-sm backdrop-blur-sm">
+            Grand Total
+          </Typography>
+          <Typography variant="h5" fontWeight={800} color="primary.main">
+            ₹{Number(formData.grandTotalAmount || 0).toFixed(2)}
+          </Typography>
+        </Paper>
+      </Stack>
+
+      {/* Client Info Summary */}
+      <Paper
+        variant="outlined"
+        sx={{
+          p: 2,
+          borderRadius: 2,
+          background: (t) =>
+            `linear-gradient(90deg, ${t.palette.action.hover}, ${t.palette.primary.light + "1a"})`,
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <InfoTile label="Client" value={formData.name} />
+          </Grid>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <InfoTile label="Mobile" value={formData.mobile_no} />
+          </Grid>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <InfoTile label="Reference" value={formData.reference} />
+          </Grid>
+          <Grid size={{ xs: 6, md: 3 }}>
+            <InfoTile label="Total Events" value={eventCards.length} />
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* Event Cards */}
+      <Stack spacing={2.5}>
+        {eventCards.map((event, cardIdx) => (
+          <Paper
+            key={`${event.dIdx}-${event.sIdx}`}
+            variant="outlined"
+            sx={{
+              borderRadius: 2,
+              overflow: "hidden",
+              borderColor: (t) => t.palette.primary.light + "66",
+              borderWidth: 2,
+            }}
+          >
+            {/* Header */}
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{
+                px: 2.5,
+                py: 1.75,
+                background: (t) =>
+                  `linear-gradient(90deg, ${t.palette.primary.main}, ${t.palette.primary.dark})`,
+                color: "primary.contrastText",
+              }}
+            >
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Avatar
+                  variant="rounded"
+                  sx={{
+                    bgcolor: "rgba(255,255,255,0.2)",
+                    color: "primary.contrastText",
+                    width: 36,
+                    height: 36,
+                    fontWeight: 700,
+                    fontSize: 14,
+                  }}
+                >
                   {cardIdx + 1}
-                </div>
-                <div>
-                  <h3 className="font-bold text-base">{event.timeLabel}</h3>
-                  <p className="text-white/70 text-xs">
+                </Avatar>
+                <Box>
+                  <Typography variant="subtitle1" fontWeight={700}>
+                    {event.timeLabel}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{ opacity: 0.8, color: "inherit" }}
+                  >
                     {event.dateStr} • {event.dayLabel}
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-white/60 text-[10px] uppercase font-bold tracking-wider">
+                  </Typography>
+                </Box>
+              </Stack>
+              <Box textAlign="right">
+                <Typography
+                  variant="caption"
+                  sx={{
+                    opacity: 0.7,
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: 1,
+                  }}
+                >
                   Subtotal
-                </p>
-                <p className="text-xl font-black">
+                </Typography>
+                <Typography variant="h6" fontWeight={800}>
                   ₹{Number(event.subtotalAmount || 0).toFixed(2)}
-                </p>
-              </div>
-            </div>
+                </Typography>
+              </Box>
+            </Stack>
 
-            <div className="p-5 space-y-5">
-              {/* ---- Info Row: Persons + Per Plate Price ---- */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                  <FiUsers className="text-[var(--color-primary-text)]" size={18} />
-                  <div>
-                    <p className="text-[10px] text-gray-400 uppercase font-bold">
-                      Persons
-                    </p>
-                    <p className="font-bold text-gray-800">
-                      {event.estimatedPersons || 0}
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase">
-                    Per Plate Price (₹)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 350"
-                    value={event.perPlatePrice || ""}
-                    onChange={(e) =>
-                      handleSlotChange(
-                        event.dIdx,
-                        event.sIdx,
-                        "perPlatePrice",
-                        e.target.value
-                      )
-                    }
-                    autoComplete="off"
-                    className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 transition-all font-semibold text-lg ${
-                      errors[`platePrice_${event.dIdx}_${event.sIdx}`]
-                        ? "border-red-500"
-                        : "border-[var(--color-primary-border)]/50"
-                    }`}
-                  />
-                  {errors[`platePrice_${event.dIdx}_${event.sIdx}`] && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
-                      {errors[`platePrice_${event.dIdx}_${event.sIdx}`]}
-                    </p>
+            <Box sx={{ p: 2.5 }}>
+              <Stack spacing={2.5}>
+                {/* Info Row */}
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <Stack
+                      direction="row"
+                      spacing={1.5}
+                      alignItems="center"
+                      sx={{
+                        p: 1.5,
+                        border: 1,
+                        borderColor: "divider",
+                        borderRadius: 1.5,
+                        bgcolor: "action.hover",
+                      }}
+                    >
+                      <FiUsers size={18} />
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          color="text.disabled"
+                          sx={{
+                            textTransform: "uppercase",
+                            fontWeight: 700,
+                          }}
+                        >
+                          Persons
+                        </Typography>
+                        <Typography variant="body1" fontWeight={700}>
+                          {event.estimatedPersons || 0}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                      fullWidth
+                      label="Per Plate Price (₹)"
+                      placeholder="e.g. 350"
+                      value={event.perPlatePrice || ""}
+                      onChange={(e) =>
+                        handleSlotChange(
+                          event.dIdx,
+                          event.sIdx,
+                          "perPlatePrice",
+                          e.target.value
+                        )
+                      }
+                      autoComplete="off"
+                      error={Boolean(
+                        errors[`platePrice_${event.dIdx}_${event.sIdx}`]
+                      )}
+                      helperText={
+                        errors[`platePrice_${event.dIdx}_${event.sIdx}`] || " "
+                      }
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                      fullWidth
+                      label="Venue"
+                      placeholder="Event venue / address"
+                      value={event.event_address}
+                      onChange={(e) =>
+                        handleSlotChange(
+                          event.dIdx,
+                          event.sIdx,
+                          "event_address",
+                          e.target.value
+                        )
+                      }
+                      autoComplete="off"
+                      error={Boolean(
+                        errors[`event_address_${event.dIdx}_${event.sIdx}`]
+                      )}
+                      helperText={
+                        errors[`event_address_${event.dIdx}_${event.sIdx}`] ||
+                        " "
+                      }
+                      InputProps={{
+                        startAdornment: (
+                          <FiMapPin
+                            size={14}
+                            style={{ marginRight: 6, opacity: 0.5 }}
+                          />
+                        ),
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+
+                {/* Selected Dishes */}
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    borderColor: (t) => t.palette.primary.light + "66",
+                    bgcolor: (t) => t.palette.primary.light + "0d",
+                  }}
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ mb: 1.5 }}
+                  >
+                    <FiFileText size={15} />
+                    <Typography
+                      variant="body2"
+                      fontWeight={600}
+                      color="primary.dark"
+                    >
+                      Selected Dishes
+                    </Typography>
+                    <Chip
+                      size="small"
+                      label={event.dishes.length}
+                      color="primary"
+                      sx={{ fontWeight: 700 }}
+                    />
+                  </Stack>
+                  {event.dishes.length > 0 ? (
+                    <>
+                      <Grid container spacing={1}>
+                        {event.dishes.map((dish) => {
+                          const isZeroPrice =
+                            !dish.selectionRate ||
+                            parseFloat(dish.selectionRate) === 0;
+                          return (
+                            <Grid
+                              key={dish.dishId}
+                              size={{ xs: 12, sm: 6, md: 4 }}
+                            >
+                              <Stack
+                                direction="row"
+                                spacing={1}
+                                alignItems="center"
+                                sx={{
+                                  p: 1,
+                                  borderRadius: 1.5,
+                                  border: 1,
+                                  borderColor: isZeroPrice
+                                    ? "error.light"
+                                    : "divider",
+                                  bgcolor: isZeroPrice
+                                    ? (t) => t.palette.error.light + "33"
+                                    : "background.paper",
+                                }}
+                              >
+                                <Avatar
+                                  variant="rounded"
+                                  sx={{
+                                    width: 20,
+                                    height: 20,
+                                    bgcolor: isZeroPrice
+                                      ? "error.light"
+                                      : (t) => t.palette.primary.light + "33",
+                                    color: isZeroPrice
+                                      ? "error.main"
+                                      : "primary.main",
+                                  }}
+                                >
+                                  <FiFileText size={10} />
+                                </Avatar>
+                                <Typography
+                                  variant="body2"
+                                  fontWeight={500}
+                                  noWrap
+                                  color={
+                                    isZeroPrice ? "error.main" : "text.primary"
+                                  }
+                                >
+                                  {dish.dishName}
+                                </Typography>
+                              </Stack>
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                      {event.dishes.some(
+                        (d) =>
+                          !d.selectionRate ||
+                          parseFloat(d.selectionRate) === 0
+                      ) && (
+                        <Typography
+                          variant="caption"
+                          color="error.main"
+                          sx={{
+                            mt: 1,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 0.75,
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              width: 10,
+                              height: 10,
+                              borderRadius: 0.5,
+                              border: 1,
+                              borderColor: "error.light",
+                              bgcolor: (t) => t.palette.error.light + "33",
+                            }}
+                          />
+                          Red highlighted items are not counted in dish price
+                        </Typography>
+                      )}
+                    </>
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      color="text.disabled"
+                      fontStyle="italic"
+                    >
+                      No dishes selected for this event.
+                    </Typography>
                   )}
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase">
-                    <FiMapPin className="inline mr-1" size={12} /> Venue
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Event venue / address"
-                    value={event.event_address}
-                    onChange={(e) =>
-                      handleSlotChange(
-                        event.dIdx,
-                        event.sIdx,
-                        "event_address",
-                        e.target.value
-                      )
-                    }
-                    autoComplete="off"
-                    className={`w-full p-2.5 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-[var(--color-primary)] transition-all ${
-                      errors[`event_address_${event.dIdx}_${event.sIdx}`]
-                        ? "border-red-500 focus:ring-red-200"
-                        : "border-gray-300 focus:ring-[var(--color-primary)]/20"
-                    }`}
-                  />
-                  {errors[`event_address_${event.dIdx}_${event.sIdx}`] && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
-                      {errors[`event_address_${event.dIdx}_${event.sIdx}`]}
-                    </p>
-                  )}
-                </div>
-              </div>
+                </Paper>
 
-              {/* ---- Selected Dishes List ---- */}
-              <div className="bg-[var(--color-primary-tint)]/50 rounded-xl p-4 border border-[var(--color-primary-border)]/30">
-                <div className="flex items-center justify-between mb-3">
-                  <h5 className="font-semibold text-[var(--color-primary-text)] text-sm flex items-center gap-2">
-                    <FiFileText size={15} /> Selected Dishes
-                    <span className="ml-1 px-2 py-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] rounded-full text-xs font-bold">
-                      {event.dishes.length}
-                    </span>
-                  </h5>
-                </div>
+                {/* Waiter Services */}
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    borderColor: (t) => t.palette.primary.light + "66",
+                    bgcolor: (t) => t.palette.primary.light + "0d",
+                  }}
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    sx={{ mb: 1.5 }}
+                  >
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <FiUsers size={15} />
+                      <Typography
+                        variant="body2"
+                        fontWeight={600}
+                        color="primary.dark"
+                      >
+                        Waiter Service
+                      </Typography>
+                      {event.waiterServices.length > 0 && (
+                        <Chip
+                          size="small"
+                          label={event.waiterServices.length}
+                          color="primary"
+                          sx={{ fontWeight: 700 }}
+                        />
+                      )}
+                    </Stack>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<FiPlus size={12} />}
+                      onClick={() =>
+                        handleSlotAddWaiter(event.dIdx, event.sIdx)
+                      }
+                    >
+                      Add Waiter
+                    </Button>
+                  </Stack>
 
-                {event.dishes.length > 0 ? (
-                  <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                      {event.dishes.map((dish) => {
-                        const isZeroPrice =
-                          !dish.selectionRate ||
-                          parseFloat(dish.selectionRate) === 0;
+                  {event.waiterServices.length > 0 ? (
+                    <Stack spacing={1.25}>
+                      {event.waiterServices.map((ws, wIdx) => {
+                        const entryTotal =
+                          (Number(ws.waiterRate) || 0) *
+                          (Number(ws.waiterCount) || 0);
                         return (
-                          <div
-                            key={dish.dishId}
-                            className={`flex items-center gap-2 p-2 rounded-lg text-sm ${
-                              isZeroPrice
-                                ? "bg-red-50 border border-red-200"
-                                : "bg-white border border-gray-100"
-                            }`}
+                          <Paper
+                            key={wIdx}
+                            variant="outlined"
+                            sx={{ p: 1.25, borderRadius: 1.5 }}
                           >
-                            <div
-                              className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
-                                isZeroPrice
-                                  ? "bg-red-100 text-red-500"
-                                  : "bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
-                              }`}
-                            >
-                              <FiFileText size={10} />
-                            </div>
-                            <span
-                              className={`truncate font-medium ${isZeroPrice ? "text-red-600" : "text-gray-700"}`}
-                            >
-                              {dish.dishName}
-                            </span>
-                          </div>
+                            <Stack spacing={1}>
+                              <Stack
+                                direction={{ xs: "column", md: "row" }}
+                                spacing={1}
+                                alignItems={{ xs: "stretch", md: "center" }}
+                              >
+                                <FormControl size="small" sx={{ flex: 1 }}>
+                                  <InputLabel>Waiter type</InputLabel>
+                                  <Select
+                                    label="Waiter type"
+                                    value={ws.waiterType || ""}
+                                    onChange={(e) =>
+                                      handleSlotWaiterChange(
+                                        event.dIdx,
+                                        event.sIdx,
+                                        wIdx,
+                                        "waiterType",
+                                        e.target.value
+                                      )
+                                    }
+                                  >
+                                    <MenuItem value="">
+                                      <em>Select waiter type</em>
+                                    </MenuItem>
+                                    {isLoadingWaiterTypes && (
+                                      <MenuItem value="">
+                                        <em>Loading…</em>
+                                      </MenuItem>
+                                    )}
+                                    {!isLoadingWaiterTypes &&
+                                      waiterTypes?.map((type) => (
+                                        <MenuItem key={type.id} value={type.name}>
+                                          {type.name}
+                                        </MenuItem>
+                                      ))}
+                                  </Select>
+                                </FormControl>
+                                <Box
+                                  sx={{
+                                    minWidth: 140,
+                                    p: 1.25,
+                                    border: 1,
+                                    borderColor: "divider",
+                                    borderRadius: 1,
+                                    textAlign: "center",
+                                    bgcolor: "action.hover",
+                                  }}
+                                >
+                                  <Typography
+                                    component="span"
+                                    variant="body2"
+                                  >
+                                    ₹{" "}
+                                    <Box component="strong">
+                                      {(Number(ws.waiterRate) || 0).toFixed(2)}
+                                    </Box>
+                                    /head
+                                  </Typography>
+                                </Box>
+                                <TextField
+                                  size="small"
+                                  placeholder="Count"
+                                  value={ws.waiterCount || ""}
+                                  onChange={(e) =>
+                                    handleSlotWaiterChange(
+                                      event.dIdx,
+                                      event.sIdx,
+                                      wIdx,
+                                      "waiterCount",
+                                      e.target.value
+                                    )
+                                  }
+                                  autoComplete="off"
+                                  sx={{ width: { xs: "100%", md: 100 } }}
+                                  inputProps={{ style: { textAlign: "center" } }}
+                                />
+                                <Typography
+                                  variant="body2"
+                                  fontWeight={700}
+                                  color="primary.main"
+                                  sx={{
+                                    minWidth: 80,
+                                    textAlign: { xs: "left", md: "right" },
+                                  }}
+                                >
+                                  ₹{entryTotal.toFixed(2)}
+                                </Typography>
+                                <IconButton
+                                  size="small"
+                                  color="error"
+                                  onClick={() =>
+                                    handleSlotRemoveWaiter(
+                                      event.dIdx,
+                                      event.sIdx,
+                                      wIdx
+                                    )
+                                  }
+                                >
+                                  <FiX size={14} />
+                                </IconButton>
+                              </Stack>
+                              <TextField
+                                size="small"
+                                fullWidth
+                                placeholder="Notes (optional)"
+                                value={ws.waiterNotes || ""}
+                                onChange={(e) =>
+                                  handleSlotWaiterChange(
+                                    event.dIdx,
+                                    event.sIdx,
+                                    wIdx,
+                                    "waiterNotes",
+                                    e.target.value
+                                  )
+                                }
+                                autoComplete="off"
+                              />
+                            </Stack>
+                          </Paper>
                         );
                       })}
-                    </div>
-                    {event.dishes.some(
-                      (d) =>
-                        !d.selectionRate || parseFloat(d.selectionRate) === 0
-                    ) && (
-                      <p className="mt-2.5 text-xs text-red-500 flex items-center gap-1.5">
-                        <span className="inline-block w-3 h-3 rounded bg-red-50 border border-red-200 flex-shrink-0"></span>
-                        Red highlighted items are not counted in dish price
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-sm text-gray-400 italic">
-                    No dishes selected for this event.
-                  </p>
-                )}
-              </div>
 
-              {/* ---- Waiter Services Section ---- */}
-              <div className="bg-[var(--color-primary-tint)]/50 rounded-xl p-4 border border-[var(--color-primary-border)]/30">
-                <div className="flex justify-between items-center mb-3">
-                  <h5 className="font-semibold text-[var(--color-primary-text)] text-sm flex items-center gap-2">
-                    <FiUsers size={15} /> Waiter Service
-                    {event.waiterServices.length > 0 && (
-                      <span className="px-2 py-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] rounded-full text-xs font-bold">
-                        {event.waiterServices.length}
-                      </span>
-                    )}
-                  </h5>
-                  <button
-                    type="button"
-                    onClick={() => handleSlotAddWaiter(event.dIdx, event.sIdx)}
-                    className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-soft)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
-                  >
-                    <FiPlus size={12} /> Add Waiter
-                  </button>
-                </div>
-
-                {event.waiterServices.length > 0 ? (
-                  <div className="space-y-2">
-                    {event.waiterServices.map((ws, wIdx) => {
-                      const entryTotal =
-                        (Number(ws.waiterRate) || 0) *
-                        (Number(ws.waiterCount) || 0);
-                      return (
-                        <div
-                          key={wIdx}
-                          className="bg-white rounded-lg border border-[var(--color-primary-border)]/30 p-3 space-y-2"
-                        >
-                          <div className="flex items-center gap-2">
-                            {/* Type dropdown */}
-                            <select
-                              value={ws.waiterType}
-                              onChange={(e) =>
-                                handleSlotWaiterChange(
-                                  event.dIdx,
-                                  event.sIdx,
-                                  wIdx,
-                                  "waiterType",
-                                  e.target.value
-                                )
-                              }
-                              className="flex-1 p-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-border)] transition-all"
-                            >
-                              <option value="">Select waiter type</option>
-                              {isLoadingWaiterTypes && (
-                                <option value="">Loading...</option>
-                              )}
-                              {!isLoadingWaiterTypes &&
-                                waiterTypes &&
-                                waiterTypes.length > 0
-                                ? waiterTypes.map((type) => (
-                                    <option key={type.id} value={type.name}>
-                                      {type.name}
-                                    </option>
-                                  ))
-                                : null}
-                            </select>
-
-                            {/* Rate display (auto-filled) */}
-                            <div className="w-36 p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-center">
-                              ₹<span className="font-bold ml-0.5">{(Number(ws.waiterRate) || 0).toFixed(2)}</span>/head
-                            </div>
-
-                            {/* Count */}
-                            <input
-                              type="text"
-                              value={ws.waiterCount}
-                              onChange={(e) =>
-                                handleSlotWaiterChange(
-                                  event.dIdx,
-                                  event.sIdx,
-                                  wIdx,
-                                  "waiterCount",
-                                  e.target.value
-                                )
-                              }
-                              placeholder="Count"
-                              autoComplete="off"
-                              className="w-20 p-2 border border-gray-300 rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-border)] transition-all"
-                            />
-
-                            {/* Row total */}
-                            <span className="text-sm font-bold text-[var(--color-primary-text)] min-w-[70px] text-right">
-                              ₹{entryTotal.toFixed(2)}
-                            </span>
-
-                            {/* Remove */}
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleSlotRemoveWaiter(
-                                  event.dIdx,
-                                  event.sIdx,
-                                  wIdx
-                                )
-                              }
-                              className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                            >
-                              <FiX size={14} />
-                            </button>
-                          </div>
-
-                          {/* Notes */}
-                          <input
-                            type="text"
-                            value={ws.waiterNotes}
-                            onChange={(e) =>
-                              handleSlotWaiterChange(
-                                event.dIdx,
-                                event.sIdx,
-                                wIdx,
-                                "waiterNotes",
-                                e.target.value
-                              )
-                            }
-                            placeholder="Notes (optional)"
-                            autoComplete="off"
-                            className="w-full p-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] focus:border-[var(--color-primary-border)] transition-all"
-                          />
-                        </div>
-                      );
-                    })}
-
-                    {/* Grand total if multiple entries */}
-                    {event.waiterServices.length > 1 && (
-                      <div className="flex justify-end pt-1">
-                        <span className="text-xs font-bold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] px-3 py-1 rounded-lg">
-                          Total Waiter Charge: ₹{
-                            event.waiterServices
+                      {event.waiterServices.length > 1 && (
+                        <Stack direction="row" justifyContent="flex-end">
+                          <Chip
+                            color="primary"
+                            variant="outlined"
+                            sx={{ fontWeight: 700 }}
+                            label={`Total Waiter Charge: ₹${event.waiterServices
                               .reduce(
                                 (sum, ws) =>
                                   sum +
@@ -425,294 +673,371 @@ function Step3_Summary({
                                     (Number(ws.waiterCount) || 0),
                                 0
                               )
-                              .toFixed(2)
-                          }
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-400 italic">
-                    No waiter services added.
-                  </p>
-                )}
-              </div>
+                              .toFixed(2)}`}
+                          />
+                        </Stack>
+                      )}
+                    </Stack>
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      color="text.disabled"
+                      fontStyle="italic"
+                    >
+                      No waiter services added.
+                    </Typography>
+                  )}
+                </Paper>
 
-              {/* ---- Extra Services Section ---- */}
-              <div className="bg-[var(--color-primary-tint)] rounded-xl p-4 border border-[var(--color-primary-soft)]">
-                <div className="flex justify-between items-center mb-3">
-                  <h5 className="font-semibold text-[var(--color-primary-text)] text-sm flex items-center gap-2">
-                    <FiPlus size={15} /> Extra Services
-                    {event.extraServices.length > 0 && (
-                      <span className="px-2 py-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] rounded-full text-xs font-bold">
-                        {event.extraServices.length}
-                      </span>
-                    )}
-                  </h5>
-                  <button
-                    type="button"
-                    onClick={() => handleSlotAddExtra(event.dIdx, event.sIdx)}
-                    className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-soft)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1"
+                {/* Extra Services */}
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    borderColor: (t) => t.palette.primary.light + "66",
+                    bgcolor: (t) => t.palette.primary.light + "14",
+                  }}
+                >
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    sx={{ mb: 1.5 }}
                   >
-                    <FiPlus size={12} /> Add Service
-                  </button>
-                </div>
-
-                {event.extraServices.length > 0 ? (
-                  <div className="space-y-2">
-                    {event.extraServices.map((extra, eIdx) => (
-                      <div
-                        key={eIdx}
-                        className="flex items-center gap-3 bg-white p-2.5 rounded-lg border border-gray-100"
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <FiPlus size={15} />
+                      <Typography
+                        variant="body2"
+                        fontWeight={600}
+                        color="primary.dark"
                       >
-                        <input
-                          type="text"
-                          placeholder="Service name"
-                          value={extra.serviceName}
-                          onChange={(e) =>
-                            handleSlotExtraChange(
-                              event.dIdx,
-                              event.sIdx,
-                              eIdx,
-                              "serviceName",
-                              e.target.value
-                            )
-                          }
-                          autoComplete="off"
-                          className="flex-1 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary-border)] focus:ring-2 focus:ring-[var(--color-primary-soft)] transition-all"
+                        Extra Services
+                      </Typography>
+                      {event.extraServices.length > 0 && (
+                        <Chip
+                          size="small"
+                          label={event.extraServices.length}
+                          color="primary"
+                          sx={{ fontWeight: 700 }}
                         />
-                        <input
-                          type="text"
-                          placeholder="₹ Price"
-                          value={extra.price}
-                          onChange={(e) =>
-                            handleSlotExtraChange(
-                              event.dIdx,
-                              event.sIdx,
-                              eIdx,
-                              "price",
-                              e.target.value
-                            )
-                          }
-                          autoComplete="off"
-                          className="w-24 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary-border)] focus:ring-2 focus:ring-[var(--color-primary-soft)] text-center transition-all"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Qty"
-                          value={extra.quantity}
-                          onChange={(e) =>
-                            handleSlotExtraChange(
-                              event.dIdx,
-                              event.sIdx,
-                              eIdx,
-                              "quantity",
-                              e.target.value
-                            )
-                          }
-                          autoComplete="off"
-                          className="w-16 text-sm p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary-border)] focus:ring-2 focus:ring-[var(--color-primary-soft)] text-center transition-all"
-                        />
-                        <span className="text-sm font-bold text-gray-600 min-w-[60px] text-right">
-                          ₹
-                          {(
-                            (Number(extra.price) || 0) *
-                            (Number(extra.quantity) || 1)
-                          ).toFixed(2)}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleSlotRemoveExtra(event.dIdx, event.sIdx, eIdx)
-                          }
-                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        >
-                          <FiX size={14} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-400 italic">
-                    No extra services added.
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+                      )}
+                    </Stack>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<FiPlus size={12} />}
+                      onClick={() =>
+                        handleSlotAddExtra(event.dIdx, event.sIdx)
+                      }
+                    >
+                      Add Service
+                    </Button>
+                  </Stack>
 
-      {/* ====== Description + Rule Checkbox ====== */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 border-t border-gray-100 pt-5">
-        <div>
-          <label className="block font-medium text-gray-700 mb-1">
-            General Description
-          </label>
-          <textarea
+                  {event.extraServices.length > 0 ? (
+                    <Stack spacing={1}>
+                      {event.extraServices.map((extra, eIdx) => (
+                        <Stack
+                          key={eIdx}
+                          direction={{ xs: "column", md: "row" }}
+                          spacing={1}
+                          alignItems={{ xs: "stretch", md: "center" }}
+                          sx={{
+                            p: 1.25,
+                            borderRadius: 1.5,
+                            border: 1,
+                            borderColor: "divider",
+                            bgcolor: "background.paper",
+                          }}
+                        >
+                          <TextField
+                            size="small"
+                            placeholder="Service name"
+                            value={extra.serviceName || ""}
+                            onChange={(e) =>
+                              handleSlotExtraChange(
+                                event.dIdx,
+                                event.sIdx,
+                                eIdx,
+                                "serviceName",
+                                e.target.value
+                              )
+                            }
+                            autoComplete="off"
+                            sx={{ flex: 1 }}
+                          />
+                          <TextField
+                            size="small"
+                            placeholder="₹ Price"
+                            value={extra.price || ""}
+                            onChange={(e) =>
+                              handleSlotExtraChange(
+                                event.dIdx,
+                                event.sIdx,
+                                eIdx,
+                                "price",
+                                e.target.value
+                              )
+                            }
+                            autoComplete="off"
+                            sx={{ width: { xs: "100%", md: 110 } }}
+                            inputProps={{ style: { textAlign: "center" } }}
+                          />
+                          <TextField
+                            size="small"
+                            placeholder="Qty"
+                            value={extra.quantity || ""}
+                            onChange={(e) =>
+                              handleSlotExtraChange(
+                                event.dIdx,
+                                event.sIdx,
+                                eIdx,
+                                "quantity",
+                                e.target.value
+                              )
+                            }
+                            autoComplete="off"
+                            sx={{ width: { xs: "100%", md: 80 } }}
+                            inputProps={{ style: { textAlign: "center" } }}
+                          />
+                          <Typography
+                            variant="body2"
+                            fontWeight={700}
+                            color="text.primary"
+                            sx={{
+                              minWidth: 70,
+                              textAlign: { xs: "left", md: "right" },
+                            }}
+                          >
+                            ₹{(
+                              (Number(extra.price) || 0) *
+                              (Number(extra.quantity) || 1)
+                            ).toFixed(2)}
+                          </Typography>
+                          <IconButton
+                            size="small"
+                            color="error"
+                            onClick={() =>
+                              handleSlotRemoveExtra(
+                                event.dIdx,
+                                event.sIdx,
+                                eIdx
+                              )
+                            }
+                          >
+                            <FiX size={14} />
+                          </IconButton>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Typography
+                      variant="body2"
+                      color="text.disabled"
+                      fontStyle="italic"
+                    >
+                      No extra services added.
+                    </Typography>
+                  )}
+                </Paper>
+              </Stack>
+            </Box>
+          </Paper>
+        ))}
+      </Stack>
+
+      {/* Description + Rule Checkbox */}
+      <Grid container spacing={2.5} sx={{ pt: 2.5, borderTop: 1, borderColor: "divider" }}>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            label="General Description"
             name="description"
             placeholder="Notes for the entire event..."
-            className="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] min-h-[100px] transition-all"
+            value={formData.description || ""}
             onChange={handleChange}
-            value={formData.description}
           />
-        </div>
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-2.5 p-3.5 bg-gray-50 rounded-xl border border-gray-200">
-            <input
-              type="checkbox"
-              name="rule"
-              className="w-5 h-5 accent-[var(--color-primary)] cursor-pointer"
-              checked={formData.rule}
-              onChange={(e) =>
-                handleChange({
-                  target: { name: "rule", value: e.target.checked },
-                })
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 2,
+              borderRadius: 2,
+              bgcolor: "action.hover",
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={Boolean(formData.rule)}
+                  onChange={(e) =>
+                    handleChange({
+                      target: { name: "rule", value: e.target.checked },
+                    })
+                  }
+                />
+              }
+              label={
+                <Typography fontWeight={500}>Display Rules on PDF</Typography>
               }
             />
-            <label
-              className="font-medium text-gray-700 cursor-pointer select-none"
-              onClick={() =>
-                handleChange({
-                  target: { name: "rule", value: !formData.rule },
-                })
-              }
-            >
-              Display Rules on PDF
-            </label>
-          </div>
-        </div>
-      </div>
+          </Paper>
+        </Grid>
+      </Grid>
 
-      {/* ====== Bottom: Rules + Suggestions + Navigation ====== */}
-      <div className="border-t border-gray-100 pt-5">
-        {/* Rules & Suggestions Buttons */}
-        <div className="flex items-center gap-3 mb-5">
-          <button
-            type="button"
+      {/* Rules + Suggestions + Navigation */}
+      <Box sx={{ pt: 2.5, borderTop: 1, borderColor: "divider" }}>
+        <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap sx={{ mb: 2.5 }}>
+          <Button
+            variant={showRules ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<FiBookOpen size={15} />}
             onClick={() => {
               setShowRules(!showRules);
               setShowSuggestions(false);
             }}
-            className={`px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2 transition-all border ${
-              showRules
-                ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-lg shadow-[var(--color-primary)]/20"
-                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-            }`}
           >
-            <FiBookOpen size={15} /> View Rules
-          </button>
-          <button
-            type="button"
+            View Rules
+          </Button>
+          <Button
+            variant={showSuggestions ? "contained" : "outlined"}
+            color="primary"
+            startIcon={<FiFileText size={15} />}
             onClick={() => {
               setShowSuggestions(!showSuggestions);
               setShowRules(false);
             }}
-            className={`px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2 transition-all border ${
-              showSuggestions
-                ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-lg shadow-[var(--color-primary)]/20"
-                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-            }`}
           >
-            <FiFileText size={15} /> View Suggestions
-          </button>
-        </div>
+            View Suggestions
+          </Button>
+        </Stack>
 
-        {/* Rules Panel */}
-        {showRules && (
-          <div className="mb-5 p-5 bg-[var(--color-primary-tint)] rounded-xl border border-[var(--color-primary-border)] animate-in slide-in-from-top-2 duration-300">
-            <h4 className="font-bold text-[var(--color-primary-text)] text-sm mb-3 flex items-center gap-2">
-              <FiBookOpen size={15} /> Terms & Rules
-            </h4>
-            <ul className="space-y-2">
-              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)] font-bold">1.</span>
-                <span>The party must arrange the cooking area on time.</span>
-              </li>
-              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)] font-bold">2.</span>
-                <span>
-                  The party must confirm the menu and dish count 10 days before
-                  the event.
-                </span>
-              </li>
-              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)] font-bold">3.</span>
-                <span>
-                  The party must arrange water supply for utensils and waste
-                  disposal.
-                </span>
-              </li>
-              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)] font-bold">4.</span>
-                <span>
-                  The party must arrange tables for counters and other pandal
-                  service equipment.
-                </span>
-              </li>
-              <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)] font-bold">5.</span>
-                <span>
-                  The party must pay 30% advance payment after placing the
-                  order.
-                </span>
-              </li>
-            </ul>
-          </div>
-        )}
+        <Collapse in={showRules}>
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 2.5,
+              mb: 2.5,
+              borderRadius: 2,
+              borderColor: (t) => t.palette.primary.light + "66",
+              bgcolor: (t) => t.palette.primary.light + "14",
+            }}
+          >
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              sx={{ mb: 1.5 }}
+            >
+              <FiBookOpen size={15} />
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                color="primary.dark"
+              >
+                Terms & Rules
+              </Typography>
+            </Stack>
+            <Stack component="ol" spacing={1} sx={{ pl: 2, m: 0 }}>
+              {[
+                "The party must arrange the cooking area on time.",
+                "The party must confirm the menu and dish count 10 days before the event.",
+                "The party must arrange water supply for utensils and waste disposal.",
+                "The party must arrange tables for counters and other pandal service equipment.",
+                "The party must pay 30% advance payment after placing the order.",
+              ].map((rule, idx) => (
+                <Typography
+                  key={idx}
+                  component="li"
+                  variant="body2"
+                  color="primary.dark"
+                >
+                  {rule}
+                </Typography>
+              ))}
+            </Stack>
+          </Paper>
+        </Collapse>
 
-        {/* Suggestions Panel */}
-        {showSuggestions && (
-          <div className="mb-5 p-5 bg-sky-50 rounded-xl border border-sky-200 animate-in slide-in-from-top-2 duration-300">
-            <h4 className="font-bold text-sky-900 text-sm mb-3 flex items-center gap-2">
-              <FiFileText size={15} /> Suggestions
-            </h4>
-            <ul className="space-y-2">
-              <li className="text-sm text-sky-800 flex gap-2">
-                <span className="text-sky-500 font-bold">•</span>
-                <span>
-                  Consider adding a welcome drinks section for events with 200+
-                  guests.
-                </span>
-              </li>
-              <li className="text-sm text-sky-800 flex gap-2">
-                <span className="text-sky-500 font-bold">•</span>
-                <span>
-                  Multi-day events benefit from varied menus to avoid
-                  repetition.
-                </span>
-              </li>
-              <li className="text-sm text-sky-800 flex gap-2">
-                <span className="text-sky-500 font-bold">•</span>
-                <span>
-                  Ensure dessert selection aligns with the number of main course
-                  dishes.
-                </span>
-              </li>
-            </ul>
-          </div>
-        )}
+        <Collapse in={showSuggestions}>
+          <Paper
+            variant="outlined"
+            sx={{
+              p: 2.5,
+              mb: 2.5,
+              borderRadius: 2,
+              borderColor: "info.light",
+              bgcolor: (t) => t.palette.info.light + "22",
+            }}
+          >
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              sx={{ mb: 1.5 }}
+            >
+              <FiFileText size={15} />
+              <Typography variant="body2" fontWeight={700} color="info.dark">
+                Suggestions
+              </Typography>
+            </Stack>
+            <Stack component="ul" spacing={1} sx={{ pl: 2, m: 0 }}>
+              {[
+                "Consider adding a welcome drinks section for events with 200+ guests.",
+                "Multi-day events benefit from varied menus to avoid repetition.",
+                "Ensure dessert selection aligns with the number of main course dishes.",
+              ].map((tip, idx) => (
+                <Typography
+                  key={idx}
+                  component="li"
+                  variant="body2"
+                  color="info.dark"
+                >
+                  {tip}
+                </Typography>
+              ))}
+            </Stack>
+          </Paper>
+        </Collapse>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={2}
+          justifyContent="space-between"
+          alignItems={{ xs: "stretch", md: "center" }}
+        >
+          <Button
+            variant="outlined"
+            color="inherit"
+            startIcon={<FiArrowLeft size={16} />}
             onClick={onBack}
-            className="px-6 py-2.5 font-semibold text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-all flex items-center gap-2"
           >
-            <FiArrowLeft size={16} /> Back to Menu
-          </button>
-
-          <button
-            type="button"
+            Back to Menu
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            startIcon={<FiSend size={18} />}
             onClick={handleSubmit}
-            className="px-10 py-3.5 font-bold text-lg text-white bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 rounded-xl shadow-xl shadow-[var(--color-primary)]/30 transition-all active:scale-[0.98] flex items-center gap-2"
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: "1rem",
+              background: (t) =>
+                `linear-gradient(90deg, ${t.palette.primary.main}, ${t.palette.primary.dark})`,
+            }}
           >
-            <FiSend size={18} /> Review & Generate PDF
-          </button>
-        </div>
-      </div>
-    </div>
+            Review &amp; Generate PDF
+          </Button>
+        </Stack>
+      </Box>
+    </Stack>
   );
 }
 

@@ -1,10 +1,37 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import Loader from "../../Components/common/Loader";
 import AddOrderIngredientsModal from "../../Components/common/AddOrderIngredientsModal";
-import Button from "../../Components/common/Button";
-import Badge from "../../Components/common/Badge";
-import { FiAlertTriangle, FiEdit2, FiPlus, FiTrash2 } from "react-icons/fi";
+import {
+  FiAlertTriangle,
+  FiArrowLeft,
+  FiCheck,
+  FiEdit2,
+  FiPlus,
+  FiTrash2,
+  FiX,
+  FiCalendar,
+  FiUsers,
+  FiShare2,
+  FiUserCheck,
+} from "react-icons/fi";
 import { format } from "date-fns";
 
 // ─── Unit Conversion Helper ───────────────────────────────────────────────────
@@ -33,20 +60,16 @@ function parseQuantity(str) {
 
 function getUniqueUsedItems(rows = []) {
   const usedItemsMap = new Map();
-
   rows.forEach((row) => {
     const usedItems = Array.isArray(row?.used_in_items) ? row.used_in_items : [];
-
     usedItems.forEach((usedItem) => {
       const itemName = String(usedItem || "").trim();
       const normalizedName = itemName.toLowerCase();
-
       if (normalizedName && !usedItemsMap.has(normalizedName)) {
         usedItemsMap.set(normalizedName, itemName);
       }
     });
   });
-
   return Array.from(usedItemsMap.values());
 }
 
@@ -63,11 +86,35 @@ function formatDate(dateStr) {
       }
       if (!isNaN(d)) return format(d, "dd MMM, yyyy");
     }
-  } catch (e) {
+  } catch {
     /* fallback */
   }
   return dateStr;
 }
+
+// ─── Small UI helpers ─────────────────────────────────────────────────────────
+function InfoBlock({ label, value }) {
+  return (
+    <Stack spacing={0.25}>
+      <Typography
+        variant="caption"
+        color="primary.main"
+        fontWeight={700}
+        sx={{ textTransform: "uppercase", letterSpacing: 0.5 }}
+      >
+        {label}
+      </Typography>
+      {typeof value === "string" || typeof value === "number" ? (
+        <Typography variant="body1" fontWeight={600} color="text.primary">
+          {value}
+        </Typography>
+      ) : (
+        value
+      )}
+    </Stack>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 function ViewIngredientComponent({
@@ -92,32 +139,29 @@ function ViewIngredientComponent({
   const outsourcedItemsList = React.useMemo(() => {
     if (!viewIngredient?.sessions) return [];
     const items = [];
-    viewIngredient.sessions.forEach(session => {
-      if (sessionIdFilter && String(session.id) !== String(sessionIdFilter)) return;
-      if (!sessionIdFilter && sessionFilter && session.event_time !== sessionFilter) return;
+    viewIngredient.sessions.forEach((session) => {
+      if (sessionIdFilter && String(session.id) !== String(sessionIdFilter))
+        return;
+      if (
+        !sessionIdFilter &&
+        sessionFilter &&
+        session.event_time !== sessionFilter
+      )
+        return;
       const outsourced = session.outsourced_items || [];
-      outsourced.forEach(oi => {
-        items.push({
-          ...oi,
-          sessionTime: session.event_time
-        });
+      outsourced.forEach((oi) => {
+        items.push({ ...oi, sessionTime: session.event_time });
       });
     });
     return items;
-  }, [viewIngredient, sessionFilter]);
+  }, [viewIngredient, sessionFilter, sessionIdFilter]);
 
-  // Inline edit state for ingredient quantities
   const [editingKey, setEditingKey] = React.useState(null);
   const [editValue, setEditValue] = React.useState("");
   const [savingEdit, setSavingEdit] = React.useState(false);
 
-  // Order-local ingredient modal state:
-  //   null | { sessionId, sessionLabel, dishName, mode, initialRows }
   const [orderLocalModal, setOrderLocalModal] = React.useState(null);
 
-  // Set of ingredient keys that were added as order-local (stored on each
-  // session under the dedicated `order_local_ingredients` field). Used to
-  // render the "Added for this order" badge in the main category list.
   const orderLocalKeys = React.useMemo(() => {
     const s = new Set();
     (viewIngredient?.sessions || []).forEach((sess) => {
@@ -128,9 +172,6 @@ function ViewIngredientComponent({
     return s;
   }, [viewIngredient]);
 
-  // Grouped order-local entries per session → per dish, for rendering the
-  // "already added" list with edit/remove in the missing-ingredients banner.
-  //   { [sessionId]: { [dishName]: [{ key, ingredient, quantity, unit, category }] } }
   const orderLocalByDishBySession = React.useMemo(() => {
     const map = {};
     (viewIngredient?.sessions || []).forEach((sess) => {
@@ -156,8 +197,6 @@ function ViewIngredientComponent({
     return map;
   }, [viewIngredient]);
 
-  // Sessions to show in the "missing ingredients" banner:
-  // filter by sessionFilter/sessionIdFilter when those are set.
   const visibleSessionsForBanner = (viewIngredient?.sessions || []).filter(
     (s) => {
       if (sessionIdFilter) return String(s.id) === String(sessionIdFilter);
@@ -185,7 +224,6 @@ function ViewIngredientComponent({
     const dishEntries =
       orderLocalByDishBySession[sessionId]?.[dishName] || [];
     for (const row of dishEntries) {
-      // Sequential to avoid racing on the same order document.
       // eslint-disable-next-line no-await-in-loop
       await onDeleteOrderLocalIngredient(sessionId, row.key);
     }
@@ -197,7 +235,11 @@ function ViewIngredientComponent({
       return;
     }
     setSavingEdit(true);
-    const success = await onUpdateQuantity(sessionId, ingredientName, editValue.trim());
+    const success = await onUpdateQuantity(
+      sessionId,
+      ingredientName,
+      editValue.trim()
+    );
     setSavingEdit(false);
     if (success !== false) {
       setEditingKey(null);
@@ -205,501 +247,721 @@ function ViewIngredientComponent({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm gap-2">
-        <button
-          type="button"
-          className="flex-shrink-0 flex items-center gap-1.5 px-3 sm:px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
-          onClick={() => navigate(-1)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+      <AppBar
+        position="sticky"
+        color="inherit"
+        elevation={0}
+        sx={{
+          bgcolor: "background.paper",
+          borderBottom: 1,
+          borderColor: "divider",
+        }}
+      >
+        <Toolbar sx={{ gap: 1 }}>
+          <Button
+            variant="text"
+            startIcon={<FiArrowLeft size={16} />}
+            onClick={() => navigate(-1)}
+            sx={{ color: "text.secondary" }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          <span className="hidden sm:inline">Back</span>
-        </button>
-        <h1 className="text-lg sm:text-xl font-bold text-gray-800 text-center flex-1 truncate">
-          Ingredient Details
-        </h1>
-        <div className="w-10 sm:w-20 flex-shrink-0" /> {/* spacer */}
-      </div>
+            <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+              Back
+            </Box>
+          </Button>
+          <Typography
+            variant="h6"
+            fontWeight={700}
+            sx={{ flex: 1, textAlign: "center" }}
+            noWrap
+          >
+            Ingredient Details
+          </Typography>
+          <Box sx={{ width: { xs: 40, sm: 80 } }} />
+        </Toolbar>
+      </AppBar>
 
       {loading ? (
-        <div className="p-8">
+        <Box sx={{ p: 4 }}>
           <Loader message="Loading Ingredients..." />
-        </div>
+        </Box>
       ) : (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-          {/* Session filter hero banner */}
-          {sessionFilter &&
-            (() => {
-              const matchedSession = sessionIdFilter
-                ? viewIngredient?.sessions?.find((s) => String(s.id) === String(sessionIdFilter)) || {}
-                : (viewIngredient?.sessions?.find(
-                    (s) => (s.event_time || "").trim().toLowerCase() === (sessionFilter || "").trim().toLowerCase()
-                  ) || {});
-              const uniqueDates = Array.from(
-                new Set((viewIngredient?.sessions || []).map((s) => s.event_date))
-              ).filter(Boolean);
-              const displayDate = 
-                matchedSession.event_date || 
-                viewIngredient?.event_date || 
-                (uniqueDates.length > 0 ? uniqueDates[0] : null);
-
-              const persons =
-                matchedSession.estimated_persons ||
-                viewIngredient?.estimated_persons ||
-                "—";
-              const address =
-                matchedSession.event_address ||
-                viewIngredient?.event_address ||
-                "—";
-              return (
-                <>
-                  {/* Person & session info card */}
-                  <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-4">
-                    <div className="flex flex-wrap gap-5">
-                      {viewIngredient?.name && (
-                        <div>
-                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                            Customer
-                          </p>
-                          <p className="text-base font-bold text-gray-900">
-                            {viewIngredient.name}
-                          </p>
-                        </div>
-                      )}
-                      {viewIngredient?.mobile_no && (
-                        <div>
-                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                            Mobile
-                          </p>
-                          <p className="text-base font-semibold text-gray-700">
-                            {viewIngredient.mobile_no}
-                          </p>
-                        </div>
-                      )}
-                       {displayDate && (
-                        <div>
-                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                            Event Date
-                          </p>
-                          <p className="text-base font-semibold text-gray-700">
-                            {formatDate(displayDate)}
-                          </p>
-                        </div>
-                      )}
-                      <div>
-                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                          Estimated Persons
-                        </p>
-                        <p className="text-2xl font-bold text-gray-900">
-                          {persons}
-                        </p>
-                      </div>
-                      {address && address !== "—" && (
-                        <div>
-                          <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                            Event Address
-                          </p>
-                          <p className="text-base font-medium text-gray-700">
-                            {address}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Session banner */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-[var(--color-primary)] text-white px-4 sm:px-6 py-4 rounded-2xl shadow-md">
-                    <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-xs text-white/70 font-medium uppercase tracking-wider">
-                        Viewing Session
-                      </p>
-                      <div className="flex items-baseline gap-2">
-                        <p className="text-lg font-bold">{sessionFilter}</p>
-                        {displayDate && (
-                          <span className="text-xs font-medium text-white/80">
-                            • {formatDate(displayDate)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="sm:ml-auto w-full sm:w-auto flex items-center gap-2 bg-white/20 px-3 py-1.5 rounded-full justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                      </svg>
-                      <span className="text-sm font-semibold">
-                        {persons} persons
-                      </span>
-                    </div>
-                  </div>
-                </>
-              );
-            })()}
-
-          {/* Event info (only when no session filter) */}
-          {!sessionFilter && (
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-4 flex flex-wrap gap-6 font-sans">
-              {(() => {
+        <Box
+          sx={{
+            maxWidth: 1280,
+            mx: "auto",
+            px: { xs: 2, sm: 3, lg: 4 },
+            py: 4,
+          }}
+        >
+          <Stack spacing={3}>
+            {/* Session filter hero banner */}
+            {sessionFilter &&
+              (() => {
+                const matchedSession = sessionIdFilter
+                  ? viewIngredient?.sessions?.find(
+                      (s) => String(s.id) === String(sessionIdFilter)
+                    ) || {}
+                  : viewIngredient?.sessions?.find(
+                      (s) =>
+                        (s.event_time || "").trim().toLowerCase() ===
+                        (sessionFilter || "").trim().toLowerCase()
+                    ) || {};
                 const uniqueDates = Array.from(
-                  new Set((viewIngredient?.sessions || []).map((s) => s.event_date))
+                  new Set(
+                    (viewIngredient?.sessions || []).map((s) => s.event_date)
+                  )
                 ).filter(Boolean);
-                const allDates = [...uniqueDates];
-                if (viewIngredient?.event_date && !allDates.includes(viewIngredient.event_date)) {
-                  allDates.push(viewIngredient.event_date);
-                }
-                
+                const displayDate =
+                  matchedSession.event_date ||
+                  viewIngredient?.event_date ||
+                  (uniqueDates.length > 0 ? uniqueDates[0] : null);
+                const persons =
+                  matchedSession.estimated_persons ||
+                  viewIngredient?.estimated_persons ||
+                  "—";
+                const address =
+                  matchedSession.event_address ||
+                  viewIngredient?.event_address ||
+                  "—";
                 return (
                   <>
-                    {viewIngredient?.name && (
-                      <div>
-                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                          Customer
-                        </p>
-                        <p className="text-base font-bold text-gray-900">
-                          {viewIngredient.name}
-                        </p>
-                      </div>
-                    )}
-                    {viewIngredient?.mobile_no && (
-                      <div>
-                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                          Mobile
-                        </p>
-                        <p className="text-base font-semibold text-gray-700">
-                          {viewIngredient.mobile_no}
-                        </p>
-                      </div>
-                    )}
-                    {allDates.length > 0 && (
-                      <div>
-                        <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                          Event Date{allDates.length > 1 ? 's' : ''}
-                        </p>
-                        <p className="text-base font-semibold text-gray-700">
-                          {allDates.map(d => formatDate(d)).join(", ")}
-                        </p>
-                      </div>
-                    )}
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        border: 1,
+                        borderColor: "divider",
+                        borderRadius: 3,
+                        p: 3,
+                      }}
+                    >
+                      <Stack direction="row" spacing={4} flexWrap="wrap" useFlexGap>
+                        {viewIngredient?.name && (
+                          <InfoBlock
+                            label="Customer"
+                            value={
+                              <Typography variant="body1" fontWeight={700}>
+                                {viewIngredient.name}
+                              </Typography>
+                            }
+                          />
+                        )}
+                        {viewIngredient?.mobile_no && (
+                          <InfoBlock
+                            label="Mobile"
+                            value={viewIngredient.mobile_no}
+                          />
+                        )}
+                        {displayDate && (
+                          <InfoBlock
+                            label="Event Date"
+                            value={formatDate(displayDate)}
+                          />
+                        )}
+                        <InfoBlock
+                          label="Estimated Persons"
+                          value={
+                            <Typography variant="h5" fontWeight={700}>
+                              {persons}
+                            </Typography>
+                          }
+                        />
+                        {address && address !== "—" && (
+                          <InfoBlock label="Event Address" value={address} />
+                        )}
+                      </Stack>
+                    </Paper>
+
+                    <Paper
+                      elevation={2}
+                      sx={{
+                        bgcolor: "primary.main",
+                        color: "primary.contrastText",
+                        borderRadius: 3,
+                        px: { xs: 2, sm: 3 },
+                        py: 2,
+                      }}
+                    >
+                      <Stack
+                        direction={{ xs: "column", sm: "row" }}
+                        spacing={1.5}
+                        alignItems={{ xs: "flex-start", sm: "center" }}
+                      >
+                        <FiCalendar size={20} />
+                        <Box>
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              opacity: 0.75,
+                              textTransform: "uppercase",
+                              letterSpacing: 0.5,
+                              fontWeight: 500,
+                            }}
+                          >
+                            Viewing Session
+                          </Typography>
+                          <Stack direction="row" spacing={1} alignItems="baseline">
+                            <Typography variant="h6" fontWeight={700}>
+                              {sessionFilter}
+                            </Typography>
+                            {displayDate && (
+                              <Typography
+                                variant="caption"
+                                sx={{ opacity: 0.85 }}
+                              >
+                                • {formatDate(displayDate)}
+                              </Typography>
+                            )}
+                          </Stack>
+                        </Box>
+                        <Chip
+                          icon={<FiUsers size={14} color="currentColor" />}
+                          label={`${persons} persons`}
+                          sx={{
+                            ml: { sm: "auto" },
+                            bgcolor: "rgba(255,255,255,0.2)",
+                            color: "inherit",
+                            fontWeight: 600,
+                            "& .MuiChip-icon": { color: "inherit" },
+                          }}
+                        />
+                      </Stack>
+                    </Paper>
                   </>
                 );
               })()}
-              <div>
-                <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                  Estimated Persons
-                </p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {viewIngredient.estimated_persons}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-0.5">
-                  Event Address
-                </p>
-                <p className="text-base font-medium text-gray-700">
-                  {viewIngredient.event_address}
-                </p>
-              </div>
-            </div>
-          )}
 
-          {/* Vendor Supplied / Outsourced Items Block */}
-          {outsourcedItemsList.length > 0 && (
-            <div className="bg-white rounded-2xl border border-[var(--color-primary-border)]/30 shadow-sm overflow-hidden mb-6">
-              <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/30 px-6 py-3 flex items-center justify-between">
-                <h3 className="text-base font-bold text-[var(--color-primary-text)] tracking-wide flex items-center gap-2">
-                  <span className="text-lg">🍱</span> Vendor Supplied Items
-                </h3>
-                <span className="px-2.5 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-soft)] rounded-full border border-[var(--color-primary-border)]/50">
-                  {outsourcedItemsList.length} item{outsourcedItemsList.length !== 1 ? 's' : ''}
-                </span>
-              </div>
-              <div className="p-4 sm:p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {outsourcedItemsList.map((oi, idx) => {
-                  return (
-                    <div key={idx} className="bg-white border border-gray-200 shadow-sm hover:border-[var(--color-primary-border)]/50 hover:shadow-md transition-all rounded-xl p-4 flex flex-col gap-2">
-                      <div className="flex items-start justify-between gap-2">
-                        <span className="font-bold text-gray-800 text-sm leading-snug">{oi.item_name}</span>
-                        <span className="text-[10px] bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-[var(--color-primary-border)]/50 shrink-0">
-                          Outsourced
-                        </span>
-                      </div>
-
-                      {/* Quantity */}
-                      {oi.quantity ? (
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] px-2 py-1 rounded-lg border border-[var(--color-primary-border)]/30">
-                          <span>📦</span>
-                          <span>Qty: {oi.quantity} {oi.unit || ''}</span>
-                        </div>
-                      ) : null}
-
-                      {oi.vendor ? (
-                         <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100">
-                           <span className="text-[var(--color-primary)]">🏢</span> 
-                           <span>Supplier:</span>
-                           <span className="text-gray-800 truncate">{oi.vendor.name}</span>
-                         </div>
-                      ) : (
-                         <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] p-2 rounded-lg border border-[var(--color-primary-border)]/30">
-                           <span>⚠️</span> 
-                           <span>No Vendor Assigned</span>
-                         </div>
-                      )}
-
-                      {!sessionFilter && (
-                        <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
-                          <span>⏰</span> {oi.sessionTime}
-                        </div>
-                      )}
-
-                      {/* Per-item share button */}
-                      <button
-                        type="button"
-                        className="mt-2 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white cursor-pointer"
-                        onClick={() => handleShareOutsourced(oi)}
-                        title={`Share ${oi.item_name} with ${oi.vendor?.name || 'vendor'}`}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                        </svg>
-                        Share with Vendor
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Per-session "missing ingredients" banners */}
-          {visibleSessionsForBanner.map((session) => {
-            const missing = missingBySession[session.id] || [];
-            const orderLocalByDish =
-              orderLocalByDishBySession[session.id] || {};
-            const dishesInBanner = [
-              ...missing.map((m) => m.item),
-              ...Object.keys(orderLocalByDish).filter(
-                (d) => !missing.some((m) => m.item === d)
-              ),
-            ];
-            if (dishesInBanner.length === 0) return null;
-
-            return (
-              <div
-                key={`missing-${session.id}`}
-                className="bg-amber-50/60 border border-amber-200 rounded-2xl overflow-hidden"
+            {/* Event info (only when no session filter) */}
+            {!sessionFilter && (
+              <Paper
+                elevation={0}
+                sx={{
+                  border: 1,
+                  borderColor: "divider",
+                  borderRadius: 3,
+                  p: 3,
+                }}
               >
-                <div className="flex items-start gap-3 px-4 sm:px-6 py-4 border-b border-amber-200 bg-amber-100/60">
-                  <FiAlertTriangle
-                    className="text-amber-600 mt-0.5 shrink-0"
-                    size={20}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm sm:text-base font-bold text-amber-900">
-                      Some dishes need ingredients for this order
-                    </h3>
-                    <p className="text-xs sm:text-sm text-amber-800/80 mt-0.5">
-                      {session.event_time
-                        ? `Session: ${session.event_time}${session.event_date ? ` • ${formatDate(session.event_date)}` : ""}`
-                        : session.event_date
-                          ? formatDate(session.event_date)
-                          : "Session"}
-                      {" — "}
-                      {missing.length > 0
-                        ? `${missing.length} dish${missing.length !== 1 ? "es" : ""} missing a recipe`
-                        : "ingredients added below"}
-                    </p>
-                  </div>
-                </div>
-                <div className="p-3 sm:p-4 flex flex-col gap-3">
-                  {dishesInBanner.map((dish) => {
-                    const existing = orderLocalByDish[dish] || [];
+                <Stack direction="row" spacing={4} flexWrap="wrap" useFlexGap>
+                  {(() => {
+                    const uniqueDates = Array.from(
+                      new Set(
+                        (viewIngredient?.sessions || []).map(
+                          (s) => s.event_date
+                        )
+                      )
+                    ).filter(Boolean);
+                    const allDates = [...uniqueDates];
+                    if (
+                      viewIngredient?.event_date &&
+                      !allDates.includes(viewIngredient.event_date)
+                    ) {
+                      allDates.push(viewIngredient.event_date);
+                    }
                     return (
-                      <div
-                        key={dish}
-                        className="bg-white rounded-xl border border-amber-200/80 p-3 sm:p-4"
-                      >
-                        <div className="flex items-start justify-between gap-3 flex-wrap">
-                          <div className="min-w-0">
-                            <p className="font-bold text-gray-800 text-sm sm:text-base">
-                              {dish}
-                            </p>
-                            <p className="text-[11px] text-gray-500 mt-0.5">
-                              No recipe defined globally
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            {existing.length > 0 ? (
-                              <>
+                      <>
+                        {viewIngredient?.name && (
+                          <InfoBlock
+                            label="Customer"
+                            value={
+                              <Typography variant="body1" fontWeight={700}>
+                                {viewIngredient.name}
+                              </Typography>
+                            }
+                          />
+                        )}
+                        {viewIngredient?.mobile_no && (
+                          <InfoBlock
+                            label="Mobile"
+                            value={viewIngredient.mobile_no}
+                          />
+                        )}
+                        {allDates.length > 0 && (
+                          <InfoBlock
+                            label={`Event Date${allDates.length > 1 ? "s" : ""}`}
+                            value={allDates.map((d) => formatDate(d)).join(", ")}
+                          />
+                        )}
+                      </>
+                    );
+                  })()}
+                  <InfoBlock
+                    label="Estimated Persons"
+                    value={
+                      <Typography variant="h5" fontWeight={700}>
+                        {viewIngredient.estimated_persons}
+                      </Typography>
+                    }
+                  />
+                  <InfoBlock
+                    label="Event Address"
+                    value={viewIngredient.event_address}
+                  />
+                </Stack>
+              </Paper>
+            )}
+
+            {/* Vendor Supplied / Outsourced Items Block */}
+            {outsourcedItemsList.length > 0 && (
+              <Paper
+                elevation={0}
+                sx={{
+                  border: 1,
+                  borderColor: "divider",
+                  borderRadius: 3,
+                  overflow: "hidden",
+                }}
+              >
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    px: 3,
+                    py: 1.5,
+                    bgcolor: (t) => t.palette.primary.light + "1f",
+                    borderBottom: 1,
+                    borderColor: "divider",
+                  }}
+                >
+                  <Typography variant="subtitle1" fontWeight={700}>
+                    🍱 Vendor Supplied Items
+                  </Typography>
+                  <Chip
+                    size="small"
+                    label={`${outsourcedItemsList.length} item${
+                      outsourcedItemsList.length !== 1 ? "s" : ""
+                    }`}
+                    color="primary"
+                    sx={{ fontWeight: 600 }}
+                  />
+                </Stack>
+                <Box sx={{ p: { xs: 2, sm: 2.5 } }}>
+                  <Grid container spacing={2}>
+                    {outsourcedItemsList.map((oi, idx) => (
+                      <Grid key={idx} size={{ xs: 12, md: 6, lg: 4 }}>
+                        <Card
+                          variant="outlined"
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <CardContent sx={{ flex: 1 }}>
+                            <Stack
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems="flex-start"
+                              spacing={1}
+                            >
+                              <Typography
+                                variant="body2"
+                                fontWeight={700}
+                                sx={{ flex: 1 }}
+                              >
+                                {oi.item_name}
+                              </Typography>
+                              <Chip
+                                size="small"
+                                label="Outsourced"
+                                color="primary"
+                                variant="outlined"
+                                sx={{
+                                  fontSize: "0.625rem",
+                                  fontWeight: 700,
+                                  height: 20,
+                                }}
+                              />
+                            </Stack>
+                            {oi.quantity && (
+                              <Chip
+                                icon={<span>📦</span>}
+                                label={`Qty: ${oi.quantity} ${oi.unit || ""}`}
+                                size="small"
+                                sx={{
+                                  mt: 1,
+                                  bgcolor: (t) =>
+                                    t.palette.primary.light + "1f",
+                                  color: "primary.dark",
+                                  fontWeight: 600,
+                                }}
+                              />
+                            )}
+                            <Box sx={{ mt: 1 }}>
+                              {oi.vendor ? (
+                                <Stack
+                                  direction="row"
+                                  spacing={1}
+                                  alignItems="center"
+                                  sx={{
+                                    bgcolor: "action.hover",
+                                    px: 1.5,
+                                    py: 1,
+                                    borderRadius: 1.5,
+                                  }}
+                                >
+                                  <span>🏢</span>
+                                  <Typography variant="caption" fontWeight={600}>
+                                    Supplier:
+                                  </Typography>
+                                  <Typography variant="caption" noWrap>
+                                    {oi.vendor.name}
+                                  </Typography>
+                                </Stack>
+                              ) : (
+                                <Stack
+                                  direction="row"
+                                  spacing={1}
+                                  alignItems="center"
+                                  sx={{
+                                    bgcolor: (t) =>
+                                      t.palette.primary.light + "1f",
+                                    color: "primary.main",
+                                    px: 1.5,
+                                    py: 1,
+                                    borderRadius: 1.5,
+                                  }}
+                                >
+                                  <FiAlertTriangle size={14} />
+                                  <Typography variant="caption" fontWeight={600}>
+                                    No Vendor Assigned
+                                  </Typography>
+                                </Stack>
+                              )}
+                            </Box>
+                            {!sessionFilter && (
+                              <Typography
+                                variant="caption"
+                                color="text.disabled"
+                                fontWeight={700}
+                                sx={{
+                                  display: "block",
+                                  textTransform: "uppercase",
+                                  letterSpacing: 0.5,
+                                  mt: 1,
+                                }}
+                              >
+                                ⏰ {oi.sessionTime}
+                              </Typography>
+                            )}
+                            <Button
+                              fullWidth
+                              size="small"
+                              variant="outlined"
+                              color="primary"
+                              startIcon={<FiShare2 size={14} />}
+                              onClick={() => handleShareOutsourced(oi)}
+                              sx={{ mt: 1.5 }}
+                              title={`Share ${oi.item_name} with ${
+                                oi.vendor?.name || "vendor"
+                              }`}
+                            >
+                              Share with Vendor
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              </Paper>
+            )}
+
+            {/* Per-session "missing ingredients" banners */}
+            {visibleSessionsForBanner.map((session) => {
+              const missing = missingBySession[session.id] || [];
+              const orderLocalByDish =
+                orderLocalByDishBySession[session.id] || {};
+              const dishesInBanner = [
+                ...missing.map((m) => m.item),
+                ...Object.keys(orderLocalByDish).filter(
+                  (d) => !missing.some((m) => m.item === d)
+                ),
+              ];
+              if (dishesInBanner.length === 0) return null;
+
+              return (
+                <Paper
+                  key={`missing-${session.id}`}
+                  elevation={0}
+                  sx={{
+                    border: 1,
+                    borderColor: "warning.light",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                    bgcolor: (t) => t.palette.warning.light + "1a",
+                  }}
+                >
+                  <Stack
+                    direction="row"
+                    spacing={1.5}
+                    alignItems="flex-start"
+                    sx={{
+                      px: { xs: 2, sm: 3 },
+                      py: 2,
+                      borderBottom: 1,
+                      borderColor: "warning.light",
+                      bgcolor: (t) => t.palette.warning.light + "33",
+                    }}
+                  >
+                    <FiAlertTriangle color="#b45309" size={20} />
+                    <Box minWidth={0} flex={1}>
+                      <Typography variant="subtitle1" fontWeight={700} color="warning.dark">
+                        Some dishes need ingredients for this order
+                      </Typography>
+                      <Typography variant="caption" color="warning.dark" sx={{ opacity: 0.8 }}>
+                        {session.event_time
+                          ? `Session: ${session.event_time}${
+                              session.event_date
+                                ? ` • ${formatDate(session.event_date)}`
+                                : ""
+                            }`
+                          : session.event_date
+                            ? formatDate(session.event_date)
+                            : "Session"}
+                        {" — "}
+                        {missing.length > 0
+                          ? `${missing.length} dish${
+                              missing.length !== 1 ? "es" : ""
+                            } missing a recipe`
+                          : "ingredients added below"}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <Stack spacing={1.5} sx={{ p: { xs: 1.5, sm: 2 } }}>
+                    {dishesInBanner.map((dish) => {
+                      const existing = orderLocalByDish[dish] || [];
+                      return (
+                        <Paper
+                          key={dish}
+                          elevation={0}
+                          sx={{
+                            border: 1,
+                            borderColor: "warning.light",
+                            borderRadius: 2,
+                            p: { xs: 1.5, sm: 2 },
+                          }}
+                        >
+                          <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                            spacing={1.5}
+                            flexWrap="wrap"
+                            useFlexGap
+                          >
+                            <Box minWidth={0}>
+                              <Typography variant="body1" fontWeight={700}>
+                                {dish}
+                              </Typography>
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                              >
+                                No recipe defined globally
+                              </Typography>
+                            </Box>
+                            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                              {existing.length > 0 ? (
+                                <>
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    startIcon={<FiEdit2 size={13} />}
+                                    onClick={() =>
+                                      setOrderLocalModal({
+                                        sessionId: session.id,
+                                        sessionLabel: session.event_time || null,
+                                        dishName: dish,
+                                        mode: "edit",
+                                        initialRows: existing.map((e) => ({
+                                          ingredient: e.ingredient,
+                                          quantity: e.quantity,
+                                          unit: e.unit,
+                                          category: e.category,
+                                        })),
+                                      })
+                                    }
+                                  >
+                                    Edit
+                                  </Button>
+                                  <Button
+                                    variant="text"
+                                    color="error"
+                                    size="small"
+                                    startIcon={<FiTrash2 size={13} />}
+                                    onClick={() => {
+                                      if (
+                                        window.confirm(
+                                          `Remove all ingredients added for "${dish}" in this order?`
+                                        )
+                                      ) {
+                                        handleRemoveAllForDish(session.id, dish);
+                                      }
+                                    }}
+                                  >
+                                    Remove
+                                  </Button>
+                                </>
+                              ) : (
                                 <Button
-                                  variant="secondary"
-                                  size="sm"
-                                  leftIcon={<FiEdit2 size={13} />}
+                                  variant="contained"
+                                  size="small"
+                                  startIcon={<FiPlus size={14} />}
                                   onClick={() =>
                                     setOrderLocalModal({
                                       sessionId: session.id,
-                                      sessionLabel:
-                                        session.event_time || null,
+                                      sessionLabel: session.event_time || null,
                                       dishName: dish,
-                                      mode: "edit",
-                                      initialRows: existing.map((e) => ({
-                                        ingredient: e.ingredient,
-                                        quantity: e.quantity,
-                                        unit: e.unit,
-                                        category: e.category,
-                                      })),
+                                      mode: "add",
+                                      initialRows: [],
                                     })
                                   }
                                 >
-                                  Edit
+                                  Add Ingredients
                                 </Button>
-                                <Button
-                                  variant="danger-ghost"
-                                  size="sm"
-                                  leftIcon={<FiTrash2 size={13} />}
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        `Remove all ingredients added for "${dish}" in this order?`
-                                      )
-                                    ) {
-                                      handleRemoveAllForDish(
-                                        session.id,
-                                        dish
-                                      );
-                                    }
+                              )}
+                            </Stack>
+                          </Stack>
+                          {existing.length > 0 && (
+                            <Stack
+                              direction="row"
+                              spacing={1}
+                              flexWrap="wrap"
+                              useFlexGap
+                              sx={{ mt: 1.5 }}
+                            >
+                              {existing.map((e) => (
+                                <Chip
+                                  key={e.key}
+                                  size="small"
+                                  label={
+                                    <Box component="span">
+                                      <Box component="span" fontWeight={700}>
+                                        {e.ingredient}
+                                      </Box>
+                                      <Box
+                                        component="span"
+                                        sx={{ opacity: 0.7, ml: 0.5 }}
+                                      >
+                                        {e.quantity} {e.unit}
+                                      </Box>
+                                    </Box>
+                                  }
+                                  sx={{
+                                    bgcolor: (t) =>
+                                      t.palette.primary.light + "1f",
+                                    color: "primary.dark",
+                                    border: 1,
+                                    borderColor: "primary.light",
                                   }}
-                                >
-                                  Remove
-                                </Button>
-                              </>
-                            ) : (
-                              <Button
-                                size="sm"
-                                leftIcon={<FiPlus size={14} />}
-                                onClick={() =>
-                                  setOrderLocalModal({
-                                    sessionId: session.id,
-                                    sessionLabel: session.event_time || null,
-                                    dishName: dish,
-                                    mode: "add",
-                                    initialRows: [],
-                                  })
-                                }
-                              >
-                                Add Ingredients
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-                        {existing.length > 0 && (
-                          <div className="mt-3 flex flex-wrap gap-1.5">
-                            {existing.map((e) => (
-                              <span
-                                key={e.key}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/40"
-                              >
-                                <span className="font-bold">
-                                  {e.ingredient}
-                                </span>
-                                <span className="opacity-70">
-                                  {e.quantity} {e.unit}
-                                </span>
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+                                />
+                              ))}
+                            </Stack>
+                          )}
+                        </Paper>
+                      );
+                    })}
+                  </Stack>
+                </Paper>
+              );
+            })}
 
-          {/* Category blocks */}
-          {eventIngredientsList.map((category, index) => {
-            // Check if this category has any visible items for the active session
-            const hasVisibleItems = category.data.some((item) => {
-                if (sessionIdFilter) return item.use_item?.some((u) => String(u.session_id) === String(sessionIdFilter));
+            {/* Category blocks */}
+            {eventIngredientsList.map((category, index) => {
+              const hasVisibleItems = category.data.some((item) => {
+                if (sessionIdFilter)
+                  return item.use_item?.some(
+                    (u) => String(u.session_id) === String(sessionIdFilter)
+                  );
                 if (!sessionFilter) return true;
                 return item.use_item?.some((u) => {
                   const m = (u.item_name || "").match(/\(Session:\s*([^)]+)\)/);
                   return m ? m[1].trim() === sessionFilter : true;
                 });
-            });
-            if (!hasVisibleItems) return null;
+              });
+              if (!hasVisibleItems) return null;
 
-            const visibleItems = category.data.filter((item) => {
-                if (sessionIdFilter) return item.use_item?.some((u) => String(u.session_id) === String(sessionIdFilter));
+              const visibleItems = category.data.filter((item) => {
+                if (sessionIdFilter)
+                  return item.use_item?.some(
+                    (u) => String(u.session_id) === String(sessionIdFilter)
+                  );
                 if (!sessionFilter) return true;
                 return item.use_item?.some((u) => {
                   const m = (u.item_name || "").match(/\(Session:\s*([^)]+)\)/);
                   return m ? m[1].trim() === sessionFilter : true;
                 });
-            });
+              });
 
-            // Check if all items that need ordering already have a vendor
-            const allItemsAssigned =
-              visibleItems.length > 0 &&
-              visibleItems.every((item) => {
-                // Compute session-filtered total for this item
-                const filteredUseItems = item.use_item?.filter((u) => {
-                  if (sessionIdFilter) return String(u.session_id) === String(sessionIdFilter);
-                  if (!sessionFilter) return true;
-                  const m = (u.item_name || "").match(/\(Session:\s*([^)]+)\)/);
-                  return m ? m[1].trim() === sessionFilter : true;
-                }) || [];
+              const allItemsAssigned =
+                visibleItems.length > 0 &&
+                visibleItems.every((item) => {
+                  const filteredUseItems =
+                    item.use_item?.filter((u) => {
+                      if (sessionIdFilter)
+                        return String(u.session_id) === String(sessionIdFilter);
+                      if (!sessionFilter) return true;
+                      const m = (u.item_name || "").match(
+                        /\(Session:\s*([^)]+)\)/
+                      );
+                      return m ? m[1].trim() === sessionFilter : true;
+                    }) || [];
 
-                const itemTotal = filteredUseItems.reduce((sum, u) => {
-                  const { value } = parseQuantity(u.quantity || "");
-                  return sum + value;
-                }, 0);
+                  const itemTotal = filteredUseItems.reduce((sum, u) => {
+                    const { value } = parseQuantity(u.quantity || "");
+                    return sum + value;
+                  }, 0);
 
-                const godownQty = parseFloat(item.godown_quantity || 0);
+                  const godownQty = parseFloat(item.godown_quantity || 0);
+                  if (godownQty >= itemTotal && itemTotal > 0) return true;
 
-                // Godown fully covers the requirement → no vendor needed
-                if (godownQty >= itemTotal && itemTotal > 0) return true;
+                  let hasVendor = false;
+                  if (viewIngredient?.sessions) {
+                    viewIngredient.sessions.forEach((session) => {
+                      if (
+                        sessionIdFilter &&
+                        String(session.id) !== String(sessionIdFilter)
+                      )
+                        return;
+                      if (
+                        !sessionIdFilter &&
+                        sessionFilter &&
+                        session.event_time !== sessionFilter
+                      )
+                        return;
+                      const req = session.ingredients_required || {};
+                      if (
+                        req[item.item] &&
+                        req[item.item].vendor &&
+                        req[item.item].vendor.id !== "godown"
+                      ) {
+                        hasVendor = true;
+                      }
+                    });
+                  }
+                  return hasVendor;
+                });
 
-                // Check if a non-godown vendor is assigned (covers the remainder)
+              const anyItemAssigned = visibleItems.some((item) => {
                 let hasVendor = false;
                 if (viewIngredient?.sessions) {
                   viewIngredient.sessions.forEach((session) => {
-                    if (sessionIdFilter && String(session.id) !== String(sessionIdFilter)) return;
-                    if (!sessionIdFilter && sessionFilter && session.event_time !== sessionFilter) return;
+                    if (
+                      sessionIdFilter &&
+                      String(session.id) !== String(sessionIdFilter)
+                    )
+                      return;
+                    if (
+                      !sessionIdFilter &&
+                      sessionFilter &&
+                      session.event_time !== sessionFilter
+                    )
+                      return;
                     const req = session.ingredients_required || {};
-                    if (req[item.item] && req[item.item].vendor && req[item.item].vendor.id !== "godown") {
+                    if (req[item.item] && req[item.item].vendor) {
                       hasVendor = true;
                     }
                   });
@@ -707,412 +969,648 @@ function ViewIngredientComponent({
                 return hasVendor;
               });
 
-            // Check if at least one item has a vendor assigned (for the Share button)
-            const anyItemAssigned = visibleItems.some((item) => {
-              let hasVendor = false;
-              if (viewIngredient?.sessions) {
-                viewIngredient.sessions.forEach((session) => {
-                  if (sessionIdFilter && String(session.id) !== String(sessionIdFilter)) return;
-                  if (!sessionIdFilter && sessionFilter && session.event_time !== sessionFilter) return;
-                  const req = session.ingredients_required || {};
-                  if (req[item.item] && req[item.item].vendor) {
-                    hasVendor = true;
-                  }
-                });
-              }
-              return hasVendor;
-            });
-
-            return (
-              <div
-                key={index}
-                className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
-              >
-                {/* Category name bar */}
-                <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/30 px-6 py-3 flex items-center justify-between">
-                  <h3 className="text-base font-bold text-[var(--color-primary-text)] tracking-wide">
-                    {category.name}
-                  </h3>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${allItemsAssigned ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed" : "text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white cursor-pointer"}`}
-                      onClick={() =>
-                        !allItemsAssigned &&
-                        handleShareIngredients(
-                          category.name,
-                          sessionFilter || undefined,
-                          "assign"
-                        )
-                      }
-                      disabled={allItemsAssigned}
-                      title={
-                        allItemsAssigned
-                          ? "All items already assigned"
-                          : "Assign vendors to items"
-                      }
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      {allItemsAssigned ? "Vendor Assigned" : "Assign Vendor"}
-                    </button>
-                    <button
-                      type="button"
-                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${anyItemAssigned ? "text-[var(--color-primary)] border border-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white cursor-pointer" : "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"}`}
-                      onClick={() =>
-                        anyItemAssigned &&
-                        handleShareIngredients(
-                          category.name,
-                          sessionFilter || undefined,
-                          "share"
-                        )
-                      }
-                      disabled={!anyItemAssigned}
-                      title={
-                        anyItemAssigned
-                          ? "Share ingredient list"
-                          : "Assign a vendor first to enable sharing"
-                      }
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3.5 w-3.5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                      </svg>
-                      Share {category.name}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Items Grid */}
-                <div className="p-3 grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-3 bg-gray-50/50">
-                  {category.data.map((item, i) => {
-                    const firstUseQtyStr = item.use_item?.[0]?.quantity || "";
-                    const { unit: requiredUnit } =
-                      parseQuantity(firstUseQtyStr);
-
-                    // Compute visible rows first (filtered by session)
-                    const visibleRows =
-                      item.use_item?.filter((u) => {
-                        if (sessionIdFilter) return String(u.session_id) === String(sessionIdFilter);
-                        if (!sessionFilter) return true;
-                        const m = (u.item_name || "").match(
-                          /\(Session:\s*([^)]+)\)/
-                        );
-                        return m ? m[1].trim() === sessionFilter : true;
-                      }) || [];
-                    const usedInItems = getUniqueUsedItems(visibleRows);
-
-                    if (visibleRows.length === 0) return null;
-
-                    // Calculate total from visible rows only
-                    const totalRequiredValue = visibleRows.reduce(
-                      (sum, u) => {
-                        const { value: existingVal } = parseQuantity(
-                          u.quantity || ""
-                        );
-                        return sum + existingVal;
-                      },
-                      0
-                    );
-
-                    const godownRaw = parseFloat(item.godown_quantity || 0);
-                    const godownUnit = item.godown_quantity_type || "";
-                    const convertedGodown =
-                      requiredUnit && godownUnit
-                        ? (convertToUnit(godownRaw, godownUnit, requiredUnit) ??
-                          godownRaw)
-                        : godownRaw;
-
-                    // Compute vendor assignments for this item
-                    const itemVendorsMap = new Map();
-                    if (viewIngredient?.sessions) {
-                      viewIngredient.sessions.forEach((session) => {
-                        if (sessionIdFilter && String(session.id) !== String(sessionIdFilter)) return;
-                        if (!sessionIdFilter && sessionFilter && session.event_time !== sessionFilter) return;
-                        const req = session.ingredients_required || {};
-                        if (req[item.item] && req[item.item].vendor) {
-                          const v = req[item.item].vendor;
-                          itemVendorsMap.set(v.id || v.name, v);
+              return (
+                <Paper
+                  key={index}
+                  elevation={0}
+                  sx={{
+                    border: 1,
+                    borderColor: "divider",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                  }}
+                >
+                  {/* Category bar */}
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="space-between"
+                    alignItems={{ xs: "stretch", sm: "center" }}
+                    spacing={1.5}
+                    sx={{
+                      px: 3,
+                      py: 1.5,
+                      bgcolor: (t) => t.palette.primary.light + "1f",
+                      borderBottom: 1,
+                      borderColor: "divider",
+                    }}
+                  >
+                    <Typography variant="subtitle1" fontWeight={700}>
+                      {category.name}
+                    </Typography>
+                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<FiUserCheck size={14} />}
+                        disabled={allItemsAssigned}
+                        onClick={() =>
+                          !allItemsAssigned &&
+                          handleShareIngredients(
+                            category.name,
+                            sessionFilter || undefined,
+                            "assign"
+                          )
                         }
-                      });
-                    }
-                    const itemVendors = Array.from(itemVendorsMap.values());
-                    const hasNonGodownVendor = itemVendors.some((v) => v.id !== "godown");
-
-                    const remaining = totalRequiredValue - convertedGodown;
-                    const totalQuantity = hasNonGodownVendor ? 0 : Math.max(0, remaining);
-                    const isFromGodown = godownRaw > 0;
-                    const isChecked =
-                      !!checkedItems[`${category.name}||${item.item}`];
-
-                    return (
-                      <div
-                        key={i}
-                        className="flex flex-col h-full bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+                        title={
+                          allItemsAssigned
+                            ? "All items already assigned"
+                            : "Assign vendors to items"
+                        }
                       >
-                        <div className="p-3 flex-1 flex flex-col">
-                          {/* Item header */}
-                          <div className="flex items-center justify-between mb-2 gap-2">
-                            <div className="flex items-center gap-2 min-w-0">
-                              <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
-                              <h4 className="text-sm font-bold text-gray-800 truncate">
-                                {item.item}
-                              </h4>
-                            </div>
-                            {orderLocalKeys.has(item.item) && (
-                              <Badge variant="warning" size="sm">
-                                Added for this order
-                              </Badge>
-                            )}
-                          </div>
+                        {allItemsAssigned ? "Vendor Assigned" : "Assign Vendor"}
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<FiShare2 size={14} />}
+                        disabled={!anyItemAssigned}
+                        onClick={() =>
+                          anyItemAssigned &&
+                          handleShareIngredients(
+                            category.name,
+                            sessionFilter || undefined,
+                            "share"
+                          )
+                        }
+                        title={
+                          anyItemAssigned
+                            ? "Share ingredient list"
+                            : "Assign a vendor first to enable sharing"
+                        }
+                      >
+                        Share {category.name}
+                      </Button>
+                    </Stack>
+                  </Stack>
 
-                          {/* Session quantity rows */}
-                          <div className="flex flex-col gap-1 mb-3">
-                            {visibleRows.map((usedItem, j) => {
-                              const rawName = usedItem?.item_name || "N/A";
-                              const itemCat = usedItem?.item_category || "";
-                              const sessionMatch = rawName.match(
-                                /\(Session:\s*([^)]+)\)/
-                              );
-                              const sessionLabel = sessionMatch
-                                ? sessionMatch[1].trim()
-                                : rawName;
-                              const qty = usedItem?.quantity || "0";
+                  {/* Items Grid */}
+                  <Box sx={{ p: 1.5, bgcolor: "action.hover" }}>
+                    <Grid container spacing={1.5}>
+                      {category.data.map((item, i) => {
+                        const firstUseQtyStr = item.use_item?.[0]?.quantity || "";
+                        const { unit: requiredUnit } =
+                          parseQuantity(firstUseQtyStr);
 
+                        const visibleRows =
+                          item.use_item?.filter((u) => {
+                            if (sessionIdFilter)
                               return (
-                                <div
-                                  key={j}
-                                  className="group/row flex items-center justify-between bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 rounded-lg px-3 py-1.5"
-                                >
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] text-xs font-bold rounded-full">
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-3 w-3"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                      >
-                                        <path
-                                          fillRule="evenodd"
-                                          d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                          clipRule="evenodd"
-                                        />
-                                      </svg>
-                                      {sessionLabel}
-                                    </span>
-                                    {itemCat && (
-                                      <span className="text-xs text-gray-500 bg-white border border-gray-200 px-2 py-0.5 rounded-full">
-                                        {itemCat}
-                                      </span>
-                                    )}
-                                  </div>
-                                  {editingKey === `${item.item}||${usedItem.session_id}` ? (
-                                    <div className="flex items-center gap-1">
-                                      <input
-                                        type="text"
-                                        value={editValue}
-                                        onChange={(e) => setEditValue(e.target.value)}
-                                        className="w-24 px-2 py-0.5 text-sm font-bold text-gray-800 border border-[var(--color-primary-border)] rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white"
-                                        autoFocus
-                                        onKeyDown={(e) => {
-                                          if (e.key === "Enter") handleSaveEdit(usedItem.session_id, item.item);
-                                          if (e.key === "Escape") setEditingKey(null);
-                                        }}
-                                        disabled={savingEdit}
-                                      />
-                                      <button
-                                        type="button"
-                                        onClick={() => handleSaveEdit(usedItem.session_id, item.item)}
-                                        disabled={savingEdit}
-                                        className="p-1 text-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] rounded transition-colors cursor-pointer"
-                                        title="Save"
-                                      >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                      </button>
-                                      <button
-                                        type="button"
-                                        onClick={() => setEditingKey(null)}
-                                        disabled={savingEdit}
-                                        className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors cursor-pointer"
-                                        title="Cancel"
-                                      >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                        </svg>
-                                      </button>
-                                    </div>
-                                  ) : (
-                                    <div className="flex items-center gap-1.5">
-                                      <span className="text-sm font-bold text-gray-800">
-                                        {qty}
-                                      </span>
-                                      <button
-                                        type="button"
-                                        onClick={() => {
-                                          setEditingKey(`${item.item}||${usedItem.session_id}`);
-                                          setEditValue(qty);
-                                        }}
-                                        className="p-0.5 text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] rounded transition-colors cursor-pointer opacity-0 group-hover/row:opacity-100"
-                                        title="Edit quantity"
-                                      >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                        </svg>
-                                      </button>
-                                    </div>
-                                  )}
-                                </div>
+                                String(u.session_id) === String(sessionIdFilter)
                               );
-                            })}
-                          </div>
+                            if (!sessionFilter) return true;
+                            const m = (u.item_name || "").match(
+                              /\(Session:\s*([^)]+)\)/
+                            );
+                            return m ? m[1].trim() === sessionFilter : true;
+                          }) || [];
+                        const usedInItems = getUniqueUsedItems(visibleRows);
 
-                          {usedInItems.length > 0 && (
-                            <div className="mb-3 rounded-lg border border-[var(--color-primary-border)]/30 bg-[var(--color-primary-tint)]/60 px-3 py-2">
-                              <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-primary)]">
-                                Used In Items
-                              </p>
-                              <p className="mt-1 text-sm font-medium text-gray-700 leading-6">
-                                {usedInItems.join(", ")}
-                              </p>
-                            </div>
-                          )}
+                        if (visibleRows.length === 0) return null;
 
-                          {/* Vendor Assignment Display */}
-                          {itemVendors.length > 0 && (
-                              <div
-                                className="mb-3 flex items-center flex-wrap gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border"
-                                style={
-                                  itemVendors.some((v) => v.id === "godown")
-                                    ? {
-                                        backgroundColor: "#f0fdf4",
-                                        borderColor: "#86efac",
-                                        color: "#15803d",
-                                      }
-                                    : {
-                                        backgroundColor: "#f5f3ff",
-                                        borderColor: "#c4b5fd",
-                                        color: "var(--color-primary)",
-                                      }
-                                }
+                        const totalRequiredValue = visibleRows.reduce(
+                          (sum, u) => {
+                            const { value } = parseQuantity(u.quantity || "");
+                            return sum + value;
+                          },
+                          0
+                        );
+
+                        const godownRaw = parseFloat(item.godown_quantity || 0);
+                        const godownUnit = item.godown_quantity_type || "";
+                        const convertedGodown =
+                          requiredUnit && godownUnit
+                            ? convertToUnit(
+                                godownRaw,
+                                godownUnit,
+                                requiredUnit
+                              ) ?? godownRaw
+                            : godownRaw;
+
+                        const itemVendorsMap = new Map();
+                        if (viewIngredient?.sessions) {
+                          viewIngredient.sessions.forEach((session) => {
+                            if (
+                              sessionIdFilter &&
+                              String(session.id) !== String(sessionIdFilter)
+                            )
+                              return;
+                            if (
+                              !sessionIdFilter &&
+                              sessionFilter &&
+                              session.event_time !== sessionFilter
+                            )
+                              return;
+                            const req = session.ingredients_required || {};
+                            if (req[item.item] && req[item.item].vendor) {
+                              const v = req[item.item].vendor;
+                              itemVendorsMap.set(v.id || v.name, v);
+                            }
+                          });
+                        }
+                        const itemVendors = Array.from(itemVendorsMap.values());
+                        const hasNonGodownVendor = itemVendors.some(
+                          (v) => v.id !== "godown"
+                        );
+
+                        const remaining = totalRequiredValue - convertedGodown;
+                        const totalQuantity = hasNonGodownVendor
+                          ? 0
+                          : Math.max(0, remaining);
+                        const isFromGodown = godownRaw > 0;
+                        const isOrderLocal = orderLocalKeys.has(item.item);
+
+                        return (
+                          <Grid
+                            key={i}
+                            size={{ xs: 12, sm: 6, lg: 4 }}
+                          >
+                            <Card
+                              variant="outlined"
+                              sx={{
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                transition: "box-shadow 0.2s",
+                                "&:hover": { boxShadow: 2 },
+                              }}
+                            >
+                              <CardContent
+                                sx={{
+                                  flex: 1,
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  p: 2,
+                                  "&:last-child": { pb: 2 },
+                                }}
                               >
-                                {itemVendors.some((v) => v.id === "godown") ? (
-                                  <>
-                                    <span>🏭</span>
-                                    <span>Ordered from Godown</span>
-                                  </>
-                                ) : (
-                                  <div className="flex flex-col gap-1 w-full">
-                                    {itemVendors.map((v) => (
-                                      <div key={v.id || v.name} className="flex justify-between items-center w-full">
-                                        <span>★ Assigned to: {v.name}</span>
-                                        {v.source_type === "item" ? (
-                                            <span className="text-[10px] bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] font-medium px-1.5 py-0.5 rounded ml-2 border border-[var(--color-primary-border)]">Auto (Item)</span>
-                                        ) : v.source_type === "manual" ? (
-                                            <span className="text-[10px] bg-[var(--color-primary-soft)]/50 text-[var(--color-primary-text)] font-medium px-1.5 py-0.5 rounded ml-2 border border-[var(--color-primary-border)]/50">Manual</span>
-                                        ) : null}
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                          )}
-
-                          {/* Calculation strip (pushed to bottom) */}
-                          <div className="mt-auto bg-gray-50/80 border border-gray-100 rounded-lg px-3 py-2.5 space-y-2 text-xs">
-                            {/* Source breakdown row */}
-                            <div className="flex flex-wrap items-center gap-2">
-                              {/* Godown badge */}
-                              {isFromGodown && (
-                                <div className={`flex items-center gap-1.5 font-semibold px-2.5 py-1 rounded-full border ${
-                                  convertedGodown >= totalRequiredValue
-                                    ? "text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border-green-200"
-                                    : "text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border-[var(--color-primary-border)]"
-                                }`}>
-                                  <span>{convertedGodown >= totalRequiredValue ? "✅" : "🏭"}</span>
-                                  <span>Godown: {godownRaw} {godownUnit}</span>
-                                  {convertedGodown < totalRequiredValue && (
-                                    <span className="text-[10px] text-[var(--color-primary)] font-medium">(partial)</span>
+                                {/* Item header */}
+                                <Stack
+                                  direction="row"
+                                  spacing={1}
+                                  alignItems="center"
+                                  justifyContent="space-between"
+                                  sx={{ mb: 1.5 }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
+                                    minWidth={0}
+                                  >
+                                    <Box
+                                      sx={{
+                                        width: 8,
+                                        height: 8,
+                                        borderRadius: "50%",
+                                        bgcolor: "error.main",
+                                        flexShrink: 0,
+                                      }}
+                                    />
+                                    <Typography
+                                      variant="body2"
+                                      fontWeight={700}
+                                      noWrap
+                                    >
+                                      {item.item}
+                                    </Typography>
+                                  </Stack>
+                                  {isOrderLocal && (
+                                    <Chip
+                                      size="small"
+                                      label="Added for this order"
+                                      color="warning"
+                                      variant="outlined"
+                                      sx={{
+                                        fontSize: "0.625rem",
+                                        fontWeight: 700,
+                                        height: 20,
+                                      }}
+                                    />
                                   )}
-                                </div>
-                              )}
-                              {!isFromGodown && (
-                                <div className="flex items-center gap-1.5 font-semibold text-gray-500 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-full">
-                                  <span>📦</span>
-                                  <span>Godown: 0</span>
-                                </div>
-                              )}
+                                </Stack>
 
-                              {/* Vendor badge */}
-                              {hasNonGodownVendor && (
-                                <div className="flex items-center gap-1.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 px-2.5 py-1 rounded-full">
-                                  <span>🛒</span>
-                                  <span>Vendor: {Math.max(0, remaining)} {requiredUnit || item.quantity_type || ""}</span>
-                                </div>
-                              )}
-                              {!hasNonGodownVendor && totalQuantity > 0 && (
-                                <div className="flex items-center gap-1.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)] px-2.5 py-1 rounded-full">
-                                  <span>⚠️</span>
-                                  <span>Vendor: Not assigned</span>
-                                </div>
-                              )}
-                            </div>
+                                {/* Session quantity rows */}
+                                <Stack spacing={0.75} sx={{ mb: 1.5 }}>
+                                  {visibleRows.map((usedItem, j) => {
+                                    const rawName =
+                                      usedItem?.item_name || "N/A";
+                                    const itemCat =
+                                      usedItem?.item_category || "";
+                                    const sessionMatch = rawName.match(
+                                      /\(Session:\s*([^)]+)\)/
+                                    );
+                                    const sessionLabel = sessionMatch
+                                      ? sessionMatch[1].trim()
+                                      : rawName;
+                                    const qty = usedItem?.quantity || "0";
+                                    const rowKey = `${item.item}||${usedItem.session_id}`;
 
-                            {/* Total + Remaining row */}
-                            <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-gray-200">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-semibold text-gray-500">
-                                  Total:
-                                </span>
-                                <span className="text-sm font-bold text-gray-700">
-                                  {totalRequiredValue}
-                                  <span className="text-xs font-medium ml-0.5 text-gray-400">
-                                    {requiredUnit || item.quantity_type || ""}
-                                  </span>
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <span className={`font-semibold ${totalQuantity === 0 ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}>
-                                  {totalQuantity === 0 ? "✅" : "⚠️"} Remaining:
-                                </span>
-                                <span className={`text-base font-black ${totalQuantity === 0 ? "text-[var(--color-primary)]" : "text-[var(--color-primary)]"}`}>
-                                  {totalQuantity}
-                                  <span className="text-xs font-medium ml-1 text-gray-500">
-                                    {formValues[
-                                      `${category.name}-${i}-quantityType`
-                                    ] ||
-                                      item.quantity_type ||
-                                      ""}
-                                  </span>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+                                    return (
+                                      <Stack
+                                        key={j}
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                        sx={{
+                                          bgcolor: (t) =>
+                                            t.palette.primary.light + "1a",
+                                          border: 1,
+                                          borderColor: "primary.light",
+                                          borderRadius: 1.5,
+                                          px: 1.5,
+                                          py: 0.75,
+                                        }}
+                                      >
+                                        <Stack
+                                          direction="row"
+                                          spacing={0.75}
+                                          alignItems="center"
+                                          flexWrap="wrap"
+                                          useFlexGap
+                                        >
+                                          <Chip
+                                            size="small"
+                                            label={sessionLabel}
+                                            sx={{
+                                              bgcolor: (t) =>
+                                                t.palette.primary.light + "33",
+                                              color: "primary.dark",
+                                              fontSize: "0.65rem",
+                                              fontWeight: 700,
+                                              height: 22,
+                                            }}
+                                          />
+                                          {itemCat && (
+                                            <Chip
+                                              size="small"
+                                              label={itemCat}
+                                              variant="outlined"
+                                              sx={{
+                                                fontSize: "0.65rem",
+                                                height: 22,
+                                              }}
+                                            />
+                                          )}
+                                        </Stack>
+                                        {editingKey === rowKey ? (
+                                          <Stack
+                                            direction="row"
+                                            spacing={0.5}
+                                            alignItems="center"
+                                          >
+                                            <TextField
+                                              value={editValue}
+                                              onChange={(e) =>
+                                                setEditValue(e.target.value)
+                                              }
+                                              autoFocus
+                                              disabled={savingEdit}
+                                              onKeyDown={(e) => {
+                                                if (e.key === "Enter")
+                                                  handleSaveEdit(
+                                                    usedItem.session_id,
+                                                    item.item
+                                                  );
+                                                if (e.key === "Escape")
+                                                  setEditingKey(null);
+                                              }}
+                                              sx={{
+                                                width: 100,
+                                                "& .MuiInputBase-input": {
+                                                  py: 0.5,
+                                                  fontSize: "0.8rem",
+                                                  fontWeight: 700,
+                                                },
+                                              }}
+                                            />
+                                            <IconButton
+                                              size="small"
+                                              color="primary"
+                                              disabled={savingEdit}
+                                              onClick={() =>
+                                                handleSaveEdit(
+                                                  usedItem.session_id,
+                                                  item.item
+                                                )
+                                              }
+                                              title="Save"
+                                            >
+                                              <FiCheck size={14} />
+                                            </IconButton>
+                                            <IconButton
+                                              size="small"
+                                              color="error"
+                                              disabled={savingEdit}
+                                              onClick={() => setEditingKey(null)}
+                                              title="Cancel"
+                                            >
+                                              <FiX size={14} />
+                                            </IconButton>
+                                          </Stack>
+                                        ) : (
+                                          <Stack
+                                            direction="row"
+                                            spacing={0.5}
+                                            alignItems="center"
+                                          >
+                                            <Typography
+                                              variant="body2"
+                                              fontWeight={700}
+                                            >
+                                              {qty}
+                                            </Typography>
+                                            <IconButton
+                                              size="small"
+                                              onClick={() => {
+                                                setEditingKey(rowKey);
+                                                setEditValue(qty);
+                                              }}
+                                              title="Edit quantity"
+                                              sx={{ p: 0.25 }}
+                                            >
+                                              <FiEdit2 size={12} />
+                                            </IconButton>
+                                          </Stack>
+                                        )}
+                                      </Stack>
+                                    );
+                                  })}
+                                </Stack>
 
-        </div>
+                                {usedInItems.length > 0 && (
+                                  <Box
+                                    sx={{
+                                      mb: 1.5,
+                                      px: 1.5,
+                                      py: 1,
+                                      borderRadius: 1.5,
+                                      border: 1,
+                                      borderColor: "primary.light",
+                                      bgcolor: (t) =>
+                                        t.palette.primary.light + "14",
+                                    }}
+                                  >
+                                    <Typography
+                                      variant="caption"
+                                      color="primary.main"
+                                      fontWeight={700}
+                                      sx={{
+                                        textTransform: "uppercase",
+                                        letterSpacing: 0.5,
+                                      }}
+                                    >
+                                      Used In Items
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ mt: 0.5 }}>
+                                      {usedInItems.join(", ")}
+                                    </Typography>
+                                  </Box>
+                                )}
+
+                                {/* Vendor Assignment Display */}
+                                {itemVendors.length > 0 && (
+                                  <Box
+                                    sx={{
+                                      mb: 1.5,
+                                      px: 1.5,
+                                      py: 1,
+                                      borderRadius: 1.5,
+                                      border: 1,
+                                      ...(itemVendors.some(
+                                        (v) => v.id === "godown"
+                                      )
+                                        ? {
+                                            bgcolor: "#f0fdf4",
+                                            borderColor: "#86efac",
+                                            color: "#15803d",
+                                          }
+                                        : {
+                                            bgcolor: (t) =>
+                                              t.palette.primary.light + "14",
+                                            borderColor: "primary.light",
+                                            color: "primary.main",
+                                          }),
+                                    }}
+                                  >
+                                    {itemVendors.some(
+                                      (v) => v.id === "godown"
+                                    ) ? (
+                                      <Typography
+                                        variant="caption"
+                                        fontWeight={700}
+                                      >
+                                        🏭 Ordered from Godown
+                                      </Typography>
+                                    ) : (
+                                      <Stack spacing={0.5}>
+                                        {itemVendors.map((v) => (
+                                          <Stack
+                                            key={v.id || v.name}
+                                            direction="row"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                          >
+                                            <Typography
+                                              variant="caption"
+                                              fontWeight={700}
+                                            >
+                                              ★ Assigned to: {v.name}
+                                            </Typography>
+                                            {v.source_type === "item" ? (
+                                              <Chip
+                                                size="small"
+                                                label="Auto (Item)"
+                                                sx={{
+                                                  fontSize: "0.625rem",
+                                                  height: 18,
+                                                }}
+                                              />
+                                            ) : v.source_type === "manual" ? (
+                                              <Chip
+                                                size="small"
+                                                label="Manual"
+                                                variant="outlined"
+                                                sx={{
+                                                  fontSize: "0.625rem",
+                                                  height: 18,
+                                                }}
+                                              />
+                                            ) : null}
+                                          </Stack>
+                                        ))}
+                                      </Stack>
+                                    )}
+                                  </Box>
+                                )}
+
+                                {/* Calculation strip */}
+                                <Box
+                                  sx={{
+                                    mt: "auto",
+                                    px: 1.5,
+                                    py: 1,
+                                    borderRadius: 1.5,
+                                    border: 1,
+                                    borderColor: "divider",
+                                    bgcolor: "background.paper",
+                                  }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    spacing={0.75}
+                                    flexWrap="wrap"
+                                    useFlexGap
+                                    sx={{ mb: 0.75 }}
+                                  >
+                                    {isFromGodown ? (
+                                      <Chip
+                                        size="small"
+                                        label={`Godown: ${godownRaw} ${godownUnit}${
+                                          convertedGodown < totalRequiredValue
+                                            ? " (partial)"
+                                            : ""
+                                        }`}
+                                        icon={
+                                          <span>
+                                            {convertedGodown >=
+                                            totalRequiredValue
+                                              ? "✅"
+                                              : "🏭"}
+                                          </span>
+                                        }
+                                        color={
+                                          convertedGodown >= totalRequiredValue
+                                            ? "success"
+                                            : "primary"
+                                        }
+                                        variant="outlined"
+                                        sx={{ fontWeight: 600 }}
+                                      />
+                                    ) : (
+                                      <Chip
+                                        size="small"
+                                        label="Godown: 0"
+                                        icon={<span>📦</span>}
+                                        sx={{ fontWeight: 600 }}
+                                      />
+                                    )}
+                                    {hasNonGodownVendor ? (
+                                      <Chip
+                                        size="small"
+                                        label={`Vendor: ${Math.max(
+                                          0,
+                                          remaining
+                                        )} ${
+                                          requiredUnit || item.quantity_type || ""
+                                        }`}
+                                        icon={<span>🛒</span>}
+                                        color="primary"
+                                        variant="outlined"
+                                        sx={{ fontWeight: 600 }}
+                                      />
+                                    ) : (
+                                      totalQuantity > 0 && (
+                                        <Chip
+                                          size="small"
+                                          label="Vendor: Not assigned"
+                                          icon={<FiAlertTriangle size={12} />}
+                                          color="warning"
+                                          variant="outlined"
+                                          sx={{ fontWeight: 600 }}
+                                        />
+                                      )
+                                    )}
+                                  </Stack>
+                                  <Divider sx={{ my: 0.75 }} />
+                                  <Stack
+                                    direction="row"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    flexWrap="wrap"
+                                    useFlexGap
+                                    gap={1}
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      spacing={0.5}
+                                      alignItems="baseline"
+                                    >
+                                      <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        fontWeight={600}
+                                      >
+                                        Total:
+                                      </Typography>
+                                      <Typography
+                                        variant="body2"
+                                        fontWeight={700}
+                                      >
+                                        {totalRequiredValue}{" "}
+                                        <Box
+                                          component="span"
+                                          sx={{
+                                            fontSize: "0.7rem",
+                                            color: "text.disabled",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {requiredUnit ||
+                                            item.quantity_type ||
+                                            ""}
+                                        </Box>
+                                      </Typography>
+                                    </Stack>
+                                    <Stack
+                                      direction="row"
+                                      spacing={0.5}
+                                      alignItems="baseline"
+                                    >
+                                      <Typography
+                                        variant="caption"
+                                        color="primary.main"
+                                        fontWeight={600}
+                                      >
+                                        {totalQuantity === 0 ? "✅" : "⚠️"} Remaining:
+                                      </Typography>
+                                      <Typography
+                                        variant="body1"
+                                        fontWeight={700}
+                                        color="primary.main"
+                                      >
+                                        {totalQuantity}{" "}
+                                        <Box
+                                          component="span"
+                                          sx={{
+                                            fontSize: "0.7rem",
+                                            color: "text.disabled",
+                                            fontWeight: 500,
+                                          }}
+                                        >
+                                          {formValues[
+                                            `${category.name}-${i}-quantityType`
+                                          ] ||
+                                            item.quantity_type ||
+                                            ""}
+                                        </Box>
+                                      </Typography>
+                                    </Stack>
+                                  </Stack>
+                                </Box>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
+                  </Box>
+                </Paper>
+              );
+            })}
+          </Stack>
+        </Box>
       )}
 
       <AddOrderIngredientsModal
@@ -1124,7 +1622,7 @@ function ViewIngredientComponent({
         mode={orderLocalModal?.mode || "add"}
         onSave={handleOrderLocalSave}
       />
-    </div>
+    </Box>
   );
 }
 

@@ -1,6 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  IconButton,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import {
   FiArrowLeft,
   FiClipboard,
   FiPhone,
@@ -22,6 +34,105 @@ import PaymentModal from "../../Components/payment/PaymentModal";
 import GroundManagementModal from "../../Components/ground/GroundManagementModal";
 import ItemVendorModal from "../../Components/vendor/ItemVendorModal";
 
+const statusChipColor = (status) => {
+  if (status === "done") return "success";
+  if (status === "cancelled") return "error";
+  return "primary";
+};
+
+function InfoBlock({ icon, label, value, valueVariant = "body1" }) {
+  return (
+    <Stack spacing={0.5}>
+      <Typography
+        variant="caption"
+        color="primary.main"
+        fontWeight={700}
+        sx={{ textTransform: "uppercase", letterSpacing: 0.5, display: "inline-flex", alignItems: "center", gap: 0.75 }}
+      >
+        {icon} {label}
+      </Typography>
+      <Typography variant={valueVariant} fontWeight={600} color="text.primary">
+        {value || "—"}
+      </Typography>
+    </Stack>
+  );
+}
+
+function StaffCard({ staff, onClick, tone = "primary" }) {
+  const clickable = Boolean(staff.assignment_id && onClick);
+  return (
+    <Box
+      onClick={clickable ? onClick : undefined}
+      title={
+        clickable ? "Edit Assignment" : "No Assignment ID"
+      }
+      sx={{
+        textAlign: "left",
+        px: 1.5,
+        py: 1,
+        borderRadius: 2,
+        border: 1,
+        borderColor: clickable ? "primary.light" : "divider",
+        bgcolor: clickable
+          ? (t) => t.palette.primary.light + "1f"
+          : "action.hover",
+        cursor: clickable ? "pointer" : "default",
+        transition: "background-color 0.15s",
+        "&:hover": clickable
+          ? { bgcolor: (t) => t.palette.primary.light + "33" }
+          : {},
+      }}
+    >
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={1}
+      >
+        <Typography variant="body2" fontWeight={700} color={`${tone}.main`}>
+          {staff.name || staff}
+        </Typography>
+        {staff.staff_type && (
+          <Chip
+            size="small"
+            label={staff.staff_type}
+            variant="outlined"
+            sx={{ height: 18, fontSize: "0.625rem" }}
+          />
+        )}
+      </Stack>
+      {staff.role && (
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          sx={{ mt: 0.5, color: "text.secondary" }}
+        >
+          <Typography variant="caption" fontWeight={500}>
+            {staff.role}
+          </Typography>
+          {staff.people_summoned && (
+            <>
+              <Box
+                sx={{
+                  width: 3,
+                  height: 3,
+                  borderRadius: "50%",
+                  bgcolor: "text.disabled",
+                }}
+              />
+              <Typography variant="caption">
+                {staff.people_summoned}{" "}
+                {staff.people_summoned === 1 ? "person" : "people"}
+              </Typography>
+            </>
+          )}
+        </Stack>
+      )}
+    </Box>
+  );
+}
+
 function ViewOrderDetailsComponent({
   orderDetails,
   loading,
@@ -38,45 +149,40 @@ function ViewOrderDetailsComponent({
   onCloseTag,
   catererNameProfile,
   isPaymentModalOpen,
-  onOpenPaymentModal,
   onClosePaymentModal,
   onPaymentSuccess,
 }) {
   const [groundMgmtSession, setGroundMgmtSession] = useState(null);
-  const escapeHtml = (value) =>
-    String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
   const [itemVendorSession, setItemVendorSession] = useState(null);
 
-  const showDishes = (session) => {
-    setItemVendorSession(session);
-  };
+  const showDishes = (session) => setItemVendorSession(session);
 
   if (loading) {
     return (
-      <div className="p-8">
+      <Box sx={{ p: 4 }}>
         <Loader message="Loading Order Details..." />
-      </div>
+      </Box>
     );
   }
 
   if (!orderDetails) {
     return (
-      <div className="flex flex-col items-center justify-center h-[50vh] text-gray-500">
-        <FiBox size={48} className="mb-4 text-gray-300" />
-        <p className="text-xl font-medium text-gray-600">Order not found</p>
-        <button
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        sx={{ height: "50vh", color: "text.secondary" }}
+        spacing={2}
+      >
+        <FiBox size={48} style={{ opacity: 0.4 }} />
+        <Typography variant="h6">Order not found</Typography>
+        <Button
+          variant="contained"
+          startIcon={<FiArrowLeft size={16} />}
           onClick={handleBack}
-          className="mt-4 flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-lg shadow-md transition-all duration-200"
         >
-          <FiArrowLeft size={16} /> Go Back
-        </button>
-      </div>
+          Go Back
+        </Button>
+      </Stack>
     );
   }
 
@@ -93,7 +199,6 @@ function ViewOrderDetailsComponent({
     sessions = [],
   } = orderDetails;
 
-  // Use sessions array or fallback to root data
   const orderSessions =
     sessions.length > 0
       ? sessions
@@ -107,135 +212,167 @@ function ViewOrderDetailsComponent({
           },
         ];
 
-  // Helper to extract unique dates
   const uniqueDates = Array.from(
     new Set(orderSessions.map((s) => s.event_date))
   ).filter(Boolean);
 
   return (
-    <div className="max-w-6xl mx-auto p-4 sm:p-6 pb-20 fade-in">
+    <Box sx={{ maxWidth: 1200, mx: "auto", px: { xs: 0, sm: 1 }, pb: 10 }}>
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-4 w-full sm:w-auto">
-          <button
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        alignItems={{ xs: "stretch", sm: "center" }}
+        spacing={2}
+        sx={{ mb: 3 }}
+      >
+        <Stack direction="row" spacing={2} alignItems="center">
+          <IconButton
             onClick={handleBack}
-            className="flex-shrink-0 p-2.5 rounded-xl bg-gray-100/80 hover:bg-white text-gray-600 hover:text-[var(--color-primary)] border border-gray-200 shadow-sm transition-all cursor-pointer group"
+            sx={{
+              border: 1,
+              borderColor: "divider",
+              bgcolor: "background.paper",
+              "&:hover": { color: "primary.main" },
+            }}
           >
-            <FiArrowLeft
-              size={20}
-              className="transform group-hover:-translate-x-1 transition-transform"
-            />
-          </button>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-              Order Details
-              <span
-                className={`px-2.5 py-1 text-[10px] font-bold uppercase rounded-full border ${
-                  status === "done"
-                    ? "bg-[var(--color-primary-tint)] text-[var(--color-primary)] border-[var(--color-primary-border)]/50"
-                    : status === "cancelled"
-                      ? "bg-red-50 text-red-500 border-red-200"
-                      : "bg-[var(--color-primary-tint)] text-[var(--color-primary)] border-[var(--color-primary-border)]"
-                }`}
-              >
-                {status || "Pending"}
-              </span>
-            </h2>
-            <p className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-              <FiClipboard className="text-gray-400" /> ID: #{id}
-            </p>
-          </div>
-        </div>
-        {/* Header Actions */}
-        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto mt-4 sm:mt-0">
-
-          <button
-            onClick={() => handleEditOrder(id)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 rounded-xl shadow-md transition-all duration-200 cursor-pointer"
-            title="Edit entire order (all sessions)"
-          >
-            <FiEdit2 size={16} /> Edit Complete Order
-          </button>
-        </div>
-      </div>
+            <FiArrowLeft size={20} />
+          </IconButton>
+          <Box>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Typography variant="h5" fontWeight={700}>
+                Order Details
+              </Typography>
+              <Chip
+                size="small"
+                label={status || "Pending"}
+                color={statusChipColor(status)}
+                variant="outlined"
+                sx={{ fontWeight: 700, textTransform: "uppercase" }}
+              />
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={0.75}
+              alignItems="center"
+              sx={{ mt: 0.5, color: "text.secondary" }}
+            >
+              <FiClipboard size={14} />
+              <Typography variant="body2">ID: #{id}</Typography>
+            </Stack>
+          </Box>
+        </Stack>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<FiEdit2 size={16} />}
+          onClick={() => handleEditOrder(id)}
+          title="Edit entire order (all sessions)"
+        >
+          Edit Complete Order
+        </Button>
+      </Stack>
 
       {/* Customer Details Card */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 mb-8 overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-2 h-full bg-[var(--color-primary)]"></div>
-        <div className="px-6 py-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Name & Ref */}
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                <FiUsers /> Customer
-              </span>
-              <span className="text-lg font-bold text-gray-800">
-                {name || "—"}
-              </span>
-              {reference && (
-                <span className="text-sm text-gray-500 mt-0.5">
-                  Ref: {reference}
-                </span>
-              )}
-            </div>
+      <Paper
+        elevation={0}
+        sx={{
+          border: 1,
+          borderColor: "divider",
+          borderRadius: 3,
+          mb: 4,
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 6,
+            bgcolor: "primary.main",
+          }}
+        />
+        <Box sx={{ px: 3, py: 2.5 }}>
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+              <InfoBlock
+                icon={<FiUsers size={12} />}
+                label="Customer"
+                value={
+                  <Box>
+                    <Typography variant="body1" fontWeight={700}>
+                      {name || "—"}
+                    </Typography>
+                    {reference && (
+                      <Typography variant="body2" color="text.secondary">
+                        Ref: {reference}
+                      </Typography>
+                    )}
+                  </Box>
+                }
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+              <InfoBlock
+                icon={<FiPhone size={12} />}
+                label="Mobile No"
+                value={mobile_no || "—"}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+              <InfoBlock
+                icon={<FiCalendar size={12} />}
+                label="Event Dates"
+                value={uniqueDates.join(", ") || "—"}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+              <InfoBlock
+                icon={<FiDollarSign size={12} />}
+                label="Advance Paid"
+                valueVariant="h5"
+                value={`₹${Number(advance_amount || 0).toLocaleString("en-IN")}`}
+              />
+            </Grid>
+          </Grid>
 
-            {/* Phone */}
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                <FiPhone /> Mobile No
-              </span>
-              <span className="text-base font-semibold text-gray-700">
-                {mobile_no || "—"}
-              </span>
-            </div>
-
-            {/* Total Dates */}
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                <FiCalendar /> Event Dates
-              </span>
-              <span className="text-base font-medium text-gray-700">
-                {uniqueDates.join(", ") || "—"}
-              </span>
-            </div>
-
-            {/* Totals Summary */}
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                <FiDollarSign /> Advance Paid
-              </span>
-              <span className="text-2xl font-black text-gray-800">
-                ₹{Number(advance_amount || 0).toLocaleString("en-IN")}
-              </span>
-            </div>
-          </div>
-
-          {/* Address Line (if present) */}
           {event_address && (
-            <div className="mt-5 pt-4 border-t border-gray-100 flex flex-col">
-              <span className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                <FiMapPin /> Event Address
-              </span>
-              <span className="text-base font-medium text-gray-700 max-w-3xl">
-                {event_address}
-              </span>
-            </div>
+            <>
+              <Divider sx={{ my: 2 }} />
+              <InfoBlock
+                icon={<FiMapPin size={12} />}
+                label="Event Address"
+                value={event_address}
+              />
+            </>
           )}
-        </div>
-      </div>
+        </Box>
+      </Paper>
 
-      {/* Sessions List */}
-      <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-        <div className="p-1.5 bg-[var(--color-primary-soft)] rounded-lg text-[var(--color-primary)]">
-          <FiClock size={18} />
-        </div>
-        Session Breakdown ({orderSessions.length})
-      </h3>
+      {/* Sessions heading */}
+      <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+        <Avatar
+          variant="rounded"
+          sx={{
+            bgcolor: (t) => t.palette.primary.light + "33",
+            color: "primary.main",
+            width: 32,
+            height: 32,
+          }}
+        >
+          <FiClock size={16} />
+        </Avatar>
+        <Typography variant="h6" fontWeight={700}>
+          Session Breakdown ({orderSessions.length})
+        </Typography>
+      </Stack>
 
-      <div className="grid xl:grid-cols-2 gap-5">
+      <Grid container spacing={2.5}>
         {orderSessions.map((session, index) => {
           const sessionDateStr = session.event_date;
-          // Format date nicely if it's parsable, otherwise use string
           let displayDate = sessionDateStr;
           try {
             const parts = sessionDateStr?.split("-");
@@ -252,262 +389,315 @@ function ViewOrderDetailsComponent({
             /* ignore */
           }
 
+          const groundItemCount = session.ground_management
+            ? Object.values(session.ground_management).reduce(
+                (sum, items) =>
+                  sum + (Array.isArray(items) ? items.length : 1),
+                0
+              )
+            : 0;
+
           return (
-            <div
-              key={index}
-              className="flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
-            >
-              {/* Session Header */}
-              <div className="bg-gradient-to-r from-[var(--color-primary-soft)] to-white border-b border-gray-100 px-5 py-3 flex justify-between items-center text-gray-800">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-white">
-                    S{index + 1}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-base text-gray-800">
-                      {session.event_time || `Session ${index + 1}`}
-                    </h4>
-                    <p className="text-xs font-semibold text-gray-500">
-                      {displayDate || "—"}
-                    </p>
-                  </div>
-                </div>
+            <Grid key={index} size={{ xs: 12, xl: 6 }}>
+              <Paper
+                elevation={0}
+                sx={{
+                  border: 1,
+                  borderColor: "divider",
+                  borderRadius: 3,
+                  overflow: "hidden",
+                  transition: "box-shadow 0.2s",
+                  "&:hover": { boxShadow: 3 },
+                }}
+              >
+                {/* Session Header */}
+                <Stack
+                  direction={{ xs: "column", md: "row" }}
+                  justifyContent="space-between"
+                  alignItems={{ xs: "stretch", md: "center" }}
+                  spacing={1.5}
+                  sx={{
+                    px: 2.5,
+                    py: 1.75,
+                    bgcolor: (t) => t.palette.primary.light + "1f",
+                    borderBottom: 1,
+                    borderColor: "divider",
+                  }}
+                >
+                  <Stack direction="row" spacing={1.5} alignItems="center">
+                    <Avatar
+                      sx={{
+                        bgcolor: "primary.main",
+                        color: "primary.contrastText",
+                        fontWeight: 700,
+                        fontSize: "0.8rem",
+                        boxShadow: 1,
+                      }}
+                    >
+                      S{index + 1}
+                    </Avatar>
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight={700}>
+                        {session.event_time || `Session ${index + 1}`}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                        {displayDate || "—"}
+                      </Typography>
+                    </Box>
+                  </Stack>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-500 bg-white border border-gray-200 hover:text-[var(--color-primary)] hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-tint)] rounded-lg transition-colors cursor-pointer"
-                    onClick={() => handleEditSession(id, index)}
-                    title={`Edit ${session.event_time || `Session ${index + 1}`}`}
-                  >
-                    <FiEdit2 size={14} />
-                    <span className="hidden sm:inline">Edit</span>
-                  </button>
-                  <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 hover:bg-[var(--color-primary)] hover:text-white rounded-lg transition-colors cursor-pointer"
-                    onClick={() =>
-                      handleAssignStaff(id, session.id, session.event_time)
-                    }
-                    title={`Assign Staff to ${session.event_time || `Session ${index + 1}`}`}
-                  >
-                    <FiBriefcase size={14} />
-                    <span className="hidden sm:inline">Assign Staff</span>
-                  </button>
-                  <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-200 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-                    onClick={() =>
-                      handleViewIngredientBySession(id, session.id, session.event_time)
-                    }
-                  >
-                    <FiBox size={14} />
-                    <span className="hidden sm:inline">Ingredients</span>
-                  </button>
-                </div>
-              </div>
+                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<FiEdit2 size={14} />}
+                      onClick={() => handleEditSession(id, index)}
+                      title={`Edit ${session.event_time || `Session ${index + 1}`}`}
+                    >
+                      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                        Edit
+                      </Box>
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<FiBriefcase size={14} />}
+                      onClick={() =>
+                        handleAssignStaff(id, session.id, session.event_time)
+                      }
+                      title={`Assign Staff to ${session.event_time || `Session ${index + 1}`}`}
+                    >
+                      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                        Assign Staff
+                      </Box>
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<FiBox size={14} />}
+                      onClick={() =>
+                        handleViewIngredientBySession(id, session.id, session.event_time)
+                      }
+                    >
+                      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+                        Ingredients
+                      </Box>
+                    </Button>
+                  </Stack>
+                </Stack>
 
-              {/* Session Stats */}
-              <div className="px-5 py-4 grid grid-cols-2 md:grid-cols-3 gap-y-5 gap-x-4">
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-gray-400 mb-1 flex items-center gap-1">
-                    <FiUsers size={12} /> Estimated Persons
-                  </span>
-                  <span className="font-bold text-gray-800">
-                    {session.estimated_persons || "—"}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-gray-400 mb-1 flex items-center gap-1">
-                    <FiDollarSign size={12} /> Per Dish Amount
-                  </span>
-                  <span className="font-bold text-gray-800">
-                    {session.per_dish_amount
-                      ? `₹${Number(session.per_dish_amount).toLocaleString("en-IN")}`
-                      : "—"}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-gray-400 mb-1 flex items-center gap-1">
-                    <FiDollarSign size={12} /> Extra Service Amt
-                  </span>
-                  <span className="font-bold text-gray-800">
-                    {session.extra_service_amount
-                      ? `₹${Number(session.extra_service_amount).toLocaleString("en-IN")}`
-                      : "—"}
-                  </span>
-                </div>
-
-                {/* Session Address */}
-                {session.event_address && (
-                  <div className="col-span-2 md:col-span-3 pt-3 border-t border-gray-50 flex flex-col">
-                    <span className="text-xs font-semibold text-gray-400 mb-1 flex items-center gap-1">
-                      <FiMapPin size={12} /> Event Address
-                    </span>
-                    <span className="font-medium text-gray-700 max-w-3xl text-sm">
-                      {session.event_address}
-                    </span>
-                  </div>
-                )}
-
-                {/* Session Actions (Items count quick preview & Checklist) */}
-                <div className="col-span-2 md:col-span-3 pt-3 mt-1 border-t border-gray-50 flex flex-col gap-3">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {session.selected_items && Object.keys(session.selected_items).length > 0 && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => showDishes(session)}
-                          className="flex items-center text-xs font-medium px-2.5 py-1 rounded-md bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/30 hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary-border)] transition-colors cursor-pointer"
-                          title="Click to view category-wise selected dishes and assign vendors"
-                        >
-                          Selected Dishes
-                        </button>
-                        <button
-                          className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-fuchsia-700 bg-fuchsia-50 border border-fuchsia-200 hover:bg-fuchsia-100 rounded-md transition-colors cursor-pointer"
-                          onClick={() => handleOpenTags(session)}
-                          title={`Print Dish Tags for ${session.event_time || `Session ${index + 1}`}`}
-                        >
-                          <span className="text-sm">🏷️</span>
-                          <span>Dish Tags</span>
-                        </button>
-                      </>
+                {/* Session stats */}
+                <Box sx={{ px: 2.5, py: 2 }}>
+                  <Grid container spacing={2.5}>
+                    <Grid size={{ xs: 6, md: 4 }}>
+                      <InfoBlock
+                        icon={<FiUsers size={12} />}
+                        label="Estimated Persons"
+                        value={session.estimated_persons || "—"}
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 6, md: 4 }}>
+                      <InfoBlock
+                        icon={<FiDollarSign size={12} />}
+                        label="Per Dish Amount"
+                        value={
+                          session.per_dish_amount
+                            ? `₹${Number(session.per_dish_amount).toLocaleString("en-IN")}`
+                            : "—"
+                        }
+                      />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                      <InfoBlock
+                        icon={<FiDollarSign size={12} />}
+                        label="Extra Service Amt"
+                        value={
+                          session.extra_service_amount
+                            ? `₹${Number(session.extra_service_amount).toLocaleString("en-IN")}`
+                            : "—"
+                        }
+                      />
+                    </Grid>
+                    {session.event_address && (
+                      <Grid size={12}>
+                        <Divider sx={{ mb: 1.5 }} />
+                        <InfoBlock
+                          icon={<FiMapPin size={12} />}
+                          label="Event Address"
+                          value={session.event_address}
+                        />
+                      </Grid>
                     )}
-                    <button
-                      className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 hover:bg-[var(--color-primary-soft)] rounded-md transition-colors cursor-pointer"
+                  </Grid>
+
+                  {/* Session action chips */}
+                  <Divider sx={{ my: 2 }} />
+                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                    {session.selected_items &&
+                      Object.keys(session.selected_items).length > 0 && (
+                        <>
+                          <Chip
+                            label="Selected Dishes"
+                            onClick={() => showDishes(session)}
+                            variant="outlined"
+                            sx={{
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              bgcolor: (t) => t.palette.primary.light + "1f",
+                              color: "primary.main",
+                              borderColor: "primary.light",
+                            }}
+                            title="View category-wise selected dishes and assign vendors"
+                          />
+                          <Chip
+                            label="🏷️ Dish Tags"
+                            onClick={() => handleOpenTags(session)}
+                            variant="outlined"
+                            sx={{
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              color: "secondary.main",
+                              borderColor: "secondary.light",
+                              bgcolor: (t) => t.palette.secondary.light + "1a",
+                            }}
+                            title={`Print Dish Tags for ${session.event_time || `Session ${index + 1}`}`}
+                          />
+                        </>
+                      )}
+                    <Chip
+                      icon={<FiClipboard size={14} />}
+                      label="Checklist PDF"
                       onClick={() =>
                         handleOpenSessionChecklistPreview(id, session.id ?? index)
                       }
-                      title={`Open Checklist Preview for ${session.event_time || `Session ${index + 1}`}`}
-                    >
-                      <FiClipboard size={14} />
-                      <span>Checklist PDF</span>
-                    </button>
-                    <button
-                      className="flex items-center gap-1.5 px-2 py-1 text-xs font-semibold text-[var(--color-primary-text)] bg-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/50 hover:bg-[var(--color-primary-soft)] rounded-md transition-colors cursor-pointer"
-                      onClick={() => setGroundMgmtSession(session)}
-                      title={`Manage Ground Items for ${session.event_time || `Session ${index + 1}`}`}
-                    >
-                      <FiBox size={14} />
-                      <span>Ground Mgmt</span>
-                      {session.ground_management && Object.keys(session.ground_management).length > 0 && (
-                        <span className="ml-0.5 bg-[var(--color-primary-soft)] text-[var(--color-primary-text)] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                          {Object.values(session.ground_management).reduce(
-                            (sum, items) => sum + (Array.isArray(items) ? items.length : 1), 0
+                      variant="outlined"
+                      sx={{
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        bgcolor: (t) => t.palette.primary.light + "1f",
+                        color: "primary.main",
+                      }}
+                    />
+                    <Chip
+                      icon={<FiBox size={14} />}
+                      label={
+                        <Stack direction="row" spacing={0.75} alignItems="center">
+                          <span>Ground Mgmt</span>
+                          {groundItemCount > 0 && (
+                            <Box
+                              sx={{
+                                bgcolor: "primary.main",
+                                color: "primary.contrastText",
+                                px: 0.75,
+                                py: 0.1,
+                                borderRadius: 99,
+                                fontSize: "0.65rem",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {groundItemCount}
+                            </Box>
                           )}
-                        </span>
-                      )}
-                    </button>
-                  </div>
-                </div>
+                        </Stack>
+                      }
+                      onClick={() => setGroundMgmtSession(session)}
+                      variant="outlined"
+                      sx={{
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        bgcolor: (t) => t.palette.primary.light + "1f",
+                        color: "primary.main",
+                      }}
+                    />
+                  </Stack>
 
-                {/* Managers Assigned Details */}
-                {session.managers_assigned &&
-                  session.managers_assigned.length > 0 && (
-                    <div className="col-span-2 md:col-span-3 pt-3 border-t border-gray-100 flex flex-col gap-2">
-                      <span className="text-xs font-bold text-gray-500 flex items-center gap-1 uppercase tracking-wider">
-                        <FiUser size={12} /> Assigned Managers
-                      </span>
-                      <div className="flex flex-wrap gap-3">
-                        {session.managers_assigned.map((staff, mIdx) => (
-                          <button
-                            key={`mgr-${mIdx}`}
-                            onClick={() =>
-                              staff.assignment_id &&
-                              handleEditAssignment(staff.assignment_id)
-                            }
-                            title={
-                              staff.assignment_id
-                                ? "Edit Manager Assignment"
-                                : "No Assignment ID"
-                            }
-                            className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-[var(--color-primary-soft)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary-border)] cursor-pointer" : "border-gray-100 bg-gray-50"}`}
-                          >
-                            <div className="flex items-center justify-between gap-4">
-                              <span className="font-bold text-[var(--color-primary-text)]">
-                                {staff.name || staff}
-                              </span>
-                              {staff.staff_type && (
-                                <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded text-gray-600 border border-gray-200">
-                                  {staff.staff_type}
-                                </span>
-                              )}
-                            </div>
-                            {staff.role && (
-                              <div className="flex items-center gap-2 text-gray-600 font-medium">
-                                <span>{staff.role}</span>
-                                {staff.people_summoned && (
-                                  <>
-                                    <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                                    <span>
-                                      {staff.people_summoned}{" "}
-                                      {staff.people_summoned === 1
-                                        ? "person"
-                                        : "people"}
-                                    </span>
-                                  </>
-                                )}
-                              </div>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  {/* Managers assigned */}
+                  {session.managers_assigned &&
+                    session.managers_assigned.length > 0 && (
+                      <>
+                        <Divider sx={{ my: 2 }} />
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          fontWeight={700}
+                          sx={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 0.5,
+                            textTransform: "uppercase",
+                            letterSpacing: 0.5,
+                            mb: 1,
+                          }}
+                        >
+                          <FiUser size={12} /> Assigned Managers
+                        </Typography>
+                        <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap>
+                          {session.managers_assigned.map((staff, mIdx) => (
+                            <StaffCard
+                              key={`mgr-${mIdx}`}
+                              staff={staff}
+                              onClick={() => handleEditAssignment(staff.assignment_id)}
+                            />
+                          ))}
+                        </Stack>
+                      </>
+                    )}
 
-                {/* Summoned Staff Details */}
-                {session.summoned_staff_details &&
-                  session.summoned_staff_details.length > 0 && (
-                    <div className="col-span-2 md:col-span-3 pt-3 border-t border-gray-100 flex flex-col gap-2">
-                      <span className="text-xs font-bold text-gray-500 flex items-center gap-1 uppercase tracking-wider">
-                        <FiBriefcase size={12} /> Assigned Staff
-                      </span>
-                      <div className="flex flex-wrap gap-3">
-                        {session.summoned_staff_details.map((staff, sIdx) => (
-                          <button
-                            key={sIdx}
-                            onClick={() =>
-                              staff.assignment_id &&
-                              handleEditAssignment(staff.assignment_id)
-                            }
-                            title={
-                              staff.assignment_id
-                                ? "Edit Assignment"
-                                : "No Assignment ID"
-                            }
-                            className={`text-left text-xs px-3 py-2 rounded-lg border flex flex-col gap-1 transition-colors ${staff.assignment_id ? "border-[var(--color-primary-border)]/30 bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] hover:border-[var(--color-primary-border)] cursor-pointer" : "border-gray-100 bg-gray-50"}`}
-                          >
-                            <div className="flex items-center justify-between gap-4">
-                              <span className="font-bold text-[var(--color-primary)]">
-                                {staff.name}
-                              </span>
-                              <span className="text-[10px] font-semibold bg-white px-1.5 py-0.5 rounded text-gray-600 border border-gray-200">
-                                {staff.staff_type}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2 text-gray-600 font-medium">
-                              <span>{staff.role}</span>
-                              <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-                              <span>
-                                {staff.people_summoned}{" "}
-                                {staff.people_summoned === 1
-                                  ? "person"
-                                  : "people"}
-                              </span>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-              </div>
-            </div>
+                  {/* Summoned staff */}
+                  {session.summoned_staff_details &&
+                    session.summoned_staff_details.length > 0 && (
+                      <>
+                        <Divider sx={{ my: 2 }} />
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          fontWeight={700}
+                          sx={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 0.5,
+                            textTransform: "uppercase",
+                            letterSpacing: 0.5,
+                            mb: 1,
+                          }}
+                        >
+                          <FiBriefcase size={12} /> Assigned Staff
+                        </Typography>
+                        <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap>
+                          {session.summoned_staff_details.map((staff, sIdx) => (
+                            <StaffCard
+                              key={sIdx}
+                              staff={staff}
+                              onClick={() => handleEditAssignment(staff.assignment_id)}
+                            />
+                          ))}
+                        </Stack>
+                      </>
+                    )}
+                </Box>
+              </Paper>
+            </Grid>
           );
         })}
-      </div>
+      </Grid>
+
       {orderSessions.length === 0 && (
-        <div className="text-center p-8 bg-white border border-gray-200 rounded-xl text-gray-500">
+        <Paper
+          variant="outlined"
+          sx={{
+            textAlign: "center",
+            py: 4,
+            px: 3,
+            color: "text.secondary",
+            borderRadius: 3,
+          }}
+        >
           No session details available.
-        </div>
+        </Paper>
       )}
 
+      {/* Modals — keep as-is, their own implementation */}
       <DishTagModal
         isOpen={!!tagSession}
         session={tagSession}
@@ -515,16 +705,12 @@ function ViewOrderDetailsComponent({
         catererNameProfile={catererNameProfile}
         customerName={name}
       />
-
-      {/* Payment Modal */}
       <PaymentModal
         isOpen={isPaymentModalOpen}
         onClose={onClosePaymentModal}
         bookingId={id}
         onPaymentSuccess={onPaymentSuccess}
       />
-
-      {/* Ground Management Modal */}
       <GroundManagementModal
         isOpen={!!groundMgmtSession}
         onClose={() => setGroundMgmtSession(null)}
@@ -537,18 +723,14 @@ function ViewOrderDetailsComponent({
         existingData={groundMgmtSession?.ground_management || null}
         sessionName={groundMgmtSession?.event_time || ""}
       />
-
-      {/* Item Vendor Assignment Modal */}
       <ItemVendorModal
         isOpen={!!itemVendorSession}
         onClose={() => setItemVendorSession(null)}
         session={itemVendorSession}
         eventId={id}
       />
-    </div>
+    </Box>
   );
 }
 
 export default ViewOrderDetailsComponent;
-
-

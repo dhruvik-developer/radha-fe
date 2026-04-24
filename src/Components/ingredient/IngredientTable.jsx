@@ -1,8 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { FaTrash } from "react-icons/fa";
-import { FiChevronDown, FiGrid, FiTag } from "react-icons/fi";
-import { IoIosWarning } from "react-icons/io";
+import { FiGrid, FiTag, FiSearch } from "react-icons/fi";
+import EmptyState from "../common/EmptyState";
 
 const IngredientTable = ({
   categories = [],
@@ -15,171 +26,272 @@ const IngredientTable = ({
 
   if (categories.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
-        <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
-        <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
-          No Ingredients Available
-        </p>
-        <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
-          Add an ingredient category to get started
-        </p>
-      </div>
+      <EmptyState
+        icon={<FiGrid size={24} />}
+        title="No Ingredients Available"
+        message="Add an ingredient category to get started."
+      />
     );
   }
 
   const activeCategory =
     categories.find((c) => c.id === activeCategoryId) || categories[0];
   const subcategories = activeCategory?.items || [];
-
   const filteredSubcategories = subcategories.filter((sub) =>
     sub.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 items-start">
-      {/* Left Hand Side: Master Category List */}
-      <div className="w-full lg:w-1/3 flex flex-col gap-3">
-        <div className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1 ml-1">
+    <Stack
+      direction={{ xs: "column", lg: "row" }}
+      spacing={3}
+      alignItems="flex-start"
+    >
+      {/* Left: Master Category List */}
+      <Box sx={{ width: { xs: "100%", lg: "33.333%" } }}>
+        <Typography
+          variant="overline"
+          color="text.secondary"
+          fontWeight={700}
+          sx={{ display: "block", mb: 1, ml: 0.5, letterSpacing: 1 }}
+        >
           Ingredient Categories
-        </div>
-        <div className="flex flex-col gap-3 max-h-[calc(100vh-240px)] overflow-y-auto pr-1">
+        </Typography>
+        <Stack
+          spacing={1.5}
+          sx={{
+            maxHeight: "calc(100vh - 260px)",
+            overflowY: "auto",
+            pr: 0.5,
+          }}
+        >
           {categories.map((category, index) => {
             const isActive = category.id === activeCategory?.id;
             const qty = category.items ? category.items.length : 0;
             return (
-              <div
+              <Paper
                 key={category.id}
+                variant="outlined"
                 onClick={() => setActiveCategoryId(category.id)}
-                className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? "bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                    : "bg-white border-gray-200 hover:border-[var(--color-primary-border)] hover:shadow-sm"
-                }`}
+                sx={{
+                  p: 1.75,
+                  borderRadius: 3,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  ...(isActive
+                    ? {
+                        background: (t) =>
+                          `linear-gradient(to right, ${t.palette.primary.light}26, transparent)`,
+                        borderColor: "primary.main",
+                        boxShadow: 2,
+                      }
+                    : {
+                        "&:hover": {
+                          borderColor: "primary.light",
+                          boxShadow: 1,
+                        },
+                      }),
+                }}
               >
-                <div className="flex items-center gap-3 overflow-hidden">
-                  <div
-                    className={`w-10 h-10 flex-shrink-0 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm transition-colors ${
-                      isActive
-                        ? "bg-[var(--color-primary)] text-white"
-                        : "bg-gray-100 text-gray-500"
-                    }`}
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Stack
+                    direction="row"
+                    spacing={1.5}
+                    alignItems="center"
+                    sx={{ minWidth: 0, flex: 1 }}
                   >
-                    {index + 1}
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span
-                      className={`font-bold text-[15px] truncate ${isActive ? "text-[var(--color-primary)]" : "text-gray-800"}`}
-                      title={category.name}
+                    <Avatar
+                      variant="rounded"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                        bgcolor: isActive ? "primary.main" : "action.hover",
+                        color: isActive
+                          ? "primary.contrastText"
+                          : "text.secondary",
+                      }}
                     >
-                      {category.name}
-                    </span>
-                    <span className="text-xs font-medium text-gray-500 mt-0.5">
-                      {qty} item{qty !== 1 ? "s" : ""}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1 ml-2 flex-shrink-0">
-                  <button
+                      {index + 1}
+                    </Avatar>
+                    <Box sx={{ minWidth: 0 }}>
+                      <Typography
+                        variant="subtitle2"
+                        fontWeight={700}
+                        color={isActive ? "primary.main" : "text.primary"}
+                        noWrap
+                        title={category.name}
+                      >
+                        {category.name}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {qty} item{qty !== 1 ? "s" : ""}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <IconButton
+                    size="small"
                     onClick={(e) => {
                       e.stopPropagation();
                       onIngredientDelete(category.id);
                     }}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                     title="Delete Category"
+                    sx={{
+                      color: "text.disabled",
+                      "&:hover": { color: "error.main", bgcolor: "error.light" },
+                    }}
                   >
                     <FaTrash size={13} />
-                  </button>
-                </div>
-              </div>
+                  </IconButton>
+                </Stack>
+              </Paper>
             );
           })}
-        </div>
-      </div>
+        </Stack>
+      </Box>
 
-      {/* Right Hand Side: Detail Item List */}
-      <div className="w-full lg:w-2/3 bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden flex flex-col h-[calc(100vh-240px)] min-h-[500px]">
-        {/* Header for Items */}
-        <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-              <FiGrid className="text-[var(--color-primary-text)]" />
-              {activeCategory?.name}
-            </h3>
-            <p className="text-sm text-gray-500 mt-1 font-medium">
+      {/* Right: Items Panel */}
+      <Paper
+        variant="outlined"
+        sx={{
+          width: { xs: "100%", lg: "66.666%" },
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: 3,
+          overflow: "hidden",
+          height: "calc(100vh - 240px)",
+          minHeight: 500,
+        }}
+      >
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems={{ xs: "stretch", sm: "center" }}
+          spacing={2}
+          sx={{
+            px: 3,
+            py: 2.5,
+            borderBottom: 1,
+            borderColor: "divider",
+            bgcolor: "action.hover",
+          }}
+        >
+          <Box>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <FiGrid color="currentColor" />
+              <Typography variant="h6" fontWeight={700}>
+                {activeCategory?.name}
+              </Typography>
+            </Stack>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
               {subcategories.length} total ingredients in this category
-            </p>
-          </div>
+            </Typography>
+          </Box>
 
-          <div className="relative">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </div>
-            <input
-              type="text"
-              placeholder="Search ingredients..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 focus:border-[var(--color-primary)] w-full sm:w-64 transition-all"
-            />
-          </div>
-        </div>
+          <TextField
+            size="small"
+            placeholder="Search ingredients..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{ width: { xs: "100%", sm: 260 } }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FiSearch size={14} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
 
-        {/* Items Grid */}
-        <div className="p-6 overflow-y-auto custom-scrollbar flex-1 bg-white">
+        <Box sx={{ p: 3, overflowY: "auto", flex: 1 }}>
           {filteredSubcategories.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              {filteredSubcategories.map((sub, index) => (
-                <div
-                  key={sub.id}
-                  className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <div className="w-8 h-8 rounded-full bg-[var(--color-primary-tint)] flex items-center justify-center flex-shrink-0">
-                      <FiTag className="text-[var(--color-primary-text)]" size={14} />
-                    </div>
-                    <span className="text-[14px] font-bold text-gray-800 truncate group-hover:text-[var(--color-primary)] transition-colors">
-                      {sub.name}
-                    </span>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSubCategoryDelete(sub.id);
+            <Grid container spacing={2}>
+              {filteredSubcategories.map((sub) => (
+                <Grid key={sub.id} size={{ xs: 12, sm: 6, xl: 4 }}>
+                  <Paper
+                    variant="outlined"
+                    sx={{
+                      p: 1.75,
+                      borderRadius: 3,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 1,
+                      transition: "all 0.2s",
+                      "&:hover": {
+                        borderColor: "primary.light",
+                        boxShadow: 1,
+                        "& .delete-btn": { opacity: 1 },
+                      },
                     }}
-                    className="p-1.5 rounded-lg text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 transition-all duration-200 flex-shrink-0"
-                    title="Delete Ingredient"
                   >
-                    <FaTrash size={13} />
-                  </button>
-                </div>
+                    <Stack
+                      direction="row"
+                      spacing={1.5}
+                      alignItems="center"
+                      sx={{ minWidth: 0, pr: 1 }}
+                    >
+                      <Avatar
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          bgcolor: (t) => t.palette.primary.light + "33",
+                          color: "primary.main",
+                        }}
+                      >
+                        <FiTag size={14} />
+                      </Avatar>
+                      <Typography
+                        variant="body2"
+                        fontWeight={700}
+                        noWrap
+                      >
+                        {sub.name}
+                      </Typography>
+                    </Stack>
+                    <IconButton
+                      size="small"
+                      className="delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSubCategoryDelete(sub.id);
+                      }}
+                      title="Delete Ingredient"
+                      sx={{
+                        color: "text.disabled",
+                        opacity: 0,
+                        transition: "all 0.2s",
+                        "&:hover": {
+                          color: "error.main",
+                          bgcolor: "error.light",
+                        },
+                      }}
+                    >
+                      <FaTrash size={13} />
+                    </IconButton>
+                  </Paper>
+                </Grid>
               ))}
-            </div>
+            </Grid>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-3 py-10">
-              <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
-              <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
+            <Stack alignItems="center" justifyContent="center" sx={{ height: "100%" }}>
+              <Typography variant="body1" color="text.secondary">
                 {searchQuery
                   ? "No ingredients match your search."
                   : "No ingredients found in this category."}
-              </p>
-            </div>
+              </Typography>
+            </Stack>
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Paper>
+    </Stack>
   );
 };
 

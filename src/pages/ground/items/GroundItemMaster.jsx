@@ -1,21 +1,40 @@
 import { useState, useEffect } from "react";
-import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiFilter } from "react-icons/fi";
-import toast from "react-hot-toast";
-import Loader from "../../../Components/common/Loader";
-import { getGroundItems, getGroundCategories } from "../../../api/GroundApis";
-import AddGroundItem from "./AddGroundItem";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  InputAdornment,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { FiSearch } from "react-icons/fi";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { StickyNote02Icon } from "@hugeicons/core-free-icons";
+import toast from "react-hot-toast";
+import Loader from "../../../Components/common/Loader";
+import EmptyState from "../../../Components/common/EmptyState";
+import { getGroundItems, getGroundCategories } from "../../../api/GroundApis";
+import AddGroundItem from "./AddGroundItem";
 
 const GroundItemMaster = () => {
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  // Filters
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const fetchInitialData = async () => {
@@ -23,7 +42,7 @@ const GroundItemMaster = () => {
       setLoading(true);
       const [itemsRes, catRes] = await Promise.all([
         getGroundItems(),
-        getGroundCategories()
+        getGroundCategories(),
       ]);
 
       if (itemsRes?.data?.status) {
@@ -33,7 +52,7 @@ const GroundItemMaster = () => {
       }
 
       if (catRes?.data?.status) {
-        setCategories(catRes.data.data.filter(c => c.is_active));
+        setCategories(catRes.data.data.filter((c) => c.is_active));
       }
     } catch (error) {
       console.error(error);
@@ -61,8 +80,12 @@ const GroundItemMaster = () => {
   }, []);
 
   const filteredItems = items.filter((item) => {
-    const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory ? String(item.category) === String(selectedCategory) : true;
+    const matchesSearch = item.name
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory
+      ? String(item.category) === String(selectedCategory)
+      : true;
     return matchesSearch && matchesCategory;
   });
 
@@ -72,129 +95,157 @@ const GroundItemMaster = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <HugeiconsIcon icon={StickyNote02Icon} size={22} color="var(--color-primary-text)" className="text-[var(--color-primary-text)]" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Ground Items</h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Manage inventory items and equipment used on the ground
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2 w-full md:w-auto mt-2 md:mt-0">
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+    <Paper
+      elevation={0}
+      sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, bgcolor: "background.paper" }}
+    >
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        alignItems={{ xs: "stretch", md: "center" }}
+        justifyContent="space-between"
+        sx={{ mb: 3 }}
+      >
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          <Avatar
+            variant="rounded"
+            sx={{
+              bgcolor: (t) => t.palette.primary.light + "33",
+              color: "primary.main",
+              width: 44,
+              height: 44,
+            }}
           >
-            + Add Item
-          </button>
-        </div>
-      </div>
+            <HugeiconsIcon icon={StickyNote02Icon} size={22} />
+          </Avatar>
+          <Box>
+            <Typography variant="h5" fontWeight={700} color="text.primary">
+              Ground Items
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Manage inventory items and equipment used on the ground
+            </Typography>
+          </Box>
+        </Stack>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          + Add Item
+        </Button>
+      </Stack>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex-1 mb-6">
-        <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-wrap gap-4 items-center">
-          <div className="relative flex-1 min-w-[200px] max-w-sm">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search items..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              autoComplete="off"
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
-            />
-          </div>
+      <Paper variant="outlined" sx={{ borderRadius: 2, overflow: "hidden" }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          sx={{
+            p: 2,
+            borderBottom: 1,
+            borderColor: "divider",
+            bgcolor: "action.hover",
+          }}
+        >
+          <TextField
+            placeholder="Search items..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            autoComplete="off"
+            sx={{ flex: 1, minWidth: 220 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FiSearch size={14} />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Select
+            size="small"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            displayEmpty
+            sx={{ minWidth: 220 }}
+          >
+            <MenuItem value="">All Categories</MenuItem>
+            {categories.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </Stack>
 
-          <div className="relative flex-1 min-w-[200px] max-w-xs flex items-center gap-2">
-            <FiFilter className="text-gray-400" />
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white"
-            >
-              <option value="">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto min-h-[400px]">
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <Loader message="Loading Items..." />
-            </div>
-          ) : filteredItems.length > 0 ? (
-            <table className="w-full text-left text-sm text-gray-600">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th scope="col" className="px-6 py-4 font-semibold">
-                    Item Name
-                  </th>
-                  <th scope="col" className="px-6 py-4 font-semibold">
-                    Category
-                  </th>
-                  <th scope="col" className="px-6 py-4 font-semibold">
-                    Unit
-                  </th>
-                  <th scope="col" className="px-6 py-4 font-semibold">
-                    Description
-                  </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-center">
+        {loading ? (
+          <Box sx={{ p: 4, minHeight: 240 }}>
+            <Loader message="Loading Items..." />
+          </Box>
+        ) : filteredItems.length > 0 ? (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: (t) => t.palette.primary.light + "14" }}>
+                  <TableCell sx={{ fontWeight: 700 }}>Item Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Unit</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Description</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }} align="center">
                     Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {filteredItems.map((item) => (
-                  <tr
+                  <TableRow
                     key={item.id}
-                    className="hover:bg-gray-50/50 transition-colors"
+                    hover
+                    sx={{ "&:last-child td": { borderBottom: 0 } }}
                   >
-                    <td className="px-6 py-4 font-bold text-gray-900">
-                      {item.name}
-                    </td>
-                    <td className="px-6 py-4 font-medium text-[var(--color-primary)]">
+                    <TableCell sx={{ fontWeight: 700 }}>{item.name}</TableCell>
+                    <TableCell sx={{ color: "primary.main", fontWeight: 500 }}>
                       {item.category_name || "—"}
-                    </td>
-                    <td className="px-6 py-4 text-gray-700">
-                      {item.unit || "—"}
-                    </td>
-                    <td className="px-6 py-4 text-gray-500 truncate max-w-sm">
+                    </TableCell>
+                    <TableCell>{item.unit || "—"}</TableCell>
+                    <TableCell
+                      sx={{
+                        color: "text.secondary",
+                        maxWidth: 320,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
                       {item.description || "—"}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                          item.is_active
-                            ? "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {item.is_active ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                  </tr>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Chip
+                        size="small"
+                        label={item.is_active ? "Active" : "Inactive"}
+                        color={item.is_active ? "success" : "error"}
+                        variant="outlined"
+                        sx={{
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          letterSpacing: 0.5,
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-              <FiSearch size={48} className="mb-4 opacity-20" />
-              <p className="text-lg">No ground items found</p>
-              <p className="text-sm mt-1">Try adjusting your filters or adding a new item</p>
-            </div>
-          )}
-        </div>
-      </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Box sx={{ p: 3 }}>
+            <EmptyState
+              icon={<HugeiconsIcon icon={StickyNote02Icon} size={24} />}
+              title="No ground items found"
+              message="Try adjusting your filters or adding a new item."
+            />
+          </Box>
+        )}
+      </Paper>
 
       <AddGroundItem
         isOpen={isAddModalOpen}
@@ -202,7 +253,7 @@ const GroundItemMaster = () => {
         onSuccess={handleAddSuccess}
         categories={categories}
       />
-    </div>
+    </Paper>
   );
 };
 

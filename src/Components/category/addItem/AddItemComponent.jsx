@@ -1,7 +1,17 @@
 /* eslint-disable react/prop-types */
-import Dropdown from "../../common/formDropDown/DropDown";
-import Input from "../../common/formInputs/Input";
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { FiArrowLeft, FiTag, FiDollarSign } from "react-icons/fi";
+import Dropdown from "../../common/formDropDown/DropDown";
 
 function AddItemComponent({
   itemName,
@@ -17,111 +27,125 @@ function AddItemComponent({
   handleSubmit,
 }) {
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg w-auto mx-auto mt-10">
-      <button
-        type="button"
-        className="px-4 py-2 mb-4 font-medium bg-gray-100 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors flex items-center gap-2 text-sm text-gray-600"
+    <Paper
+      elevation={0}
+      sx={{
+        p: { xs: 2, sm: 3 },
+        borderRadius: 3,
+        bgcolor: "background.paper",
+        mt: 5,
+      }}
+    >
+      <Button
+        variant="outlined"
+        startIcon={<FiArrowLeft size={16} />}
         onClick={() => navigate(-1)}
+        sx={{ mb: 3 }}
       >
-        <FiArrowLeft size={16} /> Back
-      </button>
+        Back
+      </Button>
 
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-          <FiTag className="text-[var(--color-primary-text)]" size={22} />
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800">Create Item</h2>
-          <p className="text-sm text-gray-400">
+      <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 3 }}>
+        <Avatar
+          variant="rounded"
+          sx={{
+            bgcolor: (t) => t.palette.primary.light + "33",
+            color: "primary.main",
+            width: 44,
+            height: 44,
+          }}
+        >
+          <FiTag size={20} />
+        </Avatar>
+        <Box>
+          <Typography variant="h5" fontWeight={700}>
+            Create Item
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
             Add a new item with pricing details
-          </p>
-        </div>
-      </div>
+          </Typography>
+        </Box>
+      </Stack>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Item Name Input */}
-        <div>
-          <Input
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stack spacing={2.5}>
+          <TextField
+            fullWidth
             label="Item Name *"
-            type="text"
             placeholder="Please Enter Item Name"
             name="name"
             value={itemName}
-            className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
             onChange={(e) => setItemName(e.target.value)}
           />
-        </div>
 
-        {/* Category Dropdown */}
-        <div>
-          <label className="block font-medium text-gray-700 mb-2">
-            Category *
-          </label>
-          <Dropdown
-            options={categories}
-            selectedValue={category}
-            onChange={(value) => setCategory(value)}
-            placeholder="Select a category"
-            isSearchable={true}
-          />
-        </div>
+          <Box>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color="text.secondary"
+              sx={{ mb: 1 }}
+            >
+              Category *
+            </Typography>
+            <Dropdown
+              options={categories}
+              selectedValue={category}
+              onChange={(value) => setCategory(value)}
+              placeholder="Select a category"
+              isSearchable
+            />
+          </Box>
 
-        {/* ---- Pricing Section ---- */}
-        <div className="border-t border-gray-100 pt-5">
-          <div className="flex items-center gap-2 mb-4">
-            <FiDollarSign className="text-[var(--color-primary-text)]" size={18} />
-            <h3 className="font-semibold text-gray-700">Pricing</h3>
-          </div>
+          <Divider />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">
-                Base Cost (₹)
-              </label>
-              <input
-                type="text"
+          <Stack direction="row" spacing={1} alignItems="center">
+            <FiDollarSign color="currentColor" size={18} />
+            <Typography variant="subtitle1" fontWeight={600}>
+              Pricing
+            </Typography>
+          </Stack>
+
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label="Base Cost (₹)"
                 placeholder="e.g. 100"
                 value={baseCost}
                 onChange={(e) =>
                   setBaseCost(e.target.value.replace(/[^0-9.]/g, ""))
                 }
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
+                helperText="The raw cost of this item"
               />
-              <p className="text-xs text-gray-400 mt-1">
-                The raw cost of this item
-              </p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1.5">
-                Selection Rate (₹)
-              </label>
-              <input
-                type="text"
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label="Selection Rate (₹)"
                 placeholder="e.g. 150"
                 value={selectionRate}
                 onChange={(e) =>
                   setSelectionRate(e.target.value.replace(/[^0-9.]/g, ""))
                 }
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all text-base font-medium"
+                helperText="The rate when item is selected for an event"
               />
-              <p className="text-xs text-gray-400 mt-1">
-                The rate when item is selected for an event
-              </p>
-            </div>
-          </div>
-        </div>
+            </Grid>
+          </Grid>
 
-        {/* Submit Button */}
-        <div className="flex items-center justify-center pt-3">
-          <button
-            type="submit"
-            className="px-8 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white font-semibold rounded-lg cursor-pointer shadow-md shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98]"
-          >
-            Save Item
-          </button>
-        </div>
-      </form>
-    </div>
+          <Stack direction="row" justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              sx={{ px: 4 }}
+            >
+              Save Item
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
+    </Paper>
   );
 }
 

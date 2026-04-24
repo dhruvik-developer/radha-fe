@@ -1,11 +1,33 @@
 import { useState, useEffect } from "react";
-import { FiFolder, FiTag, FiSearch, FiEdit2, FiTrash2 } from "react-icons/fi";
-import { IoIosWarning } from "react-icons/io";
+import {
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import {
+  FiFolder,
+  FiTag,
+  FiSearch,
+  FiEdit2,
+  FiTrash2,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
-import Loader from "../../../Components/common/Loader";
-import { getGroundCategories, deleteGroundCategory, deleteGroundItem } from "../../../api/GroundApis";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { TaskAdd01Icon } from "@hugeicons/core-free-icons";
+import Loader from "../../../Components/common/Loader";
+import EmptyState from "../../../Components/common/EmptyState";
+import {
+  getGroundCategories,
+  deleteGroundCategory,
+  deleteGroundItem,
+} from "../../../api/GroundApis";
 import AddGroundCategory from "../categories/AddGroundCategory";
 import AddGroundItem from "../items/AddGroundItem";
 
@@ -30,7 +52,6 @@ const EventGroundChecklist = () => {
       if (res?.data?.status) {
         const data = res.data.data || [];
         setCategories(data);
-        // Auto-select first category
         if (data.length > 0 && !activeCategoryId) {
           setActiveCategoryId(data[0].id);
         }
@@ -43,27 +64,22 @@ const EventGroundChecklist = () => {
     }
   };
 
-  // Determine currently selected category
   const activeCategory =
     categories.find((c) => c.id === activeCategoryId) || categories[0] || null;
   const groundItems = activeCategory?.ground_items || [];
-
   const filteredItems = groundItems.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   const totalItems = categories.reduce(
     (sum, c) => sum + (c.ground_items?.length || 0),
     0
   );
 
-  // Edit category
   const handleEditCategory = (category) => {
     setEditCategoryData(category);
     setShowAddCategory(true);
   };
 
-  // Delete category
   const handleDeleteCategory = (category) => {
     import("sweetalert2").then(({ default: Swal }) => {
       Swal.fire({
@@ -74,11 +90,6 @@ const EventGroundChecklist = () => {
         confirmButtonColor: "#d33",
         cancelButtonColor: "var(--color-primary)",
         confirmButtonText: "Yes, delete it",
-        customClass: {
-          popup: "rounded-xl",
-          confirmButton: "rounded-lg px-4 py-2 text-sm font-semibold",
-          cancelButton: "rounded-lg px-4 py-2 text-sm font-semibold",
-        },
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
@@ -96,7 +107,6 @@ const EventGroundChecklist = () => {
     });
   };
 
-  // Edit item
   const handleEditItem = (item) => {
     setEditItemData({
       ...item,
@@ -105,7 +115,6 @@ const EventGroundChecklist = () => {
     setShowAddItem(true);
   };
 
-  // Delete item
   const handleDeleteItem = (item) => {
     import("sweetalert2").then(({ default: Swal }) => {
       Swal.fire({
@@ -116,11 +125,6 @@ const EventGroundChecklist = () => {
         confirmButtonColor: "#d33",
         cancelButtonColor: "var(--color-primary)",
         confirmButtonText: "Yes, delete it",
-        customClass: {
-          popup: "rounded-xl",
-          confirmButton: "rounded-lg px-4 py-2 text-sm font-semibold",
-          cancelButton: "rounded-lg px-4 py-2 text-sm font-semibold",
-        },
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
@@ -136,230 +140,363 @@ const EventGroundChecklist = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <HugeiconsIcon
-              icon={TaskAdd01Icon}
-              size={22}
-              color="var(--color-primary-text)"
-              className="text-[var(--color-primary-text)]"
-            />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">
+    <Paper
+      elevation={0}
+      sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, bgcolor: "background.paper" }}
+    >
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        alignItems={{ xs: "stretch", md: "center" }}
+        justifyContent="space-between"
+        sx={{ mb: 3 }}
+      >
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          <Avatar
+            variant="rounded"
+            sx={{
+              bgcolor: (t) => t.palette.primary.light + "33",
+              color: "primary.main",
+              width: 44,
+              height: 44,
+            }}
+          >
+            <HugeiconsIcon icon={TaskAdd01Icon} size={22} />
+          </Avatar>
+          <Box>
+            <Typography variant="h5" fontWeight={700} color="text.primary">
               Ground Checklist
-            </h2>
-            <p className="text-sm text-gray-400">
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
               {categories.length} categories • {totalItems} items
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2 w-full md:w-auto mt-2 md:mt-0">
-          <button
+            </Typography>
+          </Box>
+        </Stack>
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() => {
               setEditCategoryData(null);
               setShowAddCategory(true);
             }}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm"
           >
             + Add Category
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
             onClick={() => {
               setEditItemData(null);
               setShowAddItem(true);
             }}
-            className="px-4 py-2.5 bg-white border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium"
           >
             + Add Item
-          </button>
-        </div>
-      </div>
+          </Button>
+        </Stack>
+      </Stack>
 
-      {/* Content */}
       {loading ? (
         <Loader message="Loading ground categories..." />
       ) : categories.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
-          <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
-          <p className="text-lg font-bold text-[var(--color-primary-text)]">
-            No Categories Available
-          </p>
-          <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
-            Add a ground category to get started
-          </p>
-        </div>
+        <EmptyState
+          icon={<FiFolder size={24} />}
+          title="No Categories Available"
+          message="Add a ground category to get started."
+        />
       ) : (
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Left Hand Side: Category List */}
-          <div className="w-full lg:w-1/3 flex flex-col gap-3">
-            <div className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1 ml-1">
+        <Grid container spacing={2} alignItems="flex-start">
+          {/* Left: Category list */}
+          <Grid size={{ xs: 12, lg: 4 }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: 1,
+                display: "block",
+                mb: 1.5,
+                ml: 0.5,
+              }}
+            >
               Categories List
-            </div>
-            <div className="flex flex-col gap-3 max-h-[400px] lg:max-h-[calc(100vh-240px)] overflow-y-auto pr-1">
+            </Typography>
+            <Stack
+              spacing={1.5}
+              sx={{
+                maxHeight: { xs: 400, lg: "calc(100vh - 240px)" },
+                overflowY: "auto",
+                pr: 0.5,
+              }}
+            >
               {categories.map((category, index) => {
                 const isActive = category.id === activeCategory?.id;
                 const qty = category.ground_items
                   ? category.ground_items.length
                   : 0;
                 return (
-                  <div
+                  <Paper
                     key={category.id}
-                    className={`group flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
-                      isActive
-                        ? "bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                        : "bg-white border-gray-200 hover:border-[var(--color-primary-border)] hover:shadow-sm"
-                    }`}
+                    variant="outlined"
+                    sx={{
+                      p: 1.75,
+                      cursor: "pointer",
+                      borderColor: isActive ? "primary.main" : "divider",
+                      borderWidth: isActive ? 2 : 1,
+                      background: isActive
+                        ? (t) =>
+                            `linear-gradient(90deg, ${t.palette.primary.light + "26"}, ${t.palette.background.paper})`
+                        : "background.paper",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 1,
+                      "&:hover .actions": { opacity: 1 },
+                      "&:hover": {
+                        borderColor: "primary.light",
+                        boxShadow: 1,
+                      },
+                    }}
                   >
-                    <div
-                      className="flex items-center gap-3 overflow-hidden flex-1 min-w-0"
+                    <Stack
+                      direction="row"
+                      spacing={1.5}
+                      alignItems="center"
+                      minWidth={0}
+                      flex={1}
                       onClick={() => {
                         setActiveCategoryId(category.id);
                         setSearchQuery("");
                       }}
                     >
-                      <div
-                        className={`w-10 h-10 flex-shrink-0 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm transition-colors ${
-                          isActive
-                            ? "bg-[var(--color-primary)] text-white"
-                            : "bg-gray-100 text-gray-500"
-                        }`}
+                      <Avatar
+                        variant="rounded"
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          fontWeight: 700,
+                          fontSize: 14,
+                          bgcolor: isActive ? "primary.main" : "action.hover",
+                          color: isActive
+                            ? "primary.contrastText"
+                            : "text.secondary",
+                        }}
                       >
                         {index + 1}
-                      </div>
-                      <div className="flex flex-col min-w-0">
-                        <span
-                          className={`font-bold text-[15px] truncate ${
-                            isActive ? "text-[var(--color-primary)]" : "text-gray-800"
-                          }`}
-                          title={category.name}
+                      </Avatar>
+                      <Box minWidth={0}>
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight={700}
+                          noWrap
+                          color={isActive ? "primary.main" : "text.primary"}
                         >
                           {category.name}
-                        </span>
-                        <span className="text-xs font-medium text-gray-500 mt-0.5">
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
                           {qty} item{qty !== 1 ? "s" : ""}
-                        </span>
-                      </div>
-                    </div>
-                    {/* Edit/Delete buttons for category */}
-                    <div className="flex items-center gap-1 ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0">
-                      <button
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Stack
+                      className="actions"
+                      direction="row"
+                      spacing={0}
+                      flexShrink={0}
+                      sx={{
+                        opacity: { xs: 1, sm: 0 },
+                        transition: "opacity 0.2s",
+                      }}
+                    >
+                      <IconButton
+                        size="small"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEditCategory(category);
                         }}
                         title="Edit Category"
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer"
                       >
                         <FiEdit2 size={14} />
-                      </button>
-                      <button
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        color="error"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteCategory(category);
                         }}
                         title="Delete Category"
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
                       >
                         <FiTrash2 size={14} />
-                      </button>
-                    </div>
-                  </div>
+                      </IconButton>
+                    </Stack>
+                  </Paper>
                 );
               })}
-            </div>
-          </div>
+            </Stack>
+          </Grid>
 
-          {/* Right Hand Side: Items Grid */}
-          <div className="w-full lg:w-2/3 bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden flex flex-col lg:h-[calc(100vh-240px)] lg:min-h-[500px] min-h-[400px]">
-            {/* Header for Items */}
-            <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                  <FiFolder className="text-[var(--color-primary-text)]" />
-                  {activeCategory?.name}
-                </h3>
-                <p className="text-sm text-gray-500 mt-1 font-medium">
-                  {groundItems.length} total items in this category
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <FiSearch size={14} />
-                </div>
-                <input
-                  type="text"
+          {/* Right: Items */}
+          <Grid size={{ xs: 12, lg: 8 }}>
+            <Paper
+              variant="outlined"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                height: { xs: "auto", lg: "calc(100vh - 240px)" },
+                minHeight: 400,
+                overflow: "hidden",
+                borderRadius: 3,
+              }}
+            >
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                alignItems={{ xs: "stretch", sm: "center" }}
+                justifyContent="space-between"
+                sx={{
+                  px: 3,
+                  py: 2.5,
+                  borderBottom: 1,
+                  borderColor: "divider",
+                  bgcolor: "action.hover",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="h6"
+                    fontWeight={700}
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    <FiFolder />
+                    {activeCategory?.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {groundItems.length} total items in this category
+                  </Typography>
+                </Box>
+                <TextField
                   placeholder="Search items..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 focus:border-[var(--color-primary)] w-full sm:w-64 transition-all"
+                  sx={{ width: { xs: "100%", sm: 260 } }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FiSearch size={14} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
-              </div>
-            </div>
+              </Stack>
 
-            {/* Items Grid */}
-            <div className="p-6 overflow-y-auto custom-scrollbar flex-1 bg-white">
-              {filteredItems.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {filteredItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200"
-                    >
-                      <div className="flex items-center gap-3 min-w-0 pr-2 flex-1">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-[var(--color-primary-tint)]">
-                          <FiTag className="text-[var(--color-primary-text)]" size={14} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-[14px] font-bold truncate text-gray-800 group-hover:text-[var(--color-primary)] transition-colors block">
-                            {item.name}
-                          </span>
-                          {item.unit && (
-                            <span className="text-[11px] text-gray-400">
-                              Unit: {item.unit}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      {/* Edit/Delete buttons for item */}
-                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0">
-                        <button
-                          onClick={() => handleEditItem(item)}
-                          title="Edit Item"
-                          className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-all cursor-pointer"
+              <Box sx={{ p: 3, overflowY: "auto", flex: 1 }}>
+                {filteredItems.length > 0 ? (
+                  <Grid container spacing={1.5}>
+                    {filteredItems.map((item) => (
+                      <Grid key={item.id} size={{ xs: 12, sm: 6, xl: 4 }}>
+                        <Paper
+                          variant="outlined"
+                          sx={{
+                            p: 1.75,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            gap: 1,
+                            "&:hover .item-actions": { opacity: 1 },
+                            "&:hover": {
+                              borderColor: "primary.light",
+                              boxShadow: 1,
+                            },
+                          }}
                         >
-                          <FiEdit2 size={14} />
-                        </button>
-                        <button
-                          onClick={() => handleDeleteItem(item)}
-                          title="Delete Item"
-                          className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
-                        >
-                          <FiTrash2 size={14} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full gap-3 py-10">
-                  <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
-                  <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
-                    {searchQuery
-                      ? "No items match your search."
-                      : "No items found in this category."}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+                          <Stack
+                            direction="row"
+                            spacing={1.5}
+                            alignItems="center"
+                            minWidth={0}
+                            flex={1}
+                          >
+                            <Avatar
+                              sx={{
+                                width: 32,
+                                height: 32,
+                                bgcolor: (t) => t.palette.primary.light + "33",
+                                color: "primary.main",
+                              }}
+                            >
+                              <FiTag size={14} />
+                            </Avatar>
+                            <Box minWidth={0}>
+                              <Typography
+                                variant="body2"
+                                fontWeight={700}
+                                noWrap
+                              >
+                                {item.name}
+                              </Typography>
+                              {item.unit && (
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                >
+                                  Unit: {item.unit}
+                                </Typography>
+                              )}
+                            </Box>
+                          </Stack>
+                          <Stack
+                            className="item-actions"
+                            direction="row"
+                            spacing={0}
+                            flexShrink={0}
+                            sx={{
+                              opacity: { xs: 1, sm: 0 },
+                              transition: "opacity 0.2s",
+                            }}
+                          >
+                            <IconButton
+                              size="small"
+                              onClick={() => handleEditItem(item)}
+                              title="Edit Item"
+                            >
+                              <FiEdit2 size={14} />
+                            </IconButton>
+                            <IconButton
+                              size="small"
+                              color="error"
+                              onClick={() => handleDeleteItem(item)}
+                              title="Delete Item"
+                            >
+                              <FiTrash2 size={14} />
+                            </IconButton>
+                          </Stack>
+                        </Paper>
+                      </Grid>
+                    ))}
+                  </Grid>
+                ) : (
+                  <EmptyState
+                    icon={<FiTag size={24} />}
+                    title={
+                      searchQuery
+                        ? "No items match your search"
+                        : "No items in this category"
+                    }
+                    message={
+                      searchQuery
+                        ? "Try adjusting your search."
+                        : "Add items to this category to see them here."
+                    }
+                  />
+                )}
+              </Box>
+            </Paper>
+          </Grid>
+        </Grid>
       )}
-      {/* Modals */}
+
       <AddGroundCategory
         isOpen={showAddCategory}
         onClose={() => {
@@ -384,10 +521,10 @@ const EventGroundChecklist = () => {
           setEditItemData(null);
           fetchCategories();
         }}
-        categories={categories.filter(c => c.is_active)}
+        categories={categories.filter((c) => c.is_active)}
         editData={editItemData}
       />
-    </div>
+    </Paper>
   );
 };
 

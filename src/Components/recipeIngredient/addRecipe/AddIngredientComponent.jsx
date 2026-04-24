@@ -1,7 +1,17 @@
 /* eslint-disable react/prop-types */
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { FaTimes } from "react-icons/fa";
+import { FiArrowLeft } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import Dropdown from "../../common/formDropDown/DropDown";
-import { FaTimes } from "react-icons/fa";
 
 function AddIngredientComponent({
   items,
@@ -17,132 +27,150 @@ function AddIngredientComponent({
   navigate,
 }) {
   const selectedItemName = items.find((item) => item.id === selectedItem)?.name;
+
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg w-auto mx-auto mt-10">
-      <button
-        type="button"
-        className="px-4 py-2 mb-[10px] font-medium bg-gray-300 border border-gray-300 rounded-md cursor-pointer"
+    <Paper
+      elevation={0}
+      sx={{
+        p: { xs: 2, sm: 3 },
+        borderRadius: 3,
+        bgcolor: "background.paper",
+        mt: 5,
+      }}
+    >
+      <Button
+        variant="outlined"
+        startIcon={<FiArrowLeft size={16} />}
         onClick={() => navigate(-1)}
+        sx={{ mb: 2 }}
       >
         Back
-      </button>
-      <h2 className="text-2xl font-semibold mb-4">Add Recipe Ingredient</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Person Count */}
-        <div>
-          <label className="block font-medium text-gray-700 mb-2">
-            Recipe For Person Count:
-          </label>
-          <input
+      </Button>
+      <Typography variant="h5" fontWeight={700} sx={{ mb: 3 }}>
+        Add Recipe Ingredient
+      </Typography>
+
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stack spacing={2.5}>
+          <TextField
+            fullWidth
             type="number"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
+            label="Recipe For Person Count"
             placeholder="Enter Person Count (e.g., 100)"
             value={personCount}
             onChange={(e) => setPersonCount(parseInt(e.target.value) || 0)}
-            min="1"
+            inputProps={{ min: 1 }}
             required
           />
-        </div>
 
-        {/* Item Dropdown */}
-        <div>
-          <label className="block font-medium text-gray-700 mb-2">
-            Select Item:
-          </label>
-          <Dropdown
-            options={items}
-            placeholder="Select an item"
-            selectedValue={selectedItem}
-            onChange={(value) => setSelectedItem(value)}
-            isSearchable={true}
-          />
-        </div>
+          <Box>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color="text.secondary"
+              sx={{ mb: 1 }}
+            >
+              Select Item
+            </Typography>
+            <Dropdown
+              options={items}
+              placeholder="Select an item"
+              selectedValue={selectedItem}
+              onChange={(value) => setSelectedItem(value)}
+              isSearchable
+            />
+          </Box>
 
-        {/* Selected Item Label */}
-        {selectedItem && (
-          <div className="block font-semibold text-gray-700 mb-[0px]">
-            {selectedItemName} ingredients
-          </div>
-        )}
+          {selectedItem && (
+            <Typography variant="subtitle2" fontWeight={700} color="text.primary">
+              {selectedItemName} ingredients
+            </Typography>
+          )}
 
-        {/* Ingredients List - inline rows */}
-        {selectedItem && (
-          <div>
-            <AnimatePresence>
-              {ingredients.map((ingredient, index) => {
-                const isLastEmptyRow =
-                  index === ingredients.length - 1 && !ingredient.ingredient;
-                const isFilledRow = Boolean(ingredient.ingredient);
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="flex items-center space-x-2 mb-2"
-                  >
-                    <div className="flex-1">
-                      <Dropdown
-                        options={ingredientItems}
-                        placeholder="Select ingredient"
-                        selectedValue={ingredient.ingredient}
-                        onChange={(value) =>
-                          handleIngredientChange(index, "ingredient", value)
-                        }
-                        isSearchable={true}
-                      />
-                    </div>
+          {selectedItem && (
+            <Stack spacing={1}>
+              <AnimatePresence>
+                {ingredients.map((ingredient, index) => {
+                  const isLastEmptyRow =
+                    index === ingredients.length - 1 && !ingredient.ingredient;
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                    >
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Box sx={{ flex: 1 }}>
+                          <Dropdown
+                            options={ingredientItems}
+                            placeholder="Select ingredient"
+                            selectedValue={ingredient.ingredient}
+                            onChange={(value) =>
+                              handleIngredientChange(
+                                index,
+                                "ingredient",
+                                value
+                              )
+                            }
+                            isSearchable
+                          />
+                        </Box>
+                        <TextField
+                          size="small"
+                          type="number"
+                          sx={{ width: 100 }}
+                          placeholder="Qty"
+                          value={ingredient.quantity}
+                          onChange={(e) =>
+                            handleIngredientChange(
+                              index,
+                              "quantity",
+                              e.target.value
+                            )
+                          }
+                          inputProps={{ min: 0 }}
+                        />
+                        <TextField
+                          size="small"
+                          sx={{ width: 90 }}
+                          placeholder="Unit"
+                          value={ingredient.unit}
+                          onChange={(e) =>
+                            handleIngredientChange(index, "unit", e.target.value)
+                          }
+                        />
+                        {!isLastEmptyRow ? (
+                          <IconButton
+                            color="error"
+                            onClick={() => handleRemoveField(index)}
+                            sx={{
+                              bgcolor: "error.light",
+                              color: "common.white",
+                              "&:hover": { bgcolor: "error.main" },
+                            }}
+                          >
+                            <FaTimes size={14} />
+                          </IconButton>
+                        ) : (
+                          <Box sx={{ width: 40 }} />
+                        )}
+                      </Stack>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </Stack>
+          )}
 
-                    <input
-                      type="number"
-                      min="0"
-                      className="w-[90px] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
-                      placeholder="Qty"
-                      value={ingredient.quantity}
-                      onChange={(e) =>
-                        handleIngredientChange(index, "quantity", e.target.value)
-                      }
-                    />
-
-                    <input
-                      type="text"
-                      className="w-[80px] p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
-                      placeholder="Unit"
-                      value={ingredient.unit}
-                      onChange={(e) =>
-                        handleIngredientChange(index, "unit", e.target.value)
-                      }
-                    />
-
-                    {!isLastEmptyRow ? (
-                      <button
-                        type="button"
-                        className="p-[10px] bg-red-400 text-white rounded-md"
-                        onClick={() => handleRemoveField(index)}
-                      >
-                        <FaTimes />
-                      </button>
-                    ) : (
-                      <div className="w-[44px]" />
-                    )}
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </div>
-        )}
-
-        {/* Submit Button */}
-        <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            className="w-auto bg-[var(--color-primary)] text-white p-2 rounded-md cursor-pointer"
-          >
-            Save Ingredient
-          </button>
-        </div>
-      </form>
-    </div>
+          <Stack direction="row" justifyContent="center">
+            <Button type="submit" variant="contained" color="primary">
+              Save Ingredient
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
+    </Paper>
   );
 }
 

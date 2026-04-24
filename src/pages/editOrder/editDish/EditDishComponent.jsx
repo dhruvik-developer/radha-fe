@@ -3,6 +3,28 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
+  Box,
+  Button,
+  Checkbox,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  FormControlLabel,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import {
   FiPlus,
   FiX,
   FiChevronDown,
@@ -18,6 +40,99 @@ import {
 import { AiOutlineDelete } from "react-icons/ai";
 import Loader from "../../../Components/common/Loader";
 
+const TIME_OPTIONS = [
+  { value: "Breakfast", label: "Breakfast" },
+  { value: "Lunch", label: "Lunch" },
+  { value: "Dinner", label: "Dinner" },
+  { value: "High Tea", label: "High Tea" },
+  { value: "Late Night Nasto", label: "Late Night Snack" },
+];
+
+function SectionHeading({ title, action }) {
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ mb: 1.5 }}
+    >
+      <Stack direction="row" spacing={1.25} alignItems="center">
+        <Box
+          sx={{
+            width: 4,
+            height: 20,
+            borderRadius: 99,
+            bgcolor: "primary.main",
+          }}
+        />
+        <Typography
+          variant="overline"
+          fontWeight={700}
+          color="text.secondary"
+          sx={{ letterSpacing: 1.5 }}
+        >
+          {title}
+        </Typography>
+      </Stack>
+      {action}
+    </Stack>
+  );
+}
+
+function FieldLabel({ icon, children, color = "text.secondary" }) {
+  return (
+    <Typography
+      variant="caption"
+      fontWeight={700}
+      color={color}
+      sx={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 0.5,
+        mb: 0.5,
+        textTransform: "uppercase",
+        letterSpacing: 0.5,
+        fontSize: "0.65rem",
+      }}
+    >
+      {icon} {children}
+    </Typography>
+  );
+}
+
+function DatePickerShell({ children, theme, fullWidth = true, disabled }) {
+  return (
+    <Box
+      sx={{
+        "& .react-datepicker-wrapper": {
+          width: fullWidth ? "100%" : "auto",
+        },
+        "& input": {
+          width: "100%",
+          padding: "8.5px 12px",
+          borderRadius: theme.shape.borderRadius + "px",
+          border: "1px solid",
+          borderColor: theme.palette.divider,
+          backgroundColor: disabled
+            ? theme.palette.action.disabledBackground
+            : theme.palette.background.paper,
+          font: "inherit",
+          fontSize: "0.875rem",
+          color: theme.palette.text.primary,
+          outline: "none",
+          cursor: disabled ? "not-allowed" : "pointer",
+        },
+        "& input:focus": {
+          borderColor: theme.palette.primary.main,
+          boxShadow: `0 0 0 2px ${theme.palette.primary.main}33`,
+        },
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+
 function EditDishComponent({
   formData,
   errors,
@@ -25,7 +140,6 @@ function EditDishComponent({
   isDishesLoading,
   loading,
   handleChange,
-  handleAddressChange,
   handleAddSchedule,
   handleRemoveSchedule,
   handleScheduleDateChange,
@@ -44,13 +158,7 @@ function EditDishComponent({
   handleSubmit,
   isSessionMode,
 }) {
-  const timeOptions = [
-    { value: "Breakfast", label: "Breakfast" },
-    { value: "Lunch", label: "Lunch" },
-    { value: "Dinner", label: "Dinner" },
-    { value: "High Tea", label: "High Tea" },
-    { value: "Late Night Nasto", label: "Late Night Snack" },
-  ];
+  const theme = useTheme();
   const [activeDishModal, setActiveDishModal] = useState(null);
   const [tempDishes, setTempDishes] = useState([]);
   const [collapsedCategoryIds, setCollapsedCategoryIds] = useState([]);
@@ -62,22 +170,19 @@ function EditDishComponent({
     (a, b) => (a.positions || 999) - (b.positions || 999)
   );
 
-  const toggleCategoryCollapse = (id) => {
+  const toggleCategoryCollapse = (id) =>
     setCollapsedCategoryIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
-  };
 
   const openDishModal = (dIdx, sIdx, currentDishes) => {
     setTempDishes(JSON.parse(JSON.stringify(currentDishes)));
     setActiveDishModal({ dIdx, sIdx });
   };
-
   const closeDishModal = () => {
     setActiveDishModal(null);
     setTempDishes([]);
   };
-
   const saveDishModal = () => {
     if (activeDishModal) {
       handleSlotDishesUpdate(
@@ -88,7 +193,6 @@ function EditDishComponent({
     }
     closeDishModal();
   };
-
   const handleTempDishToggle = (dish, categoryName = "Dishes") => {
     const existsIndex = tempDishes.findIndex((d) => d.dishId === dish.id);
     if (existsIndex >= 0) {
@@ -108,802 +212,1250 @@ function EditDishComponent({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl shadow-lg p-20 flex justify-center">
+      <Paper
+        elevation={0}
+        sx={{
+          borderRadius: 3,
+          p: 10,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Loader message="Loading Booking Details..." />
-      </div>
+      </Paper>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <Paper
+      elevation={0}
+      sx={{ borderRadius: 3, overflow: "hidden", border: 1, borderColor: "divider" }}
+    >
       {/* Header Bar */}
-      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-6 py-4 flex items-center justify-between">
-        <div>
-          <h2 className="text-white text-lg font-bold tracking-wide">
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        justifyContent="space-between"
+        spacing={1.5}
+        sx={{
+          px: { xs: 2, sm: 3 },
+          py: 2,
+          background: (t) =>
+            `linear-gradient(to right, ${t.palette.primary.main}, ${t.palette.primary.dark})`,
+          color: "primary.contrastText",
+        }}
+      >
+        <Box>
+          <Typography variant="subtitle1" fontWeight={700}>
             {isSessionMode ? "Edit Session Details" : "Edit Booking Details"}
-          </h2>
-          <p className="text-white/60 text-xs font-medium">
+          </Typography>
+          <Typography variant="caption" sx={{ opacity: 0.75 }}>
             {isSessionMode
               ? "Modify items and extras for this specific session"
               : "Modify schedules, dishes and extras"}
-          </p>
-        </div>
-        <div className="bg-white/15 backdrop-blur-sm px-5 py-2 rounded-xl border border-white/20">
-          <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest mr-2">
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            bgcolor: "rgba(255,255,255,0.15)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            borderRadius: 2,
+            px: 2.5,
+            py: 1,
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              opacity: 0.7,
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: 1.5,
+              mr: 1,
+            }}
+          >
             Grand Total
-          </span>
-          <span className="text-white text-xl font-black">
+          </Typography>
+          <Typography component="span" variant="h6" fontWeight={800}>
             ₹
             {Number(formData.grandTotalAmount || 0).toLocaleString("en-IN", {
               minimumFractionDigits: 2,
             })}
-          </span>
-        </div>
-      </div>
+          </Typography>
+        </Box>
+      </Stack>
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-6">
-        {/* ── Customer Info Section ── */}
-        <div>
-          <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <span className="w-1 h-5 bg-[var(--color-primary)] rounded-full"></span>
-            Customer Info
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">
-                Customer Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder={errors.name || "Customer name"}
-                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none transition-all ${errors.name ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"}`}
-              />
-              {errors.name && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">{errors.name}</p>
-              )}
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">
-                Mobile Number *
-              </label>
-              <input
-                type="text"
-                name="mobile_no"
-                value={formData.mobile_no}
-                onChange={handleChange}
-                maxLength="10"
-                placeholder={errors.mobile_no || "10-digit mobile"}
-                onInput={(e) =>
-                  (e.target.value = e.target.value
-                    .replace(/[^0-9]/g, "")
-                    .slice(0, 10))
-                }
-                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none transition-all ${errors.mobile_no ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15"}`}
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">
-                <FiCalendar className="inline mr-1 -mt-0.5" size={12} /> Order
-                Date
-              </label>
-              <DatePicker
-                selected={formData.date || new Date()}
-                dateFormat="dd/MM/yyyy"
-                className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm font-medium bg-gray-100 text-gray-500 cursor-not-allowed"
-                disabled
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-500 mb-1">
-                Reference
-              </label>
-              <input
-                type="text"
-                name="reference"
-                value={formData.reference || ""}
-                onChange={handleChange}
-                placeholder="Optional"
-                className={`w-full px-3.5 py-2.5 border rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/15 transition-all ${errors.reference ? "border-red-300 bg-red-50/50 placeholder-red-400" : "border-gray-200 bg-gray-50/50 focus:border-[var(--color-primary)]"}`}
-              />
-              {errors.reference && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">{errors.reference}</p>
-              )}
-            </div>
-          </div>
-        </div>
+      <Box component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 } }}>
+        <Stack spacing={3}>
+          {/* Customer Info */}
+          <Box>
+            <SectionHeading title="Customer Info" />
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                <FieldLabel>Customer Name *</FieldLabel>
+                <TextField
+                  fullWidth
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder={errors.name || "Customer name"}
+                  error={!!errors.name}
+                  helperText={errors.name || ""}
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                <FieldLabel>Mobile Number *</FieldLabel>
+                <TextField
+                  fullWidth
+                  name="mobile_no"
+                  value={formData.mobile_no}
+                  onChange={handleChange}
+                  inputProps={{ maxLength: 10 }}
+                  placeholder={errors.mobile_no || "10-digit mobile"}
+                  error={!!errors.mobile_no}
+                  helperText={errors.mobile_no || ""}
+                  onInput={(e) =>
+                    (e.target.value = e.target.value
+                      .replace(/[^0-9]/g, "")
+                      .slice(0, 10))
+                  }
+                />
+              </Grid>
+              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                <FieldLabel icon={<FiCalendar size={10} />}>Order Date</FieldLabel>
+                <DatePickerShell theme={theme} disabled>
+                  <DatePicker
+                    selected={formData.date || new Date()}
+                    dateFormat="dd/MM/yyyy"
+                    disabled
+                  />
+                </DatePickerShell>
+              </Grid>
+              <Grid size={{ xs: 12, md: 6, lg: 3 }}>
+                <FieldLabel>Reference</FieldLabel>
+                <TextField
+                  fullWidth
+                  name="reference"
+                  value={formData.reference || ""}
+                  onChange={handleChange}
+                  placeholder="Optional"
+                  error={!!errors.reference}
+                  helperText={errors.reference || ""}
+                />
+              </Grid>
+            </Grid>
+          </Box>
 
-        <div className="border-t border-gray-100"></div>
+          <Divider />
 
-        {/* ── Event Schedule Section ── */}
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-              <span className="w-1 h-5 bg-[var(--color-primary)] rounded-full"></span>
-              {isSessionMode ? "Session Configuration" : "Event Schedule"}
-            </h3>
-            {!isSessionMode && (
-              <button
-                type="button"
-                onClick={handleAddSchedule}
-                className="text-xs font-bold text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors border border-[var(--color-primary-border)]/50 cursor-pointer"
+          {/* Event Schedule */}
+          <Box>
+            <SectionHeading
+              title={isSessionMode ? "Session Configuration" : "Event Schedule"}
+              action={
+                !isSessionMode && (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    startIcon={<FiPlus size={13} />}
+                    onClick={handleAddSchedule}
+                  >
+                    Add Date
+                  </Button>
+                )
+              }
+            />
+
+            {errors.schedule && (
+              <Typography
+                variant="caption"
+                color="error.main"
+                sx={{
+                  display: "block",
+                  bgcolor: "error.light",
+                  px: 1.5,
+                  py: 1,
+                  borderRadius: 1.5,
+                  border: 1,
+                  borderColor: "error.light",
+                  mb: 1.5,
+                  fontWeight: 500,
+                }}
               >
-                <FiPlus size={13} /> Add Date
-              </button>
+                {errors.schedule}
+              </Typography>
             )}
-          </div>
-
-          {errors.schedule && (
-            <p className="text-red-500 text-xs font-medium bg-red-50 px-3 py-2 rounded-lg border border-red-100 mb-3">
-              {errors.schedule}
-            </p>
-          )}
-          {errors.slots && (
-            <p className="text-red-500 text-xs font-medium bg-red-50 px-3 py-2 rounded-lg border border-red-100 mb-3">
-              {errors.slots}
-            </p>
-          )}
-
-          <div className="space-y-4">
-            {formData.schedule.map((day, dIdx) => (
-              <div
-                key={dIdx}
-                className="rounded-xl border border-gray-200 overflow-hidden bg-white shadow-sm"
+            {errors.slots && (
+              <Typography
+                variant="caption"
+                color="error.main"
+                sx={{
+                  display: "block",
+                  bgcolor: "error.light",
+                  px: 1.5,
+                  py: 1,
+                  borderRadius: 1.5,
+                  border: 1,
+                  borderColor: "error.light",
+                  mb: 1.5,
+                  fontWeight: 500,
+                }}
               >
-                {/* Day Header */}
-                <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[var(--color-primary-soft)] to-white border-b border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <span className="w-9 h-9 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-black text-xs shadow">
-                      D{dIdx + 1}
-                    </span>
-                    <DatePicker
-                      placeholderText="Pick date"
-                      minDate={tomorrow}
-                      dateFormat="dd/MM/yyyy"
-                      selected={day.event_date}
-                      onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 px-3 py-1.5 border border-[var(--color-primary-border)]/50 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 font-semibold text-gray-700 text-sm bg-white"
-                    />
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="text-right bg-[var(--color-primary-tint)] px-3 py-1.5 rounded-lg border border-green-200">
-                      <span className="text-[9px] text-[var(--color-primary)] font-bold uppercase tracking-wider block leading-none">
-                        Day Total
-                      </span>
-                      <span className="text-base font-black text-[var(--color-primary-text)]">
-                        ₹
-                        {Number(day.dayTotalAmount || 0).toLocaleString(
-                          "en-IN",
-                          { minimumFractionDigits: 2 }
-                        )}
-                      </span>
-                    </div>
-                    {!isSessionMode && formData.schedule.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveSchedule(dIdx)}
-                        className="p-2 text-red-400 bg-red-50 hover:bg-red-100 rounded-lg transition-colors cursor-pointer"
-                        title="Remove Day"
+                {errors.slots}
+              </Typography>
+            )}
+
+            <Stack spacing={2}>
+              {formData.schedule.map((day, dIdx) => (
+                <Paper
+                  key={dIdx}
+                  variant="outlined"
+                  sx={{ borderRadius: 2, overflow: "hidden" }}
+                >
+                  {/* Day Header */}
+                  <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    alignItems={{ xs: "stretch", md: "center" }}
+                    justifyContent="space-between"
+                    spacing={1.5}
+                    sx={{
+                      px: 2,
+                      py: 1.5,
+                      bgcolor: (t) => t.palette.primary.light + "1a",
+                      borderBottom: 1,
+                      borderColor: "divider",
+                    }}
+                  >
+                    <Stack direction="row" spacing={1.5} alignItems="center">
+                      <Box
+                        sx={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 1.5,
+                          bgcolor: "primary.main",
+                          color: "primary.contrastText",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: 800,
+                          fontSize: "0.75rem",
+                          boxShadow: 1,
+                        }}
                       >
-                        <AiOutlineDelete size={16} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Time Slots */}
-                <div className="px-4 py-3 space-y-3">
-                  {day.timeSlots.map((slot, sIdx) => (
-                    <div
-                      key={sIdx}
-                      className="bg-gray-50/80 rounded-xl border border-gray-200 p-4 space-y-3"
-                    >
-                      {/* Row 1: Slot Config */}
-                      <div className="flex flex-wrap items-end gap-3">
-                        <div className="flex-1 min-w-[140px]">
-                          <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">
-                            <FiClock className="inline mr-0.5" size={10} /> Time
-                            Slot
-                          </label>
-                          <select
-                            value={slot.timeLabel}
-                            onChange={(e) =>
-                              handleSlotChange(
-                                dIdx,
-                                sIdx,
-                                "timeLabel",
-                                e.target.value
-                              )
-                            }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-medium bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all cursor-pointer ${errors[`timeLabel_${dIdx}_${sIdx}`] ? "border-red-300" : "border-gray-200"}`}
-                          >
-                            <option value="">Select...</option>
-                            {timeOptions.map((t) => (
-                              <option key={t.value} value={t.value}>
-                                {t.label}
-                              </option>
-                            ))}
-                          </select>
-                          {errors[`timeLabel_${dIdx}_${sIdx}`] && (
-                            <p className="text-red-500 text-[10px] mt-1 font-medium leading-tight">
-                              {errors[`timeLabel_${dIdx}_${sIdx}`]}
-                            </p>
-                          )}
-                        </div>
-                        <div className="w-28">
-                          <label className="block text-[10px] font-bold text-gray-400 mb-1 uppercase tracking-wider">
-                            <FiUsers className="inline mr-0.5" size={10} />{" "}
-                            Persons
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="0"
-                            value={slot.estimatedPersons || ""}
-                            onChange={(e) =>
-                              handleSlotChange(
-                                dIdx,
-                                sIdx,
-                                "estimatedPersons",
-                                e.target.value
-                              )
-                            }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-medium bg-white focus:outline-none focus:border-[var(--color-primary)] transition-all text-center ${errors[`persons_${dIdx}_${sIdx}`] ? "border-red-300" : "border-gray-200"}`}
-                          />
-                          {errors[`persons_${dIdx}_${sIdx}`] && (
-                            <p className="text-red-500 text-[10px] mt-1 font-medium leading-tight">
-                              {errors[`persons_${dIdx}_${sIdx}`]}
-                            </p>
-                          )}
-                        </div>
-                        <div className="w-32">
-                          <label className="block text-[10px] font-bold text-[var(--color-primary)] mb-1 uppercase tracking-wider">
-                            <FiDollarSign className="inline mr-0.5" size={10} />{" "}
-                            Per Plate ₹
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="0"
-                            value={slot.perPlatePrice || ""}
-                            onChange={(e) =>
-                              handleSlotChange(
-                                dIdx,
-                                sIdx,
-                                "perPlatePrice",
-                                e.target.value
-                              )
-                            }
-                            className={`w-full px-3 py-2 border rounded-lg text-sm font-bold bg-[var(--color-primary-tint)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-all text-center ${errors[`platePrice_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[var(--color-primary-border)]/50"}`}
-                          />
-                          {errors[`platePrice_${dIdx}_${sIdx}`] && (
-                            <p className="text-red-500 text-[10px] mt-1 font-medium leading-tight text-center">
-                              {errors[`platePrice_${dIdx}_${sIdx}`]}
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex items-end gap-2 ml-auto">
-                          <div className="text-right py-1">
-                            <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">
-                              Subtotal
-                            </span>
-                            <span className="text-base font-black text-[var(--color-primary)]">
-                              ₹
-                              {Number(slot.subtotalAmount || 0).toLocaleString(
-                                "en-IN",
-                                { minimumFractionDigits: 2 }
-                              )}
-                            </span>
-                          </div>
-                          {!isSessionMode && day.timeSlots.length > 1 && (
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveTimeSlot(dIdx, sIdx)}
-                              className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer mb-1"
-                              title="Remove Slot"
-                            >
-                              <FiX size={15} />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Venue / Address for Slot */}
-                      <div className="relative">
-                        <FiMapPin
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                          size={12}
-                        />
-                        <input
-                          type="text"
-                          placeholder="Event venue / address"
-                          value={slot.event_address || ""}
-                          onChange={(e) =>
-                            handleSlotChange(
-                              dIdx,
-                              sIdx,
-                              "event_address",
-                              e.target.value
-                            )
+                        D{dIdx + 1}
+                      </Box>
+                      <DatePickerShell theme={theme} fullWidth={false}>
+                        <DatePicker
+                          placeholderText="Pick date"
+                          minDate={tomorrow}
+                          dateFormat="dd/MM/yyyy"
+                          selected={day.event_date}
+                          onChange={(date) =>
+                            handleScheduleDateChange(dIdx, date)
                           }
-                          className={`w-full pl-8 pr-3 py-2 border rounded-lg text-sm font-medium focus:outline-none transition-all bg-white focus:ring-2 ${errors[`event_address_${dIdx}_${sIdx}`] ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/15"}`}
                         />
-                        {errors[`event_address_${dIdx}_${sIdx}`] && (
-                          <p className="text-red-500 text-[10px] mt-1 font-medium ml-1">
-                            {errors[`event_address_${dIdx}_${sIdx}`]}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Row 2: Dishes + Extras side by side */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {/* Dishes */}
-                        <div className="bg-white rounded-lg border border-gray-100 p-3">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-bold text-[var(--color-primary)] text-xs flex items-center gap-1">
-                              <FiGrid size={12} /> Dishes ({slot.dishes.length})
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                openDishModal(dIdx, sIdx, slot.dishes)
-                              }
-                              className="text-[11px] font-bold text-white bg-[var(--color-primary)] hover:brightness-95 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
-                            >
-                              Select
-                            </button>
-                          </div>
-                          {errors[`dishes_${dIdx}_${sIdx}`] && (
-                            <p className="text-red-500 text-[11px] font-medium mb-1.5">
-                              {errors[`dishes_${dIdx}_${sIdx}`]}
-                            </p>
+                      </DatePickerShell>
+                    </Stack>
+                    <Stack direction="row" spacing={1.5} alignItems="center">
+                      <Box
+                        sx={{
+                          textAlign: "right",
+                          bgcolor: (t) => t.palette.primary.light + "26",
+                          border: 1,
+                          borderColor: "primary.light",
+                          px: 1.5,
+                          py: 0.75,
+                          borderRadius: 1.5,
+                        }}
+                      >
+                        <Typography
+                          component="span"
+                          variant="caption"
+                          fontWeight={700}
+                          color="primary.main"
+                          sx={{
+                            textTransform: "uppercase",
+                            letterSpacing: 0.5,
+                            display: "block",
+                            fontSize: "0.6rem",
+                            lineHeight: 1,
+                          }}
+                        >
+                          Day Total
+                        </Typography>
+                        <Typography variant="h6" fontWeight={800} color="primary.dark">
+                          ₹
+                          {Number(day.dayTotalAmount || 0).toLocaleString(
+                            "en-IN",
+                            { minimumFractionDigits: 2 }
                           )}
-                          {slot.dishes.length > 0 ? (
-                            <>
-                              <div className="flex flex-wrap gap-1">
-                                {slot.dishes.map((dish) => {
-                                  const isNewZeroPrice =
-                                    (!dish.selectionRate ||
-                                      parseFloat(dish.selectionRate) === 0) &&
-                                    !dish.isOriginal;
-                                  return (
-                                    <span
-                                      key={dish.dishId}
-                                      className={`text-[11px] font-medium px-2 py-0.5 rounded-md truncate max-w-[150px] ${isNewZeroPrice ? "text-red-600 bg-red-50 border border-red-200" : "text-[var(--color-primary)] bg-[var(--color-primary-soft)] border border-[var(--color-primary-border)]/30"}`}
-                                    >
-                                      {dish.dishName}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                              {slot.dishes.some(
-                                (d) =>
-                                  (!d.selectionRate ||
-                                    parseFloat(d.selectionRate) === 0) &&
-                                  !d.isOriginal
-                              ) && (
-                                <p className="mt-1.5 text-[10px] text-red-500 flex items-center gap-1">
-                                  <span className="inline-block w-2.5 h-2.5 rounded bg-red-50 border border-red-200 flex-shrink-0"></span>
-                                  Red highlighted items are not counted in dish
-                                  price
-                                </p>
-                              )}
-                            </>
-                          ) : (
-                            <p className="text-[11px] text-gray-400 italic">
-                              No dishes selected
-                            </p>
-                          )}
-                        </div>
+                        </Typography>
+                      </Box>
+                      {!isSessionMode && formData.schedule.length > 1 && (
+                        <IconButton
+                          color="error"
+                          onClick={() => handleRemoveSchedule(dIdx)}
+                          title="Remove Day"
+                          sx={{ bgcolor: "error.light" }}
+                        >
+                          <AiOutlineDelete size={16} />
+                        </IconButton>
+                      )}
+                    </Stack>
+                  </Stack>
 
-                        {/* Extras */}
-                        <div className="bg-white rounded-lg border border-gray-100 p-3">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-bold text-[var(--color-primary)] text-xs flex items-center gap-1">
-                              <FiStar size={12} /> Extras (
-                              {slot.extraServices.length})
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => handleSlotAddExtra(dIdx, sIdx)}
-                              className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
-                            >
-                              + Add
-                            </button>
-                          </div>
-                          {slot.extraServices.length > 0 ? (
-                            <div className="space-y-1.5">
-                              {slot.extraServices.map((extra, eIdx) => (
-                                <div
-                                  key={eIdx}
-                                  className="flex items-center gap-1.5"
-                                >
-                                  <input
-                                    type="text"
-                                    placeholder="Service"
-                                    value={extra.serviceName}
-                                    onChange={(e) =>
-                                      handleSlotExtraChange(
-                                        dIdx,
-                                        sIdx,
-                                        eIdx,
-                                        "serviceName",
-                                        e.target.value
-                                      )
-                                    }
-                                    className="flex-1 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)]"
-                                  />
-                                  <input
-                                    type="text"
-                                    placeholder="₹"
-                                    value={extra.price}
-                                    onChange={(e) =>
-                                      handleSlotExtraChange(
-                                        dIdx,
-                                        sIdx,
-                                        eIdx,
-                                        "price",
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)] text-center font-bold"
-                                  />
-                                  <input
-                                    type="text"
-                                    placeholder="Qty"
-                                    value={extra.quantity}
-                                    onChange={(e) =>
-                                      handleSlotExtraChange(
-                                        dIdx,
-                                        sIdx,
-                                        eIdx,
-                                        "quantity",
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-12 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)] text-center"
-                                  />
-                                  <span className="text-[11px] font-black text-gray-600 min-w-[40px] text-right">
-                                    ₹
-                                    {(Number(extra.price) || 0) *
-                                      (Number(extra.quantity) || 1)}
-                                  </span>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      handleSlotRemoveExtra(dIdx, sIdx, eIdx)
-                                    }
-                                    className="text-red-400 hover:text-red-600 cursor-pointer"
-                                  >
-                                    <FiX size={13} />
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="text-[11px] text-gray-400 italic">
-                              No extras added
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Row 3: Waiter Services */}
-                      <div className="bg-white rounded-lg border border-gray-100 p-3 mt-3">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="font-bold text-[var(--color-primary)] text-xs flex items-center gap-1">
-                            <FiUsers size={12} /> Waiter Service (
-                            {slot.waiterServices?.length || 0})
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleSlotAddWaiter(dIdx, sIdx)}
-                            className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                  {/* Time Slots */}
+                  <Stack spacing={1.5} sx={{ p: 2 }}>
+                    {day.timeSlots.map((slot, sIdx) => (
+                      <Paper
+                        key={sIdx}
+                        variant="outlined"
+                        sx={{ p: 2, borderRadius: 2, bgcolor: "action.hover" }}
+                      >
+                        <Stack spacing={1.5}>
+                          {/* Row 1: Slot Config */}
+                          <Stack
+                            direction={{ xs: "column", md: "row" }}
+                            spacing={1.5}
+                            alignItems={{ xs: "stretch", md: "flex-end" }}
                           >
-                            + Add Waiter
-                          </button>
-                        </div>
-                        {slot.waiterServices?.length > 0 ? (
-                          <div className="space-y-1.5">
-                            {slot.waiterServices.map((ws, wIdx) => (
-                              <div
-                                key={wIdx}
-                                className="flex flex-wrap md:flex-nowrap items-center gap-1.5"
+                            <Box flex={1} minWidth={140}>
+                              <FieldLabel icon={<FiClock size={10} />}>
+                                Time Slot
+                              </FieldLabel>
+                              <Select
+                                fullWidth
+                                size="small"
+                                value={slot.timeLabel}
+                                onChange={(e) =>
+                                  handleSlotChange(
+                                    dIdx,
+                                    sIdx,
+                                    "timeLabel",
+                                    e.target.value
+                                  )
+                                }
+                                error={!!errors[`timeLabel_${dIdx}_${sIdx}`]}
+                                displayEmpty
                               >
-                                <select
-                                  value={ws.waiterType}
-                                  onChange={(e) =>
-                                    handleSlotWaiterChange(
-                                      dIdx,
-                                      sIdx,
-                                      wIdx,
-                                      "waiterType",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="flex-1 min-w-[120px] text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)]"
+                                <MenuItem value="">
+                                  <em>Select...</em>
+                                </MenuItem>
+                                {TIME_OPTIONS.map((t) => (
+                                  <MenuItem key={t.value} value={t.value}>
+                                    {t.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                              {errors[`timeLabel_${dIdx}_${sIdx}`] && (
+                                <Typography
+                                  variant="caption"
+                                  color="error.main"
+                                  fontWeight={500}
                                 >
-                                  <option value="">Select type</option>
-                                  {isLoadingWaiterTypes && (
-                                    <option value="">Loading...</option>
-                                  )}
-                                  {!isLoadingWaiterTypes &&
-                                    waiterTypes &&
-                                    waiterTypes.map((type) => (
-                                      <option key={type.id} value={type.name}>
-                                        {type.name}
-                                      </option>
-                                    ))}
-                                </select>
-                                <div className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md bg-gray-50 text-center font-bold text-gray-500">
-                                  ₹{Number(ws.waiterRate || 0).toFixed(0)}
-                                </div>
-                                <input
-                                  type="text"
-                                  placeholder="Count"
-                                  value={ws.waiterCount}
-                                  onChange={(e) =>
-                                    handleSlotWaiterChange(
-                                      dIdx,
-                                      sIdx,
-                                      wIdx,
-                                      "waiterCount",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="w-16 text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)] text-center"
-                                />
-                                <input
-                                  type="text"
-                                  placeholder="Notes (optional)"
-                                  value={ws.waiterNotes}
-                                  onChange={(e) =>
-                                    handleSlotWaiterChange(
-                                      dIdx,
-                                      sIdx,
-                                      wIdx,
-                                      "waiterNotes",
-                                      e.target.value
-                                    )
-                                  }
-                                  className="flex-[2] min-w-[100px] text-xs px-2 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:border-[var(--color-primary-border)]"
-                                />
-                                <span className="text-[11px] font-black text-gray-600 min-w-[50px] text-right">
+                                  {errors[`timeLabel_${dIdx}_${sIdx}`]}
+                                </Typography>
+                              )}
+                            </Box>
+                            <Box sx={{ width: { xs: "100%", md: 120 } }}>
+                              <FieldLabel icon={<FiUsers size={10} />}>
+                                Persons
+                              </FieldLabel>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                placeholder="0"
+                                value={slot.estimatedPersons || ""}
+                                onChange={(e) =>
+                                  handleSlotChange(
+                                    dIdx,
+                                    sIdx,
+                                    "estimatedPersons",
+                                    e.target.value
+                                  )
+                                }
+                                error={!!errors[`persons_${dIdx}_${sIdx}`]}
+                                helperText={errors[`persons_${dIdx}_${sIdx}`] || ""}
+                                inputProps={{ style: { textAlign: "center" } }}
+                              />
+                            </Box>
+                            <Box sx={{ width: { xs: "100%", md: 140 } }}>
+                              <FieldLabel
+                                icon={<FiDollarSign size={10} />}
+                                color="primary.main"
+                              >
+                                Per Plate ₹
+                              </FieldLabel>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                placeholder="0"
+                                value={slot.perPlatePrice || ""}
+                                onChange={(e) =>
+                                  handleSlotChange(
+                                    dIdx,
+                                    sIdx,
+                                    "perPlatePrice",
+                                    e.target.value
+                                  )
+                                }
+                                error={!!errors[`platePrice_${dIdx}_${sIdx}`]}
+                                helperText={
+                                  errors[`platePrice_${dIdx}_${sIdx}`] || ""
+                                }
+                                inputProps={{
+                                  style: {
+                                    textAlign: "center",
+                                    fontWeight: 700,
+                                  },
+                                }}
+                                sx={{
+                                  "& .MuiOutlinedInput-root": {
+                                    bgcolor: (t) =>
+                                      t.palette.primary.light + "14",
+                                  },
+                                }}
+                              />
+                            </Box>
+                            <Stack
+                              direction="row"
+                              spacing={1}
+                              alignItems="flex-end"
+                              sx={{ ml: { md: "auto" } }}
+                            >
+                              <Box sx={{ textAlign: "right" }}>
+                                <Typography
+                                  variant="caption"
+                                  color="text.disabled"
+                                  fontWeight={700}
+                                  sx={{
+                                    textTransform: "uppercase",
+                                    letterSpacing: 0.5,
+                                    display: "block",
+                                    fontSize: "0.6rem",
+                                  }}
+                                >
+                                  Subtotal
+                                </Typography>
+                                <Typography
+                                  variant="h6"
+                                  fontWeight={800}
+                                  color="primary.main"
+                                >
                                   ₹
-                                  {(Number(ws.waiterRate) || 0) *
-                                    (Number(ws.waiterCount) || 0)}
-                                </span>
-                                <button
-                                  type="button"
+                                  {Number(
+                                    slot.subtotalAmount || 0
+                                  ).toLocaleString("en-IN", {
+                                    minimumFractionDigits: 2,
+                                  })}
+                                </Typography>
+                              </Box>
+                              {!isSessionMode && day.timeSlots.length > 1 && (
+                                <IconButton
+                                  size="small"
+                                  color="error"
                                   onClick={() =>
-                                    handleSlotRemoveWaiter(dIdx, sIdx, wIdx)
+                                    handleRemoveTimeSlot(dIdx, sIdx)
                                   }
-                                  className="text-red-400 hover:text-red-600 cursor-pointer pl-1"
+                                  title="Remove Slot"
                                 >
-                                  <FiX size={13} />
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-[11px] text-gray-400 italic">
-                            No waiter services added
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ))}
+                                  <FiX size={15} />
+                                </IconButton>
+                              )}
+                            </Stack>
+                          </Stack>
 
-                  {!isSessionMode && (
-                    <button
-                      type="button"
-                      onClick={() => handleAddTimeSlot(dIdx)}
-                      className="w-full py-2 border border-dashed border-gray-300 rounded-lg text-gray-400 font-medium hover:bg-gray-50 transition-colors flex justify-center items-center gap-1.5 text-xs cursor-pointer"
-                    >
-                      <FiPlus size={13} /> Add Time Slot
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+                          {/* Venue / Address */}
+                          <TextField
+                            fullWidth
+                            size="small"
+                            placeholder="Event venue / address"
+                            value={slot.event_address || ""}
+                            onChange={(e) =>
+                              handleSlotChange(
+                                dIdx,
+                                sIdx,
+                                "event_address",
+                                e.target.value
+                              )
+                            }
+                            error={!!errors[`event_address_${dIdx}_${sIdx}`]}
+                            helperText={
+                              errors[`event_address_${dIdx}_${sIdx}`] || ""
+                            }
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  <FiMapPin size={12} />
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
 
-        <div className="border-t border-gray-100"></div>
+                          {/* Row 2: Dishes + Extras */}
+                          <Grid container spacing={1.5}>
+                            {/* Dishes */}
+                            <Grid size={{ xs: 12, md: 6 }}>
+                              <Paper
+                                variant="outlined"
+                                sx={{ p: 1.5, borderRadius: 1.5 }}
+                              >
+                                <Stack
+                                  direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="center"
+                                  sx={{ mb: 1 }}
+                                >
+                                  <Typography
+                                    variant="caption"
+                                    fontWeight={700}
+                                    color="primary.main"
+                                    sx={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: 0.5,
+                                    }}
+                                  >
+                                    <FiGrid size={12} /> Dishes ({slot.dishes.length})
+                                  </Typography>
+                                  <Button
+                                    size="small"
+                                    variant="contained"
+                                    onClick={() =>
+                                      openDishModal(dIdx, sIdx, slot.dishes)
+                                    }
+                                    sx={{ py: 0.25, fontSize: "0.7rem" }}
+                                  >
+                                    Select
+                                  </Button>
+                                </Stack>
+                                {errors[`dishes_${dIdx}_${sIdx}`] && (
+                                  <Typography
+                                    variant="caption"
+                                    color="error.main"
+                                    fontWeight={500}
+                                    display="block"
+                                    sx={{ mb: 1 }}
+                                  >
+                                    {errors[`dishes_${dIdx}_${sIdx}`]}
+                                  </Typography>
+                                )}
+                                {slot.dishes.length > 0 ? (
+                                  <>
+                                    <Stack
+                                      direction="row"
+                                      spacing={0.5}
+                                      flexWrap="wrap"
+                                      useFlexGap
+                                    >
+                                      {slot.dishes.map((dish) => {
+                                        const isNewZeroPrice =
+                                          (!dish.selectionRate ||
+                                            parseFloat(dish.selectionRate) ===
+                                              0) &&
+                                          !dish.isOriginal;
+                                        return (
+                                          <Chip
+                                            key={dish.dishId}
+                                            size="small"
+                                            label={dish.dishName}
+                                            color={
+                                              isNewZeroPrice
+                                                ? "error"
+                                                : "primary"
+                                            }
+                                            variant="outlined"
+                                            sx={{
+                                              fontWeight: 500,
+                                              maxWidth: 180,
+                                              bgcolor: isNewZeroPrice
+                                                ? (t) =>
+                                                    t.palette.error.light + "1f"
+                                                : (t) =>
+                                                    t.palette.primary.light + "1f",
+                                            }}
+                                          />
+                                        );
+                                      })}
+                                    </Stack>
+                                    {slot.dishes.some(
+                                      (d) =>
+                                        (!d.selectionRate ||
+                                          parseFloat(d.selectionRate) === 0) &&
+                                        !d.isOriginal
+                                    ) && (
+                                      <Typography
+                                        variant="caption"
+                                        color="error.main"
+                                        sx={{
+                                          display: "inline-flex",
+                                          alignItems: "center",
+                                          gap: 0.5,
+                                          mt: 1,
+                                        }}
+                                      >
+                                        <Box
+                                          sx={{
+                                            width: 10,
+                                            height: 10,
+                                            borderRadius: 0.5,
+                                            bgcolor: "error.light",
+                                            border: 1,
+                                            borderColor: "error.light",
+                                          }}
+                                        />
+                                        Red items are not counted in dish price
+                                      </Typography>
+                                    )}
+                                  </>
+                                ) : (
+                                  <Typography
+                                    variant="caption"
+                                    color="text.disabled"
+                                    fontStyle="italic"
+                                  >
+                                    No dishes selected
+                                  </Typography>
+                                )}
+                              </Paper>
+                            </Grid>
 
-        {/* ── Notes & Submit Section ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="md:col-span-2">
-            <label className="block text-xs font-semibold text-gray-500 mb-1">
-              Description / Notes
-            </label>
-            <textarea
-              name="description"
-              placeholder="Any special instructions for the event..."
-              className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm font-medium bg-gray-50/50 focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/15 min-h-[90px] transition-all resize-none"
-              onChange={handleChange}
-              value={formData.description}
-            ></textarea>
-          </div>
-          <div className="flex flex-col justify-between gap-3">
-            <label className="flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer select-none hover:bg-gray-100 transition-colors">
-              <input
-                type="checkbox"
-                name="rule"
-                className="w-4 h-4 accent-[var(--color-primary)] cursor-pointer"
-                checked={formData.rule}
-                onChange={(e) =>
-                  handleChange({
-                    target: { name: "rule", value: e.target.checked },
-                  })
-                }
+                            {/* Extras */}
+                            <Grid size={{ xs: 12, md: 6 }}>
+                              <Paper
+                                variant="outlined"
+                                sx={{ p: 1.5, borderRadius: 1.5 }}
+                              >
+                                <Stack
+                                  direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="center"
+                                  sx={{ mb: 1 }}
+                                >
+                                  <Typography
+                                    variant="caption"
+                                    fontWeight={700}
+                                    color="primary.main"
+                                    sx={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: 0.5,
+                                    }}
+                                  >
+                                    <FiStar size={12} /> Extras ({slot.extraServices.length})
+                                  </Typography>
+                                  <Button
+                                    size="small"
+                                    variant="outlined"
+                                    startIcon={<FiPlus size={12} />}
+                                    onClick={() =>
+                                      handleSlotAddExtra(dIdx, sIdx)
+                                    }
+                                    sx={{ py: 0.25, fontSize: "0.7rem" }}
+                                  >
+                                    Add
+                                  </Button>
+                                </Stack>
+                                {slot.extraServices.length > 0 ? (
+                                  <Stack spacing={0.75}>
+                                    {slot.extraServices.map((extra, eIdx) => (
+                                      <Stack
+                                        key={eIdx}
+                                        direction="row"
+                                        spacing={0.75}
+                                        alignItems="center"
+                                      >
+                                        <TextField
+                                          size="small"
+                                          placeholder="Service"
+                                          value={extra.serviceName}
+                                          onChange={(e) =>
+                                            handleSlotExtraChange(
+                                              dIdx,
+                                              sIdx,
+                                              eIdx,
+                                              "serviceName",
+                                              e.target.value
+                                            )
+                                          }
+                                          sx={{ flex: 1 }}
+                                          inputProps={{ style: { fontSize: "0.75rem" } }}
+                                        />
+                                        <TextField
+                                          size="small"
+                                          placeholder="₹"
+                                          value={extra.price}
+                                          onChange={(e) =>
+                                            handleSlotExtraChange(
+                                              dIdx,
+                                              sIdx,
+                                              eIdx,
+                                              "price",
+                                              e.target.value
+                                            )
+                                          }
+                                          sx={{ width: 72 }}
+                                          inputProps={{
+                                            style: {
+                                              textAlign: "center",
+                                              fontWeight: 700,
+                                              fontSize: "0.75rem",
+                                            },
+                                          }}
+                                        />
+                                        <TextField
+                                          size="small"
+                                          placeholder="Qty"
+                                          value={extra.quantity}
+                                          onChange={(e) =>
+                                            handleSlotExtraChange(
+                                              dIdx,
+                                              sIdx,
+                                              eIdx,
+                                              "quantity",
+                                              e.target.value
+                                            )
+                                          }
+                                          sx={{ width: 56 }}
+                                          inputProps={{
+                                            style: {
+                                              textAlign: "center",
+                                              fontSize: "0.75rem",
+                                            },
+                                          }}
+                                        />
+                                        <Typography
+                                          variant="caption"
+                                          fontWeight={800}
+                                          color="text.secondary"
+                                          sx={{
+                                            minWidth: 48,
+                                            textAlign: "right",
+                                          }}
+                                        >
+                                          ₹
+                                          {(Number(extra.price) || 0) *
+                                            (Number(extra.quantity) || 1)}
+                                        </Typography>
+                                        <IconButton
+                                          size="small"
+                                          color="error"
+                                          onClick={() =>
+                                            handleSlotRemoveExtra(
+                                              dIdx,
+                                              sIdx,
+                                              eIdx
+                                            )
+                                          }
+                                        >
+                                          <FiX size={13} />
+                                        </IconButton>
+                                      </Stack>
+                                    ))}
+                                  </Stack>
+                                ) : (
+                                  <Typography
+                                    variant="caption"
+                                    color="text.disabled"
+                                    fontStyle="italic"
+                                  >
+                                    No extras added
+                                  </Typography>
+                                )}
+                              </Paper>
+                            </Grid>
+                          </Grid>
+
+                          {/* Row 3: Waiter Services */}
+                          <Paper
+                            variant="outlined"
+                            sx={{ p: 1.5, borderRadius: 1.5 }}
+                          >
+                            <Stack
+                              direction="row"
+                              justifyContent="space-between"
+                              alignItems="center"
+                              sx={{ mb: 1 }}
+                            >
+                              <Typography
+                                variant="caption"
+                                fontWeight={700}
+                                color="primary.main"
+                                sx={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: 0.5,
+                                }}
+                              >
+                                <FiUsers size={12} /> Waiter Service (
+                                {slot.waiterServices?.length || 0})
+                              </Typography>
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                startIcon={<FiPlus size={12} />}
+                                onClick={() =>
+                                  handleSlotAddWaiter(dIdx, sIdx)
+                                }
+                                sx={{ py: 0.25, fontSize: "0.7rem" }}
+                              >
+                                Add Waiter
+                              </Button>
+                            </Stack>
+                            {slot.waiterServices?.length > 0 ? (
+                              <Stack spacing={0.75}>
+                                {slot.waiterServices.map((ws, wIdx) => (
+                                  <Stack
+                                    key={wIdx}
+                                    direction={{ xs: "column", md: "row" }}
+                                    spacing={0.75}
+                                    alignItems="center"
+                                    flexWrap="wrap"
+                                    useFlexGap
+                                  >
+                                    <Select
+                                      size="small"
+                                      value={ws.waiterType}
+                                      onChange={(e) =>
+                                        handleSlotWaiterChange(
+                                          dIdx,
+                                          sIdx,
+                                          wIdx,
+                                          "waiterType",
+                                          e.target.value
+                                        )
+                                      }
+                                      displayEmpty
+                                      sx={{ flex: 1, minWidth: 120 }}
+                                    >
+                                      <MenuItem value="">
+                                        <em>Select type</em>
+                                      </MenuItem>
+                                      {isLoadingWaiterTypes && (
+                                        <MenuItem value="">
+                                          <em>Loading...</em>
+                                        </MenuItem>
+                                      )}
+                                      {!isLoadingWaiterTypes &&
+                                        waiterTypes &&
+                                        waiterTypes.map((type) => (
+                                          <MenuItem
+                                            key={type.id}
+                                            value={type.name}
+                                          >
+                                            {type.name}
+                                          </MenuItem>
+                                        ))}
+                                    </Select>
+                                    <Box
+                                      sx={{
+                                        width: 72,
+                                        textAlign: "center",
+                                        px: 1.25,
+                                        py: 0.75,
+                                        border: 1,
+                                        borderColor: "divider",
+                                        borderRadius: 1,
+                                        bgcolor: "action.hover",
+                                        fontWeight: 700,
+                                        fontSize: "0.75rem",
+                                        color: "text.secondary",
+                                      }}
+                                    >
+                                      ₹{Number(ws.waiterRate || 0).toFixed(0)}
+                                    </Box>
+                                    <TextField
+                                      size="small"
+                                      placeholder="Count"
+                                      value={ws.waiterCount}
+                                      onChange={(e) =>
+                                        handleSlotWaiterChange(
+                                          dIdx,
+                                          sIdx,
+                                          wIdx,
+                                          "waiterCount",
+                                          e.target.value
+                                        )
+                                      }
+                                      sx={{ width: 72 }}
+                                      inputProps={{
+                                        style: {
+                                          textAlign: "center",
+                                          fontSize: "0.75rem",
+                                        },
+                                      }}
+                                    />
+                                    <TextField
+                                      size="small"
+                                      placeholder="Notes (optional)"
+                                      value={ws.waiterNotes}
+                                      onChange={(e) =>
+                                        handleSlotWaiterChange(
+                                          dIdx,
+                                          sIdx,
+                                          wIdx,
+                                          "waiterNotes",
+                                          e.target.value
+                                        )
+                                      }
+                                      sx={{ flex: 2, minWidth: 100 }}
+                                      inputProps={{ style: { fontSize: "0.75rem" } }}
+                                    />
+                                    <Typography
+                                      variant="caption"
+                                      fontWeight={800}
+                                      color="text.secondary"
+                                      sx={{
+                                        minWidth: 56,
+                                        textAlign: "right",
+                                      }}
+                                    >
+                                      ₹
+                                      {(Number(ws.waiterRate) || 0) *
+                                        (Number(ws.waiterCount) || 0)}
+                                    </Typography>
+                                    <IconButton
+                                      size="small"
+                                      color="error"
+                                      onClick={() =>
+                                        handleSlotRemoveWaiter(
+                                          dIdx,
+                                          sIdx,
+                                          wIdx
+                                        )
+                                      }
+                                    >
+                                      <FiX size={13} />
+                                    </IconButton>
+                                  </Stack>
+                                ))}
+                              </Stack>
+                            ) : (
+                              <Typography
+                                variant="caption"
+                                color="text.disabled"
+                                fontStyle="italic"
+                              >
+                                No waiter services added
+                              </Typography>
+                            )}
+                          </Paper>
+                        </Stack>
+                      </Paper>
+                    ))}
+
+                    {!isSessionMode && (
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        startIcon={<FiPlus size={13} />}
+                        onClick={() => handleAddTimeSlot(dIdx)}
+                        sx={{
+                          borderStyle: "dashed",
+                          color: "text.secondary",
+                          borderColor: "divider",
+                        }}
+                      >
+                        Add Time Slot
+                      </Button>
+                    )}
+                  </Stack>
+                </Paper>
+              ))}
+            </Stack>
+          </Box>
+
+          <Divider />
+
+          {/* Notes & Submit */}
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, md: 8 }}>
+              <FieldLabel>Description / Notes</FieldLabel>
+              <TextField
+                fullWidth
+                multiline
+                minRows={3}
+                name="description"
+                placeholder="Any special instructions for the event..."
+                value={formData.description}
+                onChange={handleChange}
               />
-              <span className="font-medium text-gray-700 text-sm">
-                Include Rules on PDF
-              </span>
-            </label>
-            <button
-              type="submit"
-              className="w-full py-3.5 font-bold text-sm bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 text-white rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <FiSave size={16} />
-              Review & Generate PDF
-            </button>
-          </div>
-        </div>
-      </form>
+            </Grid>
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Stack
+                spacing={1.5}
+                justifyContent="space-between"
+                sx={{ height: "100%" }}
+              >
+                <Paper
+                  variant="outlined"
+                  sx={{
+                    p: 1.5,
+                    borderRadius: 1.5,
+                    "&:hover": { bgcolor: "action.hover" },
+                  }}
+                >
+                  <FormControlLabel
+                    sx={{ m: 0 }}
+                    control={
+                      <Checkbox
+                        checked={!!formData.rule}
+                        onChange={(e) =>
+                          handleChange({
+                            target: { name: "rule", value: e.target.checked },
+                          })
+                        }
+                      />
+                    }
+                    label={
+                      <Typography variant="body2" fontWeight={500}>
+                        Include Rules on PDF
+                      </Typography>
+                    }
+                  />
+                </Paper>
+                <Button
+                  type="submit"
+                  fullWidth
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<FiSave size={16} />}
+                  sx={{
+                    py: 1.5,
+                    background: (t) =>
+                      `linear-gradient(to right, ${t.palette.primary.main}, ${t.palette.primary.dark})`,
+                  }}
+                >
+                  Review &amp; Generate PDF
+                </Button>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Stack>
+      </Box>
 
-      {/* ── Dish Selection Modal ── */}
-      {activeDishModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
-            {/* Modal Header */}
-            <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
-              <div>
-                <h3 className="text-base font-bold text-gray-800">
-                  Select Dishes
-                </h3>
-                <p className="text-xs text-gray-400">
+      {/* Dish Selection Modal */}
+      <Dialog
+        open={!!activeDishModal}
+        onClose={closeDishModal}
+        fullWidth
+        maxWidth="md"
+        PaperProps={{ sx: { maxHeight: "85vh" } }}
+      >
+        <DialogTitle sx={{ pb: 1 }}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Box>
+              <Typography variant="h6" fontWeight={700}>
+                Select Dishes
+              </Typography>
+              {activeDishModal && (
+                <Typography variant="caption" color="text.disabled">
                   Day {activeDishModal.dIdx + 1} —{" "}
                   {formData.schedule[activeDishModal.dIdx]?.timeSlots[
                     activeDishModal.sIdx
                   ]?.timeLabel || "Slot"}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={closeDishModal}
-                className="p-2 text-gray-400 hover:text-gray-600 bg-white rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50"
-              >
-                <FiX size={18} />
-              </button>
-            </div>
+                </Typography>
+              )}
+            </Box>
+            <IconButton size="small" onClick={closeDishModal}>
+              <FiX size={18} />
+            </IconButton>
+          </Stack>
+        </DialogTitle>
+        <DialogContent dividers>
+          {isDishesLoading ? (
+            <Box sx={{ py: 8, display: "flex", justifyContent: "center" }}>
+              <Loader fullScreen={false} />
+            </Box>
+          ) : (
+            <Stack spacing={1.5}>
+              {categoriesList.map((category) => {
+                const isCollapsed = collapsedCategoryIds.includes(category.id);
+                const items = category.items || [];
+                const selectedCount = items.filter((d) =>
+                  tempDishes.some((td) => td.dishId === d.id)
+                ).length;
 
-            {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto p-4">
-              {isDishesLoading ? (
-                <div className="py-16 flex justify-center">
-                  <Loader fullScreen={false} />
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {categoriesList.map((category) => {
-                    const isCollapsed = collapsedCategoryIds.includes(
-                      category.id
-                    );
-                    const items = category.items || [];
-                    const selectedCount = items.filter((d) =>
-                      tempDishes.some((td) => td.dishId === d.id)
-                    ).length;
-
-                    return (
-                      <div
-                        key={category.id}
-                        className="border border-gray-200 rounded-xl overflow-hidden"
-                      >
-                        <div
-                          className="flex items-center justify-between px-4 py-2.5 bg-gray-50 cursor-pointer select-none hover:bg-gray-100 transition-colors"
-                          onClick={() => toggleCategoryCollapse(category.id)}
+                return (
+                  <Paper
+                    key={category.id}
+                    variant="outlined"
+                    sx={{ borderRadius: 2, overflow: "hidden" }}
+                  >
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="space-between"
+                      onClick={() => toggleCategoryCollapse(category.id)}
+                      sx={{
+                        px: 2,
+                        py: 1.25,
+                        bgcolor: "action.hover",
+                        cursor: "pointer",
+                        userSelect: "none",
+                        "&:hover": { bgcolor: "action.selected" },
+                      }}
+                    >
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <Box
+                          sx={{
+                            width: 24,
+                            height: 24,
+                            borderRadius: 0.75,
+                            bgcolor: "primary.main",
+                            color: "primary.contrastText",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: 700,
+                            fontSize: "0.7rem",
+                          }}
                         >
-                          <div className="flex items-center gap-2">
-                            <span className="w-6 h-6 rounded bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-[11px]">
-                              {category.positions || "—"}
-                            </span>
-                            <span className="font-semibold text-gray-700 text-sm">
-                              {category.name}
-                            </span>
-                            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-gray-200 text-gray-500">
-                              {items.length}
-                            </span>
-                            {selectedCount > 0 && (
-                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
-                                {selectedCount} ✓
-                              </span>
-                            )}
-                          </div>
-                          <FiChevronDown
-                            className={`text-gray-400 transition-transform duration-200 ${isCollapsed ? "" : "rotate-180"}`}
-                            size={16}
+                          {category.positions || "—"}
+                        </Box>
+                        <Typography variant="body2" fontWeight={600}>
+                          {category.name}
+                        </Typography>
+                        <Chip
+                          size="small"
+                          label={items.length}
+                          sx={{ height: 18, fontSize: "0.65rem" }}
+                        />
+                        {selectedCount > 0 && (
+                          <Chip
+                            size="small"
+                            label={`${selectedCount} ✓`}
+                            color="primary"
+                            sx={{ height: 18, fontSize: "0.65rem", fontWeight: 700 }}
                           />
-                        </div>
-                        {!isCollapsed && (
-                          <div className="p-3 grid grid-cols-2 sm:grid-cols-3 gap-2 bg-white border-t border-gray-100">
-                            {items.map((dish) => {
-                              const selectedEntry = tempDishes.find(
-                                (d) => d.dishId === dish.id
-                              );
-                              const isSelected = !!selectedEntry;
-                              const isZeroPrice =
-                                !dish.selection_rate ||
-                                parseFloat(dish.selection_rate) === 0;
-                              const isNewZeroPrice =
-                                isZeroPrice && !selectedEntry?.isOriginal;
-                              return (
-                                <div
-                                  key={dish.id}
-                                  className={`px-3 py-2 rounded-lg border cursor-pointer transition-all text-sm ${
-                                    isSelected
-                                      ? isNewZeroPrice
-                                        ? "border-red-300 bg-red-50 font-semibold text-red-600"
-                                        : "border-[var(--color-primary)] bg-[var(--color-primary-soft)] font-semibold text-[var(--color-primary)]"
-                                      : isZeroPrice
-                                        ? "border-red-200 bg-red-50/30 hover:border-red-300 text-red-500"
-                                        : "border-gray-200 hover:border-gray-300 text-gray-700"
-                                  }`}
+                        )}
+                      </Stack>
+                      <Box
+                        sx={{
+                          color: "text.disabled",
+                          transform: isCollapsed
+                            ? "rotate(0deg)"
+                            : "rotate(180deg)",
+                          transition: "transform 0.2s",
+                        }}
+                      >
+                        <FiChevronDown size={16} />
+                      </Box>
+                    </Stack>
+                    {!isCollapsed && (
+                      <Box sx={{ p: 1.5, borderTop: 1, borderColor: "divider" }}>
+                        <Grid container spacing={1}>
+                          {items.map((dish) => {
+                            const selectedEntry = tempDishes.find(
+                              (d) => d.dishId === dish.id
+                            );
+                            const isSelected = !!selectedEntry;
+                            const isZeroPrice =
+                              !dish.selection_rate ||
+                              parseFloat(dish.selection_rate) === 0;
+                            const isNewZeroPrice =
+                              isZeroPrice && !selectedEntry?.isOriginal;
+                            const state = isSelected
+                              ? isNewZeroPrice
+                                ? "error"
+                                : "primary"
+                              : isZeroPrice
+                                ? "warning"
+                                : "idle";
+                            return (
+                              <Grid key={dish.id} size={{ xs: 6, sm: 4 }}>
+                                <Box
                                   onClick={() =>
                                     handleTempDishToggle(dish, category.name)
                                   }
+                                  sx={{
+                                    px: 1.5,
+                                    py: 1,
+                                    borderRadius: 1.5,
+                                    border: 1,
+                                    cursor: "pointer",
+                                    transition: "all 0.15s",
+                                    ...(state === "primary" && {
+                                      borderColor: "primary.main",
+                                      bgcolor: (t) =>
+                                        t.palette.primary.light + "26",
+                                      color: "primary.main",
+                                      fontWeight: 600,
+                                    }),
+                                    ...(state === "error" && {
+                                      borderColor: "error.light",
+                                      bgcolor: (t) =>
+                                        t.palette.error.light + "1a",
+                                      color: "error.main",
+                                      fontWeight: 600,
+                                    }),
+                                    ...(state === "warning" && {
+                                      borderColor: "error.light",
+                                      bgcolor: "transparent",
+                                      color: "error.light",
+                                    }),
+                                    ...(state === "idle" && {
+                                      borderColor: "divider",
+                                      color: "text.secondary",
+                                      "&:hover": { borderColor: "text.disabled" },
+                                    }),
+                                  }}
                                 >
-                                  <div className="flex items-center gap-2">
-                                    <input
-                                      type="checkbox"
+                                  <Stack
+                                    direction="row"
+                                    spacing={1}
+                                    alignItems="center"
+                                  >
+                                    <Checkbox
                                       checked={isSelected}
                                       readOnly
-                                      className={`w-3.5 h-3.5 pointer-events-none ${isNewZeroPrice && isSelected ? "accent-red-500" : "accent-[var(--color-primary)]"}`}
+                                      size="small"
+                                      sx={{ p: 0 }}
+                                      color={
+                                        state === "error" ? "error" : "primary"
+                                      }
                                     />
-                                    <span className="truncate">
+                                    <Typography
+                                      variant="body2"
+                                      noWrap
+                                      sx={{ flex: 1 }}
+                                    >
                                       {dish.name}
-                                    </span>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* Modal Footer */}
-            <div className="px-5 py-3 border-t border-gray-100 bg-gray-50 flex justify-between items-center">
-              <span className="text-sm text-gray-500">
-                <strong className="text-gray-800">{tempDishes.length}</strong>{" "}
-                selected
-              </span>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={closeDishModal}
-                  className="px-4 py-2 rounded-lg font-medium text-sm text-gray-600 bg-white border border-gray-200 hover:bg-gray-50 cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={saveDishModal}
-                  className="px-5 py-2 rounded-lg font-bold text-sm text-white bg-[var(--color-primary)] hover:brightness-95 cursor-pointer shadow-sm"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+                                    </Typography>
+                                  </Stack>
+                                </Box>
+                              </Grid>
+                            );
+                          })}
+                        </Grid>
+                      </Box>
+                    )}
+                  </Paper>
+                );
+              })}
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, py: 1.5, justifyContent: "space-between" }}>
+          <Typography variant="body2" color="text.secondary">
+            <Box component="strong" color="text.primary">
+              {tempDishes.length}
+            </Box>{" "}
+            selected
+          </Typography>
+          <Stack direction="row" spacing={1}>
+            <Button variant="outlined" onClick={closeDishModal}>
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={saveDishModal}>
+              Save
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
+    </Paper>
   );
 }
 

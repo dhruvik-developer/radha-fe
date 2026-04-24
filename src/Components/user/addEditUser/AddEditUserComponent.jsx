@@ -1,6 +1,17 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import Input from "../../common/formInputs/Input";
+import { FiArrowLeft } from "react-icons/fi";
 
 function AddEditUserComponent({
   navigate,
@@ -11,94 +22,107 @@ function AddEditUserComponent({
   onInputChange,
 }) {
   const isEdit = mode === "editUser";
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg w-auto mx-auto mt-10">
-      <button
-        type="button"
-        className="px-4 py-2 mb-[10px] font-medium bg-gray-300 border border-gray-300 rounded-md cursor-pointer"
+    <Paper
+      elevation={0}
+      sx={{
+        p: { xs: 2, sm: 3 },
+        borderRadius: 3,
+        bgcolor: "background.paper",
+        mt: 5,
+      }}
+    >
+      <Button
+        variant="outlined"
+        startIcon={<FiArrowLeft size={16} />}
         onClick={() => navigate(-1)}
+        sx={{ mb: 2 }}
       >
         Back
-      </button>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">
-          {isEdit ? "Change User Password" : "Add New User"}
-        </h2>
-      </div>
+      </Button>
+      <Typography variant="h5" fontWeight={700} sx={{ mb: 3 }}>
+        {isEdit ? "Change User Password" : "Add New User"}
+      </Typography>
 
-      <form onSubmit={onSubmit}>
-        {!isEdit && (
-          <>
-            <Input
-              label="User Name:"
-              type="text"
-              placeholder={
-                errors.username ? errors.username : "Enter Your User Name"
-              }
-              name="username"
-              value={form.username}
-              className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
-                                ${errors.username ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-              onChange={onInputChange}
-              autoComplete="none"
-            />
+      <Box component="form" onSubmit={onSubmit}>
+        <Stack spacing={2.5}>
+          {!isEdit && (
+            <>
+              <TextField
+                fullWidth
+                label="User Name"
+                placeholder={errors.username || "Enter Your User Name"}
+                name="username"
+                value={form.username}
+                onChange={onInputChange}
+                autoComplete="none"
+                error={!!errors.username}
+                helperText={errors.username || ""}
+              />
+              <TextField
+                fullWidth
+                label="Email"
+                placeholder={errors.email || "Enter Your Mail Address"}
+                name="email"
+                value={form.email}
+                onChange={onInputChange}
+                error={!!errors.email}
+                helperText={errors.email || "Optional"}
+              />
+            </>
+          )}
 
-            <Input
-              label="Email:"
-              type="text"
-              placeholder={
-                errors.email ? errors.email : "Enter Your Mail Address"
-              }
-              name="email"
-              value={form.email}
-              className={`w-full p-2 border rounded-md mb-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
-                                ${errors.email ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-              onChange={onInputChange}
-            />
-            <p className="text-xs text-gray-500 mb-2">
-              Optional
-            </p>
-          </>
-        )}
+          {isEdit && (
+            <Typography variant="body2" color="text.secondary">
+              User profile update API abhi backend me available nahi hai. Yahan
+              se sirf password change hota hai.
+            </Typography>
+          )}
 
-        {isEdit ? (
-          <p className="text-sm text-gray-500 mb-3">
-            User profile update API abhi backend me available nahi hai. Yahan
-            se sirf password change hota hai.
-          </p>
-        ) : null}
-
-        <div className="mb-4">
-          <Input
-            label={isEdit ? "New Password:" : "Password:"}
-            type="password"
+          <TextField
+            fullWidth
+            label={isEdit ? "New Password" : "Password"}
+            type={showPassword ? "text" : "password"}
             placeholder={
-              errors.password
-                ? errors.password
-                : isEdit
-                  ? "Enter New Password"
-                  : "Enter Password"
+              errors.password ||
+              (isEdit ? "Enter New Password" : "Enter Password")
             }
             name="password"
             value={form.password}
-            className={`w-full p-2 border rounded-md focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] 
-                            ${errors.password ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
             onChange={onInputChange}
-            error={errors.password}
             autoComplete="new-password"
+            error={!!errors.password}
+            helperText={errors.password || ""}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    edge="end"
+                    onClick={() => setShowPassword((s) => !s)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-        </div>
 
-        <div className="flex items-center justify-center mt-2">
-          <button
-            type="submit"
-            className={`w-auto bg-[var(--color-primary)] text-white rounded-md cursor-pointer ${isEdit ? "p-2" : "px-6 py-2"}`}
-          >
-            {isEdit ? "Update User" : "Save"}
-          </button>
-        </div>
-      </form>
-    </div>
+          <Stack direction="row" justifyContent="center">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ px: 4 }}
+            >
+              {isEdit ? "Update User" : "Save"}
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
+    </Paper>
   );
 }
 

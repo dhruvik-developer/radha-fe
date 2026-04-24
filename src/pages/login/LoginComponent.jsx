@@ -1,7 +1,18 @@
 /* eslint-disable react/prop-types */
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { RiUser3Fill } from "react-icons/ri";
-import Loader from "../../Components/common/Loader";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Loader from "../../Components/common/Loader";
 import BaseImage from "../../Components/common/BaseImage";
 
 function LoginComponent({
@@ -15,93 +26,150 @@ function LoginComponent({
   handleInputChange,
   handleSubmit,
 }) {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {loading ? (
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          bgcolor: "grey.100",
+        }}
+      >
         <Loader message="Signing in..." />
-      ) : (
-        <div className="bg-white p-10 rounded-lg shadow-lg w-96 min-h-[500px] flex flex-col justify-center">
-          <div className="flex justify-center mb-4">
-            {isLogoLoading ? (
-              <div className="h-20 w-40 rounded-lg bg-gray-100 animate-pulse" />
-            ) : businessLogo ? (
-              <BaseImage
-                src={businessLogo}
-                alt="Business Logo"
-                className="h-20 max-w-[180px] object-contain"
-              />
-            ) : (
-              <p className="text-sm font-medium text-gray-500">Set your logo</p>
-            )}
-          </div>
-          <h2 className="text-2xl font-semibold text-center mb-6">Sign In</h2>
+      </Box>
+    );
+  }
 
-          <form onSubmit={handleSubmit}>
-            {/* username Field */}
-            <div className="mb-4">
-              <label className="block text-gray-900 font-bold mb-1">
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        bgcolor: "grey.100",
+        p: 2,
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          p: { xs: 3, sm: 5 },
+          borderRadius: 3,
+          width: "100%",
+          maxWidth: 400,
+          minHeight: 500,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        <Stack alignItems="center" sx={{ mb: 2 }}>
+          {isLogoLoading ? (
+            <Skeleton variant="rounded" width={180} height={80} />
+          ) : businessLogo ? (
+            <BaseImage
+              src={businessLogo}
+              alt="Business Logo"
+              className="h-20 max-w-[180px] object-contain"
+            />
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              Set your logo
+            </Typography>
+          )}
+        </Stack>
+        <Typography
+          variant="h5"
+          fontWeight={600}
+          textAlign="center"
+          sx={{ mb: 3 }}
+        >
+          Sign In
+        </Typography>
+
+        <Box component="form" onSubmit={handleSubmit}>
+          <Stack spacing={2.5}>
+            <Box>
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                color="text.primary"
+                sx={{ mb: 0.75 }}
+              >
                 Username
-              </label>
-              <div
-                className={`flex items-center border rounded-md focus-within:border-[var(--color-primary)] p-3 bg-gray-50 
-                                                                        ${errors.username ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-              >
-                <input
-                  name="username"
-                  type="text"
-                  placeholder={
-                    errors.username ? errors.username : "Enter your username"
-                  }
-                  value={credentials.username}
-                  onChange={handleInputChange}
-                  autoComplete="username"
-                  className={`w-full bg-transparent outline-none ${errors.username ? "placeholder-red-500" : ""}`}
-                />
-                <RiUser3Fill className="text-gray-400" />
-              </div>
-            </div>
+              </Typography>
+              <TextField
+                fullWidth
+                name="username"
+                type="text"
+                placeholder={errors.username || "Enter your username"}
+                value={credentials.username}
+                onChange={handleInputChange}
+                autoComplete="username"
+                error={!!errors.username}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <RiUser3Fill color="currentColor" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
 
-            {/* Password Field */}
-            <div className="mb-6">
-              <label className="block text-gray-900 font-bold mb-1">
+            <Box>
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                color="text.primary"
+                sx={{ mb: 0.75 }}
+              >
                 Password
-              </label>
-              <div
-                className={`flex items-center border rounded-md focus-within:border-[var(--color-primary)] p-3 bg-gray-50 
-                                                                        ${errors.password ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-              >
-                <input
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder={
-                    errors.password ? errors.password : "Enter your password"
-                  }
-                  value={credentials.password}
-                  onChange={handleInputChange}
-                  autoComplete="current-password"
-                  className={`w-full bg-transparent outline-none  ${errors.password ? "placeholder-red-500" : ""}`}
-                />
-                <button
-                  type="button"
-                  onClick={onShowPassword}
-                  className="focus:outline-none text-xl text-gray-400"
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-            </div>
+              </Typography>
+              <TextField
+                fullWidth
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder={errors.password || "Enter your password"}
+                value={credentials.password}
+                onChange={handleInputChange}
+                autoComplete="current-password"
+                error={!!errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        type="button"
+                        onClick={onShowPassword}
+                        edge="end"
+                        size="small"
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
 
-            <button
+            <Button
               type="submit"
+              fullWidth
+              size="large"
+              variant="contained"
+              color="primary"
               disabled={loading}
-              className="w-full bg-[var(--color-primary)] text-white py-3 rounded-md font-semibold hover:brightness-95 transition duration-300 outline-none cursor-pointer"
+              sx={{ py: 1.5, fontWeight: 600 }}
             >
               Sign In
-            </button>
-          </form>
-        </div>
-      )}
-    </div>
+            </Button>
+          </Stack>
+        </Box>
+      </Paper>
+    </Box>
   );
 }
 

@@ -1,5 +1,22 @@
 /* eslint-disable react/prop-types */
-import { useState, useRef, useEffect, useContext, useMemo } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  Breadcrumbs,
+  Button,
+  Divider,
+  IconButton,
+  Link as MuiLink,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { TbLogout2 } from "react-icons/tb";
 import {
   FiMenu,
@@ -10,27 +27,26 @@ import {
   FiClipboard,
   FiHome,
   FiChevronRight,
-  FiChevronLeft,
   FiSettings,
   FiBox,
 } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
+import toast from "react-hot-toast";
 import { UserContext } from "../../context/UserContext";
 import { getStockCategory } from "../../api/FetchStockCategory";
 import { getAllOrder } from "../../api/FetchAllOrder";
-import toast from "react-hot-toast";
 
 // Parse date string in dd-mm-yyyy OR yyyy-mm-dd format
 function parseDate(str) {
   if (!str) return null;
-  const ddmmyyyy = str.match(/^(\d{1,2})[\-\/](\d{1,2})[\-\/](\d{4})$/);
+  const ddmmyyyy = str.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/);
   if (ddmmyyyy)
     return new Date(
       Number(ddmmyyyy[3]),
       Number(ddmmyyyy[2]) - 1,
       Number(ddmmyyyy[1])
     );
-  const yyyymmdd = str.match(/^(\d{4})[\-\/](\d{1,2})[\-\/](\d{1,2})/);
+  const yyyymmdd = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
   if (yyyymmdd)
     return new Date(
       Number(yyyymmdd[1]),
@@ -155,179 +171,24 @@ const parentRoutes = {
   "ground-items": "/ground-checklist",
 };
 
-// Mini Calendar Component
-const MiniCalendar = ({ onDateSelect, onClose, orderDates = new Set() }) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  const daysInMonth = new Date(
-    currentMonth.getFullYear(),
-    currentMonth.getMonth() + 1,
-    0
-  ).getDate();
-  const firstDayOfMonth = new Date(
-    currentMonth.getFullYear(),
-    currentMonth.getMonth(),
-    1
-  ).getDay();
-  const today = new Date();
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const dayNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-
-  const prevMonth = () =>
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
-    );
-  const nextMonth = () =>
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
-    );
-
-  const handleDayClick = (day) => {
-    const selected = new Date(
-      currentMonth.getFullYear(),
-      currentMonth.getMonth(),
-      day
-    );
-    const yyyy = selected.getFullYear();
-    const mm = String(selected.getMonth() + 1).padStart(2, "0");
-    const dd = String(selected.getDate()).padStart(2, "0");
-    onDateSelect(`${yyyy}-${mm}-${dd}`);
-    onClose();
-  };
-
-  const isToday = (day) =>
-    today.getDate() === day &&
-    today.getMonth() === currentMonth.getMonth() &&
-    today.getFullYear() === currentMonth.getFullYear();
-
-  const hasOrder = (day) => {
-    const yyyy = currentMonth.getFullYear();
-    const mm = String(currentMonth.getMonth() + 1).padStart(2, "0");
-    const dd = String(day).padStart(2, "0");
-    return orderDates.has(`${yyyy}-${mm}-${dd}`);
-  };
-
-  const blanks = Array.from({ length: firstDayOfMonth }, (_, i) => (
-    <div key={`blank-${i}`} />
-  ));
-  const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-  return (
-    <div className="absolute right-0 mt-2 bg-white rounded-xl shadow-2xl z-50 p-4 border border-gray-100 w-[280px]">
-      {/* Month Navigation */}
-      <div className="flex items-center justify-between mb-3">
-        <button
-          onClick={prevMonth}
-          className="p-1.5 rounded-lg hover:bg-[var(--color-primary-soft)] text-gray-500 hover:text-[var(--color-primary)] transition-colors cursor-pointer"
-        >
-          <FiChevronLeft size={16} />
-        </button>
-        <span className="text-sm font-semibold text-gray-700">
-          {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
-        </span>
-        <button
-          onClick={nextMonth}
-          className="p-1.5 rounded-lg hover:bg-[var(--color-primary-soft)] text-gray-500 hover:text-[var(--color-primary)] transition-colors cursor-pointer"
-        >
-          <FiChevronRight size={16} />
-        </button>
-      </div>
-
-      {/* Day Headers */}
-      <div className="grid grid-cols-7 gap-1 mb-1">
-        {dayNames.map((d) => (
-          <div
-            key={d}
-            className="text-center text-[10px] font-semibold text-gray-400 py-1"
-          >
-            {d}
-          </div>
-        ))}
-      </div>
-
-      {/* Day Grid */}
-      <div className="grid grid-cols-7 gap-1">
-        {blanks}
-        {days.map((day) => {
-          const todayFlag = isToday(day);
-          const orderFlag = hasOrder(day);
-
-          return (
-            <button
-              key={day}
-              onClick={() => handleDayClick(day)}
-              className={`relative w-8 h-8 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer
-                                ${
-                                  todayFlag
-                                    ? "bg-[var(--color-primary)] text-white font-bold shadow-sm"
-                                    : orderFlag
-                                      ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)] font-semibold ring-1 ring-[var(--color-primary)]/30"
-                                      : "text-gray-600 hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)]"
-                                }`}
-            >
-              {day}
-              {orderFlag && (
-                <span
-                  className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${todayFlag ? "bg-white" : "bg-[var(--color-primary)]"}`}
-                />
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Legend */}
-      <div className="flex items-center justify-center gap-4 mt-3 pt-2 border-t border-gray-50">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
-          <span className="text-[10px] text-gray-400">Today</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded bg-[var(--color-primary-soft)] ring-1 ring-[var(--color-primary)]/30 flex items-center justify-center">
-            <span className="w-1 h-1 rounded-full bg-[var(--color-primary)]" />
-          </span>
-          <span className="text-[10px] text-gray-400">Has Order</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const Header = ({ toggleSidebar }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [showUpcoming, setShowUpcoming] = useState(false);
-  const [showLowStock, setShowLowStock] = useState(false);
-  const [lowStockCount, setLowStockCount] = useState(0);
-  const [lowStockItems, setLowStockItems] = useState([]);
-  const [upcomingOrderCount, setUpcomingOrderCount] = useState(0);
-  const [upcomingOrders, setUpcomingOrders] = useState([]);
-  const [orderDates, setOrderDates] = useState(new Set());
-  const dropdownRef = useRef(null);
-  const calendarRef = useRef(null);
-  const upcomingRef = useRef(null);
-  const lowStockRef = useRef(null);
   const { username, logout } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
   const displayName = username || "User";
   const initial = displayName.charAt(0).toUpperCase();
 
-  // Build breadcrumbs from the current path
+  const [lowStockCount, setLowStockCount] = useState(0);
+  const [lowStockItems, setLowStockItems] = useState([]);
+  const [upcomingOrderCount, setUpcomingOrderCount] = useState(0);
+  const [upcomingOrders, setUpcomingOrders] = useState([]);
+
+  // Anchor elements for MUI menus
+  const [lowStockAnchor, setLowStockAnchor] = useState(null);
+  const [upcomingAnchor, setUpcomingAnchor] = useState(null);
+  const [profileAnchor, setProfileAnchor] = useState(null);
+
+  // Build breadcrumbs from the current path (logic preserved verbatim)
   const breadcrumbs = useMemo(() => {
     const path = (location.pathname || "")
       .replace(/^\//, "")
@@ -336,7 +197,6 @@ const Header = ({ toggleSidebar }) => {
     const segments = path.split("/");
     let crumbs = [];
 
-    // Routes that require an ID parameter to be valid
     const routesWithId = new Set([
       "view-ingredient",
       "view-order-details",
@@ -358,11 +218,9 @@ const Header = ({ toggleSidebar }) => {
       "session-checklist-preview",
     ]);
 
-    // Find any numeric ID in the current URL or from state if passed (e.g., for edit-order-pdf)
     const numericId =
       segments.find((s) => /^\d+$/.test(s)) || location.state?.id;
 
-    // Build dynamic parent routes based on navigation state
     const fromState =
       location.state?.from || location.state?.fromNavigation?.from;
     const dynamicParentRoutes = {
@@ -370,7 +228,6 @@ const Header = ({ toggleSidebar }) => {
       ...location.state?.customParents,
     };
 
-    // If a simple fromState is passed but no customParents, just carefully set the leaf's parent
     if (fromState && !location.state?.customParents) {
       const leaf = [...segments].reverse().find((s) => !/^\d+$/.test(s));
       if (leaf) {
@@ -378,8 +235,6 @@ const Header = ({ toggleSidebar }) => {
       }
     }
 
-    // 1. Build hierarchy chain from parentRoutes mapping
-    // Find the last segment that isn't a numeric ID to start the parent discovery
     const leafSegment = [...segments].reverse().find((s) => !/^\d+$/.test(s));
 
     if (leafSegment) {
@@ -389,14 +244,10 @@ const Header = ({ toggleSidebar }) => {
 
       while (dynamicParentRoutes[currentKey]) {
         const rawParentPath = dynamicParentRoutes[currentKey];
-        // Ensure parent paths are always absolute so breadcrumb links don't
-        // resolve relative to the current URL (callers sometimes pass bare
-        // segments like "all-order" via customParents/state.from).
         const parentPath = rawParentPath.startsWith("/")
           ? rawParentPath
           : `/${rawParentPath}`;
 
-        // Keep parentKey accurate by ignoring any numeric IDs
         const parentSegments = parentPath
           .replace(/^\//, "")
           .split("/")
@@ -412,7 +263,6 @@ const Header = ({ toggleSidebar }) => {
             parentKey.charAt(0).toUpperCase() +
               parentKey.slice(1).replace(/-/g, " ");
 
-          // If the parent route requires an ID and we have one in the URL, append it
           let finalParentPath = parentPath;
           if (
             routesWithId.has(parentKey) &&
@@ -431,13 +281,11 @@ const Header = ({ toggleSidebar }) => {
       crumbs = parentChain;
     }
 
-    // 2. Add current URL segments
     let currentFullPath = "";
     for (let i = 0; i < segments.length; i++) {
       const segment = segments[i];
       currentFullPath += `/${segment}`;
 
-      // Skip numeric IDs directly as separate crumbs, unless making the previous crumb's path specific
       if (/^\d+$/.test(segment)) {
         if (crumbs.length > 0) {
           crumbs[crumbs.length - 1].path = currentFullPath;
@@ -453,7 +301,6 @@ const Header = ({ toggleSidebar }) => {
         (i < segments.length - 1 &&
           segments.slice(i + 1).every((s) => /^\d+$/.test(s)));
 
-      // Avoid duplicates already added via parent chain
       const existingIndex = crumbs.findIndex(
         (c) =>
           c.path === currentFullPath ||
@@ -472,23 +319,7 @@ const Header = ({ toggleSidebar }) => {
     return crumbs;
   }, [location.pathname, location.state]);
 
-  // Close dropdowns on outside click
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target))
-        setIsOpen(false);
-      if (calendarRef.current && !calendarRef.current.contains(event.target))
-        setShowCalendar(false);
-      if (upcomingRef.current && !upcomingRef.current.contains(event.target))
-        setShowUpcoming(false);
-      if (lowStockRef.current && !lowStockRef.current.contains(event.target))
-        setShowLowStock(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Fetch low stock/upcoming data once, then refresh only on explicit events
+  // Fetch low stock + upcoming orders; refresh on explicit events (logic preserved)
   useEffect(() => {
     const fetchHeaderData = async () => {
       const [stockResult, orderResult] = await Promise.allSettled([
@@ -533,26 +364,6 @@ const Header = ({ toggleSidebar }) => {
           const today = new Date();
           today.setHours(0, 0, 0, 0);
 
-          // Collect ALL order dates for calendar highlighting
-          const dates = new Set();
-          orderData.forEach((order) => {
-            const activeEventDate =
-              order.sessions && order.sessions.length > 0
-                ? order.sessions[0].event_date
-                : order.event_date;
-            if (activeEventDate) {
-              const d = parseDate(activeEventDate);
-              if (d && !isNaN(d.getTime())) {
-                const yyyy = d.getFullYear();
-                const mm = String(d.getMonth() + 1).padStart(2, "0");
-                const dd = String(d.getDate()).padStart(2, "0");
-                dates.add(`${yyyy}-${mm}-${dd}`);
-              }
-            }
-          });
-          setOrderDates(dates);
-
-          // Only count upcoming orders within the next 7 days
           const sevenDaysLater = new Date(today);
           sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
           const upcoming = orderData.filter((order) => {
@@ -572,7 +383,6 @@ const Header = ({ toggleSidebar }) => {
               order.status !== "completed"
             );
           });
-          // Sort by event_date ascending (soonest first)
           upcoming.sort((a, b) => {
             const dateA =
               a.sessions && a.sessions.length > 0
@@ -591,10 +401,8 @@ const Header = ({ toggleSidebar }) => {
     };
     fetchHeaderData();
 
-    // Listen for custom events triggered when order/stock data changes
     window.addEventListener("orderStatusChanged", fetchHeaderData);
     window.addEventListener("stockDataChanged", fetchHeaderData);
-
     return () => {
       window.removeEventListener("orderStatusChanged", fetchHeaderData);
       window.removeEventListener("stockDataChanged", fetchHeaderData);
@@ -602,379 +410,564 @@ const Header = ({ toggleSidebar }) => {
   }, []);
 
   const handleLogout = () => {
+    setProfileAnchor(null);
     logout();
     toast.success("Logout successfully!");
     navigate("/login");
   };
 
-  const handleDateSelect = (dateStr) => {
-    navigate(`/all-order?date=${dateStr}`);
-  };
+  const closeLowStock = () => setLowStockAnchor(null);
+  const closeUpcoming = () => setUpcomingAnchor(null);
+  const closeProfile = () => setProfileAnchor(null);
+
+  const unitShort = { KG: "Kg", G: "g", L: "L", ML: "mL", QTY: "Qty" };
 
   return (
-    <div className="relative flex items-center justify-between px-3 sm:px-6 py-3 bg-[var(--color-primary)] text-white shadow-md">
-      {/* Left Side: Sidebar Toggle + Breadcrumbs */}
-      <div className="flex items-center gap-3">
-        <button
-          className="p-2 text-xl hover:bg-white/20 rounded-lg transition-colors cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleSidebar();
-          }}
-          onMouseDown={(e) => e.stopPropagation()}
-        >
-          <FiMenu />
-        </button>
-
-        {/* Breadcrumbs */}
-        <nav className="hidden sm:flex items-center gap-1.5 text-sm">
-          <button
-            onClick={() => navigate("/dish")}
-            className="flex items-center gap-1 text-white/70 hover:text-white transition-colors cursor-pointer"
+    <AppBar
+      position="static"
+      color="primary"
+      elevation={2}
+      sx={{ color: "primary.contrastText" }}
+    >
+      <Toolbar
+        sx={{
+          px: { xs: 1.5, sm: 3 },
+          minHeight: { xs: 56, sm: 64 },
+          gap: 1,
+          justifyContent: "space-between",
+        }}
+      >
+        {/* Left: Hamburger + Breadcrumbs */}
+        <Stack direction="row" alignItems="center" spacing={1} minWidth={0}>
+          <IconButton
+            edge="start"
+            onClick={toggleSidebar}
+            sx={{ color: "inherit" }}
+            aria-label="toggle sidebar"
           >
-            <FiHome size={18} className="stroke-[2.5]" />
-          </button>
-          {breadcrumbs.map((crumb, i) => (
-            <div key={i} className="flex items-center gap-1.5">
-              <FiChevronRight size={12} className="text-white/40" />
-              {crumb.isLast ? (
-                <span className="font-medium text-white">{crumb.label}</span>
-              ) : (
-                <button
-                  onClick={() => navigate(crumb.path)}
-                  className="text-white/70 hover:text-white transition-colors cursor-pointer"
+            <FiMenu />
+          </IconButton>
+
+          <Breadcrumbs
+            separator={<FiChevronRight size={12} />}
+            aria-label="breadcrumb"
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              color: "inherit",
+              "& .MuiBreadcrumbs-separator": { color: "inherit", opacity: 0.5 },
+              "& .MuiBreadcrumbs-ol": { flexWrap: "nowrap" },
+            }}
+          >
+            <MuiLink
+              component="button"
+              onClick={() => navigate("/dish")}
+              underline="hover"
+              sx={{
+                color: "inherit",
+                opacity: 0.7,
+                display: "inline-flex",
+                alignItems: "center",
+                "&:hover": { opacity: 1 },
+              }}
+            >
+              <FiHome size={16} />
+            </MuiLink>
+            {breadcrumbs.map((crumb, i) =>
+              crumb.isLast ? (
+                <Typography
+                  key={i}
+                  variant="body2"
+                  fontWeight={600}
+                  color="inherit"
+                  noWrap
                 >
                   {crumb.label}
-                </button>
-              )}
-            </div>
-          ))}
-        </nav>
-      </div>
-
-      {/* Right Side: Badges + Calendar + Profile */}
-      <div className="flex items-center gap-1.5 sm:gap-2.5">
-        {/* Low Stock Chip + Dropdown */}
-        <div className="relative" ref={lowStockRef}>
-          <button
-            onClick={() => setShowLowStock(!showLowStock)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${
-              lowStockCount > 0
-                ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]/80"
-                : "bg-white/10 text-white/60 hover:bg-white/20"
-            }`}
-            title="Low Stock Items"
-          >
-            <FiAlertTriangle size={12} />
-            <span className="hidden sm:inline">{lowStockCount} Low Stock</span>
-            <span className="sm:hidden">{lowStockCount}</span>
-            {lowStockCount > 0 && (
-              <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                </Typography>
+              ) : (
+                <MuiLink
+                  key={i}
+                  component="button"
+                  onClick={() => navigate(crumb.path)}
+                  underline="hover"
+                  sx={{
+                    color: "inherit",
+                    opacity: 0.7,
+                    "&:hover": { opacity: 1 },
+                  }}
+                >
+                  <Typography variant="body2" noWrap component="span">
+                    {crumb.label}
+                  </Typography>
+                </MuiLink>
+              )
             )}
-          </button>
+          </Breadcrumbs>
+        </Stack>
 
-          {/* Low Stock Dropdown */}
-          {showLowStock && (
-            <div className="absolute right-0 mt-2 bg-white rounded-xl shadow-2xl z-50 border border-gray-100 w-[320px] overflow-hidden">
-              {/* Dropdown Header */}
-              <div className="px-4 py-3 bg-[var(--color-primary-tint)] border-b border-[var(--color-primary-border)]/20">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FiAlertTriangle size={14} className="text-[var(--color-primary)]" />
-                    <span className="text-sm font-semibold text-gray-700">
-                      Low Stock Items
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-medium text-[var(--color-primary)] bg-white px-2 py-0.5 rounded-full shadow-sm">
-                    {lowStockCount} Alert{lowStockCount !== 1 ? "s" : ""}
-                  </span>
-                </div>
-              </div>
-
-              {/* Items List */}
-              <div className="max-h-[300px] overflow-y-auto">
-                {lowStockItems.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-8 text-gray-400">
-                    <FiBox size={28} className="text-gray-300 mb-2" />
-                    <p className="text-sm font-medium text-gray-400">
-                      All stock levels are good
-                    </p>
-                    <p className="text-xs text-gray-300 mt-0.5">
-                      No items below alert level
-                    </p>
-                  </div>
-                ) : (
-                  lowStockItems.map((item) => {
-                    const unitShort = {
-                      KG: "Kg",
-                      G: "g",
-                      L: "L",
-                      ML: "mL",
-                      QTY: "Qty",
-                    };
-                    const unit = unitShort[item.type] || item.type;
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => {
-                          setShowLowStock(false);
-                          navigate("/stock", {
-                            state: {
-                              selectCategoryId: item.categoryId,
-                              _ts: Date.now(),
-                            },
-                          });
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50/50 transition-colors duration-150 border-b border-gray-50 last:border-b-0 cursor-pointer text-left"
-                      >
-                        <div className="w-9 h-9 rounded-full bg-[var(--color-primary-tint)] text-[var(--color-primary)] flex items-center justify-center flex-shrink-0">
-                          <FiBox size={16} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-gray-700 truncate">
-                            {item.name}
-                          </p>
-                          <p className="text-[11px] text-gray-400 truncate">
-                            {item.categoryName}
-                          </p>
-                        </div>
-                        <div className="flex flex-col items-end flex-shrink-0">
-                          <span className="text-xs font-bold text-[var(--color-primary)]">
-                            {item.quantity} {unit}
-                          </span>
-                          <span className="text-[10px] text-gray-400">
-                            Min: {item.alert} {unit}
-                          </span>
-                        </div>
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-
-              {/* View All Footer */}
-              {lowStockItems.length > 0 && (
-                <div className="border-t border-gray-100">
-                  <button
+        {/* Right: Low stock + Upcoming + Calendar + Profile */}
+        <Stack direction="row" alignItems="center" spacing={1}>
+          {/* Low Stock */}
+          <Button
+            size="small"
+            variant={lowStockCount > 0 ? "contained" : "text"}
+            color={lowStockCount > 0 ? "warning" : "inherit"}
+            startIcon={<FiAlertTriangle size={14} />}
+            onClick={(e) => setLowStockAnchor(e.currentTarget)}
+            sx={{
+              borderRadius: 999,
+              minWidth: 0,
+              color: lowStockCount > 0 ? undefined : "inherit",
+              bgcolor: lowStockCount > 0 ? undefined : "rgba(255,255,255,0.1)",
+              "&:hover": {
+                bgcolor:
+                  lowStockCount > 0 ? undefined : "rgba(255,255,255,0.2)",
+              },
+            }}
+          >
+            <Badge
+              badgeContent={lowStockCount > 0 ? lowStockCount : null}
+              color="error"
+              sx={{ "& .MuiBadge-badge": { right: -6, top: -2 } }}
+            >
+              <Box
+                component="span"
+                sx={{ display: { xs: "none", sm: "inline" } }}
+              >
+                Low Stock
+              </Box>
+              <Box
+                component="span"
+                sx={{ display: { xs: "inline", sm: "none" } }}
+              >
+                {lowStockCount}
+              </Box>
+            </Badge>
+          </Button>
+          <Menu
+            anchorEl={lowStockAnchor}
+            open={Boolean(lowStockAnchor)}
+            onClose={closeLowStock}
+            PaperProps={{ sx: { width: 340, maxHeight: 420, mt: 1 } }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Box sx={{ px: 2, py: 1.5, bgcolor: "action.hover" }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <FiAlertTriangle size={14} />
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Low Stock Items
+                  </Typography>
+                </Stack>
+                <Typography
+                  variant="caption"
+                  fontWeight={700}
+                  color="primary.main"
+                  sx={{ bgcolor: "background.paper", px: 1, py: 0.25, borderRadius: 99 }}
+                >
+                  {lowStockCount} Alert{lowStockCount !== 1 ? "s" : ""}
+                </Typography>
+              </Stack>
+            </Box>
+            <Divider />
+            {lowStockItems.length === 0 ? (
+              <Box sx={{ py: 4, textAlign: "center", color: "text.disabled" }}>
+                <FiBox size={28} style={{ opacity: 0.4 }} />
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  All stock levels are good
+                </Typography>
+                <Typography variant="caption">
+                  No items below alert level
+                </Typography>
+              </Box>
+            ) : (
+              lowStockItems.map((item) => {
+                const unit = unitShort[item.type] || item.type;
+                return (
+                  <MenuItem
+                    key={item.id}
                     onClick={() => {
-                      setShowLowStock(false);
+                      closeLowStock();
                       navigate("/stock", {
-                        state: { view: "low_stock", _ts: Date.now() },
+                        state: {
+                          selectCategoryId: item.categoryId,
+                          _ts: Date.now(),
+                        },
                       });
                     }}
-                    className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors cursor-pointer"
+                    sx={{ py: 1.25 }}
                   >
-                    View All Low Stock Items
-                    <FiChevronRight size={12} />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Upcoming Orders Chip + Dropdown */}
-        <div className="relative" ref={upcomingRef}>
-          <button
-            onClick={() => setShowUpcoming(!showUpcoming)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${
-              upcomingOrderCount > 0
-                ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]/80"
-                : "bg-white/10 text-white/60 hover:bg-white/20"
-            }`}
-            title="Upcoming Orders (Next 7 Days)"
-          >
-            <FiClipboard size={12} />
-            <span className="hidden sm:inline">
-              {upcomingOrderCount} Upcoming
-            </span>
-            <span className="sm:hidden">{upcomingOrderCount}</span>
-            {upcomingOrderCount > 0 && (
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] animate-pulse" />
-            )}
-          </button>
-
-          {/* Upcoming Orders Dropdown */}
-          {showUpcoming && (
-            <div className="absolute right-0 mt-2 bg-white rounded-xl shadow-2xl z-50 border border-gray-100 w-[320px] overflow-hidden">
-              {/* Dropdown Header */}
-              <div className="px-4 py-3 bg-[var(--color-primary-soft)] border-b border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <FiClipboard size={14} className="text-[var(--color-primary-text)]" />
-                    <span className="text-sm font-semibold text-gray-700">
-                      Upcoming Orders
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-medium text-[var(--color-primary)] bg-white px-2 py-0.5 rounded-full">
-                    Next 7 Days
-                  </span>
-                </div>
-              </div>
-
-              {/* Orders List */}
-              <div className="max-h-[300px] overflow-y-auto">
-                {upcomingOrders.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-8 text-gray-400">
-                    <FiClipboard size={28} className="text-gray-300 mb-2" />
-                    <p className="text-sm font-medium text-gray-400">
-                      No upcoming orders
-                    </p>
-                    <p className="text-xs text-gray-300 mt-0.5">
-                      No events in the next 7 days
-                    </p>
-                  </div>
-                ) : (
-                  upcomingOrders.map((order) => {
-                    const activeEventDate =
-                      order.sessions && order.sessions.length > 0
-                        ? order.sessions[0].event_date
-                        : order.event_date;
-                    const eventDate = parseDate(activeEventDate);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const diffDays = eventDate
-                      ? Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24))
-                      : -1;
-                    const dayLabel =
-                      diffDays === 0
-                        ? "Today"
-                        : diffDays === 1
-                          ? "Tomorrow"
-                          : `In ${diffDays} days`;
-
-                    return (
-                      <button
-                        key={order.id}
-                        onClick={() => {
-                          setShowUpcoming(false);
-                          navigate(`/order-pdf/${order.id}`);
+                    <ListItemIcon>
+                      <Avatar
+                        variant="rounded"
+                        sx={{
+                          bgcolor: (t) => t.palette.primary.light + "33",
+                          color: "primary.main",
+                          width: 36,
+                          height: 36,
                         }}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--color-primary-tint)] transition-colors duration-150 border-b border-gray-50 last:border-b-0 cursor-pointer text-left"
                       >
-                        <div className="w-9 h-9 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center font-bold text-xs flex-shrink-0">
-                          {order.name?.charAt(0)?.toUpperCase() || "?"}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-gray-700 truncate">
-                            {order.name}
-                          </p>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[11px] text-gray-400 flex items-center gap-1">
-                              <FiCalendar size={10} />
-                              {order.event_date}
-                            </span>
-                            {order.event_time && (
-                              <span className="text-[11px] text-gray-400">
-                                • {order.event_time}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                        <span
-                          className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
-                            diffDays === 0
-                              ? "bg-red-50 text-red-500"
-                              : diffDays === 1
-                                ? "bg-[var(--color-primary-tint)] text-[var(--color-primary)]"
-                                : "bg-[var(--color-primary-tint)] text-[var(--color-primary)]"
-                          }`}
-                        >
-                          {dayLabel}
-                        </span>
-                      </button>
-                    );
-                  })
-                )}
-              </div>
+                        <FiBox size={16} />
+                      </Avatar>
+                    </ListItemIcon>
+                    <Box flex={1} minWidth={0}>
+                      <Typography
+                        variant="body2"
+                        fontWeight={600}
+                        color="text.primary"
+                        noWrap
+                      >
+                        {item.name}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        color="text.disabled"
+                        noWrap
+                      >
+                        {item.categoryName}
+                      </Typography>
+                    </Box>
+                    <Stack alignItems="flex-end">
+                      <Typography
+                        variant="caption"
+                        fontWeight={700}
+                        color="primary.main"
+                      >
+                        {item.quantity} {unit}
+                      </Typography>
+                      <Typography variant="caption" color="text.disabled">
+                        Min: {item.alert} {unit}
+                      </Typography>
+                    </Stack>
+                  </MenuItem>
+                );
+              })
+            )}
+            {lowStockItems.length > 0 && (
+              <>
+                <Divider />
+                <MenuItem
+                  onClick={() => {
+                    closeLowStock();
+                    navigate("/stock", {
+                      state: { view: "low_stock", _ts: Date.now() },
+                    });
+                  }}
+                  sx={{
+                    justifyContent: "center",
+                    color: "primary.main",
+                    fontWeight: 700,
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  View All Low Stock Items <FiChevronRight size={12} />
+                </MenuItem>
+              </>
+            )}
+          </Menu>
 
-              {/* View All Footer */}
-              {upcomingOrders.length > 0 && (
-                <div className="border-t border-gray-100">
-                  <button
+          {/* Upcoming Orders */}
+          <Button
+            size="small"
+            variant="text"
+            startIcon={<FiClipboard size={14} />}
+            onClick={(e) => setUpcomingAnchor(e.currentTarget)}
+            sx={{
+              borderRadius: 999,
+              minWidth: 0,
+              color: "inherit",
+              bgcolor: "rgba(255,255,255,0.1)",
+              "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
+            }}
+          >
+            <Badge
+              badgeContent={upcomingOrderCount > 0 ? upcomingOrderCount : null}
+              color="secondary"
+              sx={{ "& .MuiBadge-badge": { right: -6, top: -2 } }}
+            >
+              <Box
+                component="span"
+                sx={{ display: { xs: "none", sm: "inline" } }}
+              >
+                Upcoming
+              </Box>
+              <Box
+                component="span"
+                sx={{ display: { xs: "inline", sm: "none" } }}
+              >
+                {upcomingOrderCount}
+              </Box>
+            </Badge>
+          </Button>
+          <Menu
+            anchorEl={upcomingAnchor}
+            open={Boolean(upcomingAnchor)}
+            onClose={closeUpcoming}
+            PaperProps={{ sx: { width: 340, maxHeight: 420, mt: 1 } }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Box sx={{ px: 2, py: 1.5, bgcolor: "action.hover" }}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <FiClipboard size={14} />
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Upcoming Orders
+                  </Typography>
+                </Stack>
+                <Typography
+                  variant="caption"
+                  fontWeight={700}
+                  color="primary.main"
+                  sx={{ bgcolor: "background.paper", px: 1, py: 0.25, borderRadius: 99 }}
+                >
+                  Next 7 Days
+                </Typography>
+              </Stack>
+            </Box>
+            <Divider />
+            {upcomingOrders.length === 0 ? (
+              <Box sx={{ py: 4, textAlign: "center", color: "text.disabled" }}>
+                <FiClipboard size={28} style={{ opacity: 0.4 }} />
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  No upcoming orders
+                </Typography>
+                <Typography variant="caption">
+                  No events in the next 7 days
+                </Typography>
+              </Box>
+            ) : (
+              upcomingOrders.map((order) => {
+                const activeEventDate =
+                  order.sessions && order.sessions.length > 0
+                    ? order.sessions[0].event_date
+                    : order.event_date;
+                const eventDate = parseDate(activeEventDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const diffDays = eventDate
+                  ? Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24))
+                  : -1;
+                const dayLabel =
+                  diffDays === 0
+                    ? "Today"
+                    : diffDays === 1
+                      ? "Tomorrow"
+                      : `In ${diffDays} days`;
+
+                return (
+                  <MenuItem
+                    key={order.id}
                     onClick={() => {
-                      setShowUpcoming(false);
-                      navigate("/all-order?filter=upcoming");
+                      closeUpcoming();
+                      navigate(`/order-pdf/${order.id}`);
                     }}
-                    className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-semibold text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors cursor-pointer"
+                    sx={{ py: 1.25 }}
                   >
-                    View All Upcoming Orders
-                    <FiChevronRight size={12} />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+                    <ListItemIcon>
+                      <Avatar
+                        sx={{
+                          bgcolor: (t) => t.palette.primary.light + "33",
+                          color: "primary.main",
+                          width: 36,
+                          height: 36,
+                          fontSize: "0.8rem",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {order.name?.charAt(0)?.toUpperCase() || "?"}
+                      </Avatar>
+                    </ListItemIcon>
+                    <Box flex={1} minWidth={0}>
+                      <Typography
+                        variant="body2"
+                        fontWeight={600}
+                        color="text.primary"
+                        noWrap
+                      >
+                        {order.name}
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems="center"
+                        sx={{ mt: 0.25 }}
+                      >
+                        <FiCalendar size={10} />
+                        <Typography
+                          variant="caption"
+                          color="text.disabled"
+                          noWrap
+                        >
+                          {order.event_date}
+                          {order.event_time ? ` • ${order.event_time}` : ""}
+                        </Typography>
+                      </Stack>
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      fontWeight={700}
+                      sx={{
+                        px: 1,
+                        py: 0.25,
+                        borderRadius: 99,
+                        bgcolor: diffDays === 0 ? "error.light" : (t) => t.palette.primary.light + "33",
+                        color: diffDays === 0 ? "error.dark" : "primary.main",
+                      }}
+                    >
+                      {dayLabel}
+                    </Typography>
+                  </MenuItem>
+                );
+              })
+            )}
+            {upcomingOrders.length > 0 && (
+              <>
+                <Divider />
+                <MenuItem
+                  onClick={() => {
+                    closeUpcoming();
+                    navigate("/all-order?filter=upcoming");
+                  }}
+                  sx={{
+                    justifyContent: "center",
+                    color: "primary.main",
+                    fontWeight: 700,
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  View All Upcoming Orders <FiChevronRight size={12} />
+                </MenuItem>
+              </>
+            )}
+          </Menu>
 
-        {/* Divider */}
-        <div className="w-px h-6 bg-white/20" />
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{ my: 1, bgcolor: "rgba(255,255,255,0.2)" }}
+          />
 
-        {/* Calendar Button */}
-        <button
-          onClick={() => navigate("/calendar")}
-          className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer"
-          title="View orders by date"
-        >
-          <FiCalendar size={15} className="text-white/80" />
-          <span className="text-xs font-medium text-white/80 hidden md:inline">
-            Calendar
-          </span>
-        </button>
-
-        {/* Profile Dropdown */}
-        <div className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 bg-white/90 hover:bg-white pl-4 pr-3 py-1.5 rounded-full focus:outline-none cursor-pointer transition-all duration-300 shadow-sm"
+          {/* Calendar */}
+          <Button
+            size="small"
+            variant="text"
+            startIcon={<FiCalendar size={15} />}
+            onClick={() => navigate("/calendar")}
+            sx={{
+              color: "inherit",
+              bgcolor: "rgba(255,255,255,0.15)",
+              "&:hover": { bgcolor: "rgba(255,255,255,0.25)" },
+            }}
           >
-            <span className="hidden sm:inline text-sm font-semibold text-[var(--color-primary)]">
+            <Box
+              component="span"
+              sx={{ display: { xs: "none", md: "inline" } }}
+            >
+              Calendar
+            </Box>
+          </Button>
+
+          {/* Profile */}
+          <Button
+            onClick={(e) => setProfileAnchor(e.currentTarget)}
+            sx={{
+              bgcolor: "background.paper",
+              color: "primary.main",
+              pl: 1.5,
+              pr: 1,
+              py: 0.5,
+              borderRadius: 999,
+              "&:hover": { bgcolor: "background.paper", opacity: 0.9 },
+            }}
+            endIcon={
+              <FiChevronDown
+                size={14}
+                style={{
+                  transform: profileAnchor ? "rotate(180deg)" : "none",
+                  transition: "transform 0.2s",
+                }}
+              />
+            }
+          >
+            <Typography
+              variant="body2"
+              fontWeight={700}
+              sx={{
+                display: { xs: "none", sm: "inline" },
+                mr: 1,
+              }}
+            >
               {displayName}
-            </span>
-            <div className="w-9 h-9 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white font-bold text-sm">
+            </Typography>
+            <Avatar
+              sx={{
+                bgcolor: "primary.main",
+                color: "primary.contrastText",
+                width: 32,
+                height: 32,
+                fontSize: "0.8rem",
+                fontWeight: 700,
+              }}
+            >
               {initial}
-            </div>
-            <FiChevronDown
-              className={`text-[var(--color-primary)] text-sm transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-            />
-          </button>
-
-          <div
-            className={`absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-2xl z-50 overflow-hidden border border-gray-100 transition-all duration-200 origin-top-right ${isOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"}`}
+            </Avatar>
+          </Button>
+          <Menu
+            anchorEl={profileAnchor}
+            open={Boolean(profileAnchor)}
+            onClose={closeProfile}
+            PaperProps={{ sx: { width: 180, mt: 1 } }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            <button
+            <MenuItem
               onClick={() => {
-                setIsOpen(false);
+                closeProfile();
                 navigate("/user");
               }}
-              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-600 hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)] transition-colors duration-200 cursor-pointer"
             >
-              <FiUsers size={16} />
-              <span className="font-medium">Users</span>
-            </button>
-            <hr className="border-gray-100" />
-            <button
+              <ListItemIcon>
+                <FiUsers size={16} />
+              </ListItemIcon>
+              <Typography variant="body2" fontWeight={500}>
+                Users
+              </Typography>
+            </MenuItem>
+            <MenuItem
               onClick={() => {
-                setIsOpen(false);
+                closeProfile();
                 navigate("/settings");
               }}
-              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-gray-600 hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)] transition-colors duration-200 cursor-pointer"
             >
-              <FiSettings size={16} />
-              <span className="font-medium">Settings</span>
-            </button>
-            <hr className="border-gray-100" />
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-3 w-full px-4 py-3 text-sm text-red-400 hover:bg-red-50 hover:text-red-500 transition-colors duration-200 cursor-pointer"
-            >
-              <TbLogout2 size={16} />
-              <span className="font-medium">Logout</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+              <ListItemIcon>
+                <FiSettings size={16} />
+              </ListItemIcon>
+              <Typography variant="body2" fontWeight={500}>
+                Settings
+              </Typography>
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleLogout} sx={{ color: "error.main" }}>
+              <ListItemIcon sx={{ color: "inherit" }}>
+                <TbLogout2 size={16} />
+              </ListItemIcon>
+              <Typography variant="body2" fontWeight={500}>
+                Logout
+              </Typography>
+            </MenuItem>
+          </Menu>
+        </Stack>
+      </Toolbar>
+    </AppBar>
   );
 };
 

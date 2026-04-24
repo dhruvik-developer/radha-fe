@@ -1,41 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiX, FiTag } from "react-icons/fi";
-import Input from "../common/formInputs/Input";
-import Dropdown from "../common/formDropDown/DropDown";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import toast from "react-hot-toast";
+import FormModal from "../common/FormModal";
+import Dropdown from "../common/formDropDown/DropDown";
 import { useCreateIngredientItemMutation } from "../../hooks/useVendorMutations";
 import { useIngredientCategories } from "../../hooks/useIngredientCategories";
 
-// ==================== MODAL WRAPPER ====================
-const ModalWrapper = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm p-4"
-        onClick={onClose}
-      >
-        <motion.div
-          initial={{ scale: 0.95, opacity: 0, y: 10 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.95, opacity: 0, y: 10 }}
-          transition={{ type: "spring", duration: 0.4, bounce: 0.25 }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {children}
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
-};
-
 // ==================== ADD INGREDIENT ITEM MODAL ====================
-export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCategory }) => {
+export const AddIngredientItemModal = ({
+  isOpen,
+  onClose,
+  onSuccess,
+  initialCategory,
+}) => {
   const [itemName, setItemName] = useState("");
   const [category, setCategory] = useState("");
   const [saving, setSaving] = useState(false);
@@ -98,79 +76,62 @@ export const AddIngredientItemModal = ({ isOpen, onClose, onSuccess, initialCate
   };
 
   return (
-    <ModalWrapper isOpen={isOpen} onClose={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-[95vw] sm:w-[540px] flex flex-col overflow-visible">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gradient-to-r from-[var(--color-primary-soft)] to-white">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--color-primary)] shadow-sm">
-              <FiTag className="text-white" size={20} />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-gray-800">
-                Add Ingredient Item
-              </h2>
-              <p className="text-sm font-medium text-gray-400 mt-0.5">
-                Add a new ingredient item to a category
-              </p>
-            </div>
-          </div>
-          <button
+    <FormModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Add Ingredient Item"
+      subtitle="Add a new ingredient item to a category"
+      widthClass="max-w-md"
+      closeDisabled={saving}
+      footer={
+        <Stack direction="row" justifyContent="flex-end" spacing={1}>
+          <Button
+            variant="outlined"
             onClick={onClose}
-            className="p-2.5 rounded-full bg-white text-gray-400 border border-gray-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all shadow-sm cursor-pointer"
+            disabled={saving}
           >
-            <FiX size={20} />
-          </button>
-        </div>
-
-        {/* Body */}
-        <form
-          onSubmit={handleSubmit}
-          className="p-6 space-y-5 overflow-visible"
-        >
-          <div>
-            <Input
-              label="Item Name *"
-              type="text"
-              placeholder="Please Enter Item Name"
-              name="name"
-              value={itemName}
-              className="w-full p-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all"
-              onChange={(e) => setItemName(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium text-gray-700 mb-2">
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={saving}
+          >
+            {saving ? "Saving..." : "Save Item"}
+          </Button>
+        </Stack>
+      }
+    >
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stack spacing={2.5}>
+          <TextField
+            fullWidth
+            label="Item Name *"
+            placeholder="Please Enter Item Name"
+            name="name"
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
+          />
+          <Box>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color="text.secondary"
+              sx={{ mb: 1 }}
+            >
               Category *
-            </label>
+            </Typography>
             <Dropdown
               options={categories}
               selectedValue={category}
               onChange={(value) => setCategory(value)}
               placeholder="Select a category"
-              isSearchable={true}
+              isSearchable
             />
-          </div>
-
-          <div className="flex items-center justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-5 py-2.5 text-sm font-bold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-100 transition-all cursor-pointer shadow-sm"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[var(--color-primary)] rounded-xl hover:brightness-95 transition-all cursor-pointer shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {saving ? "Saving..." : "Save Item"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </ModalWrapper>
+          </Box>
+        </Stack>
+      </Box>
+    </FormModal>
   );
 };

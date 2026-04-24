@@ -1,11 +1,29 @@
 import { useState, useEffect } from "react";
-import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
-import toast from "react-hot-toast";
-import Loader from "../../../Components/common/Loader";
-import { getGroundCategories, createGroundCategory } from "../../../api/GroundApis";
-import AddGroundCategory from "./AddGroundCategory";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  InputAdornment,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { FiSearch } from "react-icons/fi";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { MenuRestaurantIcon } from "@hugeicons/core-free-icons";
+import toast from "react-hot-toast";
+import Loader from "../../../Components/common/Loader";
+import EmptyState from "../../../Components/common/EmptyState";
+import { getGroundCategories } from "../../../api/GroundApis";
+import AddGroundCategory from "./AddGroundCategory";
 
 const GroundCategoryMaster = () => {
   const [categories, setCategories] = useState([]);
@@ -43,107 +61,150 @@ const GroundCategoryMaster = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <HugeiconsIcon icon={MenuRestaurantIcon} size={22} color="var(--color-primary-text)" className="text-[var(--color-primary-text)]" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Ground Categories</h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Manage categories for ground items and equipment
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-wrap gap-2 w-full md:w-auto mt-2 md:mt-0">
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2.5 bg-[var(--color-primary)] hover:brightness-95 text-white rounded-lg cursor-pointer transition-colors duration-200 text-sm font-medium shadow-sm whitespace-nowrap"
+    <Paper
+      elevation={0}
+      sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, bgcolor: "background.paper" }}
+    >
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        alignItems={{ xs: "stretch", md: "center" }}
+        justifyContent="space-between"
+        sx={{ mb: 3 }}
+      >
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          <Avatar
+            variant="rounded"
+            sx={{
+              bgcolor: (t) => t.palette.primary.light + "33",
+              color: "primary.main",
+              width: 44,
+              height: 44,
+            }}
           >
-            + Add Category
-          </button>
-        </div>
-      </div>
+            <HugeiconsIcon icon={MenuRestaurantIcon} size={22} />
+          </Avatar>
+          <Box>
+            <Typography variant="h5" fontWeight={700} color="text.primary">
+              Ground Categories
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Manage categories for ground items and equipment
+            </Typography>
+          </Box>
+        </Stack>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsAddModalOpen(true)}
+        >
+          + Add Category
+        </Button>
+      </Stack>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex-1 mb-6">
-        <div className="p-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center sm:flex-row flex-col gap-4">
-          <div className="relative w-full sm:max-w-xs">
-            <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search categories..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              autoComplete="off"
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
-            />
-          </div>
-        </div>
+      <Paper variant="outlined" sx={{ borderRadius: 2, overflow: "hidden" }}>
+        <Box
+          sx={{
+            p: 2,
+            borderBottom: 1,
+            borderColor: "divider",
+            bgcolor: "action.hover",
+          }}
+        >
+          <TextField
+            placeholder="Search categories..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            autoComplete="off"
+            sx={{ width: { xs: "100%", sm: 320 } }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FiSearch size={14} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
 
-        <div className="overflow-x-auto min-h-[400px]">
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <Loader message="Loading Categories..." />
-            </div>
-          ) : filteredCategories.length > 0 ? (
-            <table className="w-full text-left text-sm text-gray-600">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th scope="col" className="px-6 py-4 font-semibold">
-                    Category Name
-                  </th>
-                  <th scope="col" className="px-6 py-4 font-semibold">
-                    Description
-                  </th>
-                  <th scope="col" className="px-6 py-4 font-semibold w-24 text-center">
+        {loading ? (
+          <Box sx={{ p: 4, minHeight: 240 }}>
+            <Loader message="Loading Categories..." />
+          </Box>
+        ) : filteredCategories.length > 0 ? (
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: (t) => t.palette.primary.light + "14" }}>
+                  <TableCell sx={{ fontWeight: 700 }}>Category Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Description</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }} align="center">
                     Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {filteredCategories.map((cat) => (
-                  <tr
+                  <TableRow
                     key={cat.id}
-                    className="hover:bg-gray-50/50 transition-colors"
+                    hover
+                    sx={{ "&:last-child td": { borderBottom: 0 } }}
                   >
-                    <td className="px-6 py-4 font-medium text-gray-900">
-                      {cat.name}
-                    </td>
-                    <td className="px-6 py-4 text-gray-500 truncate max-w-sm">
+                    <TableCell sx={{ fontWeight: 600 }}>{cat.name}</TableCell>
+                    <TableCell
+                      sx={{
+                        color: "text.secondary",
+                        maxWidth: 360,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
                       {cat.description || "—"}
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                          cat.is_active
-                            ? "bg-[var(--color-primary-soft)] text-[var(--color-primary-text)]"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {cat.is_active ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-                  </tr>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Chip
+                        size="small"
+                        label={cat.is_active ? "Active" : "Inactive"}
+                        color={cat.is_active ? "success" : "error"}
+                        variant="outlined"
+                        sx={{
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          letterSpacing: 0.5,
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-              <FiSearch size={48} className="mb-4 opacity-20" />
-              <p className="text-lg">No categories found</p>
-            </div>
-          )}
-        </div>
-      </div>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Box sx={{ p: 3 }}>
+            <EmptyState
+              icon={<HugeiconsIcon icon={MenuRestaurantIcon} size={24} />}
+              title={
+                searchTerm
+                  ? "No categories match your search"
+                  : "No categories yet"
+              }
+              message={
+                searchTerm
+                  ? "Try adjusting your search."
+                  : "Add a category to get started."
+              }
+            />
+          </Box>
+        )}
+      </Paper>
 
       <AddGroundCategory
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSuccess={handleAddSuccess}
       />
-    </div>
+    </Paper>
   );
 };
 

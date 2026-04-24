@@ -1,25 +1,41 @@
 /* eslint-disable react/prop-types */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Chip,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import {
   FiSearch,
   FiArrowLeft,
   FiArrowRight,
   FiCheck,
   FiGrid,
-  FiChevronDown,
 } from "react-icons/fi";
 import Loader from "../../Components/common/Loader";
+import EmptyState from "../../Components/common/EmptyState";
 
 function Step2_MenuSelection({
   formData,
-  errors,
   dishesList,
   isDishesLoading,
   handleSlotDishesUpdate,
   onNext,
   onBack,
 }) {
-  // Flatten all timeslots into tabs: { dayIndex, slotIndex, label, date }
+  // Flatten all timeslots into tabs
   const tabs = useMemo(() => {
     const result = [];
     formData.schedule.forEach((day, dIdx) => {
@@ -32,8 +48,6 @@ function Step2_MenuSelection({
           sIdx,
           label: slot.timeLabel || `Slot ${sIdx + 1}`,
           dateStr,
-          dayLabel: `Day ${dIdx + 1}`,
-          fullLabel: `${slot.timeLabel || `Slot ${sIdx + 1}`} - ${dateStr}`,
           dishes: slot.dishes || [],
         });
       });
@@ -46,7 +60,6 @@ function Step2_MenuSelection({
   const [searchQuery, setSearchQuery] = useState("");
   const [categorySearchQuery, setCategorySearchQuery] = useState("");
 
-  // Sort categories by position
   const categoriesList = useMemo(
     () =>
       [...dishesList].sort(
@@ -55,18 +68,15 @@ function Step2_MenuSelection({
     [dishesList]
   );
 
-  // Set initial active category when dishes load
-  useMemo(() => {
+  useEffect(() => {
     if (categoriesList.length > 0 && activeCategoryId === null) {
       setActiveCategoryId(categoriesList[0].id);
     }
-  }, [categoriesList]);
+  }, [categoriesList, activeCategoryId]);
 
-  // Current tab data
   const activeTab = tabs[activeTabIndex];
   const currentDishes = activeTab ? activeTab.dishes : [];
 
-  // Filtered categories for sidebar search
   const filteredCategories = useMemo(() => {
     if (!categorySearchQuery.trim()) return categoriesList;
     return categoriesList.filter((cat) =>
@@ -74,7 +84,6 @@ function Step2_MenuSelection({
     );
   }, [categoriesList, categorySearchQuery]);
 
-  // Active category items
   const activeCategory = categoriesList.find((c) => c.id === activeCategoryId);
   const categoryItems = useMemo(() => {
     const items = activeCategory?.items || [];
@@ -84,12 +93,9 @@ function Step2_MenuSelection({
     );
   }, [activeCategory, searchQuery]);
 
-  // Check if a dish is selected in the current tab
-  const isDishSelected = (dishId) => {
-    return currentDishes.some((d) => d.dishId === dishId);
-  };
+  const isDishSelected = (dishId) =>
+    currentDishes.some((d) => d.dishId === dishId);
 
-  // Toggle dish selection for the active tab
   const toggleDish = (dish) => {
     if (!activeTab) return;
     const { dIdx, sIdx } = activeTab;
@@ -112,7 +118,6 @@ function Step2_MenuSelection({
     handleSlotDishesUpdate(dIdx, sIdx, newDishes);
   };
 
-  // Total selected across all tabs
   const totalSelectedAll = useMemo(() => {
     let count = 0;
     formData.schedule.forEach((day) => {
@@ -123,7 +128,6 @@ function Step2_MenuSelection({
     return count;
   }, [formData.schedule]);
 
-  // Count selected in category for current tab
   const getSelectedCountForCategory = (catId) => {
     const cat = categoriesList.find((c) => c.id === catId);
     if (!cat) return 0;
@@ -132,249 +136,388 @@ function Step2_MenuSelection({
 
   if (!activeTab) {
     return (
-      <div className="text-center py-20">
-        <p className="text-gray-400 text-lg">
+      <Box sx={{ py: 10, textAlign: "center" }}>
+        <Typography color="text.secondary" sx={{ mb: 2 }}>
           No event timings defined. Please go back and add event dates with time
           slots.
-        </p>
-        <button
-          type="button"
+        </Typography>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<FiArrowLeft />}
           onClick={onBack}
-          className="mt-4 px-6 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg font-semibold hover:bg-[var(--color-primary-tint)] transition-colors"
         >
-          <FiArrowLeft className="inline mr-2" /> Go Back
-        </button>
-      </div>
+          Go Back
+        </Button>
+      </Box>
     );
   }
 
   return (
-    <div className="space-y-0">
-      {/* ====== Event Timing Tabs ====== */}
-      <div className="border-b border-gray-200 bg-gray-50 rounded-t-xl -mx-6 -mt-6 px-6 pt-4 mb-0">
-        <div className="flex items-center gap-2 overflow-x-auto pb-0 scrollbar-thin">
-          {tabs.map((tab, idx) => {
-            const isActive = idx === activeTabIndex;
-            const dishCount = tab.dishes.length;
-            return (
-              <button
-                key={`${tab.dIdx}-${tab.sIdx}`}
-                type="button"
-                onClick={() => {
-                  setActiveTabIndex(idx);
-                  setSearchQuery("");
-                }}
-                className={`relative px-5 py-3 text-sm font-semibold whitespace-nowrap rounded-t-xl transition-all duration-200 border border-b-0 ${
-                  isActive
-                    ? "bg-white text-[var(--color-primary)] border-gray-200 shadow-sm"
-                    : "bg-transparent text-gray-500 border-transparent hover:bg-white/60 hover:text-gray-700"
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="uppercase tracking-wider">{tab.label}</span>
-                  <span className="text-[10px] text-gray-400 font-medium">
-                    {tab.dateStr}
-                  </span>
-                  {dishCount > 0 && (
-                    <span className="ml-1 w-5 h-5 rounded-full bg-[var(--color-primary)] text-white text-[10px] font-bold flex items-center justify-center">
-                      {dishCount}
-                    </span>
-                  )}
-                </div>
-                {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-primary)]" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ====== Main Content: Sidebar + Grid ====== */}
-      <div
-        className="flex border border-gray-200 rounded-b-xl overflow-hidden h-[calc(100vh-280px)]"
-        style={{ marginTop: 0 }}
+    <Stack spacing={0}>
+      {/* Event timing tabs */}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: "divider",
+          mx: { xs: -2, sm: -3 },
+          mt: { xs: -2, sm: -3 },
+          px: { xs: 2, sm: 3 },
+          pt: 2,
+          bgcolor: "action.hover",
+        }}
       >
-        {/* ---- Left Sidebar: Categories ---- */}
-        <div className="w-56 min-w-[14rem] bg-gray-50 border-r border-gray-200 flex flex-col">
-          {/* Search bar in sidebar */}
-          <div className="p-3 border-b border-gray-200">
-            <div className="relative">
-              <FiSearch
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400"
-                size={14}
-              />
-              <input
-                type="text"
-                placeholder="Search category..."
-                value={categorySearchQuery}
-                onChange={(e) => setCategorySearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] bg-white transition-all"
-              />
-            </div>
-          </div>
+        <Tabs
+          value={activeTabIndex}
+          onChange={(_, v) => {
+            setActiveTabIndex(v);
+            setSearchQuery("");
+          }}
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+        >
+          {tabs.map((tab, idx) => (
+            <Tab
+              key={`${tab.dIdx}-${tab.sIdx}`}
+              value={idx}
+              label={
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ textTransform: "uppercase", letterSpacing: 0.5 }}
+                >
+                  <span>{tab.label}</span>
+                  <Typography
+                    variant="caption"
+                    color="text.disabled"
+                    sx={{ textTransform: "none", letterSpacing: 0 }}
+                  >
+                    {tab.dateStr}
+                  </Typography>
+                  {tab.dishes.length > 0 && (
+                    <Chip
+                      size="small"
+                      label={tab.dishes.length}
+                      color="primary"
+                      sx={{
+                        height: 20,
+                        minWidth: 20,
+                        fontSize: "0.7rem",
+                        fontWeight: 700,
+                        "& .MuiChip-label": { px: 0.75 },
+                      }}
+                    />
+                  )}
+                </Stack>
+              }
+            />
+          ))}
+        </Tabs>
+      </Box>
 
-          {/* Category list */}
-          <div className="flex-1 overflow-y-auto">
+      {/* Main: Sidebar + Grid */}
+      <Paper
+        variant="outlined"
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          borderTop: 0,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          borderBottomLeftRadius: 12,
+          borderBottomRightRadius: 12,
+          overflow: "hidden",
+          height: { xs: "auto", md: "calc(100vh - 300px)" },
+          minHeight: 420,
+        }}
+      >
+        {/* Left sidebar: categories */}
+        <Box
+          sx={{
+            width: { xs: "100%", md: 240 },
+            minWidth: { md: 220 },
+            borderRight: { md: 1 },
+            borderBottom: { xs: 1, md: 0 },
+            borderColor: "divider",
+            bgcolor: "action.hover",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box sx={{ p: 1.5, borderBottom: 1, borderColor: "divider" }}>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Search category..."
+              value={categorySearchQuery}
+              onChange={(e) => setCategorySearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FiSearch size={14} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: "auto",
+              maxHeight: { xs: 220, md: "none" },
+            }}
+          >
             {filteredCategories.map((cat) => {
               const isActive = cat.id === activeCategoryId;
               const selectedCount = getSelectedCountForCategory(cat.id);
               return (
-                <button
+                <Box
                   key={cat.id}
-                  type="button"
                   onClick={() => {
                     setActiveCategoryId(cat.id);
                     setSearchQuery("");
                   }}
-                  className={`w-full text-left px-4 py-3 text-sm font-medium border-l-4 transition-all duration-150 flex items-center justify-between group ${
-                    isActive
-                      ? "bg-white border-[var(--color-primary)] text-[var(--color-primary)] shadow-sm"
-                      : "border-transparent text-gray-600 hover:bg-white/70 hover:text-gray-800"
-                  }`}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    px: 2,
+                    py: 1.5,
+                    cursor: "pointer",
+                    borderLeft: 4,
+                    borderColor: isActive ? "primary.main" : "transparent",
+                    bgcolor: isActive ? "background.paper" : "transparent",
+                    color: isActive ? "primary.main" : "text.secondary",
+                    fontWeight: isActive ? 700 : 500,
+                    transition: "all 0.15s",
+                    "&:hover": {
+                      bgcolor: "background.paper",
+                      color: "text.primary",
+                    },
+                  }}
                 >
-                  <span className="truncate">{cat.name}</span>
+                  <Typography
+                    variant="body2"
+                    fontWeight="inherit"
+                    noWrap
+                    sx={{ color: "inherit" }}
+                  >
+                    {cat.name}
+                  </Typography>
                   {selectedCount > 0 && (
-                    <span
-                      className={`ml-2 min-w-[20px] h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${
-                        isActive
-                          ? "bg-[var(--color-primary)] text-white"
-                          : "bg-gray-200 text-gray-600"
-                      }`}
-                    >
-                      {selectedCount}
-                    </span>
+                    <Chip
+                      size="small"
+                      label={selectedCount}
+                      color={isActive ? "primary" : "default"}
+                      sx={{ ml: 1, height: 20, fontWeight: 700 }}
+                    />
                   )}
-                </button>
+                </Box>
               );
             })}
-          </div>
-        </div>
+          </Box>
+        </Box>
 
-        {/* ---- Right: Dish Grid ---- */}
-        <div className="flex-1 flex flex-col bg-white">
-          {/* Search + Stats Bar */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50">
-            <div className="relative flex-1 max-w-sm">
-              <FiSearch
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={15}
-              />
-              <input
-                type="text"
-                placeholder="Search dishes..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] bg-white transition-all"
-              />
-            </div>
-            <div className="flex items-center gap-4 ml-4">
-              <div className="text-right">
-                <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
+        {/* Right: dish grid */}
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "stretch", sm: "center" }}
+            justifyContent="space-between"
+            spacing={2}
+            sx={{
+              p: 2,
+              borderBottom: 1,
+              borderColor: "divider",
+              bgcolor: "action.hover",
+            }}
+          >
+            <TextField
+              size="small"
+              placeholder="Search dishes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{ flex: 1, maxWidth: 360 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <FiSearch size={14} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Box textAlign="right">
+                <Typography
+                  variant="caption"
+                  color="text.disabled"
+                  sx={{ textTransform: "uppercase", fontWeight: 700 }}
+                >
                   This Event
-                </p>
-                <p className="text-sm font-bold text-[var(--color-primary)]">
+                </Typography>
+                <Typography variant="body2" fontWeight={700} color="primary.main">
                   {currentDishes.length} dishes
-                </p>
-              </div>
-              <div className="w-px h-8 bg-gray-200" />
-              <div className="text-right">
-                <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
+                </Typography>
+              </Box>
+              <Divider orientation="vertical" flexItem />
+              <Box textAlign="right">
+                <Typography
+                  variant="caption"
+                  color="text.disabled"
+                  sx={{ textTransform: "uppercase", fontWeight: 700 }}
+                >
                   All Events
-                </p>
-                <p className="text-sm font-bold text-gray-700">
+                </Typography>
+                <Typography variant="body2" fontWeight={700}>
                   {totalSelectedAll} dishes
-                </p>
-              </div>
-            </div>
-          </div>
+                </Typography>
+              </Box>
+            </Stack>
+          </Stack>
 
-          {/* Dish Grid */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <Box sx={{ flex: 1, overflowY: "auto", p: 2 }}>
             {isDishesLoading ? (
-              <div className="flex justify-center items-center h-full py-20">
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  py: 10,
+                }}
+              >
                 <Loader fullScreen={false} />
-              </div>
+              </Box>
             ) : categoryItems.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full py-20 text-gray-400">
-                <FiGrid size={48} className="mb-3 opacity-30" />
-                <p className="text-base font-medium">No dishes found</p>
-                <p className="text-sm mt-1">
-                  Try selecting a different category or adjusting your search
-                </p>
-              </div>
+              <EmptyState
+                icon={<FiGrid size={24} />}
+                title="No dishes found"
+                message="Try selecting a different category or adjusting your search."
+              />
             ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+              <Grid container spacing={1.5}>
                 {categoryItems.map((dish) => {
                   const selected = isDishSelected(dish.id);
                   return (
-                    <div
+                    <Grid
                       key={dish.id}
-                      onClick={() => toggleDish(dish)}
-                      className={`relative p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 group min-h-[90px] flex flex-col justify-center ${
-                        selected
-                          ? "border-[var(--color-primary)] bg-[var(--color-primary-soft)] shadow-md shadow-[var(--color-primary)]/10"
-                          : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
-                      }`}
+                      size={{ xs: 6, md: 4, lg: 3, xl: 2.4 }}
                     >
-                      {/* Selection indicator */}
-                      {selected && (
-                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center shadow-sm">
-                          <FiCheck size={13} strokeWidth={3} />
-                        </div>
-                      )}
-
-                      <p
-                        className={`text-sm font-semibold leading-snug ${selected ? "text-[var(--color-primary)]" : "text-gray-700 group-hover:text-gray-900"}`}
+                      <Paper
+                        variant="outlined"
+                        onClick={() => toggleDish(dish)}
+                        sx={{
+                          p: 2,
+                          minHeight: 90,
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          textAlign: "center",
+                          position: "relative",
+                          borderWidth: 2,
+                          borderColor: selected
+                            ? "primary.main"
+                            : "divider",
+                          bgcolor: selected
+                            ? (t) => t.palette.primary.light + "26"
+                            : "background.paper",
+                          boxShadow: selected ? 2 : 0,
+                          transition: "all 0.2s",
+                          "&:hover": {
+                            borderColor: selected ? "primary.main" : "grey.400",
+                            boxShadow: 1,
+                          },
+                        }}
                       >
-                        {dish.name}
-                      </p>
-                    </div>
+                        {selected && (
+                          <Avatar
+                            sx={{
+                              position: "absolute",
+                              top: 8,
+                              right: 8,
+                              width: 24,
+                              height: 24,
+                              bgcolor: "primary.main",
+                              color: "primary.contrastText",
+                            }}
+                          >
+                            <FiCheck size={13} strokeWidth={3} />
+                          </Avatar>
+                        )}
+                        <Typography
+                          variant="body2"
+                          fontWeight={600}
+                          color={selected ? "primary.main" : "text.primary"}
+                          sx={{ lineHeight: 1.4 }}
+                        >
+                          {dish.name}
+                        </Typography>
+                      </Paper>
+                    </Grid>
                   );
                 })}
-              </div>
+              </Grid>
             )}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Paper>
 
-      {/* ====== Footer: Selected Dishes Summary + Navigation ====== */}
-      <div className="flex items-center justify-between pt-5 mt-5 border-t border-gray-100">
-        <button
-          type="button"
+      {/* Footer */}
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={2}
+        alignItems={{ xs: "stretch", md: "center" }}
+        justifyContent="space-between"
+        sx={{ pt: 2.5, mt: 2.5, borderTop: 1, borderColor: "divider" }}
+      >
+        <Button
+          variant="outlined"
+          color="inherit"
+          startIcon={<FiArrowLeft size={16} />}
           onClick={onBack}
-          className="px-6 py-2.5 font-semibold text-gray-600 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-all flex items-center gap-2"
         >
-          <FiArrowLeft size={16} /> Back
-        </button>
+          Back
+        </Button>
 
-        <div className="flex items-center gap-6">
-          {/* Quick summary chips */}
-          <div className="hidden md:flex items-center gap-2 flex-wrap">
-            {tabs.map((tab, idx) => (
-              <span
-                key={idx}
-                className={`text-xs px-3 py-1.5 rounded-full font-semibold transition-colors ${
-                  tab.dishes.length > 0
-                    ? "bg-[var(--color-primary)]/10 text-[var(--color-primary)]"
-                    : "bg-gray-100 text-gray-400"
-                }`}
-              >
-                {tab.label}: {tab.dishes.length}
-              </span>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={onNext}
-            className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2"
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={2}
+          alignItems={{ xs: "stretch", md: "center" }}
+        >
+          <Stack
+            direction="row"
+            spacing={1}
+            flexWrap="wrap"
+            useFlexGap
+            alignItems="center"
+            sx={{ display: { xs: "none", md: "flex" } }}
           >
-            Continue to Summary <FiArrowRight size={18} />
-          </button>
-        </div>
-      </div>
-    </div>
+            {tabs.map((tab, idx) => (
+              <Chip
+                key={idx}
+                label={`${tab.label}: ${tab.dishes.length}`}
+                size="small"
+                color={tab.dishes.length > 0 ? "primary" : "default"}
+                variant={tab.dishes.length > 0 ? "filled" : "outlined"}
+                sx={{ fontWeight: 600 }}
+              />
+            ))}
+          </Stack>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            endIcon={<FiArrowRight size={18} />}
+            onClick={onNext}
+          >
+            Continue to Summary
+          </Button>
+        </Stack>
+      </Stack>
+    </Stack>
   );
 }
 

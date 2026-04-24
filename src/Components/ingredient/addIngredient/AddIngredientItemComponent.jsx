@@ -1,6 +1,14 @@
 /* eslint-disable react/prop-types */
+import {
+  Box,
+  Button,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { FiArrowLeft } from "react-icons/fi";
 import Dropdown from "../../common/formDropDown/DropDown";
-import Input from "../../common/formInputs/Input";
 
 function AddIngredientItemComponent({
   itemName,
@@ -12,54 +20,61 @@ function AddIngredientItemComponent({
   handleSubmit,
 }) {
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg w-auto mx-auto mt-10">
-      <button
-        type="button"
-        className="px-4 py-2 mb-[10px] font-medium bg-gray-300 border border-gray-300 rounded-md cursor-pointer"
+    <Paper
+      elevation={0}
+      sx={{
+        p: { xs: 2, sm: 3 },
+        borderRadius: 3,
+        bgcolor: "background.paper",
+        mt: 5,
+      }}
+    >
+      <Button
+        variant="outlined"
+        startIcon={<FiArrowLeft size={16} />}
         onClick={() => navigate(-1)}
+        sx={{ mb: 2 }}
       >
         Back
-      </button>
-      <h2 className="text-2xl font-semibold mb-4">Add Ingredient Item</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Item Name Input */}
-        <div>
-          <Input
-            label="Item Name:"
-            type="text"
+      </Button>
+      <Typography variant="h5" fontWeight={700} sx={{ mb: 3 }}>
+        Add Ingredient Item
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stack spacing={2.5}>
+          <TextField
+            fullWidth
+            label="Item Name"
             placeholder="Please Enter Item Name"
             name="name"
             value={itemName}
-            className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
             onChange={(e) => setItemName(e.target.value)}
           />
-        </div>
-
-        {/* Category Dropdown */}
-        <div>
-          <label className="block font-medium text-gray-700 mb-2">
-            Category:
-          </label>
-          <Dropdown
-            options={categories}
-            selectedValue={category}
-            onChange={(value) => setCategory(value)}
-            placeholder="Select a category"
-            isSearchable={true}
-          />
-        </div>
-
-        {/* Submit Button */}
-        <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            className="w-auto bg-[var(--color-primary)] text-white p-2 rounded-md cursor-pointer"
-          >
-            Add Item
-          </button>
-        </div>
-      </form>
-    </div>
+          <Box>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color="text.secondary"
+              sx={{ mb: 1 }}
+            >
+              Category
+            </Typography>
+            <Dropdown
+              options={categories}
+              selectedValue={category}
+              onChange={(value) => setCategory(value)}
+              placeholder="Select a category"
+              isSearchable
+            />
+          </Box>
+          <Stack direction="row" justifyContent="center">
+            <Button type="submit" variant="contained" color="primary">
+              Add Item
+            </Button>
+          </Stack>
+        </Stack>
+      </Box>
+    </Paper>
   );
 }
 

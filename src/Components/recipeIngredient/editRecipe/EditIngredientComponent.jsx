@@ -1,5 +1,15 @@
 /* eslint-disable react/prop-types */
-import { FaTimes, FaTrash } from "react-icons/fa";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { FaTrash, FaTimes } from "react-icons/fa";
+import { FiArrowLeft } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
 function EditIngredientComponent({
@@ -14,122 +24,127 @@ function EditIngredientComponent({
   handleDeleteIngredient,
 }) {
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg">
-      {/* Header Section */}
-      <div>
-        <button
-          type="button"
-          className="px-4 py-2 mb-[10px] font-medium bg-gray-300 border border-gray-300 rounded-md cursor-pointer"
-          onClick={() => navigate(-1)}
-        >
-          Back
-        </button>
-        <h2 className="text-2xl font-semibold mb-4">Edit Recipe ingredient</h2>
-      </div>
+    <Paper
+      elevation={0}
+      sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, bgcolor: "background.paper" }}
+    >
+      <Button
+        variant="outlined"
+        startIcon={<FiArrowLeft size={16} />}
+        onClick={() => navigate(-1)}
+        sx={{ mb: 2 }}
+      >
+        Back
+      </Button>
+      <Typography variant="h5" fontWeight={700} sx={{ mb: 3 }}>
+        Edit Recipe Ingredient
+      </Typography>
 
-      {/* Person Count Section */}
-      <div className="mb-4">
-        <label className="block font-medium text-gray-700">
-          Recipe For Person Count
-        </label>
-        <input
+      <Stack spacing={2.5}>
+        <TextField
+          fullWidth
           type="number"
+          label="Recipe For Person Count"
           value={personCount}
           onChange={(e) => setPersonCount(parseInt(e.target.value) || 0)}
-          min="1"
+          inputProps={{ min: 1 }}
           placeholder="Enter Person Count (e.g., 100)"
-          className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
         />
-      </div>
 
-      {/* Recipe Item Name */}
-      <div className="mb-4">
-        <label className="block font-medium text-gray-700">Select Item</label>
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
+        <Stack direction="row" spacing={1} alignItems="center">
+          <TextField
+            fullWidth
+            label="Select Item"
             value={recipe.item.name}
-            readOnly
-            className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)]"
+            InputProps={{ readOnly: true }}
           />
-          <button
-            className="p-[10px] mt-[5px] border border-gray-300 text-red-500 text-xl rounded-md cursor-pointer"
-            onClick={() => {
-              handleDeleteItem(recipe.id);
-            }}
+          <IconButton
+            size="large"
+            color="error"
+            onClick={() => handleDeleteItem(recipe.id)}
             title="Delete Ingredient Item"
+            sx={{ border: 1, borderColor: "divider" }}
           >
-            <FaTrash />
-          </button>
-        </div>
-      </div>
+            <FaTrash size={18} />
+          </IconButton>
+        </Stack>
 
-      {/* Ingredients List */}
-      <div>
-        <label className="block font-medium text-gray-700 mb-2">
-          {recipe.item.name} ingredient
-        </label>
-        <AnimatePresence>
-          {ingredientsList.map((ingredient, index) => {
-            const isLastEmptyRow =
-              index === ingredientsList.length - 1 &&
-              ingredient.name.trim() === "";
-            const isFilledRow = ingredient.name.trim() !== "";
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="flex items-center gap-2 mb-2"
-              >
-                <input
-                  type="text"
-                  value={ingredient.name}
-                  onChange={(e) =>
-                    handleIngredientChange(index, "name", e.target.value)
-                  }
-                  placeholder="Please Enter ingredient"
-                  className={`flex-1 p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] ${isLastEmptyRow ? "" : ""}`}
-                />
-                <input
-                  type="text"
-                  value={ingredient.quantity}
-                  onChange={(e) =>
-                    handleIngredientChange(index, "quantity", e.target.value)
-                  }
-                  placeholder="Qty (e.g. 100g)"
-                  className={`w-[120px] p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] ${isFilledRow ? "bg-gray-50 text-[var(--color-primary)] font-semibold" : ""}`}
-                />
-                {/* Show delete button only for filled rows, not the last empty row */}
-                {!isLastEmptyRow ? (
-                  <button
-                    className="p-[12px] mt-[5px] bg-red-400 text-white text-xl rounded-md cursor-pointer"
-                    onClick={() => handleDeleteIngredient(index)}
+        <Box>
+          <Typography
+            variant="body2"
+            fontWeight={500}
+            color="text.secondary"
+            sx={{ mb: 1 }}
+          >
+            {recipe.item.name} ingredients
+          </Typography>
+          <Stack spacing={1}>
+            <AnimatePresence>
+              {ingredientsList.map((ingredient, index) => {
+                const isLastEmptyRow =
+                  index === ingredientsList.length - 1 &&
+                  ingredient.name.trim() === "";
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
                   >
-                    <FaTimes size={20} />
-                  </button>
-                ) : (
-                  <div className="w-[52px]" /> /* Spacer to keep alignment */
-                )}
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <TextField
+                        fullWidth
+                        size="small"
+                        value={ingredient.name}
+                        onChange={(e) =>
+                          handleIngredientChange(index, "name", e.target.value)
+                        }
+                        placeholder="Please Enter ingredient"
+                      />
+                      <TextField
+                        size="small"
+                        sx={{ width: 140 }}
+                        value={ingredient.quantity}
+                        onChange={(e) =>
+                          handleIngredientChange(
+                            index,
+                            "quantity",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Qty (e.g. 100g)"
+                      />
+                      {!isLastEmptyRow ? (
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDeleteIngredient(index)}
+                          sx={{
+                            bgcolor: "error.light",
+                            color: "common.white",
+                            "&:hover": { bgcolor: "error.main" },
+                          }}
+                        >
+                          <FaTimes size={16} />
+                        </IconButton>
+                      ) : (
+                        <Box sx={{ width: 40 }} />
+                      )}
+                    </Stack>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </Stack>
+        </Box>
 
-      {/* Submit Button */}
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handleSubmit}
-          className="bg-[var(--color-primary)] text-white px-4 py-2 rounded-md font-semibold cursor-pointer"
-        >
-          Submit
-        </button>
-      </div>
-    </div>
+        <Stack direction="row" justifyContent="center" sx={{ mt: 2 }}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Stack>
+      </Stack>
+    </Paper>
   );
 }
 

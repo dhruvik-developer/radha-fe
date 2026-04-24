@@ -1,22 +1,9 @@
 /* eslint-disable react/prop-types */
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { FiArrowLeft, FiDownload } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/common/Loader";
 import SessionChecklistLayout from "../../Components/common/sessionChecklist/SessionChecklistLayout";
-
-const btnStyle = (bg, color, border) => ({
-  display: "inline-flex",
-  alignItems: "center",
-  gap: "6px",
-  padding: "8px 18px",
-  backgroundColor: bg,
-  color,
-  border: border ? `1px solid ${border}` : "none",
-  borderRadius: "8px",
-  fontWeight: "600",
-  fontSize: "13px",
-  cursor: "pointer",
-  boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-});
 
 function SessionChecklistPreviewComponent({
   loading,
@@ -29,50 +16,57 @@ function SessionChecklistPreviewComponent({
 
   if (loading) {
     return (
-      <div className="p-8">
+      <Box sx={{ p: 4 }}>
         <Loader message="Loading Session Checklist..." />
-      </div>
+      </Box>
     );
   }
 
   if (!orderData || !sessionData) {
     return (
-      <div className="p-8 text-center text-gray-500">
-        Session checklist data not found.
-      </div>
+      <Box sx={{ p: 4, textAlign: "center" }}>
+        <Typography variant="body1" color="text.secondary">
+          Session checklist data not found.
+        </Typography>
+      </Box>
     );
   }
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         minHeight: "100vh",
-        padding: "24px 16px",
-        fontFamily: "Arial, sans-serif",
-        background: "linear-gradient(180deg, #faf7ff 0%, #f3ecff 100%)",
+        p: { xs: 2, sm: 3 },
+        background: (t) =>
+          `linear-gradient(180deg, ${t.palette.primary.light}1a 0%, ${t.palette.primary.light}33 100%)`,
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "12px",
-          marginBottom: "20px",
-          width: "100%",
-          maxWidth: "860px",
-        }}
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        spacing={1.5}
         className="no-print-button"
+        sx={{ width: "100%", maxWidth: 860, mb: 2.5 }}
       >
-        <button onClick={() => navigate(-1)} style={btnStyle("#ffffff", "#5B34A8", "#E7D9FF")}>
+        <Button
+          variant="outlined"
+          startIcon={<FiArrowLeft size={14} />}
+          onClick={() => navigate(-1)}
+        >
           Back
-        </button>
-        <button onClick={onDownloadPDF} style={btnStyle("#6F47B8", "#fff", "transparent")}>
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<FiDownload size={14} />}
+          onClick={onDownloadPDF}
+        >
           Download PDF
-        </button>
-      </div>
+        </Button>
+      </Stack>
 
       <SessionChecklistLayout
         orderData={orderData}
@@ -80,7 +74,7 @@ function SessionChecklistPreviewComponent({
         sessionIndex={sessionIndex}
         containerId="pdf-content"
       />
-    </div>
+    </Box>
   );
 }
 

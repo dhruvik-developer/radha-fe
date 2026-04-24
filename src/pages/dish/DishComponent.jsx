@@ -1,15 +1,52 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import {
+  Box,
+  Paper,
+  Stepper,
+  Step,
+  StepButton,
+  StepLabel,
+} from "@mui/material";
+import { FiUser, FiGrid, FiClipboard } from "react-icons/fi";
 import Step1_ClientEvent from "./Step1_ClientEvent";
 import Step2_MenuSelection from "./Step2_MenuSelection";
 import Step3_Summary from "./Step3_Summary";
-import { FiUser, FiGrid, FiClipboard, FiCheck } from "react-icons/fi";
 
 const STEPS = [
   { id: 1, label: "Client & Event", icon: FiUser },
   { id: 2, label: "Menu Selection", icon: FiGrid },
   { id: 3, label: "Summary & Services", icon: FiClipboard },
 ];
+
+function StepIcon({ icon: Icon, active, completed }) {
+  return (
+    <Box
+      sx={{
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: completed
+          ? "success.main"
+          : active
+            ? "primary.contrastText"
+            : "rgba(255,255,255,0.2)",
+        color: completed
+          ? "success.contrastText"
+          : active
+            ? "primary.main"
+            : "rgba(255,255,255,0.6)",
+        boxShadow: active ? 3 : 0,
+        transition: "all 0.3s",
+      }}
+    >
+      <Icon size={18} />
+    </Box>
+  );
+}
 
 function DishComponent({
   formData,
@@ -58,70 +95,86 @@ function DishComponent({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      {/* ============ STEPPER HEADER ============ */}
-      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-4 sm:px-6 py-4 sm:py-5 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide">
-        <div className="flex items-center justify-between max-w-2xl mx-auto min-w-[320px]">
-          {STEPS.map((step, index) => {
-            const StepIcon = step.icon;
-            const isActive = currentStep === step.id;
-            const isCompleted = currentStep > step.id;
+  const activeIndex = currentStep - 1;
 
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        borderRadius: 3,
+        overflow: "hidden",
+        bgcolor: "background.paper",
+      }}
+    >
+      {/* Stepper Header */}
+      <Box
+        sx={{
+          background: (t) =>
+            `linear-gradient(90deg, ${t.palette.primary.main}, ${t.palette.primary.dark})`,
+          color: "primary.contrastText",
+          px: { xs: 2, sm: 4 },
+          py: { xs: 2, sm: 3 },
+        }}
+      >
+        <Stepper
+          activeStep={activeIndex}
+          alternativeLabel
+          sx={{
+            maxWidth: 720,
+            mx: "auto",
+            "& .MuiStepConnector-line": {
+              borderColor: "rgba(255,255,255,0.25)",
+              borderTopWidth: 3,
+              borderRadius: 999,
+            },
+            "& .MuiStepConnector-root.Mui-completed .MuiStepConnector-line": {
+              borderColor: "success.main",
+            },
+            "& .MuiStepLabel-label": {
+              color: "rgba(255,255,255,0.5) !important",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              mt: 1,
+            },
+            "& .MuiStepLabel-label.Mui-active": {
+              color: "primary.contrastText !important",
+            },
+            "& .MuiStepLabel-label.Mui-completed": {
+              color: "success.light !important",
+            },
+          }}
+        >
+          {STEPS.map((step, index) => {
+            const isCompleted = currentStep > step.id;
             return (
-              <div key={step.id} className="flex items-center flex-1">
-                {/* Step Circle + Label */}
-                <div className="flex flex-col items-center">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (isCompleted) goBack(step.id);
-                    }}
-                    className={`w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                      isCompleted
-                        ? "bg-green-400 text-white shadow-lg shadow-green-400/30 cursor-pointer hover:bg-[var(--color-primary-tint)]"
-                        : isActive
-                          ? "bg-white text-[var(--color-primary)] shadow-lg shadow-white/30 scale-110"
-                          : "bg-white/20 text-white/60"
-                    }`}
-                  >
-                    {isCompleted ? (
-                      <FiCheck size={18} strokeWidth={3} />
-                    ) : (
-                      <StepIcon size={18} />
+              <Step key={step.id} completed={isCompleted}>
+                <StepButton
+                  onClick={() => {
+                    if (isCompleted) goBack(step.id);
+                  }}
+                  disabled={!isCompleted}
+                  sx={{ "&.Mui-disabled": { cursor: "default" } }}
+                >
+                  <StepLabel
+                    StepIconComponent={(iconProps) => (
+                      <StepIcon
+                        icon={step.icon}
+                        active={iconProps.active}
+                        completed={iconProps.completed}
+                      />
                     )}
-                  </button>
-                  <span
-                    className={`mt-2 text-[11px] font-semibold tracking-wide whitespace-nowrap ${
-                      isActive
-                        ? "text-white"
-                        : isCompleted
-                          ? "text-green-200"
-                          : "text-white/50"
-                    }`}
                   >
                     {step.label}
-                  </span>
-                </div>
-
-                {/* Connector Line */}
-                {index < STEPS.length - 1 && (
-                  <div className="flex-1 mx-3 mt-[-20px]">
-                    <div
-                      className={`h-[3px] rounded-full transition-all duration-500 ${
-                        isCompleted ? "bg-green-400" : "bg-white/20"
-                      }`}
-                    />
-                  </div>
-                )}
-              </div>
+                  </StepLabel>
+                </StepButton>
+              </Step>
             );
           })}
-        </div>
-      </div>
+        </Stepper>
+      </Box>
 
-      {/* ============ STEP CONTENT ============ */}
-      <div className="p-6">
+      {/* Step Content */}
+      <Box sx={{ p: { xs: 2, sm: 3 } }}>
         {currentStep === 1 && (
           <Step1_ClientEvent
             formData={formData}
@@ -168,8 +221,8 @@ function DishComponent({
             onBack={() => goBack(2)}
           />
         )}
-      </div>
-    </div>
+      </Box>
+    </Paper>
   );
 }
 

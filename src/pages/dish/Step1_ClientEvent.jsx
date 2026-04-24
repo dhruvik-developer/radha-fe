@@ -1,15 +1,101 @@
 /* eslint-disable react/prop-types */
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Input from "../../Components/common/formInputs/Input";
 import {
   FiUser,
   FiPlus,
   FiClock,
   FiCalendar,
   FiArrowRight,
+  FiTrash2,
 } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+
+const TIME_OPTIONS = [
+  { value: "Breakfast", label: "Breakfast" },
+  { value: "Lunch", label: "Lunch" },
+  { value: "Dinner", label: "Dinner" },
+  { value: "High Tea", label: "High Tea" },
+  { value: "Late Night Nasto", label: "Late Night Snack" },
+];
+
+function SectionHeader({ icon: Icon, title, subtitle }) {
+  return (
+    <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 2.5 }}>
+      <Avatar
+        variant="rounded"
+        sx={{
+          bgcolor: (t) => t.palette.primary.light + "33",
+          color: "primary.main",
+          width: 40,
+          height: 40,
+        }}
+      >
+        <Icon size={20} />
+      </Avatar>
+      <Box>
+        <Typography variant="h6" fontWeight={700} color="text.primary">
+          {title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {subtitle}
+        </Typography>
+      </Box>
+    </Stack>
+  );
+}
+
+// Wrapper that styles the react-datepicker input to match MUI TextField.
+function DatePickerInput({ sx, children }) {
+  const theme = useTheme();
+  return (
+    <Box
+      sx={{
+        "& .react-datepicker-wrapper": { width: "100%" },
+        "& input": {
+          width: "100%",
+          padding: "10px 12px",
+          borderRadius: theme.shape.borderRadius + "px",
+          border: "1px solid",
+          borderColor: theme.palette.divider,
+          backgroundColor: theme.palette.background.paper,
+          font: "inherit",
+          color: theme.palette.text.primary,
+          outline: "none",
+          boxSizing: "border-box",
+        },
+        "& input:focus": {
+          borderColor: theme.palette.primary.main,
+          boxShadow: `0 0 0 2px ${theme.palette.primary.main}33`,
+        },
+        "& input:disabled": {
+          backgroundColor: theme.palette.action.hover,
+          color: theme.palette.text.secondary,
+          cursor: "not-allowed",
+        },
+        ...sx,
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
 
 function Step1_ClientEvent({
   formData,
@@ -23,222 +109,314 @@ function Step1_ClientEvent({
   handleSlotChange,
   onNext,
 }) {
-  const timeOptions = [
-    { value: "Breakfast", label: "Breakfast" },
-    { value: "Lunch", label: "Lunch" },
-    { value: "Dinner", label: "Dinner" },
-    { value: "High Tea", label: "High Tea" },
-    { value: "Late Night Nasto", label: "Late Night Snack" },
-  ];
-
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   return (
-    <div className="space-y-8">
-      {/* ====== Section 1: Client Information ====== */}
-      <div>
-        <div className="flex items-center gap-3 mb-5">
-          <div className="p-2.5 rounded-xl bg-[var(--color-primary-soft)]">
-            <FiUser className="text-[var(--color-primary-text)]" size={20} />
-          </div>
-          <div>
-            <h2 className="text-xl font-bold text-gray-800">
-              Client Information
-            </h2>
-            <p className="text-sm text-gray-400">
-              Enter basic details of the client
-            </p>
-          </div>
-        </div>
+    <Stack spacing={4}>
+      {/* Section 1: Client Information */}
+      <Box>
+        <SectionHeader
+          icon={FiUser}
+          title="Client Information"
+          subtitle="Enter basic details of the client"
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
-            label="Client Name *"
-            type="text"
-            placeholder={errors.name ? errors.name : "Enter client name"}
-            name="name"
-            value={formData.name}
-            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all ${errors.name ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-            onChange={handleChange}
-            error={errors.name}
-          />
-          <Input
-            label="Mobile Number *"
-            type="text"
-            placeholder={errors.mobile_no ? errors.mobile_no : "Mobile Number"}
-            name="mobile_no"
-            maxLength="10"
-            value={formData.mobile_no}
-            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all ${errors.mobile_no ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-            onChange={handleChange}
-          />
-          <div>
-            <label className="block font-medium text-gray-700 mb-1">
-              Order Date
-            </label>
-            <DatePicker
-              selected={formData.date}
-              dateFormat="dd/MM/yyyy"
-              className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 bg-gray-50 focus:border-[var(--color-primary)] transition-all"
-              disabled
+        <Grid container spacing={2.5}>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="Client Name *"
+              name="name"
+              value={formData.name || ""}
+              onChange={handleChange}
+              placeholder={errors.name || "Enter client name"}
+              error={Boolean(errors.name)}
+              helperText={errors.name || " "}
             />
-          </div>
-          <Input
-            label="Reference Name (Optional)"
-            type="text"
-            placeholder="Reference Name"
-            name="reference"
-            value={formData.reference}
-            className={`w-full p-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] transition-all ${errors.reference ? "border-red-500 placeholder-red-500" : "border-gray-300"}`}
-            onChange={handleChange}
-            error={errors.reference}
-          />
-        </div>
-      </div>
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="Mobile Number *"
+              name="mobile_no"
+              value={formData.mobile_no || ""}
+              onChange={handleChange}
+              placeholder={errors.mobile_no || "Mobile Number"}
+              inputProps={{ maxLength: 10 }}
+              error={Boolean(errors.mobile_no)}
+              helperText={errors.mobile_no || " "}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              color="text.primary"
+              sx={{ mb: 0.75 }}
+            >
+              Order Date
+            </Typography>
+            <DatePickerInput>
+              <DatePicker
+                selected={formData.date}
+                dateFormat="dd/MM/yyyy"
+                disabled
+              />
+            </DatePickerInput>
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <TextField
+              fullWidth
+              label="Reference Name (Optional)"
+              name="reference"
+              value={formData.reference || ""}
+              onChange={handleChange}
+              placeholder="Reference Name"
+              error={Boolean(errors.reference)}
+              helperText={errors.reference || " "}
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
-      {/* ====== Divider ====== */}
-      <div className="border-t border-gray-100" />
+      <Divider />
 
-      {/* ====== Section 2: Event Dates & Time Slots ====== */}
-      <div>
-        <div className="flex items-center mb-5">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[var(--color-primary-tint)]">
-              <FiCalendar className="text-[var(--color-primary-text)]" size={20} />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-gray-800">
-                Event Schedule
-              </h2>
-              <p className="text-sm text-gray-400">
-                Add event dates and time slots for each day
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Section 2: Event Schedule */}
+      <Box>
+        <SectionHeader
+          icon={FiCalendar}
+          title="Event Schedule"
+          subtitle="Add event dates and time slots for each day"
+        />
 
         {errors.schedule && (
-          <p className="text-red-500 text-sm mb-3 font-medium bg-red-50 p-2.5 rounded-lg border border-red-100">
+          <Typography
+            variant="body2"
+            color="error.main"
+            fontWeight={500}
+            sx={{
+              mb: 1.5,
+              px: 1.5,
+              py: 1,
+              borderRadius: 1,
+              border: 1,
+              borderColor: "error.light",
+              bgcolor: "error.light",
+              color: "error.dark",
+            }}
+          >
             {errors.schedule}
-          </p>
+          </Typography>
         )}
         {errors.slots && (
-          <p className="text-red-500 text-sm mb-3 font-medium bg-red-50 p-2.5 rounded-lg border border-red-100">
+          <Typography
+            variant="body2"
+            color="error.main"
+            fontWeight={500}
+            sx={{
+              mb: 1.5,
+              px: 1.5,
+              py: 1,
+              borderRadius: 1,
+              border: 1,
+              borderColor: "error.light",
+              bgcolor: "error.light",
+              color: "error.dark",
+            }}
+          >
             {errors.slots}
-          </p>
+          </Typography>
         )}
 
-        <div className="space-y-5">
+        <Stack spacing={2.5}>
           {formData.schedule.map((day, dIdx) => (
-            <div
+            <Paper
               key={dIdx}
-              className="p-5 border-2 border-[var(--color-primary-border)]/30 rounded-xl bg-gradient-to-br from-gray-50/80 to-[var(--color-primary-tint)] shadow-sm relative"
+              variant="outlined"
+              sx={{
+                p: 2.5,
+                borderRadius: 2,
+                borderColor: (t) => t.palette.primary.light + "66",
+                bgcolor: (t) => t.palette.primary.light + "0d",
+              }}
             >
               {/* Day Header */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-sm shadow-md">
+              <Stack
+                direction={{ xs: "column", md: "row" }}
+                spacing={2}
+                alignItems={{ xs: "stretch", md: "center" }}
+                justifyContent="space-between"
+                sx={{ mb: 2.5 }}
+              >
+                <Stack direction="row" spacing={1.5} alignItems="center">
+                  <Avatar
+                    variant="rounded"
+                    sx={{
+                      bgcolor: "primary.main",
+                      color: "primary.contrastText",
+                      width: 40,
+                      height: 40,
+                      fontWeight: 700,
+                      fontSize: 14,
+                    }}
+                  >
                     {dIdx + 1}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold text-gray-700">Event Date:</span>
-                    <DatePicker
-                      placeholderText="Choose Date"
-                      minDate={tomorrow}
-                      dateFormat="dd/MM/yyyy"
-                      selected={day.event_date}
-                      onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      className="w-36 p-2 border border-[var(--color-primary-border)]/50 rounded-lg text-center focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-semibold text-gray-700 bg-white"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  {formData.schedule.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveSchedule(dIdx)}
-                      className="p-2 text-red-500 bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-100"
-                      title="Delete Day"
+                  </Avatar>
+                  <Stack direction="row" spacing={1.5} alignItems="center">
+                    <Typography
+                      variant="body2"
+                      fontWeight={700}
+                      color="text.primary"
                     >
-                      <AiOutlineDelete size={18} />
-                    </button>
-                  )}
-                </div>
-              </div>
+                      Event Date:
+                    </Typography>
+                    <DatePickerInput sx={{ width: 160 }}>
+                      <DatePicker
+                        placeholderText="Choose Date"
+                        minDate={tomorrow}
+                        dateFormat="dd/MM/yyyy"
+                        selected={day.event_date}
+                        onChange={(date) => handleScheduleDateChange(dIdx, date)}
+                      />
+                    </DatePickerInput>
+                  </Stack>
+                </Stack>
+                {formData.schedule.length > 1 && (
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() => handleRemoveSchedule(dIdx)}
+                    title="Delete Day"
+                    sx={{
+                      alignSelf: { xs: "flex-end", md: "center" },
+                    }}
+                  >
+                    <FiTrash2 size={16} />
+                  </IconButton>
+                )}
+              </Stack>
 
               {/* Time Slots */}
-              <div className="space-y-3">
+              <Stack spacing={1.5}>
                 {day.timeSlots.map((slot, sIdx) => (
-                  <div
+                  <Paper
                     key={sIdx}
-                    className="p-4 bg-gradient-to-r from-[var(--color-primary-tint)] to-white border-2 border-[var(--color-primary)]/20 rounded-xl shadow-md relative overflow-hidden"
+                    variant="outlined"
+                    sx={{
+                      p: 2,
+                      pl: 3,
+                      borderRadius: 2,
+                      borderColor: (t) => t.palette.primary.light + "66",
+                      position: "relative",
+                      overflow: "hidden",
+                      bgcolor: "background.paper",
+                    }}
                   >
-                    {/* Highlighted left accent bar */}
-                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[var(--color-primary)] to-[var(--color-primary-dark)] rounded-l-xl" />
-
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-4 pl-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)]/10 flex items-center justify-center">
-                          <FiClock size={15} className="text-[var(--color-primary-text)]" />
-                        </div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-[var(--color-primary)]">
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 6,
+                        background: (t) =>
+                          `linear-gradient(180deg, ${t.palette.primary.main}, ${t.palette.primary.dark})`,
+                      }}
+                    />
+                    <Stack
+                      direction={{ xs: "column", md: "row" }}
+                      spacing={2}
+                      alignItems={{ xs: "stretch", md: "center" }}
+                    >
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems="center"
+                        flexShrink={0}
+                      >
+                        <Avatar
+                          variant="rounded"
+                          sx={{
+                            bgcolor: (t) => t.palette.primary.light + "33",
+                            color: "primary.main",
+                            width: 32,
+                            height: 32,
+                          }}
+                        >
+                          <FiClock size={15} />
+                        </Avatar>
+                        <Typography
+                          variant="caption"
+                          fontWeight={700}
+                          color="primary.main"
+                          sx={{ textTransform: "uppercase", letterSpacing: 0.5 }}
+                        >
                           Slot {sIdx + 1}
-                        </span>
-                      </div>
+                        </Typography>
+                      </Stack>
 
-                      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase">
-                            Event Timing
-                          </label>
-                          <select
-                            value={slot.timeLabel}
-                            onChange={(e) =>
-                              handleSlotChange(
-                                dIdx,
-                                sIdx,
-                                "timeLabel",
-                                e.target.value
-                              )
-                            }
-                            className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-medium transition-all ${errors[`timeLabel_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[var(--color-primary)]/25 focus:border-[var(--color-primary)]"}`}
+                      <Grid container spacing={2} flex={1}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                          <FormControl
+                            fullWidth
+                            size="small"
+                            error={Boolean(errors[`timeLabel_${dIdx}_${sIdx}`])}
                           >
-                            <option value="">Select Timing...</option>
-                            {timeOptions.map((t) => {
-                              const count = day.timeSlots.reduce(
-                                (acc, currentSlot, currIdx) =>
-                                  currIdx !== sIdx &&
-                                  currentSlot.timeLabel === t.value
-                                    ? acc + 1
-                                    : acc,
-                                0
-                              );
-                              const isDisabled = count >= 3;
-                              return (
-                                <option
-                                  key={t.value}
-                                  value={t.value}
-                                  disabled={isDisabled}
-                                  className={isDisabled ? "text-gray-300 bg-gray-50" : ""}
-                                >
-                                  {t.label} {isDisabled && "(Max 3 limit reached)"}
-                                </option>
-                              );
-                            })}
-                          </select>
-                          {errors[`timeLabel_${dIdx}_${sIdx}`] && (
-                            <p className="text-red-500 text-[10px] mt-1 font-medium">
-                              {errors[`timeLabel_${dIdx}_${sIdx}`]}
-                            </p>
-                          )}
-                        </div>
-                        <div>
-                          <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase">
-                            Number of Persons
-                          </label>
-                          <input
-                            type="text"
+                            <InputLabel>Event Timing</InputLabel>
+                            <Select
+                              label="Event Timing"
+                              value={slot.timeLabel || ""}
+                              onChange={(e) =>
+                                handleSlotChange(
+                                  dIdx,
+                                  sIdx,
+                                  "timeLabel",
+                                  e.target.value
+                                )
+                              }
+                            >
+                              <MenuItem value="">
+                                <em>Select Timing…</em>
+                              </MenuItem>
+                              {TIME_OPTIONS.map((t) => {
+                                const count = day.timeSlots.reduce(
+                                  (acc, currentSlot, currIdx) =>
+                                    currIdx !== sIdx &&
+                                    currentSlot.timeLabel === t.value
+                                      ? acc + 1
+                                      : acc,
+                                  0
+                                );
+                                const isDisabled = count >= 3;
+                                return (
+                                  <MenuItem
+                                    key={t.value}
+                                    value={t.value}
+                                    disabled={isDisabled}
+                                  >
+                                    {t.label}{" "}
+                                    {isDisabled && "(Max 3 limit reached)"}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                            {errors[`timeLabel_${dIdx}_${sIdx}`] && (
+                              <Typography
+                                variant="caption"
+                                color="error.main"
+                                sx={{ mt: 0.5, fontWeight: 500 }}
+                              >
+                                {errors[`timeLabel_${dIdx}_${sIdx}`]}
+                              </Typography>
+                            )}
+                          </FormControl>
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                          <TextField
+                            fullWidth
+                            size="small"
+                            label="Number of Persons"
                             placeholder="e.g. 250"
                             value={slot.estimatedPersons || ""}
                             onChange={(e) =>
@@ -249,61 +427,79 @@ function Step1_ClientEvent({
                                 e.target.value
                               )
                             }
-                            className={`w-full p-2.5 border-2 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 font-medium transition-all ${errors[`persons_${dIdx}_${sIdx}`] ? "border-red-500" : "border-[var(--color-primary)]/25 focus:border-[var(--color-primary)]"}`}
+                            error={Boolean(errors[`persons_${dIdx}_${sIdx}`])}
+                            helperText={errors[`persons_${dIdx}_${sIdx}`] || " "}
                           />
-                          {errors[`persons_${dIdx}_${sIdx}`] && (
-                            <p className="text-red-500 text-[10px] mt-1 font-medium">
-                              {errors[`persons_${dIdx}_${sIdx}`]}
-                            </p>
-                          )}
-                        </div>
-                      </div>
+                        </Grid>
+                      </Grid>
 
                       {day.timeSlots.length > 1 && (
-                        <button
-                          type="button"
+                        <IconButton
+                          size="small"
+                          color="error"
                           onClick={() => handleRemoveTimeSlot(dIdx, sIdx)}
-                          className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-red-100"
                           title="Remove this time slot"
                         >
-                          <AiOutlineDelete size={16} />
-                        </button>
+                          <FiTrash2 size={16} />
+                        </IconButton>
                       )}
-                    </div>
-                  </div>
+                    </Stack>
+                  </Paper>
                 ))}
 
-                <button
-                  type="button"
+                <Button
+                  variant="outlined"
+                  fullWidth
+                  startIcon={<FiPlus size={14} />}
                   onClick={() => handleAddTimeSlot(dIdx)}
-                  className="w-full py-2.5 border-2 border-dashed border-gray-300 rounded-xl text-gray-400 font-medium hover:bg-gray-50 hover:border-gray-400 transition-all flex justify-center items-center gap-2 text-sm"
+                  sx={{
+                    py: 1.25,
+                    borderStyle: "dashed",
+                    borderWidth: 2,
+                    color: "text.secondary",
+                    borderColor: "divider",
+                    "&:hover": {
+                      borderStyle: "dashed",
+                      borderWidth: 2,
+                      bgcolor: "action.hover",
+                    },
+                  }}
                 >
-                  <FiPlus size={14} /> Add Time Slot
-                </button>
-              </div>
-            </div>
+                  Add Time Slot
+                </Button>
+              </Stack>
+            </Paper>
           ))}
-        </div>
-      </div>
+        </Stack>
+      </Box>
 
-      {/* ====== Bottom: Add Event Date + Next Button ====== */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-        <button
-          type="button"
+      {/* Bottom actions */}
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={2}
+        justifyContent="space-between"
+        alignItems={{ xs: "stretch", sm: "center" }}
+        sx={{ pt: 2, borderTop: 1, borderColor: "divider" }}
+      >
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<FiPlus size={16} />}
           onClick={handleAddSchedule}
-          className="px-5 py-2.5 font-semibold text-[var(--color-primary)] bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary-soft)] rounded-xl flex items-center gap-2 transition-colors border border-[var(--color-primary-border)]/50 text-sm"
         >
-          <FiPlus size={16} /> Add Event Date
-        </button>
-        <button
-          type="button"
+          Add Event Date
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          endIcon={<FiArrowRight size={18} />}
           onClick={onNext}
-          className="px-8 py-3 font-bold text-white bg-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-lg shadow-[var(--color-primary)]/20 transition-all active:scale-[0.98] flex items-center gap-2 text-base"
         >
-          Continue to Menu Selection <FiArrowRight size={18} />
-        </button>
-      </div>
-    </div>
+          Continue to Menu Selection
+        </Button>
+      </Stack>
+    </Stack>
   );
 }
 

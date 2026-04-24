@@ -1,11 +1,22 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import {
+  Avatar,
+  Box,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { FaTrash } from "react-icons/fa";
 import { LuArrowDownUp } from "react-icons/lu";
-import { FiChevronDown, FiFolder, FiTag, FiEye } from "react-icons/fi";
-import { IoIosWarning } from "react-icons/io";
+import { FiFolder, FiTag, FiSearch, FiEdit2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import ViewItemRecipeController from "../../pages/itemRecipe/ViewItemRecipeController";
+import EmptyState from "../common/EmptyState";
 
 const CategoryTable = ({
   categories = [],
@@ -19,8 +30,6 @@ const CategoryTable = ({
 }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-
-  // State for Item Recipe Modal
   const [selectedItemForRecipe, setSelectedItemForRecipe] = useState(null);
 
   const sortedCategories = [...categories].sort((a, b) => {
@@ -31,193 +40,320 @@ const CategoryTable = ({
 
   if (sortedCategories.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-6 bg-[var(--color-primary-tint)] rounded-3xl border border-[var(--color-primary-border)]/30">
-        <IoIosWarning size={48} className="text-[var(--color-primary-light)] mb-3" />
-        <p className="text-lg font-bold text-[var(--color-primary-text)] text-center">
-          No Categories Available
-        </p>
-        <p className="text-sm text-[var(--color-primary-text)]/60 mt-1 font-medium text-center">
-          Add a category to get started
-        </p>
-      </div>
+      <EmptyState
+        icon={<FiFolder size={24} />}
+        title="No Categories Available"
+        message="Add a category to get started."
+      />
     );
   }
 
-  // Determine currently selected category
   const activeCategory =
     sortedCategories.find((c) => c.id === activeCategoryId) ||
     sortedCategories[0];
   const subcategories = activeCategory?.items || [];
-
   const filteredSubcategories = subcategories.filter((sub) =>
     sub.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 items-start">
-      {/* Left Hand Side: Master Category List */}
-      <div className="w-full lg:w-1/3 flex flex-col gap-3">
-        <div className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1 ml-1">
-          Categories List
-        </div>
-        <div className="flex flex-col gap-3 max-h-[400px] lg:max-h-[calc(100vh-240px)] overflow-y-auto pr-1">
-          {sortedCategories.map((category) => {
-            const isActive = category.id === activeCategory?.id;
-            const qty = category.items ? category.items.length : 0;
-            return (
-              <div
-                key={category.id}
-                onClick={() => setActiveCategoryId(category.id)}
-                className={`flex items-center justify-between p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${isActive
-                    ? "bg-gradient-to-r from-[var(--color-primary-soft)] to-white border-[var(--color-primary)] shadow-md ring-1 ring-[var(--color-primary)]/20"
-                    : "bg-white border-gray-200 hover:border-[var(--color-primary-light)] hover:shadow-sm"
-                  }`}
-              >
-                <div className="flex items-center gap-3 overflow-hidden">
-                  <div
-                    className={`w-10 h-10 flex-shrink-0 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm transition-colors ${isActive
-                        ? "bg-[var(--color-primary)] text-white"
-                        : "bg-gray-100 text-gray-500"
-                      }`}
-                  >
-                    {category.positions || "—"}
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span
-                      className={`font-bold text-[15px] truncate ${isActive ? "text-[var(--color-primary)]" : "text-gray-800"}`}
-                      title={category.name}
-                    >
-                      {category.name}
-                    </span>
-                    <span className="text-xs font-medium text-gray-500 mt-0.5">
-                      {qty} item{qty !== 1 ? "s" : ""}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-1 ml-2 flex-shrink-0">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEditCategory(category.id, category.name);
-                    }}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors"
-                    title="Edit Name"
-                  >
-                    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="15" width="15" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSwappingCategory(category.id, category.name);
-                    }}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] transition-colors"
-                    title="Change Position"
-                  >
-                    <LuArrowDownUp size={15} />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onItemDelete(category.id);
-                    }}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
-                    title="Delete Category"
-                  >
-                    <FaTrash size={13} />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Right Hand Side: Detail Item List */}
-      <div className="w-full lg:w-2/3 bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden flex flex-col lg:h-[calc(100vh-240px)] lg:min-h-[500px] min-h-[400px]">
-        {/* Header for Items */}
-        <div className="px-6 py-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-              <FiFolder className="text-[var(--color-primary-text)]" />
-              {activeCategory?.name}
-            </h3>
-            <p className="text-sm text-gray-500 mt-1 font-medium">
-              {subcategories.length} total items in this category
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </div>
-            <input
-              type="text"
-              placeholder="Search items..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/50 focus:border-[var(--color-primary)] w-full sm:w-64 transition-all"
-            />
-          </div>
-        </div>
-
-        {/* Items Grid */}
-        <div className="p-6 overflow-y-auto custom-scrollbar flex-1 bg-white">
-          {filteredSubcategories.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-              {filteredSubcategories.map((sub, index) => (
-                <div
-                  key={sub.id}
-                  className="group flex items-center justify-between p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-[var(--color-primary-light)] hover:shadow-sm transition-all duration-200 cursor-pointer"
-                  onClick={() => setSelectedItemForRecipe(sub)}
+    <>
+      <Grid container spacing={2} alignItems="flex-start">
+        {/* Left: Category list */}
+        <Grid size={{ xs: 12, lg: 4 }}>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: 1,
+              display: "block",
+              mb: 1.5,
+              ml: 0.5,
+            }}
+          >
+            Categories List
+          </Typography>
+          <Stack
+            spacing={1.5}
+            sx={{
+              maxHeight: { xs: 400, lg: "calc(100vh - 240px)" },
+              overflowY: "auto",
+              pr: 0.5,
+            }}
+          >
+            {sortedCategories.map((category) => {
+              const isActive = category.id === activeCategory?.id;
+              const qty = category.items ? category.items.length : 0;
+              return (
+                <Paper
+                  key={category.id}
+                  onClick={() => setActiveCategoryId(category.id)}
+                  variant="outlined"
+                  sx={{
+                    p: 1.75,
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    borderColor: isActive ? "primary.main" : "divider",
+                    borderWidth: isActive ? 2 : 1,
+                    background: isActive
+                      ? (t) =>
+                          `linear-gradient(90deg, ${
+                            t.palette.primary.light + "26"
+                          }, ${t.palette.background.paper})`
+                      : "background.paper",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 1,
+                    "&:hover": {
+                      borderColor: "primary.light",
+                      boxShadow: 1,
+                    },
+                  }}
                 >
-                  <div className="flex items-center gap-3 min-w-0 pr-2">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${sub.has_recipe === false ? "bg-red-50" : "bg-[var(--color-primary-tint)]"}`}>
-                      <FiTag className={sub.has_recipe === false ? "text-red-500" : "text-[var(--color-primary)]"} size={14} />
-                    </div>
-                    <span className={`text-[14px] font-bold truncate transition-colors ${sub.has_recipe === false ? "text-red-500 group-hover:text-red-600" : "text-gray-800 group-hover:text-[var(--color-primary)]"}`}>
-                      {sub.name}
-                    </span>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSubCategoryDelete(sub.id);
-                    }}
-                    className="p-1.5 rounded-lg text-gray-400 opacity-0 group-hover:opacity-100 hover:text-red-500 hover:bg-red-50 transition-all duration-200 flex-shrink-0"
-                    title="Delete Item"
+                  <Stack
+                    direction="row"
+                    spacing={1.5}
+                    alignItems="center"
+                    minWidth={0}
+                    flex={1}
                   >
-                    <FaTrash size={13} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-3 py-10">
-              <IoIosWarning size={40} className="text-[var(--color-primary-light)]" />
-              <p className="text-base font-bold text-[var(--color-primary-text)] text-center">
-                {searchQuery
-                  ? "No items match your search."
-                  : "No items found in this category."}
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+                    <Avatar
+                      variant="rounded"
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        fontWeight: 700,
+                        fontSize: 14,
+                        bgcolor: isActive ? "primary.main" : "action.hover",
+                        color: isActive
+                          ? "primary.contrastText"
+                          : "text.secondary",
+                      }}
+                    >
+                      {category.positions || "—"}
+                    </Avatar>
+                    <Box minWidth={0}>
+                      <Typography
+                        variant="subtitle2"
+                        fontWeight={700}
+                        noWrap
+                        color={isActive ? "primary.main" : "text.primary"}
+                        title={category.name}
+                      >
+                        {category.name}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        fontWeight={500}
+                      >
+                        {qty} item{qty !== 1 ? "s" : ""}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    spacing={0}
+                    alignItems="center"
+                    flexShrink={0}
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditCategory(category.id, category.name);
+                      }}
+                      title="Edit Name"
+                    >
+                      <FiEdit2 size={14} />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSwappingCategory(category.id, category.name);
+                      }}
+                      title="Change Position"
+                    >
+                      <LuArrowDownUp size={14} />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onItemDelete(category.id);
+                      }}
+                      title="Delete Category"
+                    >
+                      <FaTrash size={12} />
+                    </IconButton>
+                  </Stack>
+                </Paper>
+              );
+            })}
+          </Stack>
+        </Grid>
 
-      {/* Render Recipe Modal */}
+        {/* Right: Subcategory / item detail */}
+        <Grid size={{ xs: 12, lg: 8 }}>
+          <Paper
+            variant="outlined"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              height: {
+                xs: "auto",
+                lg: "calc(100vh - 240px)",
+              },
+              minHeight: 400,
+              overflow: "hidden",
+              borderRadius: 3,
+            }}
+          >
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              alignItems={{ xs: "stretch", sm: "center" }}
+              justifyContent="space-between"
+              sx={{
+                px: 3,
+                py: 2.5,
+                borderBottom: 1,
+                borderColor: "divider",
+                bgcolor: "action.hover",
+              }}
+            >
+              <Box>
+                <Typography
+                  variant="h6"
+                  fontWeight={700}
+                  sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                >
+                  <FiFolder color="currentColor" />
+                  {activeCategory?.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {subcategories.length} total items in this category
+                </Typography>
+              </Box>
+              <TextField
+                placeholder="Search items..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                sx={{ width: { xs: "100%", sm: 260 } }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FiSearch size={14} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Stack>
+
+            <Box sx={{ p: 3, overflowY: "auto", flex: 1 }}>
+              {filteredSubcategories.length > 0 ? (
+                <Grid container spacing={1.5}>
+                  {filteredSubcategories.map((sub) => (
+                    <Grid key={sub.id} size={{ xs: 12, sm: 6, xl: 4 }}>
+                      <Paper
+                        variant="outlined"
+                        onClick={() => setSelectedItemForRecipe(sub)}
+                        sx={{
+                          p: 1.75,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: 1,
+                          cursor: "pointer",
+                          transition: "all 0.2s",
+                          "&:hover": {
+                            borderColor: "primary.light",
+                            boxShadow: 1,
+                          },
+                          "&:hover .delete-btn": { opacity: 1 },
+                        }}
+                      >
+                        <Stack
+                          direction="row"
+                          spacing={1.5}
+                          alignItems="center"
+                          minWidth={0}
+                          flex={1}
+                        >
+                          <Avatar
+                            sx={{
+                              width: 32,
+                              height: 32,
+                              bgcolor:
+                                sub.has_recipe === false
+                                  ? "error.light"
+                                  : (t) => t.palette.primary.light + "33",
+                              color:
+                                sub.has_recipe === false
+                                  ? "error.main"
+                                  : "primary.main",
+                            }}
+                          >
+                            <FiTag size={14} />
+                          </Avatar>
+                          <Typography
+                            variant="body2"
+                            fontWeight={700}
+                            noWrap
+                            color={
+                              sub.has_recipe === false
+                                ? "error.main"
+                                : "text.primary"
+                            }
+                          >
+                            {sub.name}
+                          </Typography>
+                        </Stack>
+                        <IconButton
+                          size="small"
+                          color="error"
+                          className="delete-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSubCategoryDelete(sub.id);
+                          }}
+                          title="Delete Item"
+                          sx={{
+                            opacity: { xs: 1, sm: 0 },
+                            transition: "opacity 0.2s",
+                          }}
+                        >
+                          <FaTrash size={12} />
+                        </IconButton>
+                      </Paper>
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <EmptyState
+                  icon={<FiFolder size={24} />}
+                  title={
+                    searchQuery
+                      ? "No items match your search"
+                      : "No items in this category"
+                  }
+                  message={
+                    searchQuery
+                      ? "Try adjusting your search query."
+                      : "Add items to this category to see them here."
+                  }
+                />
+              )}
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
+
       {selectedItemForRecipe && (
         <ViewItemRecipeController
           itemId={selectedItemForRecipe.id}
@@ -231,7 +367,7 @@ const CategoryTable = ({
           }}
         />
       )}
-    </div>
+    </>
   );
 };
 

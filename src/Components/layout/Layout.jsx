@@ -1,14 +1,17 @@
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
+import { useDispatch } from "react-redux";
+import { Box } from "@mui/material";
 import { UserContext } from "../../context/UserContext";
 import { USER_ROLE_ADMIN } from "../../services/tokenService";
+import { toggleSidebar } from "../../redux/uiSlice";
 
 const Layout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { token, userType, logout } = useContext(UserContext);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!token || userType !== USER_ROLE_ADMIN) {
@@ -18,18 +21,30 @@ const Layout = () => {
   }, [token, userType, navigate, logout]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-        <div className="p-3 sm:p-5 flex-1 overflow-x-hidden overflow-y-auto">
+    <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+      <Sidebar />
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0,
+        }}
+      >
+        <Header toggleSidebar={() => dispatch(toggleSidebar())} />
+        <Box
+          sx={{
+            flex: 1,
+            overflowX: "hidden",
+            overflowY: "auto",
+            p: { xs: 1.5, sm: 2.5 },
+            bgcolor: "background.default",
+          }}
+        >
           <Outlet />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
