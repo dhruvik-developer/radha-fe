@@ -93,7 +93,7 @@ function PaymentHistoryComponent({ paymentData, loading }) {
             <div className="bg-white border border-[var(--color-primary-border)] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="bg-[var(--color-primary-soft)] p-2 rounded-lg">
-                  <FaReceipt size={18} className="text-[var(--color-primary-tint)]0" />
+                  <FaReceipt size={18} className="text-[var(--color-primary-tint)]" />
                 </div>
                 <p className="text-sm font-medium text-gray-500">
                   Total Expense Amount

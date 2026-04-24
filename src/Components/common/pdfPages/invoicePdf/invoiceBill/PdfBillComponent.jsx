@@ -144,7 +144,7 @@ function PdfBillComponent({
             </div>
             {/* Decorative Background Elements */}
             <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]0/5 to-transparent blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]/5 to-transparent blur-3xl pointer-events-none"></div>
             {/* Top Accent Bar */}
             <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-soft)] to-[var(--color-primary)] z-10"></div>
             <div className="relative z-10">
@@ -575,7 +575,7 @@ function PdfBillComponent({
                     </div>
 
                     {pdfInvoice?.settlement_amount > 0 && (
-                      <div className="flex justify-between items-center text-[var(--color-primary-tint)]0 pt-2">
+                      <div className="flex justify-between items-center text-[var(--color-primary-tint)] pt-2">
                         <span className="font-medium">Discount Amount:</span>
                         <span className="font-bold">
                           - ₹ {formatAmount(pdfInvoice?.settlement_amount)}

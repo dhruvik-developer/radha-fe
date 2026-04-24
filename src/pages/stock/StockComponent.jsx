@@ -125,7 +125,7 @@ function StockComponent({
               className={`rounded-2xl p-5 shadow-lg relative overflow-hidden group transition-all duration-300 ${
                 lowStockItems > 0 
                   ? "bg-gradient-to-br from-red-600 to-[var(--color-primary-dark)] text-white shadow-red-500/20" 
-                  : "bg-gradient-to-br from-[var(--color-primary-tint)]0 to-[var(--color-primary)] text-white shadow-emerald-500/20"
+                  : "bg-gradient-to-br from-[var(--color-primary-tint)] to-[var(--color-primary)] text-white shadow-emerald-500/20"
               }`}
             >
               <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all duration-500"></div>

@@ -184,8 +184,8 @@ function InvoiceComponent({
                           size={14}
                           className={
                             invo.payment_status === "PAID"
-                              ? "text-[var(--color-primary-tint)]0"
-                              : "text-[var(--color-primary-tint)]0"
+                              ? "text-[var(--color-primary-tint)]"
+                              : "text-[var(--color-primary-tint)]"
                           }
                         />
                         <span className="font-medium">

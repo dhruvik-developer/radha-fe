@@ -114,7 +114,7 @@ function FixedStaffPaymentComponent({
                       {summaryData.role_name}
                     </span>
                     {summaryData.joining_date && (
-                      <span className="text-xs text-white bg-[var(--color-primary-tint)]0/20 px-2 py-1 rounded-md font-medium border border-green-400/30 whitespace-nowrap">
+                      <span className="text-xs text-white bg-[var(--color-primary-tint)]/20 px-2 py-1 rounded-md font-medium border border-green-400/30 whitespace-nowrap">
                         Joined: {summaryData.joining_date} ({Math.round(parseFloat(summaryData.months_passed || 0))} mo.)
                       </span>
                     )}
@@ -192,7 +192,7 @@ function FixedStaffPaymentComponent({
 
               <div className="p-5 flex flex-col justify-center items-center md:items-start group transition-colors hover:bg-[var(--color-primary-tint)]">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <FaMoneyBillWave className="text-[var(--color-primary-light)] group-hover:text-[var(--color-primary-tint)]0 transition-colors" />
+                  <FaMoneyBillWave className="text-[var(--color-primary-light)] group-hover:text-[var(--color-primary-tint)] transition-colors" />
                   <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                     Pending Withdrawals
                   </span>
@@ -200,7 +200,7 @@ function FixedStaffPaymentComponent({
                 <p
                   className={`text-2xl font-black ${
                     parseFloat(summaryData.total_pending_withdrawals) > 0
-                      ? "text-[var(--color-primary-tint)]0"
+                      ? "text-[var(--color-primary-tint)]"
                       : "text-gray-400"
                   }`}
                 >
@@ -278,7 +278,7 @@ function FixedStaffPaymentComponent({
                                 ₹{fmt(sp.paid_amount)}
                               </span>
                               {parseFloat(sp.total_amount) - parseFloat(sp.paid_amount) - parseFloat(sp.remaining_amount) > 0.01 && (
-                                <span className="text-[10px] text-[var(--color-primary-tint)]0 font-bold mt-1 whitespace-nowrap">
+                                <span className="text-[10px] text-[var(--color-primary-tint)] font-bold mt-1 whitespace-nowrap">
                                   Advance Settled: ₹{fmt(parseFloat(sp.total_amount) - parseFloat(sp.paid_amount) - parseFloat(sp.remaining_amount))}
                                 </span>
                               )}

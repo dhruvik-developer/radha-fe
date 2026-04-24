@@ -626,32 +626,32 @@ function Step3_Summary({
             </h4>
             <ul className="space-y-2">
               <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)]0 font-bold">1.</span>
+                <span className="text-[var(--color-primary-tint)] font-bold">1.</span>
                 <span>The party must arrange the cooking area on time.</span>
               </li>
               <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)]0 font-bold">2.</span>
+                <span className="text-[var(--color-primary-tint)] font-bold">2.</span>
                 <span>
                   The party must confirm the menu and dish count 10 days before
                   the event.
                 </span>
               </li>
               <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)]0 font-bold">3.</span>
+                <span className="text-[var(--color-primary-tint)] font-bold">3.</span>
                 <span>
                   The party must arrange water supply for utensils and waste
                   disposal.
                 </span>
               </li>
               <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)]0 font-bold">4.</span>
+                <span className="text-[var(--color-primary-tint)] font-bold">4.</span>
                 <span>
                   The party must arrange tables for counters and other pandal
                   service equipment.
                 </span>
               </li>
               <li className="text-sm text-[var(--color-primary-text)] flex gap-2">
-                <span className="text-[var(--color-primary-tint)]0 font-bold">5.</span>
+                <span className="text-[var(--color-primary-tint)] font-bold">5.</span>
                 <span>
                   The party must pay 30% advance payment after placing the
                   order.

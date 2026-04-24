@@ -70,7 +70,7 @@ function PdfShareFullIngredientComponent({
         </div>
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]0/5 to-transparent blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]/5 to-transparent blur-3xl pointer-events-none"></div>
         {/* Top Accent Bar */}
         <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-soft)] to-[var(--color-primary)] z-10"></div>
         <div className="relative z-10 p-10">
@@ -160,7 +160,7 @@ function PdfShareFullIngredientComponent({
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-2 h-2 rounded-full ${!item.party_name ? "bg-red-500" : "bg-[var(--color-primary-tint)]0"}`}
+                            className={`w-2 h-2 rounded-full ${!item.party_name ? "bg-red-500" : "bg-[var(--color-primary-tint)]"}`}
                           ></div>
                           <span
                             className={`text-base font-medium ${!item.party_name ? "text-red-700" : "text-gray-800"}`}

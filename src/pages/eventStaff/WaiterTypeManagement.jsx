@@ -393,7 +393,7 @@ const WaiterTypeManagement = () => {
                         <td className="px-6 py-4">
                           {type.is_active ? (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-[var(--color-primary-tint)] text-[var(--color-primary)] border border-[var(--color-primary-border)]/30">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary-tint)]0" /> Active
+                              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary-tint)]" /> Active
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500 border border-gray-200">

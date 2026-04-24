@@ -86,6 +86,19 @@ const resolvePrimaryColor = (value) => {
   return DEFAULT_PRIMARY_COLOR;
 };
 
+const getContrastColor = (hexColor) => {
+  let hex = hexColor.replace('#', '');
+  if (hex.length === 3) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+  const r = parseInt(hex.substring(0, 2), 16) || 0;
+  const g = parseInt(hex.substring(2, 4), 16) || 0;
+  const b = parseInt(hex.substring(4, 6), 16) || 0;
+
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  return yiq >= 128 ? '#000000' : '#ffffff';
+};
+
 const App = () => {
   useEffect(() => {
     const applyPrimaryColor = async () => {
@@ -99,12 +112,19 @@ const App = () => {
 
         const apiColorCode = profileList[0]?.color_code;
         const primaryColor = resolvePrimaryColor(apiColorCode);
+        const contrastColor = getContrastColor(primaryColor);
 
         document.documentElement.style.setProperty("--color-primary", primaryColor);
+        document.documentElement.style.setProperty("--color-primary-contrast", contrastColor);
       } catch {
+        const contrastColor = getContrastColor(DEFAULT_PRIMARY_COLOR);
         document.documentElement.style.setProperty(
           "--color-primary",
           DEFAULT_PRIMARY_COLOR
+        );
+        document.documentElement.style.setProperty(
+          "--color-primary-contrast",
+          contrastColor
         );
       }
     };

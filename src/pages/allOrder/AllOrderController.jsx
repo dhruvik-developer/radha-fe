@@ -323,13 +323,13 @@ function AllOrderController() {
                   </div>
                   ${Number(sessions[index].extra_service_amount) > 0 ? `
                   <div class="flex justify-between items-center border-t border-gray-100 pt-2 mt-1">
-                    <span class="text-[11px] font-bold text-[var(--color-primary-tint)]0">Extra Service Charge</span>
+                    <span class="text-[11px] font-bold text-[var(--color-primary-tint)]">Extra Service Charge</span>
                     <span class="font-bold text-[var(--color-primary)] text-sm">₹${formatAmount(sessions[index].extra_service_amount)}</span>
                   </div>
                   ` : ''}
                   ${Number(sessions[index].waiter_service_amount) > 0 ? `
                   <div class="flex justify-between items-center border-t border-gray-100 pt-2 mt-1">
-                    <span class="text-[11px] font-bold text-[var(--color-primary-tint)]0">Waiter Service</span>
+                    <span class="text-[11px] font-bold text-[var(--color-primary-tint)]">Waiter Service</span>
                     <span class="font-bold text-[var(--color-primary)] text-sm">₹${formatAmount(sessions[index].waiter_service_amount)}</span>
                   </div>
                   ` : ''}

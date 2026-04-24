@@ -163,7 +163,7 @@ export default function DishTagModal({
                     max="600"
                     value={settings.width}
                     onChange={handleChange}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)]0 focus:ring-[var(--color-primary-tint)]0 text-sm p-2"
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)] focus:ring-[var(--color-primary-tint)] text-sm p-2"
                   />
                 </div>
                 <div>
@@ -177,7 +177,7 @@ export default function DishTagModal({
                     max="400"
                     value={settings.height}
                     onChange={handleChange}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)]0 focus:ring-[var(--color-primary-tint)]0 text-sm p-2"
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)] focus:ring-[var(--color-primary-tint)] text-sm p-2"
                   />
                 </div>
               </div>
@@ -217,7 +217,7 @@ export default function DishTagModal({
                     max="100"
                     value={settings.fontSize}
                     onChange={handleChange}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)]0 focus:ring-[var(--color-primary-tint)]0 text-sm p-2"
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)] focus:ring-[var(--color-primary-tint)] text-sm p-2"
                   />
                 </div>
                 <div>
@@ -330,7 +330,7 @@ export default function DishTagModal({
                     name="catererName"
                     value={settings.catererName}
                     onChange={handleChange}
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)]0 focus:ring-[var(--color-primary-tint)]0 text-sm p-2"
+                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary-tint)] focus:ring-[var(--color-primary-tint)] text-sm p-2"
                     placeholder="Caterer Name"
                   />
                 )}

@@ -305,7 +305,7 @@ function ShareIngredientComponent({
                         onClick={() => handleSourceChange(itemKey, "godown")}
                         className={`px-3 py-1 text-xs font-semibold rounded-full border transition-all ${
                           isGodownSource
-                            ? "bg-[var(--color-primary-tint)]0 text-white border-green-500"
+                            ? "bg-[var(--color-primary-tint)] text-white border-green-500"
                             : "bg-white text-gray-500 border-gray-300 hover:border-green-400 hover:text-[var(--color-primary)]"
                         }`}
                       >

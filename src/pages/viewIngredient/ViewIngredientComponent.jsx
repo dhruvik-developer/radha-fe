@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import Loader from "../../Components/common/Loader";
+import AddOrderIngredientsModal from "../../Components/common/AddOrderIngredientsModal";
+import Button from "../../Components/common/Button";
+import Badge from "../../Components/common/Badge";
+import { FiAlertTriangle, FiEdit2, FiPlus, FiTrash2 } from "react-icons/fi";
 import { format } from "date-fns";
 
 // ─── Unit Conversion Helper ───────────────────────────────────────────────────
@@ -80,6 +84,10 @@ function ViewIngredientComponent({
   loading,
   navigate,
   onUpdateQuantity,
+  missingBySession = {},
+  onAddOrderLocalIngredients,
+  onReplaceOrderLocalIngredients,
+  onDeleteOrderLocalIngredient,
 }) {
   const outsourcedItemsList = React.useMemo(() => {
     if (!viewIngredient?.sessions) return [];
@@ -102,6 +110,86 @@ function ViewIngredientComponent({
   const [editingKey, setEditingKey] = React.useState(null);
   const [editValue, setEditValue] = React.useState("");
   const [savingEdit, setSavingEdit] = React.useState(false);
+
+  // Order-local ingredient modal state:
+  //   null | { sessionId, sessionLabel, dishName, mode, initialRows }
+  const [orderLocalModal, setOrderLocalModal] = React.useState(null);
+
+  // Set of ingredient keys that were added as order-local (stored on each
+  // session under the dedicated `order_local_ingredients` field). Used to
+  // render the "Added for this order" badge in the main category list.
+  const orderLocalKeys = React.useMemo(() => {
+    const s = new Set();
+    (viewIngredient?.sessions || []).forEach((sess) => {
+      Object.keys(sess.order_local_ingredients || {}).forEach((key) =>
+        s.add(key)
+      );
+    });
+    return s;
+  }, [viewIngredient]);
+
+  // Grouped order-local entries per session → per dish, for rendering the
+  // "already added" list with edit/remove in the missing-ingredients banner.
+  //   { [sessionId]: { [dishName]: [{ key, ingredient, quantity, unit, category }] } }
+  const orderLocalByDishBySession = React.useMemo(() => {
+    const map = {};
+    (viewIngredient?.sessions || []).forEach((sess) => {
+      const perDish = {};
+      Object.entries(sess.order_local_ingredients || {}).forEach(
+        ([key, val]) => {
+          if (!val || typeof val !== "object") return;
+          const dish = val.for_item || "Other";
+          if (!perDish[dish]) perDish[dish] = [];
+          const { value, unit } = parseQuantity(val.quantity || "");
+          const displayName = key.replace(/\s*\(for [^)]+\)$/, "");
+          perDish[dish].push({
+            key,
+            ingredient: displayName,
+            quantity: value || "",
+            unit: unit || "g",
+            category: val.category || "Other",
+          });
+        }
+      );
+      if (Object.keys(perDish).length > 0) map[sess.id] = perDish;
+    });
+    return map;
+  }, [viewIngredient]);
+
+  // Sessions to show in the "missing ingredients" banner:
+  // filter by sessionFilter/sessionIdFilter when those are set.
+  const visibleSessionsForBanner = (viewIngredient?.sessions || []).filter(
+    (s) => {
+      if (sessionIdFilter) return String(s.id) === String(sessionIdFilter);
+      if (sessionFilter) return s.event_time === sessionFilter;
+      return true;
+    }
+  );
+
+  const closeOrderLocalModal = () => setOrderLocalModal(null);
+
+  const handleOrderLocalSave = async (rows) => {
+    if (!orderLocalModal) return;
+    const { sessionId, dishName, mode } = orderLocalModal;
+    const saver =
+      mode === "edit"
+        ? onReplaceOrderLocalIngredients
+        : onAddOrderLocalIngredients;
+    if (!saver) return;
+    const success = await saver(sessionId, dishName, rows);
+    if (success) closeOrderLocalModal();
+  };
+
+  const handleRemoveAllForDish = async (sessionId, dishName) => {
+    if (!onDeleteOrderLocalIngredient) return;
+    const dishEntries =
+      orderLocalByDishBySession[sessionId]?.[dishName] || [];
+    for (const row of dishEntries) {
+      // Sequential to avoid racing on the same order document.
+      // eslint-disable-next-line no-await-in-loop
+      await onDeleteOrderLocalIngredient(sessionId, row.key);
+    }
+  };
 
   const handleSaveEdit = async (sessionId, ingredientName) => {
     if (!editValue.trim()) {
@@ -414,6 +502,152 @@ function ViewIngredientComponent({
             </div>
           )}
 
+          {/* Per-session "missing ingredients" banners */}
+          {visibleSessionsForBanner.map((session) => {
+            const missing = missingBySession[session.id] || [];
+            const orderLocalByDish =
+              orderLocalByDishBySession[session.id] || {};
+            const dishesInBanner = [
+              ...missing.map((m) => m.item),
+              ...Object.keys(orderLocalByDish).filter(
+                (d) => !missing.some((m) => m.item === d)
+              ),
+            ];
+            if (dishesInBanner.length === 0) return null;
+
+            return (
+              <div
+                key={`missing-${session.id}`}
+                className="bg-amber-50/60 border border-amber-200 rounded-2xl overflow-hidden"
+              >
+                <div className="flex items-start gap-3 px-4 sm:px-6 py-4 border-b border-amber-200 bg-amber-100/60">
+                  <FiAlertTriangle
+                    className="text-amber-600 mt-0.5 shrink-0"
+                    size={20}
+                  />
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm sm:text-base font-bold text-amber-900">
+                      Some dishes need ingredients for this order
+                    </h3>
+                    <p className="text-xs sm:text-sm text-amber-800/80 mt-0.5">
+                      {session.event_time
+                        ? `Session: ${session.event_time}${session.event_date ? ` • ${formatDate(session.event_date)}` : ""}`
+                        : session.event_date
+                          ? formatDate(session.event_date)
+                          : "Session"}
+                      {" — "}
+                      {missing.length > 0
+                        ? `${missing.length} dish${missing.length !== 1 ? "es" : ""} missing a recipe`
+                        : "ingredients added below"}
+                    </p>
+                  </div>
+                </div>
+                <div className="p-3 sm:p-4 flex flex-col gap-3">
+                  {dishesInBanner.map((dish) => {
+                    const existing = orderLocalByDish[dish] || [];
+                    return (
+                      <div
+                        key={dish}
+                        className="bg-white rounded-xl border border-amber-200/80 p-3 sm:p-4"
+                      >
+                        <div className="flex items-start justify-between gap-3 flex-wrap">
+                          <div className="min-w-0">
+                            <p className="font-bold text-gray-800 text-sm sm:text-base">
+                              {dish}
+                            </p>
+                            <p className="text-[11px] text-gray-500 mt-0.5">
+                              No recipe defined globally
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {existing.length > 0 ? (
+                              <>
+                                <Button
+                                  variant="secondary"
+                                  size="sm"
+                                  leftIcon={<FiEdit2 size={13} />}
+                                  onClick={() =>
+                                    setOrderLocalModal({
+                                      sessionId: session.id,
+                                      sessionLabel:
+                                        session.event_time || null,
+                                      dishName: dish,
+                                      mode: "edit",
+                                      initialRows: existing.map((e) => ({
+                                        ingredient: e.ingredient,
+                                        quantity: e.quantity,
+                                        unit: e.unit,
+                                        category: e.category,
+                                      })),
+                                    })
+                                  }
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant="danger-ghost"
+                                  size="sm"
+                                  leftIcon={<FiTrash2 size={13} />}
+                                  onClick={() => {
+                                    if (
+                                      window.confirm(
+                                        `Remove all ingredients added for "${dish}" in this order?`
+                                      )
+                                    ) {
+                                      handleRemoveAllForDish(
+                                        session.id,
+                                        dish
+                                      );
+                                    }
+                                  }}
+                                >
+                                  Remove
+                                </Button>
+                              </>
+                            ) : (
+                              <Button
+                                size="sm"
+                                leftIcon={<FiPlus size={14} />}
+                                onClick={() =>
+                                  setOrderLocalModal({
+                                    sessionId: session.id,
+                                    sessionLabel: session.event_time || null,
+                                    dishName: dish,
+                                    mode: "add",
+                                    initialRows: [],
+                                  })
+                                }
+                              >
+                                Add Ingredients
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                        {existing.length > 0 && (
+                          <div className="mt-3 flex flex-wrap gap-1.5">
+                            {existing.map((e) => (
+                              <span
+                                key={e.key}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium bg-[var(--color-primary-tint)] text-[var(--color-primary-text)] border border-[var(--color-primary-border)]/40"
+                              >
+                                <span className="font-bold">
+                                  {e.ingredient}
+                                </span>
+                                <span className="opacity-70">
+                                  {e.quantity} {e.unit}
+                                </span>
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
           {/* Category blocks */}
           {eventIngredientsList.map((category, index) => {
             // Check if this category has any visible items for the active session
@@ -632,13 +866,18 @@ function ViewIngredientComponent({
                       >
                         <div className="p-3 flex-1 flex flex-col">
                           {/* Item header */}
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
+                          <div className="flex items-center justify-between mb-2 gap-2">
+                            <div className="flex items-center gap-2 min-w-0">
                               <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
-                              <h4 className="text-sm font-bold text-gray-800">
+                              <h4 className="text-sm font-bold text-gray-800 truncate">
                                 {item.item}
                               </h4>
                             </div>
+                            {orderLocalKeys.has(item.item) && (
+                              <Badge variant="warning" size="sm">
+                                Added for this order
+                              </Badge>
+                            )}
                           </div>
 
                           {/* Session quantity rows */}
@@ -875,6 +1114,16 @@ function ViewIngredientComponent({
 
         </div>
       )}
+
+      <AddOrderIngredientsModal
+        isOpen={!!orderLocalModal}
+        onClose={closeOrderLocalModal}
+        dishName={orderLocalModal?.dishName || ""}
+        sessionLabel={orderLocalModal?.sessionLabel}
+        initialRows={orderLocalModal?.initialRows || []}
+        mode={orderLocalModal?.mode || "add"}
+        onSave={handleOrderLocalSave}
+      />
     </div>
   );
 }

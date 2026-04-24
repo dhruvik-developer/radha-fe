@@ -309,7 +309,7 @@ function SettingsComponent({
                               className={`h-11 w-full rounded-xl border-4 ${
                                 normalizedColorCode.toLowerCase() ===
                                 normalizeHexColor(color).toLowerCase()
-                                  ? "border-[var(--color-primary-tint)]0 shadow-md scale-110"
+                                  ? "border-[var(--color-primary-tint)] shadow-md scale-110"
                                   : "border-white shadow-sm"
                               } transition-transform cursor-pointer`}
                               style={{ backgroundColor: color }}

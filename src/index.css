@@ -24,6 +24,7 @@
   --color-primary-tint: color-mix(in srgb, var(--color-primary), white 95%);
   --color-primary-border: color-mix(in srgb, var(--color-primary), white 70%);
   --color-primary-text: color-mix(in srgb, var(--color-primary), black 40%);
+  --color-primary-contrast: #ffffff;
   
   --pdf-unicode-font-stack: "Noto Sans Gujarati PDF", "Noto Sans Devanagari PDF",
     sans-serif;
@@ -36,6 +37,57 @@
   --color-primary-tint: var(--color-primary-tint);
   --color-primary-border: var(--color-primary-border);
   --color-primary-text: var(--color-primary-text);
+  --color-primary-contrast: var(--color-primary-contrast);
+}
+
+/* -------------------------------------------------------------------------
+ * Theme-aware text contrast
+ *
+ * `--color-primary-contrast` is recomputed in App.jsx whenever the client's
+ * primary color changes (YIQ luminance -> black or white).
+ *
+ * Selectors are precise: `[class^="..."]` (class list starts with token)
+ * and `[class*=" ..."]` (token preceded by a space) deliberately exclude
+ * `hover:`, `focus:`, etc. modifiers so an outlined button with
+ * `hover:bg-[var(--color-primary)]` keeps its primary-colored text in the
+ * default (non-hover) state. The hover block below applies contrast color
+ * only while hovered.
+ * ------------------------------------------------------------------------- */
+
+/* Default state: elements whose own background is a primary variant */
+[class^="bg-[var(--color-primary)]"],
+[class*=" bg-[var(--color-primary)]"],
+[class^="bg-[var(--color-primary-dark)]"],
+[class*=" bg-[var(--color-primary-dark)]"],
+[class^="bg-[var(--color-primary-text)]"],
+[class*=" bg-[var(--color-primary-text)]"],
+/* Gradients always paint the gradient color, regardless of state */
+[class^="from-[var(--color-primary)]"],
+[class*=" from-[var(--color-primary)]"],
+[class^="to-[var(--color-primary)]"],
+[class*=" to-[var(--color-primary)]"],
+[class^="via-[var(--color-primary)]"],
+[class*=" via-[var(--color-primary)]"],
+[class^="from-[var(--color-primary-dark)]"],
+[class*=" from-[var(--color-primary-dark)]"],
+[class^="to-[var(--color-primary-dark)]"],
+[class*=" to-[var(--color-primary-dark)]"],
+[class^="from-[var(--color-primary-text)]"],
+[class*=" from-[var(--color-primary-text)]"],
+[class^="to-[var(--color-primary-text)]"],
+[class*=" to-[var(--color-primary-text)]"] {
+  color: var(--color-primary-contrast, #ffffff) !important;
+}
+
+/* Hover state: apply contrast color only while hover-bg is active */
+[class*="hover:bg-[var(--color-primary)]"]:hover,
+[class*="hover:bg-[var(--color-primary-dark)]"]:hover,
+[class*="hover:bg-[var(--color-primary-text)]"]:hover,
+[class*="hover:from-[var(--color-primary)]"]:hover,
+[class*="hover:to-[var(--color-primary)]"]:hover,
+[class*="hover:from-[var(--color-primary-dark)]"]:hover,
+[class*="hover:to-[var(--color-primary-dark)]"]:hover {
+  color: var(--color-primary-contrast, #ffffff) !important;
 }
 
 html,

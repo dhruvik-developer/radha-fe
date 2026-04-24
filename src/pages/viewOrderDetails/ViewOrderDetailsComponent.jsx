@@ -151,7 +151,7 @@ function ViewOrderDetailsComponent({
 
           <button
             onClick={() => handleEditOrder(id)}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[var(--color-primary-tint)]0 to-[var(--color-primary)] hover:brightness-95 rounded-xl shadow-md transition-all duration-200 cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] hover:brightness-95 rounded-xl shadow-md transition-all duration-200 cursor-pointer"
             title="Edit entire order (all sessions)"
           >
             <FiEdit2 size={16} /> Edit Complete Order

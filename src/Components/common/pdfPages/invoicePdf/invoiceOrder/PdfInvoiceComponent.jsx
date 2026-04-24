@@ -95,7 +95,7 @@ function PdfInvoiceComponent({
             </div>
             {/* Decorative Background Elements */}
             <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gradient-to-br from-[var(--color-primary)]/10 to-transparent blur-3xl pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]0/5 to-transparent blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--color-primary-tint)]/5 to-transparent blur-3xl pointer-events-none"></div>
             {/* Top Accent Bar */}
             <div className="relative h-2 w-full bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-soft)] to-[var(--color-primary)] z-10"></div>
             <div className="relative z-10">
@@ -348,7 +348,7 @@ function PdfInvoiceComponent({
                         {session.waiter_service &&
                           session.waiter_service.type && (
                             <div className="px-5 py-4 bg-[var(--color-primary-tint)]/40 border-t border-[var(--color-primary-border)]/30">
-                              <span className="text-xs font-bold text-[var(--color-primary-tint)]0 uppercase tracking-wider block mb-2">
+                              <span className="text-xs font-bold text-[var(--color-primary-tint)] uppercase tracking-wider block mb-2">
                                 Waiter Service
                               </span>
                               <div className="space-y-2">
@@ -397,7 +397,7 @@ function PdfInvoiceComponent({
                   <div className="bg-gradient-to-r from-[var(--color-primary-tint)] to-[var(--color-primary-tint)] border border-[var(--color-primary-border)]/30 p-5 rounded-xl shadow-[0_2px_10px_rgba(251,191,36,0.05)]">
                     <div className="flex items-center gap-2 mb-2">
                       <svg
-                        className="w-5 h-5 text-[var(--color-primary-tint)]0"
+                        className="w-5 h-5 text-[var(--color-primary-tint)]"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"

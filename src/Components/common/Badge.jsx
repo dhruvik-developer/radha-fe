@@ -2,7 +2,7 @@
 
 const VARIANT_CLASSES = {
   primary:
-    "bg-[var(--color-primary)] text-white border-[var(--color-primary-border)]/40",
+    "bg-[var(--color-primary)] text-[var(--color-primary-contrast,white)] border-[var(--color-primary-border)]/40",
   success: "bg-emerald-50 text-emerald-700 border-emerald-200",
   danger: "bg-red-50 text-red-600 border-red-200",
   warning: "bg-amber-50 text-amber-700 border-amber-200",

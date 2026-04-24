@@ -136,8 +136,10 @@ function ViewItemRecipeController({
       ingredientId: getIngredientId(entry),
       quantity: entry.quantity || "",
       unit: entry.unit || "",
-      person_count: entry.person_count || itemDetail?.person_count || 100,
+      person_count: entry.person_count || 100,
     }));
+
+    const fallbackPersonCount = recipeEntries[0]?.person_count || 100;
 
     entries.push({
       id: null,
@@ -145,11 +147,11 @@ function ViewItemRecipeController({
       ingredientId: null,
       quantity: "",
       unit: "g",
-      person_count: itemDetail?.person_count || 100,
+      person_count: fallbackPersonCount,
     });
 
     setEditIngredientsList(entries);
-    setEditPersonCount(itemDetail?.person_count || 100);
+    setEditPersonCount(fallbackPersonCount);
     setIsEditing(true);
   };
 
@@ -383,7 +385,7 @@ function ViewItemRecipeController({
     }
 
     setRecipeData(null);
-  }, [itemDetail, itemId, itemName, recipeEntries]);
+  }, [itemId, itemName, recipeEntries]);
 
   return (
     <ViewItemRecipeComponent

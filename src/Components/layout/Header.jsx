@@ -779,7 +779,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={() => setShowUpcoming(!showUpcoming)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all duration-200 ${
               upcomingOrderCount > 0
-                ? "bg-[var(--color-primary-soft)] text-white hover:bg-white/20"
+                ? "bg-[var(--color-primary-soft)] text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)]/80"
                 : "bg-white/10 text-white/60 hover:bg-white/20"
             }`}
             title="Upcoming Orders (Next 7 Days)"
@@ -790,7 +790,7 @@ const Header = ({ toggleSidebar }) => {
             </span>
             <span className="sm:hidden">{upcomingOrderCount}</span>
             {upcomingOrderCount > 0 && (
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary-soft)] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] animate-pulse" />
             )}
           </button>
 

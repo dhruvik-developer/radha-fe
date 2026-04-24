@@ -506,7 +506,7 @@ function EditDishComponent({
                             <button
                               type="button"
                               onClick={() => handleSlotAddExtra(dIdx, sIdx)}
-                              className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)]0 hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                              className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                             >
                               + Add
                             </button>
@@ -598,7 +598,7 @@ function EditDishComponent({
                           <button
                             type="button"
                             onClick={() => handleSlotAddWaiter(dIdx, sIdx)}
-                            className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)]0 hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                            className="text-[11px] font-bold text-white bg-[var(--color-primary-tint)] hover:bg-[var(--color-primary)] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                           >
                             + Add Waiter
                           </button>

@@ -1,13 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ViewIngredientComponent from "./ViewIngredientComponent";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   fetchEventIngredientList,
   getSingleOrder,
 } from "../../api/FetchAllOrder";
 import toast from "react-hot-toast";
 import { updateOrder } from "../../api/PostAllOrder";
+import { useRecipes } from "../../hooks/useRecipes";
+
+const normalize = (v) => String(v ?? "").trim().toLowerCase();
+
+const getRecipeItemName = (recipe) => {
+  const raw =
+    recipe?.item ??
+    recipe?.menu_item ??
+    recipe?.menuItem ??
+    recipe?.item_name ??
+    recipe?.itemName ??
+    null;
+  if (typeof raw === "string") return raw;
+  if (raw && typeof raw === "object") {
+    return raw.name ?? raw.item_name ?? raw.title ?? "";
+  }
+  return "";
+};
+
+const getSelectedItemName = (item) => {
+  if (typeof item === "string") return item;
+  if (!item || typeof item !== "object") return "";
+  if (typeof item.name === "string") return item.name;
+  if (item.name && typeof item.name === "object") {
+    return item.name.name ?? item.name.item_name ?? item.name.title ?? "";
+  }
+  return item.item_name ?? item.itemName ?? item.title ?? "";
+};
 
 function ViewIngredientController() {
   const navigate = useNavigate();
@@ -22,6 +50,38 @@ function ViewIngredientController() {
   const [formValues] = useState({}); // Keep only if used elsewhere, else we just remove set... wait it is used as formValues in lines below! We'll just ignore the setter via eslint-disable.
   // checkedItems: key = "categoryName||itemName", value = true/false
   const [checkedItems, setCheckedItems] = useState({});
+  const { data: recipes = [] } = useRecipes();
+
+  // Items that have at least one recipe defined globally
+  const recipeItemSet = useMemo(() => {
+    const s = new Set();
+    (recipes || []).forEach((r) => {
+      const name = normalize(getRecipeItemName(r));
+      if (name) s.add(name);
+    });
+    return s;
+  }, [recipes]);
+
+  // Per-session list of dishes that have no recipe rows defined.
+  // Shape: { [sessionId]: [{ category, item }] }
+  const missingBySession = useMemo(() => {
+    const map = {};
+    (viewIngredient?.sessions || []).forEach((session) => {
+      const missing = [];
+      const selected = session.selected_items || {};
+      Object.entries(selected).forEach(([categoryName, items]) => {
+        (items || []).forEach((itemRaw) => {
+          const itemName = String(getSelectedItemName(itemRaw)).trim();
+          if (!itemName) return;
+          if (!recipeItemSet.has(normalize(itemName))) {
+            missing.push({ category: categoryName, item: itemName });
+          }
+        });
+      });
+      map[session.id] = missing;
+    });
+    return map;
+  }, [viewIngredient, recipeItemSet]);
 
   const fetchViewIngredient = async () => {
     try {
@@ -111,6 +171,100 @@ function ViewIngredientController() {
       console.error("Update error:", error);
       return false;
     }
+  };
+
+  // Fetch the latest order and apply a mutation function to a specific
+  // session's order_local_ingredients (a dedicated backend field), then persist
+  // via updateOrder.
+  const saveSessionOrderLocal = async (sessionId, mutate) => {
+    try {
+      const response = await getSingleOrder(id);
+      if (!response?.data?.status) {
+        toast.error("Failed to fetch order data");
+        return false;
+      }
+      const orderData = response.data.data;
+      const updatedSessions = (orderData.sessions || []).map((session) => {
+        if (String(session.id) !== String(sessionId)) return session;
+        const next = { ...(session.order_local_ingredients || {}) };
+        mutate(next);
+        return { ...session, order_local_ingredients: next };
+      });
+      await updateOrder(id, { sessions: updatedSessions });
+      fetchViewIngredient();
+      fetchIngredientList();
+      return true;
+    } catch (err) {
+      console.error("Order-local ingredient save failed:", err);
+      return false;
+    }
+  };
+
+  // Add N ingredients for a specific dish within a specific session.
+  // Rows: [{ ingredient, quantity, unit, category }]
+  const handleAddOrderLocalIngredients = async (sessionId, forItem, rows) => {
+    const success = await saveSessionOrderLocal(sessionId, (ol) => {
+      rows.forEach((row) => {
+        const name = String(row.ingredient || "").trim();
+        if (!name) return;
+        const quantityStr = `${row.quantity} ${row.unit || ""}`.trim();
+        // Namespace with the dish name if the key already exists (e.g. another
+        // dish in this order already contributed the same ingredient), so we
+        // don't overwrite.
+        const key = ol[name] ? `${name} (for ${forItem})` : name;
+        ol[key] = {
+          quantity: quantityStr,
+          category: row.category || "Other",
+          for_item: forItem,
+        };
+      });
+    });
+    if (success) toast.success("Ingredients added for this order");
+    else toast.error("Failed to add ingredients");
+    return success;
+  };
+
+  // Replace all order-local ingredients for a given dish in a session with the
+  // provided rows. Used by the "Edit" flow.
+  const handleReplaceOrderLocalIngredients = async (
+    sessionId,
+    forItem,
+    rows
+  ) => {
+    const success = await saveSessionOrderLocal(sessionId, (ol) => {
+      // Remove existing entries for this dish
+      Object.keys(ol).forEach((k) => {
+        const entry = ol[k];
+        if (entry && typeof entry === "object" && entry.for_item === forItem) {
+          delete ol[k];
+        }
+      });
+      // Add the new rows (same collision-safe logic as add)
+      rows.forEach((row) => {
+        const name = String(row.ingredient || "").trim();
+        if (!name) return;
+        const quantityStr = `${row.quantity} ${row.unit || ""}`.trim();
+        const key = ol[name] ? `${name} (for ${forItem})` : name;
+        ol[key] = {
+          quantity: quantityStr,
+          category: row.category || "Other",
+          for_item: forItem,
+        };
+      });
+    });
+    if (success) toast.success("Ingredients updated for this order");
+    else toast.error("Failed to update ingredients");
+    return success;
+  };
+
+  // Remove a single order-local ingredient entry by its key.
+  const handleDeleteOrderLocalIngredient = async (sessionId, ingredientKey) => {
+    const success = await saveSessionOrderLocal(sessionId, (ol) => {
+      if (ol[ingredientKey]) delete ol[ingredientKey];
+    });
+    if (success) toast.success("Ingredient removed");
+    else toast.error("Failed to remove ingredient");
+    return success;
   };
 
   // sessionLabel: when ShareSession button clicked, filter to only that session's quantities
@@ -482,6 +636,10 @@ function ViewIngredientController() {
         loading={loading}
         navigate={navigate}
         onUpdateQuantity={handleUpdateQuantity}
+        missingBySession={missingBySession}
+        onAddOrderLocalIngredients={handleAddOrderLocalIngredients}
+        onReplaceOrderLocalIngredients={handleReplaceOrderLocalIngredients}
+        onDeleteOrderLocalIngredient={handleDeleteOrderLocalIngredient}
       />
     </div>
   );

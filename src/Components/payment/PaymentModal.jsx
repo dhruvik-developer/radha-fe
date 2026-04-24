@@ -166,7 +166,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center p-10 py-16 text-gray-400">
-            <div className="w-8 h-8 rounded-full border-t-2 border-b-2 border-[var(--color-primary-tint)]0 animate-spin mb-3"></div>
+            <div className="w-8 h-8 rounded-full border-t-2 border-b-2 border-[var(--color-primary-tint)] animate-spin mb-3"></div>
             <p className="text-sm font-medium">Fetching balance...</p>
           </div>
         ) : !paymentData ? (
@@ -221,7 +221,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                       name="transaction_amount"
                       value={formData.transaction_amount}
                       onChange={handleChange}
-                      className="w-full pl-8 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all text-gray-800"
+                      className="w-full pl-8 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)] focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all text-gray-800"
                       placeholder={`Max ₹${Number(paymentData.pending_amount || 0).toLocaleString()}`}
                       required
                     />
@@ -242,7 +242,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                         name="payment_mode"
                         value={formData.payment_mode}
                         onChange={handleChange}
-                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white appearance-none cursor-pointer transition-all text-gray-800"
+                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)] focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white appearance-none cursor-pointer transition-all text-gray-800"
                         required
                       >
                         {PAYMENT_MODES.map((mode) => (
@@ -269,7 +269,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                           setFormData({ ...formData, payment_date: date })
                         }
                         dateFormat="dd-MM-yyyy"
-                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all cursor-pointer text-gray-800"
+                        className="w-full pl-9 pr-4 py-2.5 text-sm font-semibold rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)] focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all cursor-pointer text-gray-800"
                         required
                       />
                     </div>
@@ -293,7 +293,7 @@ function PaymentModal({ isOpen, onClose, bookingId, onPaymentSuccess }) {
                       value={formData.note}
                       onChange={handleChange}
                       rows="2"
-                      className="w-full pl-9 pr-4 py-2 text-sm font-medium rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)]0 focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all text-gray-800 resize-none"
+                      className="w-full pl-9 pr-4 py-2 text-sm font-medium rounded-xl border border-gray-300 focus:border-[var(--color-primary-tint)] focus:ring-2 focus:ring-[var(--color-primary-soft)] bg-white transition-all text-gray-800 resize-none"
                       placeholder="Enter any notes..."
                     />
                   </div>

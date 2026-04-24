@@ -130,7 +130,7 @@ function AddEditAssignmentComponent({
             <div className="flex items-center flex-wrap gap-2 sm:gap-3 w-full sm:w-auto justify-start sm:justify-end">
               {/* Waiters Needed (from Order) */}
               {totalWaiterCount > 0 && (
-                <div className="bg-[var(--color-primary-tint)]0/20 border border-[var(--color-primary-border)] rounded-xl px-4 py-2 backdrop-blur-sm">
+                <div className="bg-[var(--color-primary-tint)]/20 border border-[var(--color-primary-border)] rounded-xl px-4 py-2 backdrop-blur-sm">
                   <span className="text-[var(--color-primary-soft)] text-[10px] font-bold uppercase tracking-wider block mb-1">
                     Waiters Needed
                   </span>
@@ -142,15 +142,15 @@ function AddEditAssignmentComponent({
                           key={idx}
                           className={`flex items-center gap-1.5 text-white text-[13px] font-bold border px-2 py-1 rounded-md cursor-pointer transition-all ${
                             isAssigned
-                              ? "bg-[var(--color-primary-tint)]0/10 border-transparent opacity-60"
-                              : "bg-[var(--color-primary-tint)]0/30 border-[var(--color-primary-border)] hover:bg-[var(--color-primary-tint)]0/40"
+                              ? "bg-[var(--color-primary-tint)]/10 border-transparent opacity-60"
+                              : "bg-[var(--color-primary-tint)]/30 border-[var(--color-primary-border)] hover:bg-[var(--color-primary-tint)]/40"
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={!!isAssigned}
                             onChange={() => toggleWaiterTally(idx)}
-                            className="w-3.5 h-3.5 rounded-sm border-[var(--color-primary-border)] text-[var(--color-primary-tint)]0 focus:ring-[var(--color-primary-tint)]0 bg-transparent/20 cursor-pointer"
+                            className="w-3.5 h-3.5 rounded-sm border-[var(--color-primary-border)] text-[var(--color-primary-tint)] focus:ring-[var(--color-primary-tint)] bg-transparent/20 cursor-pointer"
                             title="Tally when assigned"
                           />
                           <div className={`flex items-center gap-1 ${isAssigned ? "line-through" : ""}`}>
@@ -542,7 +542,7 @@ function AddEditAssignmentComponent({
                   <span className="text-lg font-black text-gray-700">{selectedStaffEntries.length}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-[var(--color-primary-tint)]0 uppercase block">Grand Total</span>
+                  <span className="text-[10px] font-bold text-[var(--color-primary-tint)] uppercase block">Grand Total</span>
                   <span className="text-lg font-black text-[var(--color-primary-text)]">₹{grandTotal.toFixed(2)}</span>
                 </div>
                 <div>
