@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
+import { forwardRef } from "react";
 import {
   Avatar,
   Box,
   Button,
   Divider,
   FormControl,
+  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -14,7 +16,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -61,38 +62,41 @@ function SectionHeader({ icon: Icon, title, subtitle }) {
   );
 }
 
-// Wrapper that styles the react-datepicker input to match MUI TextField.
-function DatePickerInput({ sx, children }) {
-  const theme = useTheme();
+const DatePickerTextField = forwardRef(function DatePickerTextField(
+  { helperText = " ", sx, InputProps, ...props },
+  ref
+) {
+  return (
+    <TextField
+      {...props}
+      fullWidth
+      inputRef={ref}
+      helperText={helperText}
+      InputProps={{ ...InputProps, readOnly: true }}
+      sx={{
+        "& .MuiOutlinedInput-root": {
+          bgcolor: props.disabled ? "action.hover" : "background.paper",
+        },
+        ...sx,
+      }}
+    />
+  );
+});
+
+// Keeps react-datepicker on the same visual system as MUI TextField.
+function DatePickerInput({ sx, textFieldProps, ...datePickerProps }) {
   return (
     <Box
       sx={{
         "& .react-datepicker-wrapper": { width: "100%" },
-        "& input": {
-          width: "100%",
-          padding: "10px 12px",
-          borderRadius: theme.shape.borderRadius + "px",
-          border: "1px solid",
-          borderColor: theme.palette.divider,
-          backgroundColor: theme.palette.background.paper,
-          font: "inherit",
-          color: theme.palette.text.primary,
-          outline: "none",
-          boxSizing: "border-box",
-        },
-        "& input:focus": {
-          borderColor: theme.palette.primary.main,
-          boxShadow: `0 0 0 2px ${theme.palette.primary.main}33`,
-        },
-        "& input:disabled": {
-          backgroundColor: theme.palette.action.hover,
-          color: theme.palette.text.secondary,
-          cursor: "not-allowed",
-        },
+        width: "100%",
         ...sx,
       }}
     >
-      {children}
+      <DatePicker
+        {...datePickerProps}
+        customInput={<DatePickerTextField {...textFieldProps} />}
+      />
     </Box>
   );
 }
@@ -122,7 +126,12 @@ function Step1_ClientEvent({
           subtitle="Enter basic details of the client"
         />
 
-        <Grid container spacing={2.5}>
+        <Grid
+          container
+          columnSpacing={2.5}
+          rowSpacing={1.5}
+          alignItems="flex-start"
+        >
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
@@ -149,21 +158,15 @@ function Step1_ClientEvent({
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <Typography
-              variant="body2"
-              fontWeight={500}
-              color="text.primary"
-              sx={{ mb: 0.75 }}
-            >
-              Order Date
-            </Typography>
-            <DatePickerInput>
-              <DatePicker
-                selected={formData.date}
-                dateFormat="dd/MM/yyyy"
-                disabled
-              />
-            </DatePickerInput>
+            <DatePickerInput
+              selected={formData.date}
+              dateFormat="dd/MM/yyyy"
+              disabled
+              textFieldProps={{
+                label: "Order Date",
+                helperText: " ",
+              }}
+            />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <TextField
@@ -263,23 +266,31 @@ function Step1_ClientEvent({
                   >
                     {dIdx + 1}
                   </Avatar>
-                  <Stack direction="row" spacing={1.5} alignItems="center">
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={1.5}
+                    alignItems={{ xs: "stretch", sm: "center" }}
+                  >
                     <Typography
                       variant="body2"
                       fontWeight={700}
                       color="text.primary"
+                      sx={{ flexShrink: 0 }}
                     >
                       Event Date:
                     </Typography>
-                    <DatePickerInput sx={{ width: 160 }}>
-                      <DatePicker
-                        placeholderText="Choose Date"
-                        minDate={tomorrow}
-                        dateFormat="dd/MM/yyyy"
-                        selected={day.event_date}
-                        onChange={(date) => handleScheduleDateChange(dIdx, date)}
-                      />
-                    </DatePickerInput>
+                    <DatePickerInput
+                      sx={{ width: { xs: "100%", sm: 160 } }}
+                      placeholderText="Choose Date"
+                      minDate={tomorrow}
+                      dateFormat="dd/MM/yyyy"
+                      selected={day.event_date}
+                      onChange={(date) => handleScheduleDateChange(dIdx, date)}
+                      textFieldProps={{
+                        placeholder: "Choose Date",
+                        helperText: null,
+                      }}
+                    />
                   </Stack>
                 </Stack>
                 {formData.schedule.length > 1 && (
@@ -356,7 +367,11 @@ function Step1_ClientEvent({
                         </Typography>
                       </Stack>
 
-                      <Grid container spacing={2} flex={1}>
+                      <Grid
+                        container
+                        spacing={2}
+                        sx={{ flex: 1, minWidth: 0, alignItems: "flex-start" }}
+                      >
                         <Grid size={{ xs: 12, sm: 6 }}>
                           <FormControl
                             fullWidth
@@ -377,7 +392,7 @@ function Step1_ClientEvent({
                               }
                             >
                               <MenuItem value="">
-                                <em>Select Timing…</em>
+                                <em>Select Timing...</em>
                               </MenuItem>
                               {TIME_OPTIONS.map((t) => {
                                 const count = day.timeSlots.reduce(
@@ -401,15 +416,9 @@ function Step1_ClientEvent({
                                 );
                               })}
                             </Select>
-                            {errors[`timeLabel_${dIdx}_${sIdx}`] && (
-                              <Typography
-                                variant="caption"
-                                color="error.main"
-                                sx={{ mt: 0.5, fontWeight: 500 }}
-                              >
-                                {errors[`timeLabel_${dIdx}_${sIdx}`]}
-                              </Typography>
-                            )}
+                            <FormHelperText>
+                              {errors[`timeLabel_${dIdx}_${sIdx}`] || " "}
+                            </FormHelperText>
                           </FormControl>
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
